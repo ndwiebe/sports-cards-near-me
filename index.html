@@ -128,7 +128,7 @@
         mapContainer.id = "map";
         mapContainer.style.width = "100%";
         mapContainer.style.height = "500px";
-        document.body.insertBefore(mapContainer, document.querySelector("footer"));
+        document.body.appendChild(mapContainer);
 
         map = new google.maps.Map(mapContainer, {
           center: { lat: 53.5, lng: -113.5 },
