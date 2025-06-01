@@ -98,7 +98,3 @@ fetchStores().then(stores => {
   renderCityFilters(stores);
   renderStoreList(stores);
 });
-
-}
-
-document.addEventListener('DOMContentLoaded', loadStores);
