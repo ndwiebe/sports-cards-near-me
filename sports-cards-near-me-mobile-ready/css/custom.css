@@ -1,9 +1,0 @@
-
-#store-list li {
-  padding: 0.75rem;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-}
-#store-list li:hover {
-  background-color: #f9f9f9;
-}
