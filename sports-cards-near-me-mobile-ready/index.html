@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sports Cards Near Me</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body class="bg-[#fcfaf8] font-sans">
+    <!-- Hero Image -->
+    <div class="w-full h-64 bg-cover bg-center" style="background-image: url('/hero.jpg');"></div>
+
+    <!-- Map + List Container -->
+    <div class="flex flex-col md:flex-row min-h-[500px]">
+      <!-- Scrollable List -->
+      <div id="store-list" class="w-full md:w-1/3 h-[500px] overflow-y-auto p-4 bg-white border-r">
+        <h2 class="text-xl font-bold mb-2">Nearby Stores</h2>
+        <ul id="nearby-stores-list" class="space-y-2 text-[#1c140d]"></ul>
+      </div>
+
+      <!-- Map -->
+      <div id="map" class="w-full md:w-2/3 h-[500px]"></div>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+
+    <script>
+      if (window.location.hostname.includes("web-sandbox.oaiusercontent.com")) {
+        console.error(
+          "Google Maps JavaScript API error: RefererNotAllowedMapError. Please add 'https://web-sandbox.oaiusercontent.com/index.html' as an authorized referrer in your Google Cloud Console (API Credentials > Application Restrictions)."
+        );
+        const mapErrorNotice = document.createElement("div");
+        mapErrorNotice.style =
+          "background: #fff3cd; color: #856404; padding: 1em; margin: 1em; border: 1px solid #ffeeba; border-radius: 4px; font-family: sans-serif;";
+        mapErrorNotice.innerText =
+          "⚠️ Map failed to load: Google Maps API key is restricted. Please authorize 'https://web-sandbox.oaiusercontent.com/index.html' as a referrer in the Google Cloud Console.";
+        document.body.prepend(mapErrorNotice);
+      }
+    </script>
+  </body>
+</html>
