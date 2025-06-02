@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sports Cards Near Me</title>
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link
       rel="stylesheet"
@@ -15,22 +15,10 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body>
-    <div
-      class="relative flex size-full min-h-screen flex-col bg-[#fcfaf8] justify-between group/design-root overflow-x-hidden"
-      style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'
-    >
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fcfaf8] justify-between group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
       <!-- Header -->
       <div class="flex items-center bg-[#fcfaf8] p-4 pb-2 justify-between">
         <h2 class="text-[#1c140d] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pl-12">Sports Cards Near Me</h2>
-        <div class="flex w-12 items-center justify-end">
-          <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-transparent text-[#1c140d] gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
-            <div class="text-[#1c140d]">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path>
-              </svg>
-            </div>
-          </button>
-        </div>
       </div>
 
       <!-- Search -->
@@ -51,16 +39,6 @@
         </label>
       </div>
 
-      <!-- Use My Location -->
-      <div class="flex px-4 py-3 justify-center">
-        <button id="use-location" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f38124] text-[#1c140d] gap-2 pl-4 text-sm font-bold leading-normal tracking-[0.015em]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-            <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
-          </svg>
-          <span class="truncate">Use My Location</span>
-        </button>
-      </div>
-
       <!-- Featured Store -->
       <h2 class="text-[#1c140d] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Featured Store of the Week</h2>
       <div id="featured-store" class="p-4"></div>
@@ -77,25 +55,6 @@
       <h2 class="text-[#1c140d] text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5">Browse Verified Card Stores</h2>
       <div id="city-filters" class="flex flex-wrap gap-2 px-4 py-2 mb-4"></div>
       <div id="store-list" class="px-4 flex flex-col gap-4"></div>
-
-      <!-- Submit Store -->
-      <div class="@container">
-        <div class="flex flex-col justify-end gap-6 px-4 py-10 @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20">
-          <div class="flex flex-col gap-2 text-center">
-            <h1 class="text-[#1c140d] tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
-              List Your Store
-            </h1>
-            <p class="text-[#1c140d] text-base font-normal leading-normal max-w-[720px]">Get your store in front of thousands of collectors.</p>
-          </div>
-          <div class="flex flex-1 justify-center">
-            <div class="flex justify-center">
-              <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#f38124] text-[#1c140d] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] grow">
-                <span class="truncate">Submit Your Store</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Footer -->
       <footer class="flex flex-col gap-6 px-5 py-10 text-center @container">
@@ -116,11 +75,9 @@
     <!-- Interactive Map Script -->
     <script>
       let map;
-
       const stores = [
         { name: "All Star Sports Cards", lat: 53.5444, lng: -113.4909 },
         { name: "Sherwood Cards & Collectibles", lat: 53.5321, lng: -113.3124 },
-        // Add more stores here
       ];
 
       function initMap() {
@@ -129,18 +86,17 @@
         mapContainer.style.width = "100%";
         mapContainer.style.height = "500px";
         const footer = document.querySelector("footer");
-if (footer && footer.parentNode) {
-  footer.parentNode.insertBefore(mapContainer, footer);
-} else {
-  document.body.appendChild(mapContainer);
-}
+        if (footer && footer.parentNode) {
+          footer.parentNode.insertBefore(mapContainer, footer);
+        } else {
+          document.body.appendChild(mapContainer);
+        }
 
         map = new google.maps.Map(mapContainer, {
           center: { lat: 53.5, lng: -113.5 },
           zoom: 6,
         });
 
-        // Geolocation
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -148,15 +104,13 @@ if (footer && footer.parentNode) {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,
               };
-
               map.setCenter(userPos);
               map.setZoom(10);
-
               new google.maps.Marker({
                 position: userPos,
                 map,
                 title: "You are here",
-                icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
               });
             },
             () => {
@@ -165,7 +119,6 @@ if (footer && footer.parentNode) {
           );
         }
 
-        // Store markers
         stores.forEach((store) => {
           new google.maps.Marker({
             position: { lat: store.lat, lng: store.lng },
@@ -175,13 +128,22 @@ if (footer && footer.parentNode) {
         });
       }
     </script>
-
     <script
       async
       defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKG6KjumzG3HQN4OcXveYe-YmyNkxQV7Q&callback=initMap"
     ></script>
+    <script>
+      if (window.location.hostname.includes("web-sandbox.oaiusercontent.com")) {
+        console.error(
+          "Google Maps JavaScript API error: RefererNotAllowedMapError. Please add 'https://web-sandbox.oaiusercontent.com/index.html' as an authorized referrer in your Google Cloud Console (API Credentials > Application Restrictions)."
+        );
+        const mapErrorNotice = document.createElement("div");
+        mapErrorNotice.style = "background: #fff3cd; color: #856404; padding: 1em; margin: 1em; border: 1px solid #ffeeba; border-radius: 4px; font-family: sans-serif;";
+        mapErrorNotice.innerText = "⚠️ Map failed to load: Google Maps API key is restricted. Please authorize 'https://web-sandbox.oaiusercontent.com/index.html' as a referrer in the Google Cloud Console.";
+        document.body.prepend(mapErrorNotice);
+      }
+    </script>
   </body>
 </html>
-
 
