@@ -86,3 +86,5 @@ function renderStoreCards(stores) {
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
+
+export { initializeApp };
