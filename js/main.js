@@ -22,6 +22,7 @@ async function initializeApp() {
 
     console.log("✅ Loaded stores:", allStores);
     renderStoreCards(allStores);
+    console.log("First store object:", allStores[0]);
     initMap(allStores);
 
     const searchInput = document.getElementById("search-input");
