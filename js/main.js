@@ -8,24 +8,43 @@ const GID = "1588938698";
 let allStores = [];
 
 async function initializeApp() {
-  allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
-  renderStoreCards(allStores);
-  initMap(allStores);
+  try {
+    allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
 
-  const searchInput = document.getElementById("search-input");
-  searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    const filtered = allStores.filter((store) => {
-      return (
-        store["Store Name"]?.toLowerCase().includes(query) ||
-        store.City?.toLowerCase().includes(query) ||
-        store.Address?.toLowerCase().includes(query)
-      );
-    });
-    renderStoreCards(filtered);
-    clearMarkers();
-    initMap(filtered);
-  });
+    if (!Array.isArray(allStores) || allStores.length === 0) {
+      console.warn("No store data loaded or sheet is empty.");
+      const list = document.getElementById("nearby-stores-list");
+      if (list) {
+        list.innerHTML = `<li class="text-red-600">⚠️ No store data found. Check your sheet or console for errors.</li>`;
+      }
+      return;
+    }
+
+    console.log("✅ Loaded stores:", allStores);
+    renderStoreCards(allStores);
+    initMap(allStores);
+
+    const searchInput = document.getElementById("search-input");
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = allStores.filter((store) => {
+          return (
+            store["Store Name"]?.toLowerCase().includes(query) ||
+            store.City?.toLowerCase().includes(query) ||
+            store.Address?.toLowerCase().includes(query)
+          );
+        });
+        renderStoreCards(filtered);
+        clearMarkers();
+        initMap(filtered);
+      });
+    } else {
+      console.warn("No #search-input element found.");
+    }
+  } catch (error) {
+    console.error("💥 Failed to initialize app:", error);
+  }
 }
 
 function renderStoreCards(stores) {
