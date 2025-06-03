@@ -48,8 +48,6 @@ async function initializeApp() {
   }
 }
 
-window.initializeApp = initializeApp;
-
 function renderStoreCards(stores) {
   const list = document.getElementById("nearby-stores-list");
   list.innerHTML = "";
