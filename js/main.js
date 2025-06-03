@@ -1,4 +1,4 @@
-import { initMap, clearMarkers } from "./map.js";
+import { initMap, clearMarkers, searchLocation } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
 
@@ -6,7 +6,7 @@ const SHEET_ID = "14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I";
 const GID = "1588938698";
 
 let allStores = [];
-
+window.searchLocation = searchLocation;
 async function initializeApp() {
   try {
     allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
