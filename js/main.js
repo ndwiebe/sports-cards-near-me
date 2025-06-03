@@ -7,7 +7,7 @@ const GID = "1588938698";
 
 let allStores = [];
 window.searchLocation = searchLocation;
-async function initializeApp() {
+export async function initializeApp() {
   try {
     allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
 
@@ -87,4 +87,3 @@ function renderStoreCards(stores) {
 
 document.addEventListener("DOMContentLoaded", initializeApp);
 
-export { initializeApp };
