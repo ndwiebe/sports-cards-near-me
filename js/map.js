@@ -1,6 +1,7 @@
 let markers = [];
 let map; // Make map accessible outside initMap
 let geocoder; // Declare geocoder globally
+let searchMarker = null; // Optional: handle repeated searches
 
 export function initMap(stores) {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -17,6 +18,8 @@ export function initMap(stores) {
       title: store["Store Name"] || "Store",
     });
   });
+
+  return map; // ✅ Needed by main.js
 }
 
 export function clearMarkers() {
@@ -24,20 +27,21 @@ export function clearMarkers() {
   markers = [];
 }
 
-// 🔍 Add this to enable search by city/postal code
 export function searchLocation() {
-  const input = document.getElementById("location-input").value;
-  if (!input) return;
+  const input = document.getElementById("location-input") || document.getElementById("search-input");
+  if (!input || !input.value) return;
 
-  geocoder.geocode({ address: input }, (results, status) => {
+  geocoder.geocode({ address: input.value }, (results, status) => {
     if (status === "OK" && results[0]) {
       const location = results[0].geometry.location;
       map.setCenter(location);
       map.setZoom(12);
-      new google.maps.Marker({
+
+      if (searchMarker) searchMarker.setMap(null);
+      searchMarker = new google.maps.Marker({
         map,
         position: location,
-        title: input,
+        title: input.value,
       });
     } else {
       alert("Location not found: " + status);
