@@ -1,6 +1,7 @@
 const DEFAULT_HEADERS = [
-  "Store Name", "City", "Address", "Phone", "Rating",
-  "Website", "Hours", "Facebook", "lat", "lng"
+  "Store Name", "City", "Address", "Rating", "Hours",
+  "Phone", "Website", "Social Media Links", "Services", "Sports/TCG Available",
+  "lat", "lng"
 ];
 
 export async function loadSheetData({ sheetId, gid, fieldMap = DEFAULT_HEADERS }) {
@@ -29,3 +30,4 @@ export async function loadSheetData({ sheetId, gid, fieldMap = DEFAULT_HEADERS }
     return [];
   }
 }
+
