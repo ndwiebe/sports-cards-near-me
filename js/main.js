@@ -47,6 +47,7 @@ export async function initializeApp() {
 
 function renderStoreCards(stores) {
   const list = document.getElementById("nearby-stores-list");
+  if (!list) return;
   list.innerHTML = "";
 
   stores.forEach((store) => {
@@ -83,11 +84,17 @@ function renderStoreCards(stores) {
       </div>
     `;
 
+    card.addEventListener("click", () => {
+      const extra = card.querySelector(".store-extra");
+      if (extra) extra.classList.toggle("hidden");
+    });
+
     list.appendChild(card);
   });
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
+
 
 
 
