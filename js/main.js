@@ -6,10 +6,13 @@ const SHEET_ID = "14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I";
 const GID = "1588938698";
 
 let allStores = [];
+
 window.searchLocation = searchLocation;
+
 export async function initializeApp() {
   try {
     allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
+    window.allStores = allStores;
 
     if (!Array.isArray(allStores) || allStores.length === 0) {
       console.warn("No store data loaded or sheet is empty.");
@@ -22,8 +25,9 @@ export async function initializeApp() {
 
     console.log("✅ Loaded stores:", allStores);
     renderStoreCards(allStores);
-    console.log("First store object:", allStores[0]);
-    initMap(allStores);
+
+    const map = initMap(allStores);
+    window.map = map; // ✅ Needed for geolocation search
 
     const searchInput = document.getElementById("search-input");
     if (searchInput) {
@@ -86,4 +90,3 @@ function renderStoreCards(stores) {
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
-
