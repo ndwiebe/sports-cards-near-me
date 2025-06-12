@@ -15,8 +15,6 @@ export async function loadSheetData({ sheetId, gid, fieldMap = DEFAULT_HEADERS }
 
     return rows.map(row => {
       const obj = {};
-      console.log("Row data:", row);
-      console.log("Mapped object:", obj);
       fieldMap.forEach((key, i) => {
         const val = row.c[i]?.v;
         obj[key] =
