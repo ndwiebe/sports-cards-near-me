@@ -1,4 +1,3 @@
-// main.js
 import { initMap, clearMarkers, searchLocation } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
@@ -12,9 +11,9 @@ window.searchLocation = searchLocation;
 export async function initializeApp() {
   try {
     allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
-    window.allStores = allStores;
 
     if (!Array.isArray(allStores) || allStores.length === 0) {
+      console.warn("No store data loaded or sheet is empty.");
       const list = document.getElementById("nearby-stores-list");
       if (list) {
         list.innerHTML = `<li class="text-red-600">⚠️ No store data found. Check your sheet or console for errors.</li>`;
@@ -23,18 +22,19 @@ export async function initializeApp() {
     }
 
     renderStoreCards(allStores);
-    const map = initMap(allStores);
-    window.map = map;
+    initMap(allStores);
 
     const searchInput = document.getElementById("search-input");
     if (searchInput) {
       searchInput.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
-        const filtered = allStores.filter(store =>
-          store["Store Name"]?.toLowerCase().includes(query) ||
-          store.City?.toLowerCase().includes(query) ||
-          store.Address?.toLowerCase().includes(query)
-        );
+        const filtered = allStores.filter((store) => {
+          return (
+            store["Store Name"]?.toLowerCase().includes(query) ||
+            store.City?.toLowerCase().includes(query) ||
+            store.Address?.toLowerCase().includes(query)
+          );
+        });
         renderStoreCards(filtered);
         clearMarkers();
         initMap(filtered);
@@ -52,33 +52,42 @@ function renderStoreCards(stores) {
   stores.forEach((store) => {
     const card = document.createElement("li");
     card.className =
-      "store-card bg-white rounded-2xl shadow-md p-4 border border-neutral-200 hover:shadow-lg transition-shadow duration-300";
+      "store-card bg-white text-[#221911] rounded-xl shadow-md p-4 border border-neutral-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer";
 
-    const websiteLink = store.Website && isValidUrl(store.Website)
-      ? `<a href="${store.Website}" target="_blank" class="text-red-600 hover:underline">${store.Website}</a>`
+    const name = displayOrNA(store["Store Name"]);
+    const city = displayOrNA(store.City);
+    const address = displayOrNA(store.Address);
+    const rating = displayOrNA(store.Rating);
+    const hours = displayOrNA(store.Hours);
+    const phone = displayOrNA(store.Phone);
+    const website = isValidUrl(store.Website)
+      ? `<a href="${store.Website}" target="_blank" class="text-red-600 hover:underline">Website</a>`
       : "N/A";
-
-    const socialLink = store["Social Media Links"] && isValidUrl(store["Social Media Links"])
-      ? `<a href="${store["Social Media Links"]}" target="_blank" class="text-red-600 hover:underline">${store["Social Media Links"]}</a>`
+    const facebook = isValidUrl(store["Social Media Links"])
+      ? `<a href="${store["Social Media Links"]}" target="_blank" class="text-red-600 hover:underline">Social</a>`
       : "N/A";
+    const services = displayOrNA(store.Services);
+    const sports = displayOrNA(store["Sports/TCG Available"]);
 
     card.innerHTML = `
-      <h3 class="font-bold text-lg">${displayOrNA(store["Store Name"])}</h3>
-      <p class="text-sm text-[#5e4735]">📍 ${displayOrNA(store.City)}</p>
-      <p class="text-sm text-[#5e4735]">🏠 ${displayOrNA(store.Address)}</p>
-      <p class="text-sm text-[#5e4735]">⭐ Rating: ${displayOrNA(store.Rating)}</p>
-      <p class="text-sm text-[#5e4735]">⏰ Hours: ${displayOrNA(store.Hours)}</p>
-      <div class="store-extra hidden mt-3 space-y-1">
-        <p class="text-sm text-[#5e4735]">📞 Phone: ${displayOrNA(store.Phone)}</p>
-        <p class="text-sm text-[#5e4735]">🔗 Website: ${websiteLink}</p>
-        <p class="text-sm text-[#5e4735]">💬 Social: ${socialLink}</p>
-        <p class="text-sm text-[#5e4735]">🛠️ Services: ${displayOrNA(store.Services)}</p>
-        <p class="text-sm text-[#5e4735]">🏈 Sports/TCG: ${displayOrNA(store["Sports/TCG Available"])}</p>
+      <h3 class="font-bold text-lg">${name}</h3>
+      <p class="text-sm">📍 ${city}</p>
+      <p class="text-sm">🏠 ${address}</p>
+      <p class="text-sm">⭐ ${rating}</p>
+      <p class="text-sm">⏰ ${hours}</p>
+      <div class="store-extra hidden pt-2 text-sm space-y-1">
+        <p>📞 ${phone}</p>
+        <p>${website} | ${facebook}</p>
+        <p>🛠️ ${services}</p>
+        <p>🏒 ${sports}</p>
       </div>
     `;
 
     list.appendChild(card);
   });
 }
+
+document.addEventListener("DOMContentLoaded", initializeApp);
+
 
 
