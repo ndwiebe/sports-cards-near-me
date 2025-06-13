@@ -1,4 +1,4 @@
-// main.js (updated version with no radius filtering)
+// main.js (fully updated version for no-radius filtering and anchor scrolling)
 import { initMap, clearMarkers, searchLocation, highlightMarkerByIndex, clearMarkerHighlights, getMapInstance, panToMarker } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
@@ -34,16 +34,29 @@ export async function initializeApp() {
           );
         });
 
-        renderStoreCards(allStores);
-        clearMarkers();
-        initMap(allStores, handleMarkerClick);
-
         if (match) {
           const index = allStores.indexOf(match);
+          const cards = document.querySelectorAll(".store-card");
+          const card = cards[index];
+          if (card) {
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+            card.classList.add("ring", "ring-orange-400");
+            setTimeout(() => card.classList.remove("ring", "ring-orange-400"), 2000);
+          }
           panToMarker(index);
           highlightMarkerByIndex(index);
         }
       });
+    }
+
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const section = document.querySelector(hash);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500);
     }
   } catch (error) {
     console.error("💥 Failed to initialize app:", error);
@@ -74,7 +87,8 @@ function renderStoreCards(stores) {
   Object.entries(provinces).forEach(([prov, stores]) => {
     const section = document.createElement("section");
     section.className = "mb-6";
-    section.innerHTML = `<h2 id="${prov}" class="text-2xl font-bold mb-4">${fullProvinceName(prov)} Sports Card Shops</h2>`;
+    section.id = prov;
+    section.innerHTML = `<h2 class="text-2xl font-bold mb-4">${fullProvinceName(prov)} Sports Card Shops</h2>`;
 
     const ul = document.createElement("ul");
     ul.className = "space-y-4";
@@ -158,6 +172,7 @@ function handleMarkerClick(index) {
     setTimeout(() => card.classList.remove("ring", "ring-orange-400"), 2000);
   }
 }
+
 
 
 
