@@ -1,3 +1,4 @@
+// Enhanced main.js for sportscardsnearme.ca
 import { initMap, clearMarkers, searchLocation } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
@@ -13,7 +14,6 @@ export async function initializeApp() {
     allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
 
     if (!Array.isArray(allStores) || allStores.length === 0) {
-      console.warn("No store data loaded or sheet is empty.");
       const list = document.getElementById("nearby-stores-list");
       if (list) {
         list.innerHTML = `<li class="text-red-600">⚠️ No store data found. Check your sheet or console for errors.</li>`;
