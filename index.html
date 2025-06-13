@@ -1,65 +1,58 @@
-<!-- Fully upgraded index.html with all enhancements (SEO, mobile UX, schema, filters, monetization hooks) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find Sports Card Shops Near You | Canada Directory</title>
-  <meta name="description" content="Explore local sports card stores across Canada. Browse by province, search by city or postal code, and discover shops offering Pokémon, TCGs, grading services and more." />
-  <link rel="icon" href="/favicon.ico" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap" />
+  <title>Sports Card Stores in Canada – Find Sports Cards Near You</title>
+  <meta name="description" content="Discover sports card shops across Canada. Search by city or province to find a card store near you." />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link rel="stylesheet" href="/css/custom.css">
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Sports Cards Near Me",
-      "url": "https://sportscardnearme.ca"
-    }
-  </script>
 </head>
 <body class="bg-[#221911] text-white font-sans">
-  <header class="w-full h-[300px] bg-cover bg-center" style="background-image: url('/images/hero.jpg');">
-    <div class="h-full w-full bg-black bg-opacity-50 flex items-end justify-center p-6">
-      <h1 class="text-3xl font-bold tracking-tight">Discover Local Sports Card Shops and Collectors</h1>
+
+  <!-- Hero -->
+  <header class="w-full h-[320px] bg-cover bg-center" style="background-image: url('/images/hero.jpg');">
+    <div class="h-full w-full bg-black bg-opacity-40 flex items-end justify-center p-6">
+      <h1 class="text-3xl font-bold tracking-tight">Find Sports Cards Near You</h1>
     </div>
   </header>
 
-  <!-- Province Filter and Search -->
-  <nav class="bg-[#1b140f] p-4 text-center text-sm">
-    <div class="flex flex-col md:flex-row md:justify-center items-center gap-4">
-      <select onchange="document.getElementById(this.value)?.scrollIntoView({behavior:'smooth'})" class="bg-[#483423] text-white px-4 py-2 rounded">
-        <option value="">Select Province</option>
-        <option value="AB">Alberta</option>
-        <option value="BC">British Columbia</option>
-        <option value="MB">Manitoba</option>
-        <option value="NB">New Brunswick</option>
-        <option value="NL">Newfoundland</option>
-        <option value="NS">Nova Scotia</option>
-        <option value="ON">Ontario</option>
-        <option value="PE">PEI</option>
-        <option value="QC">Quebec</option>
-        <option value="SK">Saskatchewan</option>
-      </select>
+  <!-- Province Navigation -->
+  <nav class="p-4 bg-[#1b140f] text-center text-sm">
+    <p class="text-[#c9ab92] font-semibold mb-2">Browse by Province:</p>
+    <div class="flex flex-wrap justify-center gap-2">
+      <a href="#AB" class="underline hover:text-[#ed822a]">Alberta</a>
+      <a href="#BC" class="underline hover:text-[#ed822a]">British Columbia</a>
+      <a href="#MB" class="underline hover:text-[#ed822a]">Manitoba</a>
+      <a href="#NB" class="underline hover:text-[#ed822a]">New Brunswick</a>
+      <a href="#NL" class="underline hover:text-[#ed822a]">Newfoundland</a>
+      <a href="#NS" class="underline hover:text-[#ed822a]">Nova Scotia</a>
+      <a href="#ON" class="underline hover:text-[#ed822a]">Ontario</a>
+      <a href="#PE" class="underline hover:text-[#ed822a]">PEI</a>
+      <a href="#QC" class="underline hover:text-[#ed822a]">Quebec</a>
+      <a href="#SK" class="underline hover:text-[#ed822a]">Saskatchewan</a>
     </div>
   </nav>
 
-  <!-- Search and Geo -->
+  <!-- Search & Location -->
   <section class="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div class="w-full md:w-2/3 flex gap-2">
-      <input id="search-input" type="text" placeholder="Search city, store, or postal code" class="w-full bg-[#483423] border-none text-white placeholder-[#c9ab92] px-4 py-2 rounded-l-lg focus:outline-none" />
+      <input id="search-input" type="text" placeholder="Search by city, name or postal code" class="w-full bg-[#483423] border-none text-white placeholder-[#c9ab92] px-4 py-2 rounded-l-lg focus:outline-none" />
       <button onclick="searchLocation()" class="bg-[#ed822a] text-[#221911] px-4 rounded-r-lg">🔍</button>
     </div>
-    <button onclick="navigator.geolocation.getCurrentPosition(() => location.reload())" class="bg-[#ed822a] text-[#221911] px-4 py-2 rounded w-full md:w-auto">📍 Use My Location</button>
+    <button onclick="navigator.geolocation.getCurrentPosition(() => location.reload())" class="bg-[#ed822a] text-[#221911] px-4 py-2 rounded-md w-full md:w-auto">📍 Use My Location</button>
   </section>
 
-  <!-- Promo Images -->
+  <!-- Images -->
   <section class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
     <img src="/images/card-show.jpg" alt="Card Show" class="rounded-xl shadow-md">
+    <img src="/images/hockey-display.jpg" alt="Hockey Display" class="rounded-xl shadow-md">
   </section>
 
-  <!-- Listings -->
+  <!-- Store Listings -->
   <section class="p-4">
     <div id="nearby-stores-list"></div>
   </section>
@@ -69,19 +62,23 @@
     <div id="map" class="w-full h-full"></div>
   </section>
 
-    <!-- Promo Images -->
-  <section class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-    <img src="/images/hockey-display.jpg" alt="Hockey Display" class="rounded-xl shadow-md">
-  </section>
-
-  <!-- Suggestion CTA -->
+  <!-- Suggest Form -->
   <section class="p-6 bg-[#483423] text-white">
     <h2 class="text-3xl font-bold mb-4 text-center">Is Something Missing?</h2>
-    <p class="text-center max-w-3xl mx-auto">
-      Suggest a store, update details, or add yourself as a local collector — just provide your city, province, and postal code.
+    <p class="mb-6 text-center max-w-3xl mx-auto">
+      Help us keep the hobby connected! Use the button below to:
+      <ul class="list-disc list-inside mt-2 text-left">
+        <li>Suggest a new store that isn’t listed</li>
+        <li>Update details for an existing shop</li>
+        <li>Add local collectors who don’t have a storefront</li>
+      </ul>
+      <br />
+      No need to share full addresses if you're just a local collector — just the city, province, and postal code to let other collectors know you're in the area.
     </p>
-    <div class="mt-4 flex justify-center">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeuDSpremAwIczTb4Leu1B4-5-niUrgYPCd2QKADmzmRnU4-A/viewform" target="_blank" class="bg-[#ed822a] text-[#221911] font-bold px-6 py-3 rounded shadow hover:bg-[#f89b4e]">📩 Submit Form</a>
+    <div class="flex justify-center">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeuDSpremAwIczTb4Leu1B4-5-niUrgYPCd2QKADmzmRnU4-A/viewform" target="_blank" rel="noopener noreferrer" class="bg-[#ed822a] text-[#221911] font-semibold px-6 py-3 rounded-lg shadow hover:bg-[#f89b4e] transition" onclick="trackFormClick()">
+        📩 Submit Form
+      </a>
     </div>
   </section>
 
@@ -90,14 +87,27 @@
     <p>© 2024 Sports Cards Near Me · <a href="#" class="underline">Privacy</a> · <a href="#" class="underline">Contact</a></p>
   </footer>
 
+  <!-- Google Maps Callback + Tracking -->
   <script>
     window.initializeApp = () => {
       import('/js/main.js').then(({ initializeApp }) => initializeApp());
     };
+    function trackFormClick() {
+      if (window.gtag) {
+        gtag('event', 'submit_form_click', {
+          event_category: 'Engagement',
+          event_label: 'Google Form Button',
+          value: 1
+        });
+      }
+    }
   </script>
+
+  <!-- Google Maps API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKG6KjumzG3HQN4OcXveYe-YmyNkxQV7Q&callback=initializeApp" async defer></script>
 </body>
 </html>
+
 
 
 
