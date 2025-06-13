@@ -1,107 +1,70 @@
-// Updated JS with grouping by province
-document.addEventListener("DOMContentLoaded", initializeApp);
+// Full map.js with marker highlighting support
+let markers = [];
+let map;
+let geocoder;
+let searchMarker = null;
 
-import { initMap, clearMarkers, searchLocation } from "./map.js";
-import { loadSheetData } from "./loadStores.js";
-import { displayOrNA, isValidUrl } from "./utils.js";
+export function initMap(stores) {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 53.5, lng: -113.5 },
+    zoom: 6,
+  });
 
-const SHEET_ID = "14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I";
-const GID = "1588938698";
+  geocoder = new google.maps.Geocoder();
+  clearMarkers();
 
-let allStores = [];
-window.searchLocation = searchLocation;
-
-export async function initializeApp() {
-  try {
-    allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
-    if (!Array.isArray(allStores) || allStores.length === 0) {
-      document.getElementById("nearby-stores-list").innerHTML = `<li class="text-red-600">⚠️ No store data found.</li>`;
-      return;
-    }
-
-    renderStoreCards(allStores);
-    initMap(allStores);
-
-    document.getElementById("search-input")?.addEventListener("input", (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = allStores.filter((store) => {
-        return (
-          store["Store Name"]?.toLowerCase().includes(query) ||
-          store.City?.toLowerCase().includes(query) ||
-          store.Address?.toLowerCase().includes(query)
-        );
-      });
-      renderStoreCards(filtered);
-      clearMarkers();
-      initMap(filtered);
+  markers = stores.map((store, index) => {
+    const marker = new google.maps.Marker({
+      position: { lat: parseFloat(store.lat), lng: parseFloat(store.lng) },
+      map,
+      title: store["Store Name"] || "Store",
     });
-  } catch (err) {
-    console.error("Initialization error:", err);
-  }
+
+    marker._storeId = index; // for matching with card index
+    return marker;
+  });
+
+  return map;
 }
 
-function renderStoreCards(stores) {
-  const container = document.getElementById("nearby-stores-list");
-  if (!container) return;
-  container.innerHTML = "";
+export function clearMarkers() {
+  markers.forEach((marker) => marker.setMap(null));
+  markers = [];
+}
 
-  const provinces = {};
-  for (const store of stores) {
-    const province = store["Address"]?.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i)?.[0]?.toUpperCase() || "Other";
-    if (!provinces[province]) provinces[province] = [];
-    provinces[province].push(store);
-  }
+export function searchLocation() {
+  const input = document.getElementById("location-input") || document.getElementById("search-input");
+  if (!input || !input.value) return;
 
-  Object.entries(provinces).forEach(([prov, stores]) => {
-    const section = document.createElement("section");
-    section.className = "mb-6";
-    section.innerHTML = `<h3 id="${prov}" class="text-2xl font-bold mb-4">${prov}</h3>`;
+  geocoder.geocode({ address: input.value }, (results, status) => {
+    if (status === "OK" && results[0]) {
+      const location = results[0].geometry.location;
+      map.setCenter(location);
+      map.setZoom(12);
 
-    const ul = document.createElement("ul");
-    ul.className = "space-y-4";
-
-    for (const store of stores) {
-      const li = document.createElement("li");
-      li.className =
-        "store-card bg-white text-[#221911] rounded-xl shadow-md p-4 border border-neutral-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer";
-
-      const name = displayOrNA(store["Store Name"]);
-      const city = displayOrNA(store.City);
-      const address = displayOrNA(store.Address);
-      const rating = displayOrNA(store.Rating);
-      const hours = displayOrNA(store.Hours);
-      const phone = displayOrNA(store.Phone);
-      const website = isValidUrl(store.Website)
-        ? `<a href="${store.Website}" target="_blank" class="text-red-600 hover:underline">Website</a>`
-        : "N/A";
-      const facebook = isValidUrl(store["Social Media Links"])
-        ? `<a href="${store["Social Media Links"]}" target="_blank" class="text-red-600 hover:underline">Social</a>`
-        : "N/A";
-      const services = displayOrNA(store.Services);
-      const sports = displayOrNA(store["Sports/TCG Available"]);
-
-      li.innerHTML = `
-        <h4 class="font-bold text-lg">${name}</h4>
-        <p class="text-sm">📍 ${city}</p>
-        <p class="text-sm">🏠 ${address}</p>
-        <p class="text-sm">⭐ ${rating}</p>
-        <p class="text-sm">⏰ ${hours}</p>
-        <div class="store-extra hidden pt-2 text-sm space-y-1">
-          <p>📞 ${phone}</p>
-          <p>${website} | ${facebook}</p>
-          <p>🛠️ ${services}</p>
-          <p>🏒 ${sports}</p>
-        </div>
-      `;
-
-      li.addEventListener("click", () => {
-        li.querySelector(".store-extra")?.classList.toggle("hidden");
+      if (searchMarker) searchMarker.setMap(null);
+      searchMarker = new google.maps.Marker({
+        map,
+        position: location,
+        title: input.value,
       });
-
-      ul.appendChild(li);
+    } else {
+      alert("Location not found: " + status);
     }
-
-    section.appendChild(ul);
-    container.appendChild(section);
   });
 }
+
+export function highlightMarkerByIndex(index) {
+  markers.forEach((marker, i) => {
+    marker.setAnimation(null);
+    if (i === index) {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+      map.panTo(marker.getPosition());
+    }
+  });
+}
+
+export function clearMarkerHighlights() {
+  markers.forEach((marker) => marker.setAnimation(null));
+}
+
