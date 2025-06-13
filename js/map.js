@@ -1,4 +1,4 @@
-// map.js (enhanced with marker click-to-highlight and panToMarker export)
+// map.js (no changes needed for radius logic, only adding export for distance if needed)
 let markers = [];
 let map;
 let geocoder;
@@ -88,5 +88,6 @@ export function panToMarker(index) {
     setTimeout(() => marker.setAnimation(null), 1400);
   }
 }
+
 
 
