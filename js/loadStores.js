@@ -1,4 +1,5 @@
-// loadStores.js
+// loadStores.js (robust Google Sheets data loader with lat/lng filtering)
+
 const DEFAULT_HEADERS = [
   "Store Name", "City", "Address", "Rating", "Hours",
   "Phone", "Website", "Social Media Links", "Services", "Sports/TCG Available",
@@ -7,6 +8,7 @@ const DEFAULT_HEADERS = [
 
 export async function loadSheetData({ sheetId, gid, fieldMap = DEFAULT_HEADERS }) {
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${gid}`;
+
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`Failed to fetch sheet data: ${response.status}`);
@@ -31,5 +33,6 @@ export async function loadSheetData({ sheetId, gid, fieldMap = DEFAULT_HEADERS }
     return [];
   }
 }
+
 
 
