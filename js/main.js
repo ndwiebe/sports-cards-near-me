@@ -1,5 +1,5 @@
-// Updated main.js to support new filters (province, service, sport)
-import { initMap, clearMarkers, highlightMarkerByIndex, clearMarkerHighlights } from "./map.js";
+// main.js (enhanced version with SEO, structured data, and marker-to-card interaction)
+import { initMap, clearMarkers, searchLocation, highlightMarkerByIndex, clearMarkerHighlights, getMapInstance, panToMarker } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
 
@@ -8,6 +8,7 @@ const GID = "1588938698";
 
 let allStores = [];
 let mapInstance = null;
+window.searchLocation = searchLocation;
 
 export async function initializeApp() {
   try {
@@ -18,16 +19,24 @@ export async function initializeApp() {
     }
 
     renderStoreCards(allStores);
-    mapInstance = initMap(allStores);
+    mapInstance = initMap(allStores, handleMarkerClick);
 
     const searchInput = document.getElementById("search-input");
     if (searchInput) {
       searchInput.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
-        const filtered = filterStores({ query });
+        const filtered = allStores.filter((store) => {
+          return (
+            store["Store Name"]?.toLowerCase().includes(query) ||
+            store.City?.toLowerCase().includes(query) ||
+            store.Address?.toLowerCase().includes(query) ||
+            store["Postal Code"]?.toLowerCase().includes(query)
+          );
+        });
+
         renderStoreCards(filtered);
         clearMarkers();
-        initMap(filtered);
+        initMap(filtered, handleMarkerClick);
       });
     }
   } catch (error) {
@@ -35,15 +44,13 @@ export async function initializeApp() {
   }
 }
 
-function filterStores({ query = "" }) {
-  return allStores.filter((store) => {
-    return (
-      store["Store Name"]?.toLowerCase().includes(query) ||
-      store.City?.toLowerCase().includes(query) ||
-      store.Address?.toLowerCase().includes(query) ||
-      store["Postal Code"]?.toLowerCase().includes(query)
-    );
-  });
+function fullProvinceName(code) {
+  const map = {
+    AB: "Alberta", BC: "British Columbia", MB: "Manitoba",
+    NB: "New Brunswick", NL: "Newfoundland", NS: "Nova Scotia",
+    ON: "Ontario", PE: "PEI", QC: "Quebec", SK: "Saskatchewan"
+  };
+  return map[code] || code;
 }
 
 function renderStoreCards(stores) {
@@ -61,15 +68,14 @@ function renderStoreCards(stores) {
   Object.entries(provinces).forEach(([prov, stores]) => {
     const section = document.createElement("section");
     section.className = "mb-6";
-    section.innerHTML = `<h3 id="${prov}" class="text-2xl font-bold mb-4">${prov}</h3>`;
+    section.innerHTML = `<h2 id="${prov}" class="text-2xl font-bold mb-4">${fullProvinceName(prov)} Sports Card Shops</h2>`;
 
     const ul = document.createElement("ul");
     ul.className = "space-y-4";
 
     stores.forEach((store, index) => {
       const li = document.createElement("li");
-      li.className =
-        "store-card bg-white text-[#221911] rounded-xl shadow-md p-4 border border-neutral-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer";
+      li.className = "store-card bg-white text-[#221911] rounded-xl shadow-md p-4 border border-neutral-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer";
 
       const name = displayOrNA(store["Store Name"]);
       const city = displayOrNA(store.City);
@@ -77,12 +83,8 @@ function renderStoreCards(stores) {
       const rating = displayOrNA(store.Rating);
       const hours = displayOrNA(store.Hours);
       const phone = displayOrNA(store.Phone);
-      const website = isValidUrl(store.Website)
-        ? `<a href="${store.Website}" target="_blank" class="text-red-600 hover:underline">Website</a>`
-        : "N/A";
-      const facebook = isValidUrl(store["Social Media Links"])
-        ? `<a href="${store["Social Media Links"]}" target="_blank" class="text-red-600 hover:underline">Social</a>`
-        : "N/A";
+      const website = isValidUrl(store.Website) ? `<a href="${store.Website}" target="_blank" class="text-red-600 hover:underline">Website</a>` : "N/A";
+      const facebook = isValidUrl(store["Social Media Links"]) ? `<a href="${store["Social Media Links"]}" target="_blank" class="text-red-600 hover:underline">Social</a>` : "N/A";
       const services = displayOrNA(store.Services);
       const sports = displayOrNA(store["Sports/TCG Available"]);
 
@@ -100,9 +102,35 @@ function renderStoreCards(stores) {
         </div>
       `;
 
+      // Structured Data injection
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name,
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: address,
+          addressLocality: city,
+          addressRegion: prov,
+          addressCountry: "CA"
+        },
+        telephone: phone,
+        url: isValidUrl(store.Website) ? store.Website : undefined,
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: store.lat,
+          longitude: store.lng
+        }
+      };
+      const schema = document.createElement("script");
+      schema.type = "application/ld+json";
+      schema.textContent = JSON.stringify(structuredData);
+      li.appendChild(schema);
+
       li.addEventListener("click", () => {
         const extra = li.querySelector(".store-extra");
         if (extra) extra.classList.toggle("hidden");
+        panToMarker(index);
       });
 
       li.addEventListener("mouseenter", () => highlightMarkerByIndex(index));
@@ -115,6 +143,17 @@ function renderStoreCards(stores) {
     container.appendChild(section);
   });
 }
+
+function handleMarkerClick(index) {
+  const cards = document.querySelectorAll(".store-card");
+  const card = cards[index];
+  if (card) {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.classList.add("ring", "ring-orange-400");
+    setTimeout(() => card.classList.remove("ring", "ring-orange-400"), 2000);
+  }
+}
+
 
 
 
