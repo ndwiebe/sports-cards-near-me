@@ -1,7 +1,7 @@
-// init.js (final version to bootstrap full app and enable search location)
+// init.js (filtered-compatible version with search and safe fallback)
 import { initializeApp as appInit } from './main.js';
 
-// Trigger the app once Google Maps has loaded
+// Google Maps callback to trigger main setup
 window.initializeApp = function () {
   try {
     appInit();
@@ -10,7 +10,7 @@ window.initializeApp = function () {
   }
 };
 
-// Handles location-based search input and centers the map
+// Optional geolocation-triggered search (still shows all cards)
 window.searchLocation = function () {
   const input = document.getElementById('search-input');
   const address = input?.value.trim();
@@ -35,6 +35,7 @@ window.searchLocation = function () {
     }
   });
 };
+
 
 
 
