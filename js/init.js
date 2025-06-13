@@ -1,7 +1,7 @@
-// init.js (final full version)
+// init.js (final version with location search + robust callback handling)
 import { initializeApp as appInit } from './main.js';
 
-// Ensure Google Maps API callback can access this
+// Google Maps callback
 window.initializeApp = function () {
   try {
     appInit();
@@ -10,11 +10,15 @@ window.initializeApp = function () {
   }
 };
 
-// Optional geolocation-triggered search
+// Optional geolocation-triggered search with graceful fallback
 window.searchLocation = function () {
   const input = document.getElementById('search-input');
   const address = input?.value.trim();
-  if (!address || !window.google || !window.google.maps || !window.map) return;
+
+  if (!address || !window.google || !window.google.maps || !window.map) {
+    alert("Google Maps or address is unavailable.");
+    return;
+  }
 
   const geocoder = new google.maps.Geocoder();
   geocoder.geocode({ address }, (results, status) => {
@@ -27,9 +31,10 @@ window.searchLocation = function () {
         console.error("Google Map instance not initialized correctly.");
       }
     } else {
-      alert('Could not find that location.');
+      alert('Could not find that location: ' + status);
     }
   });
 };
+
 
 
