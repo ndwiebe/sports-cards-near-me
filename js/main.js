@@ -1,4 +1,4 @@
-// main.js (complete with filters, province clicks, and results-wrapper reveal)
+// main.js (full updated with no-results message)
 import { initMap, clearMarkers, panToMarker, highlightMarkerByIndex, clearMarkerHighlights } from './map.js';
 import { loadSheetData } from './loadStores.js';
 import { displayOrNA, isValidUrl } from './utils.js';
@@ -14,7 +14,7 @@ window.searchLocation = () => {};
 
 export async function initializeApp() {
   allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
-  renderStoreCards([]); // start empty
+  renderStoreCards([]); // hide by default
   mapInstance = initMap([], handleMarkerClick);
   setupSearchAndFilters();
   detectUserLocation();
@@ -81,15 +81,20 @@ function setupSearchAndFilters() {
   provinceLinks.forEach(link => {
     link.addEventListener("click", (e) => {
       const provCode = link.getAttribute("href").substring(1).toUpperCase();
-      const filtered = allStores.filter(store => store.Address?.includes(provCode));
+      const filtered = allStores.filter(store => {
+        const match = store.Address?.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i);
+        return match && match[0].toUpperCase() === provCode;
+      });
+
       renderStoreCards(filtered);
       clearMarkers();
       initMap(filtered, handleMarkerClick);
-      const target = document.getElementById("nearby-stores-list");
-      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
 
       const resultsWrapper = document.getElementById("results-wrapper");
       if (resultsWrapper) resultsWrapper.classList.remove("hidden");
+
+      const target = document.getElementById("nearby-stores-list");
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
 
@@ -108,8 +113,15 @@ function fullProvinceName(code) {
 
 function renderStoreCards(stores) {
   const container = document.getElementById("nearby-stores-list");
+  const wrapper = document.getElementById("results-wrapper");
   if (!container) return;
   container.innerHTML = "";
+
+  if (stores.length === 0) {
+    container.innerHTML = `<div class='text-center text-red-400 font-semibold mt-6'>🚫 No results found. Try adjusting your filters or search.</div>`;
+    if (wrapper) wrapper.classList.remove("hidden");
+    return;
+  }
 
   const provinces = {};
   for (const store of stores) {
@@ -184,6 +196,7 @@ function handleMarkerClick(index) {
     setTimeout(() => card.classList.remove("ring", "ring-orange-400"), 2000);
   }
 }
+
 
 
 
