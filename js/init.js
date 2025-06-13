@@ -1,7 +1,7 @@
-// init.js (clean version without filtering exclusion, triggers full map display)
+// init.js (final version to bootstrap full app and enable search location)
 import { initializeApp as appInit } from './main.js';
 
-// Google Maps callback
+// Trigger the app once Google Maps has loaded
 window.initializeApp = function () {
   try {
     appInit();
@@ -10,7 +10,7 @@ window.initializeApp = function () {
   }
 };
 
-// Search bar functionality - pans the map only (does not hide stores)
+// Handles location-based search input and centers the map
 window.searchLocation = function () {
   const input = document.getElementById('search-input');
   const address = input?.value.trim();
@@ -35,6 +35,7 @@ window.searchLocation = function () {
     }
   });
 };
+
 
 
 
