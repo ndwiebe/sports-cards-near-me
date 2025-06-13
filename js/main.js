@@ -1,5 +1,5 @@
-// main.js with hover-to-highlight map markers
-import { initMap, clearMarkers, searchLocation, highlightMarkerByIndex, clearMarkerHighlights } from "./map.js";
+// Updated main.js to support new filters (province, service, sport)
+import { initMap, clearMarkers, highlightMarkerByIndex, clearMarkerHighlights } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
 
@@ -8,7 +8,6 @@ const GID = "1588938698";
 
 let allStores = [];
 let mapInstance = null;
-window.searchLocation = searchLocation;
 
 export async function initializeApp() {
   try {
@@ -25,34 +24,26 @@ export async function initializeApp() {
     if (searchInput) {
       searchInput.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
-        const filtered = allStores.filter((store) => {
-          return (
-            store["Store Name"]?.toLowerCase().includes(query) ||
-            store.City?.toLowerCase().includes(query) ||
-            store.Address?.toLowerCase().includes(query) ||
-            store["Postal Code"]?.toLowerCase().includes(query)
-          );
-        });
-
+        const filtered = filterStores({ query });
         renderStoreCards(filtered);
         clearMarkers();
         initMap(filtered);
-
-        const match = filtered.find((s) => s.Address?.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i));
-        if (match) {
-          const province = match.Address.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i)?.[0]?.toUpperCase();
-          if (province) {
-            const section = document.getElementById(province);
-            if (section) {
-              setTimeout(() => section.scrollIntoView({ behavior: "smooth" }), 200);
-            }
-          }
-        }
       });
     }
   } catch (error) {
     console.error("💥 Failed to initialize app:", error);
   }
+}
+
+function filterStores({ query = "" }) {
+  return allStores.filter((store) => {
+    return (
+      store["Store Name"]?.toLowerCase().includes(query) ||
+      store.City?.toLowerCase().includes(query) ||
+      store.Address?.toLowerCase().includes(query) ||
+      store["Postal Code"]?.toLowerCase().includes(query)
+    );
+  });
 }
 
 function renderStoreCards(stores) {
