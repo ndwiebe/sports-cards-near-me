@@ -1,7 +1,7 @@
-// init.js (filtered-compatible version with search and safe fallback)
+// init.js (final version with location search + robust callback handling)
 import { initializeApp as appInit } from './main.js';
 
-// Google Maps callback to trigger main setup
+// Google Maps callback
 window.initializeApp = function () {
   try {
     appInit();
@@ -10,7 +10,7 @@ window.initializeApp = function () {
   }
 };
 
-// Optional geolocation-triggered search (still shows all cards)
+// Optional geolocation-triggered search with graceful fallback
 window.searchLocation = function () {
   const input = document.getElementById('search-input');
   const address = input?.value.trim();
@@ -35,6 +35,7 @@ window.searchLocation = function () {
     }
   });
 };
+
 
 
 
