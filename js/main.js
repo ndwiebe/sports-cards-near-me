@@ -1,47 +1,105 @@
-// main.js (enhanced version with SEO, structured data, and marker-to-card interaction)
-import { initMap, clearMarkers, searchLocation, highlightMarkerByIndex, clearMarkerHighlights, getMapInstance, panToMarker } from "./map.js";
-import { loadSheetData } from "./loadStores.js";
-import { displayOrNA, isValidUrl } from "./utils.js";
+// main.js (complete final version with city search fix and all features)
+import { initMap, clearMarkers, panToMarker, highlightMarkerByIndex, clearMarkerHighlights } from './map.js';
+import { loadSheetData } from './loadStores.js';
+import { displayOrNA, isValidUrl } from './utils.js';
 
 const SHEET_ID = "14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I";
 const GID = "1588938698";
 
 let allStores = [];
 let mapInstance = null;
-window.searchLocation = searchLocation;
+let userCoords = null;
+
+window.searchLocation = () => {};
 
 export async function initializeApp() {
-  try {
-    allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
-    if (!Array.isArray(allStores) || allStores.length === 0) {
-      document.getElementById("nearby-stores-list").innerHTML = `<li class="text-red-600">⚠️ No store data found.</li>`;
-      return;
-    }
+  allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
+  renderStoreCards([]);
+  mapInstance = initMap([], handleMarkerClick);
+  setupSearchAndFilters();
+  detectUserLocation();
+}
 
-    renderStoreCards(allStores);
-    mapInstance = initMap(allStores, handleMarkerClick);
-
-    const searchInput = document.getElementById("search-input");
-    if (searchInput) {
-      searchInput.addEventListener("input", (e) => {
-        const query = e.target.value.toLowerCase();
-        const filtered = allStores.filter((store) => {
-          return (
-            store["Store Name"]?.toLowerCase().includes(query) ||
-            store.City?.toLowerCase().includes(query) ||
-            store.Address?.toLowerCase().includes(query) ||
-            store["Postal Code"]?.toLowerCase().includes(query)
-          );
-        });
-
-        renderStoreCards(filtered);
-        clearMarkers();
-        initMap(filtered, handleMarkerClick);
-      });
-    }
-  } catch (error) {
-    console.error("💥 Failed to initialize app:", error);
+function detectUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      userCoords = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+    });
   }
+}
+
+function getDistanceFromUser(lat, lng) {
+  if (!userCoords) return null;
+  const toRad = (val) => (val * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(lat - userCoords.lat);
+  const dLng = toRad(lng - userCoords.lng);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(userCoords.lat)) * Math.cos(toRad(lat)) * Math.sin(dLng/2)**2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+function setupSearchAndFilters() {
+  const searchInput = document.getElementById("search-input");
+  const serviceCheckboxes = document.querySelectorAll(".service-filter");
+  const typeCheckboxes = document.querySelectorAll(".type-filter");
+  const provinceLinks = document.querySelectorAll("nav a[href^='#']");
+
+  const applyFilters = () => {
+    const query = searchInput.value.toLowerCase();
+    const selectedServices = [...serviceCheckboxes].filter(cb => cb.checked).map(cb => cb.value.toLowerCase());
+    const selectedTypes = [...typeCheckboxes].filter(cb => cb.checked).map(cb => cb.value.toLowerCase());
+
+    const filtered = allStores.filter(store => {
+      const name = store["Store Name"]?.toLowerCase() || "";
+      const city = store.City?.toLowerCase() || "";
+      const address = store.Address?.toLowerCase() || "";
+      const postal = store["Postal Code"]?.toLowerCase() || "";
+      const services = (store.Services || "").toLowerCase();
+      const types = (store["Sports/TCG Available"] || "").toLowerCase();
+
+      const matchSearch = [name, city, address, postal].some(text => text.includes(query));
+      const matchServices = selectedServices.every(service => services.includes(service));
+      const matchTypes = selectedTypes.every(type => types.includes(type));
+      const distance = getDistanceFromUser(store.lat, store.lng);
+      const withinRadius = distance === null || distance <= 50;
+
+      return matchSearch && matchServices && matchTypes && withinRadius;
+    });
+
+    renderStoreCards(filtered);
+    clearMarkers();
+    initMap(filtered, handleMarkerClick);
+
+    const resultsWrapper = document.getElementById("results-wrapper");
+    if (resultsWrapper) resultsWrapper.classList.remove("hidden");
+  };
+
+  provinceLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      const provCode = link.getAttribute("href").substring(1).toUpperCase();
+      const filtered = allStores.filter(store => {
+        const match = store.Address?.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i);
+        return match && match[0].toUpperCase() === provCode;
+      });
+
+      renderStoreCards(filtered);
+      clearMarkers();
+      initMap(filtered, handleMarkerClick);
+
+      const resultsWrapper = document.getElementById("results-wrapper");
+      if (resultsWrapper) resultsWrapper.classList.remove("hidden");
+
+      const target = document.getElementById("nearby-stores-list");
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  searchInput.addEventListener("input", applyFilters);
+  [...serviceCheckboxes, ...typeCheckboxes].forEach(cb => cb.addEventListener("change", applyFilters));
 }
 
 function fullProvinceName(code) {
@@ -55,8 +113,15 @@ function fullProvinceName(code) {
 
 function renderStoreCards(stores) {
   const container = document.getElementById("nearby-stores-list");
+  const wrapper = document.getElementById("results-wrapper");
   if (!container) return;
   container.innerHTML = "";
+
+  if (stores.length === 0) {
+    container.innerHTML = `<div class='text-center text-red-400 font-semibold mt-6'>🚫 No results found. Try adjusting your filters or search.</div>`;
+    if (wrapper) wrapper.classList.remove("hidden");
+    return;
+  }
 
   const provinces = {};
   for (const store of stores) {
@@ -87,6 +152,8 @@ function renderStoreCards(stores) {
       const facebook = isValidUrl(store["Social Media Links"]) ? `<a href="${store["Social Media Links"]}" target="_blank" class="text-red-600 hover:underline">Social</a>` : "N/A";
       const services = displayOrNA(store.Services);
       const sports = displayOrNA(store["Sports/TCG Available"]);
+      const distance = getDistanceFromUser(store.lat, store.lng);
+      const distDisplay = distance ? `<p class="text-sm">📏 ${distance.toFixed(1)} km away</p>` : "";
 
       li.innerHTML = `
         <h4 class="font-bold text-lg">${name}</h4>
@@ -94,6 +161,7 @@ function renderStoreCards(stores) {
         <p class="text-sm">🏠 ${address}</p>
         <p class="text-sm">⭐ ${rating}</p>
         <p class="text-sm">⏰ ${hours}</p>
+        ${distDisplay}
         <div class="store-extra hidden pt-2 text-sm space-y-1">
           <p>📞 ${phone}</p>
           <p>${website} | ${facebook}</p>
@@ -101,31 +169,6 @@ function renderStoreCards(stores) {
           <p>🏒 ${sports}</p>
         </div>
       `;
-
-      // Structured Data injection
-      const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        name,
-        address: {
-          "@type": "PostalAddress",
-          streetAddress: address,
-          addressLocality: city,
-          addressRegion: prov,
-          addressCountry: "CA"
-        },
-        telephone: phone,
-        url: isValidUrl(store.Website) ? store.Website : undefined,
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: store.lat,
-          longitude: store.lng
-        }
-      };
-      const schema = document.createElement("script");
-      schema.type = "application/ld+json";
-      schema.textContent = JSON.stringify(structuredData);
-      li.appendChild(schema);
 
       li.addEventListener("click", () => {
         const extra = li.querySelector(".store-extra");
@@ -153,6 +196,7 @@ function handleMarkerClick(index) {
     setTimeout(() => card.classList.remove("ring", "ring-orange-400"), 2000);
   }
 }
+
 
 
 
