@@ -1,4 +1,4 @@
-// map.js (updated version - no filtering, supports marker highlight)
+// map.js (final version with marker pan, highlight, and no filtering)
 let markers = [];
 let map;
 let geocoder;
@@ -20,7 +20,7 @@ export function initMap(stores, onMarkerClick = null) {
       title: store["Store Name"] || "Store",
     });
 
-    marker._storeId = index; // for identifying store card
+    marker._storeId = index;
 
     if (typeof onMarkerClick === "function") {
       marker.addListener("click", () => {
@@ -88,6 +88,7 @@ export function panToMarker(index) {
     setTimeout(() => marker.setAnimation(null), 1400);
   }
 }
+
 
 
 
