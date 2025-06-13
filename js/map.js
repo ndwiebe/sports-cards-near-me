@@ -1,4 +1,4 @@
-// map.js (final version with marker pan, highlight, and no filtering)
+// map.js (filtered-compatible version — no radius logic, supports dynamic refresh)
 let markers = [];
 let map;
 let geocoder;
@@ -39,28 +39,6 @@ export function clearMarkers() {
   markers = [];
 }
 
-export function searchLocation() {
-  const input = document.getElementById("location-input") || document.getElementById("search-input");
-  if (!input || !input.value) return;
-
-  geocoder.geocode({ address: input.value }, (results, status) => {
-    if (status === "OK" && results[0]) {
-      const location = results[0].geometry.location;
-      map.setCenter(location);
-      map.setZoom(12);
-
-      if (searchMarker) searchMarker.setMap(null);
-      searchMarker = new google.maps.Marker({
-        map,
-        position: location,
-        title: input.value,
-      });
-    } else {
-      alert("Location not found: " + status);
-    }
-  });
-}
-
 export function highlightMarkerByIndex(index) {
   markers.forEach((marker, i) => {
     marker.setAnimation(null);
@@ -75,10 +53,6 @@ export function clearMarkerHighlights() {
   markers.forEach((marker) => marker.setAnimation(null));
 }
 
-export function getMapInstance() {
-  return map;
-}
-
 export function panToMarker(index) {
   const marker = markers[index];
   if (marker && marker.getPosition) {
@@ -88,6 +62,11 @@ export function panToMarker(index) {
     setTimeout(() => marker.setAnimation(null), 1400);
   }
 }
+
+export function getMapInstance() {
+  return map;
+}
+
 
 
 
