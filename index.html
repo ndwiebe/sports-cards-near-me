@@ -1,4 +1,4 @@
-<!-- Updated implementation with fixes and enhancements -->
+<!-- index.html (updated version with working Google Maps callback) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,10 +87,11 @@
     <p>© 2024 Sports Cards Near Me · <a href="#" class="underline">Privacy</a> · <a href="#" class="underline">Contact</a></p>
   </footer>
 
-  <!-- Scripts -->
-  <script type="module" src="/js/init.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKG6KjumzG3HQN4OcXveYe-YmyNkxQV7Q&callback=initializeApp"></script>
+  <!-- Define callback early -->
   <script>
+    window.initializeApp = () => {
+      import('/js/main.js').then(({ initializeApp }) => initializeApp());
+    };
     function trackFormClick() {
       if (window.gtag) {
         gtag('event', 'submit_form_click', {
@@ -101,6 +102,13 @@
       }
     }
   </script>
+
+  <!-- Google Maps API (must come after callback is defined) -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKG6KjumzG3HQN4OcXveYe-YmyNkxQV7Q&callback=initializeApp"
+    async
+    defer
+  ></script>
 </body>
 </html>
 
