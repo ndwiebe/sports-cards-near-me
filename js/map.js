@@ -1,10 +1,10 @@
-// Full map.js with marker highlighting support
+// map.js (enhanced with marker click-to-highlight and panToMarker export)
 let markers = [];
 let map;
 let geocoder;
 let searchMarker = null;
 
-export function initMap(stores) {
+export function initMap(stores, onMarkerClick = null) {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 53.5, lng: -113.5 },
     zoom: 6,
@@ -21,6 +21,13 @@ export function initMap(stores) {
     });
 
     marker._storeId = index; // for matching with card index
+
+    if (typeof onMarkerClick === "function") {
+      marker.addListener("click", () => {
+        onMarkerClick(index);
+      });
+    }
+
     return marker;
   });
 
@@ -67,4 +74,19 @@ export function highlightMarkerByIndex(index) {
 export function clearMarkerHighlights() {
   markers.forEach((marker) => marker.setAnimation(null));
 }
+
+export function getMapInstance() {
+  return map;
+}
+
+export function panToMarker(index) {
+  const marker = markers[index];
+  if (marker && marker.getPosition) {
+    map.panTo(marker.getPosition());
+    map.setZoom(14);
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(() => marker.setAnimation(null), 1400);
+  }
+}
+
 
