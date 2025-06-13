@@ -1,4 +1,4 @@
-// init.js (updated for geolocation-triggered reload with optional feedback)
+// init.js (clean version without filtering exclusion, triggers full map display)
 import { initializeApp as appInit } from './main.js';
 
 // Google Maps callback
@@ -10,18 +10,32 @@ window.initializeApp = function () {
   }
 };
 
-// Trigger geolocation and reload if successful
-window.useMyLocationAndReload = function () {
-  if (!navigator.geolocation) {
-    alert("Geolocation is not supported by your browser.");
+// Search bar functionality - pans the map only (does not hide stores)
+window.searchLocation = function () {
+  const input = document.getElementById('search-input');
+  const address = input?.value.trim();
+
+  if (!address || !window.google || !window.google.maps || !window.map) {
+    alert("Google Maps or address is unavailable.");
     return;
   }
 
-  navigator.geolocation.getCurrentPosition(
-    () => location.reload(),
-    () => alert("Unable to retrieve your location. Please enable location access and try again.")
-  );
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ address }, (results, status) => {
+    if (status === 'OK' && results[0]) {
+      const loc = results[0].geometry.location;
+      if (window.map?.setCenter) {
+        window.map.setCenter(loc);
+        window.map.setZoom(12);
+      } else {
+        console.error("Google Map instance not initialized correctly.");
+      }
+    } else {
+      alert('Could not find that location: ' + status);
+    }
+  });
 };
+
 
 
 
