@@ -1,4 +1,4 @@
-// main.js (full updated with no-results message)
+// main.js (complete final version with city search fix and all features)
 import { initMap, clearMarkers, panToMarker, highlightMarkerByIndex, clearMarkerHighlights } from './map.js';
 import { loadSheetData } from './loadStores.js';
 import { displayOrNA, isValidUrl } from './utils.js';
@@ -14,7 +14,7 @@ window.searchLocation = () => {};
 
 export async function initializeApp() {
   allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
-  renderStoreCards([]); // hide by default
+  renderStoreCards([]);
   mapInstance = initMap([], handleMarkerClick);
   setupSearchAndFilters();
   detectUserLocation();
@@ -61,7 +61,7 @@ function setupSearchAndFilters() {
       const services = (store.Services || "").toLowerCase();
       const types = (store["Sports/TCG Available"] || "").toLowerCase();
 
-      const matchSearch = name.includes(query) || city.includes(query) || address.includes(query) || postal.includes(query);
+      const matchSearch = [name, city, address, postal].some(text => text.includes(query));
       const matchServices = selectedServices.every(service => services.includes(service));
       const matchTypes = selectedTypes.every(type => types.includes(type));
       const distance = getDistanceFromUser(store.lat, store.lng);
@@ -196,6 +196,7 @@ function handleMarkerClick(index) {
     setTimeout(() => card.classList.remove("ring", "ring-orange-400"), 2000);
   }
 }
+
 
 
 
