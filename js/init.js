@@ -1,12 +1,12 @@
-// init.js (corrected to define the callback globally)
-import { initializeApp } from './main.js';
+// init.js (final full version)
+import { initializeApp as appInit } from './main.js';
 
-// This makes the function available to the Google Maps API callback
-window.initializeApp = () => {
+// Ensure Google Maps API callback can access this
+window.initializeApp = function () {
   try {
-    initializeApp();
-  } catch (error) {
-    console.error("Initialization failed:", error);
+    appInit();
+  } catch (e) {
+    console.error("Google Maps initializeApp failed:", e);
   }
 };
 
@@ -31,4 +31,5 @@ window.searchLocation = function () {
     }
   });
 };
+
 
