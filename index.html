@@ -44,6 +44,44 @@
     <div id="map" class="w-full h-full"></div>
   </section>
 
+  <!-- Add this above the footer in index.html -->
+<section class="p-6 bg-[#483423] text-white">
+  <h2 class="text-3xl font-bold mb-4 text-center">Is Something Missing?</h2>
+  <p class="mb-6 text-center max-w-3xl mx-auto">
+    Help us keep the hobby connected! Use the button below to:
+    <ul class="list-disc list-inside mt-2 text-left">
+      <li>Suggest a new store that isn’t listed</li>
+      <li>Update details for an existing shop</li>
+      <li>Add local collectors who don’t have a storefront</li>
+    </ul>
+    <br />
+    No need to share full addresses — just the city, province, and postal code is enough.
+  </p>
+  <div class="flex justify-center">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeuDSpremAwIczTb4Leu1B4-5-niUrgYPCd2QKADmzmRnU4-A/viewform"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="bg-[#ed822a] text-[#221911] font-semibold px-6 py-3 rounded-lg shadow hover:bg-[#f89b4e] transition"
+       onclick="trackFormClick()">
+      📩 Submit Form
+    </a>
+  </div>
+</section>
+
+<script>
+  function trackFormClick() {
+    if (window.gtag) {
+      gtag('event', 'submit_form_click', {
+        event_category: 'Engagement',
+        event_label: 'Google Form Button',
+        value: 1
+      });
+    } else {
+      console.log("Form button clicked (tracking fallback)");
+    }
+  }
+</script>
+  
   <!-- Footer -->
   <footer class="text-center py-6 bg-[#1b140f] text-[#c9ab92]">
     <p>© 2024 Sports Cards Near Me · <a href="#" class="underline">Privacy</a> · <a href="#" class="underline">Contact</a></p>
