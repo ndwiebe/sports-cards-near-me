@@ -1,5 +1,13 @@
-// main.js (complete final version with city search fix and all features)
-import { initMap, clearMarkers, panToMarker, highlightMarkerByIndex, clearMarkerHighlights } from './map.js';
+// main.js (updated to bind searchLocation from map.js)
+import {
+  initMap,
+  clearMarkers,
+  panToMarker,
+  highlightMarkerByIndex,
+  clearMarkerHighlights,
+  searchLocation
+} from './map.js';
+
 import { loadSheetData } from './loadStores.js';
 import { displayOrNA, isValidUrl } from './utils.js';
 
@@ -10,7 +18,7 @@ let allStores = [];
 let mapInstance = null;
 let userCoords = null;
 
-window.searchLocation = () => {};
+window.searchLocation = searchLocation;
 
 export async function initializeApp() {
   allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
