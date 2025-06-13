@@ -1,5 +1,5 @@
-// main.js with scroll-to-province feature
-import { initMap, clearMarkers, searchLocation } from "./map.js";
+// main.js with hover-to-highlight map markers
+import { initMap, clearMarkers, searchLocation, highlightMarkerByIndex, clearMarkerHighlights } from "./map.js";
 import { loadSheetData } from "./loadStores.js";
 import { displayOrNA, isValidUrl } from "./utils.js";
 
@@ -7,6 +7,7 @@ const SHEET_ID = "14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I";
 const GID = "1588938698";
 
 let allStores = [];
+let mapInstance = null;
 window.searchLocation = searchLocation;
 
 export async function initializeApp() {
@@ -18,7 +19,7 @@ export async function initializeApp() {
     }
 
     renderStoreCards(allStores);
-    initMap(allStores);
+    mapInstance = initMap(allStores);
 
     const searchInput = document.getElementById("search-input");
     if (searchInput) {
@@ -37,7 +38,6 @@ export async function initializeApp() {
         clearMarkers();
         initMap(filtered);
 
-        // Attempt to scroll to the matching province
         const match = filtered.find((s) => s.Address?.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i));
         if (match) {
           const province = match.Address.match(/\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/i)?.[0]?.toUpperCase();
@@ -75,7 +75,7 @@ function renderStoreCards(stores) {
     const ul = document.createElement("ul");
     ul.className = "space-y-4";
 
-    for (const store of stores) {
+    stores.forEach((store, index) => {
       const li = document.createElement("li");
       li.className =
         "store-card bg-white text-[#221911] rounded-xl shadow-md p-4 border border-neutral-200 hover:shadow-lg transition-shadow duration-300 cursor-pointer";
@@ -110,16 +110,21 @@ function renderStoreCards(stores) {
       `;
 
       li.addEventListener("click", () => {
-        li.querySelector(".store-extra")?.classList.toggle("hidden");
+        const extra = li.querySelector(".store-extra");
+        if (extra) extra.classList.toggle("hidden");
       });
 
+      li.addEventListener("mouseenter", () => highlightMarkerByIndex(index));
+      li.addEventListener("mouseleave", () => clearMarkerHighlights());
+
       ul.appendChild(li);
-    }
+    });
 
     section.appendChild(ul);
     container.appendChild(section);
   });
 }
+
 
 
 
