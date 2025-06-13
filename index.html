@@ -71,7 +71,7 @@
     </section>
   </section>
 
-  <!-- Store Listings (hidden by default) -->
+  <!-- Store Listings -->
   <section class="p-4 hidden" id="results-wrapper">
     <div id="nearby-stores-list"></div>
   </section>
@@ -106,11 +106,14 @@
     <p>© 2024 Sports Cards Near Me · <a href="#" class="underline">Privacy</a> · <a href="#" class="underline">Contact</a></p>
   </footer>
 
-  <!-- Google Maps Callback + Tracking -->
+  <!-- Google Maps + Main Loader -->
+  <script type="module">
+    import('/js/main.js').then(module => {
+      window.initializeApp = module.initializeApp;
+      window.initializeApp();
+    });
+  </script>
   <script>
-    window.initializeApp = () => {
-      import('/js/main.js').then(({ initializeApp }) => initializeApp());
-    };
     function trackFormClick() {
       if (window.gtag) {
         gtag('event', 'submit_form_click', {
@@ -121,8 +124,6 @@
       }
     }
   </script>
-
-  <!-- Google Maps API -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKG6KjumzG3HQN4OcXveYe-YmyNkxQV7Q&callback=initializeApp" async defer></script>
 </body>
 </html>
