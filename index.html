@@ -107,12 +107,14 @@
   </footer>
 
   <!-- Google Maps + Main Loader -->
-  <script type="module">
-    import('/js/main.js').then(module => {
-      window.initializeApp = module.initializeApp;
-      window.initializeApp();
-    });
+  <script>
+    window.initializeApp = function () {
+      import('/js/main.js')
+        .then(module => module.initializeApp())
+        .catch(err => console.error("Failed to initialize app:", err));
+      };
   </script>
+
   <script>
     function trackFormClick() {
       if (window.gtag) {
