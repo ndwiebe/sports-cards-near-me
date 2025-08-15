@@ -1,0 +1,9 @@
+{
+  "name": "sports-cards-near-me",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "pretest": "node scripts/generate-stores-json.mjs",
+    "test": "node --test"
+  }
+}
