@@ -1,0 +1,16 @@
+[
+  {
+    "Store Name": "Sample Card Shop",
+    "City": "Sampleville",
+    "Address": "123 Sample St, ON",
+    "Rating": 5,
+    "Hours": "Mon-Fri 9-5",
+    "Phone": "123-456-7890",
+    "Website": "https://example.com",
+    "Social Media Links": "https://twitter.com/sample",
+    "Services": "Buys;Sells",
+    "Sports/TCG Available": "Hockey;Pokemon",
+    "lat": 43.6532,
+    "lng": -79.3832
+  }
+]
