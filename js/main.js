@@ -8,11 +8,8 @@ import {
   searchLocation
 } from './map.js';
 
-import { loadSheetData } from './loadStores.js';
+import { loadStoreData } from './loadStores.js';
 import { displayOrNA, isValidUrl } from './utils.js';
-
-const SHEET_ID = "14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I";
-const GID = "1588938698";
 
 let allStores = [];
 let mapInstance = null;
@@ -21,7 +18,7 @@ let userCoords = null;
 window.searchLocation = searchLocation;
 
 export async function initializeApp() {
-  allStores = await loadSheetData({ sheetId: SHEET_ID, gid: GID });
+  allStores = await loadStoreData();
   renderStoreCards([]);
   mapInstance = initMap([], handleMarkerClick);
   setupSearchAndFilters();
@@ -177,6 +174,18 @@ function renderStoreCards(stores) {
           <p>🏒 ${sports}</p>
         </div>
       `;
+
+      const ldScript = document.createElement('script');
+      ldScript.type = 'application/ld+json';
+      ldScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name,
+        address,
+        telephone: phone,
+        ...(isValidUrl(store.Website) && { url: store.Website })
+      });
+      li.appendChild(ldScript);
 
       li.addEventListener("click", () => {
         const extra = li.querySelector(".store-extra");
