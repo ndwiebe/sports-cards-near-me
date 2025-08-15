@@ -161,7 +161,7 @@ function renderStoreCards(stores) {
       const services = displayOrNA(store.Services);
       const sports = displayOrNA(store["Sports/TCG Available"]);
       const distance = getDistanceFromUser(store.lat, store.lng);
-      const distDisplay = distance ? `<p class="text-sm">📏 ${distance.toFixed(1)} km away</p>` : "";
+      const distDisplay = distance !== null ? `<p class="text-sm">📏 ${distance.toFixed(1)} km away</p>` : "";
 
       li.innerHTML = `
         <h4 class="font-bold text-lg">${name}</h4>
