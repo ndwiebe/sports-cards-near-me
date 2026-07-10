@@ -20,12 +20,12 @@ export interface Store {
   citySlug: string;
   address: string;
   province: ProvinceCode;
-  rating?: number;
-  reviewCount?: number;
-  hours?: string;
-  phone?: string;
-  website?: string;
-  social?: string;
+  rating?: number | undefined;
+  reviewCount?: number | undefined;
+  hours?: string | undefined;
+  phone?: string | undefined;
+  website?: string | undefined;
+  social?: string | undefined;
   services: string[];
   sports: string[];
   lat: number;
