@@ -32,7 +32,7 @@ const ld: Record<string, unknown> = {
   title={`${store.name} — Sports Cards in ${store.city}, ${store.province} | Sports Cards Near Me`}
   description={`${store.name} in ${store.city}, ${provinceName}: address, hours, phone, and what they carry.`}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
   <nav class="mt-10 text-sm text-muted">
     <a href={`/${provinceSlug}/`} class="hover:text-paper">{provinceName}</a> /
     <a href={`/${provinceSlug}/${store.citySlug}/`} class="hover:text-paper">{store.city}</a> / {store.name}
@@ -50,9 +50,9 @@ const ld: Record<string, unknown> = {
     {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="text-prizm">{store.phone}</a></dd></div>}
   </dl>
   <div class="mt-8 flex flex-wrap gap-3">
-    <a href={directions} rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Directions</a>
-    {store.website !== undefined && <a href={store.website} rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Website</a>}
-    {store.social !== undefined && <a href={store.social} rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
+    <a href={directions} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Directions</a>
+    {store.website !== undefined && <a href={store.website} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Website</a>}
+    {store.social !== undefined && <a href={store.social} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
   </div>
   {(store.services.length > 0 || store.sports.length > 0) && (
     <ul class="mt-8 flex max-w-2xl flex-wrap gap-2">
