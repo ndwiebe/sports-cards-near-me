@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
+
+export function getStaticPaths() {
+  return provincesWithStores(storesJson as Store[]).map((p) => ({ params: { province: p.slug } }));
+}
+
+const stores = storesJson as Store[];
+const province = provinceBySlug(Astro.params.province);
+if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`);
+const cities = citiesIn(stores, province.code);
+const total = cities.reduce((n, c) => n + c.stores.length, 0);
+---
+<Base
+  title={`Sports Card Shops in ${province.name} (${total}) | Sports Cards Near Me`}
+  description={`Every sports card shop in ${province.name} — ${total} verified stores across ${cities.length} cities, with hours, ratings, and directions.`}
+>
+  <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Province</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">{province.name}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-muted">{total} card shops across {cities.length} cities.</p>
+  <ul class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+    {cities.map((c) => (
+      <li>
+        <a href={`/${province.slug}/${c.citySlug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+          <span class="font-display text-xl uppercase">{c.city}</span>
+          <span class="block text-sm text-muted">{c.stores.length} {c.stores.length === 1 ? 'shop' : 'shops'}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

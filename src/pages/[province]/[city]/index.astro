@@ -1,0 +1,34 @@
+---
+import Base from '../../../layouts/Base.astro';
+import StoreCard from '../../../components/StoreCard.astro';
+import storesJson from '../../../data/stores.json';
+import type { Store } from '../../../lib/types';
+import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
+
+export function getStaticPaths() {
+  const stores = storesJson as Store[];
+  return provincesWithStores(stores).flatMap((p) =>
+    citiesIn(stores, p.code).map((c) => ({ params: { province: p.slug, city: c.citySlug } })),
+  );
+}
+
+const stores = storesJson as Store[];
+const province = provinceBySlug(Astro.params.province);
+if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`);
+const cityGroup = citiesIn(stores, province.code).find((c) => c.citySlug === Astro.params.city);
+if (!cityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
+---
+<Base
+  title={`Sports Card Shops in ${cityGroup.city}, ${province.code} (${cityGroup.stores.length}) | Sports Cards Near Me`}
+  description={`Find sports card shops in ${cityGroup.city}, ${province.name}: ${cityGroup.stores.length} verified ${cityGroup.stores.length === 1 ? 'store' : 'stores'} with ratings, hours, and directions.`}
+>
+  <nav class="mt-10 text-sm text-muted"><a href={`/${province.slug}/`} class="hover:text-paper">{province.name}</a> / {cityGroup.city}</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{cityGroup.city}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-muted">
+    {cityGroup.stores.length} sports card {cityGroup.stores.length === 1 ? 'shop' : 'shops'} in {cityGroup.city}, {province.name}.
+  </p>
+  <ul class="mt-10 space-y-4">
+    {cityGroup.stores.map((store) => <StoreCard store={store} />)}
+  </ul>
+</Base>
