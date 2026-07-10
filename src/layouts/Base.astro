@@ -1,0 +1,49 @@
+---
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/instrument-sans/400.css';
+import '@fontsource/instrument-sans/600.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+}
+const { title, description, canonical, ogImage } = Astro.props;
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site).href} />}
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header class="border-b border-bord/50">
+      <nav class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+        <a href="/" class="font-display text-xl uppercase tracking-wide">Sports Cards Near Me</a>
+        <div class="flex gap-5 text-sm text-muted">
+          <a href="/alberta/" class="hover:text-paper">Browse</a>
+          <a href="/suggest/" class="hover:text-paper">Suggest a store</a>
+        </div>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-5xl px-5 pb-24">
+      <slot />
+    </main>
+    <footer class="border-t border-bord/50 py-8 text-center text-sm text-muted">
+      <p>© 2026 Sports Cards Near Me · Canada's card shop directory</p>
+    </footer>
+  </body>
+</html>

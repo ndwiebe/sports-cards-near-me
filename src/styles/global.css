@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0B1017;
+  --color-panel: #121A26;
+  --color-well: #0B121B;
+  --color-bord: #2A3C55;
+  --color-paper: #EAF0F6;
+  --color-muted: #8FA0B3;
+  --color-prizm: #57B3FF;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Instrument Sans", -apple-system, sans-serif;
+}
+
+:root {
+  --gradient-refractor: linear-gradient(100deg, #5AD7FF 0%, #907CFF 34%, #FF7FB2 68%, #FFC46B 100%);
+}
+
+body {
+  @apply bg-ink text-paper font-body antialiased;
+}
+
+h1, h2, h3 {
+  @apply font-display uppercase;
+  letter-spacing: 0.015em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.refractor-rule {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gradient-refractor);
+}
+
+:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px var(--color-ink), 0 0 0 4px #907CFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
