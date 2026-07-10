@@ -5,7 +5,7 @@ export interface GvizCell {
 export type GvizRow = (GvizCell | null)[];
 
 interface GvizPayload {
-  table?: { rows?: { c: GvizRow }[] };
+  table?: { rows?: ({ c: GvizRow | null } | null)[] };
 }
 
 export function parseGviz(text: string): GvizRow[] {
@@ -14,7 +14,7 @@ export function parseGviz(text: string): GvizRow[] {
   const payload = JSON.parse(m[1]) as GvizPayload;
   const rows = payload.table?.rows;
   if (!Array.isArray(rows)) throw new Error('gviz: unexpected response shape');
-  return rows.map((r) => r.c);
+  return rows.flatMap((r) => (r && Array.isArray(r.c) ? [r.c] : []));
 }
 
 export async function fetchSheetRows(sheetId: string, gid: string): Promise<GvizRow[]> {

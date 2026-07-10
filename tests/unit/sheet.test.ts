@@ -15,4 +15,11 @@ describe('parseGviz', () => {
   it('throws on non-gviz input', () => {
     expect(() => parseGviz('<html>login</html>')).toThrow('gviz: unexpected response shape');
   });
+  it('skips blank rows (null row objects and null c)', () => {
+    const s =
+      '/*O_o*/\ngoogle.visualization.Query.setResponse({"table":{"rows":[null,{"c":null},{"c":[{"v":"x"}]}]}});';
+    const rows = parseGviz(s);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]?.[0]?.v).toBe('x');
+  });
 });
