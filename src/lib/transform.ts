@@ -43,7 +43,7 @@ export function splitList(raw: unknown): string[] {
   const text = sanitizeText(raw);
   if (text === undefined) return [];
   return text
-    .split(';')
+    .split(/[;,]/)
     .map((s) => s.trim())
     .filter((s) => s !== '');
 }

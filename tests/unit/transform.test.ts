@@ -51,4 +51,7 @@ describe('splitList', () => {
   it('returns [] for empty', () => {
     expect(splitList(null)).toEqual([]);
   });
+  it('splits comma lists too (sheet formatting varies)', () => {
+    expect(splitList('Buys, Sells, Trades Singles')).toEqual(['Buys', 'Sells', 'Trades Singles']);
+  });
 });

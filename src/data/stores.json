@@ -425,10 +425,20 @@
     "website": "https://www.facebook.com/groups/577619796765695/",
     "social": "https://www.facebook.com/CapitalCitySportsCards/",
     "services": [
-      "Buys, Sells, Trades Singles, Sells wax, Grading services, Breaking, SPIN-TO-WIN"
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells wax",
+      "Grading services",
+      "Breaking",
+      "SPIN-TO-WIN"
     ],
     "sports": [
-      "Hockey, Football, Basketball, Baseball, Pokemon"
+      "Hockey",
+      "Football",
+      "Basketball",
+      "Baseball",
+      "Pokemon"
     ],
     "lat": 53.5131885,
     "lng": -113.4166497
@@ -930,7 +940,9 @@
     "province": "AB",
     "social": "https://www.facebook.com/SlabSavvyCPA/",
     "services": [
-      "Buys, Sells, Trades Singles"
+      "Buys",
+      "Sells",
+      "Trades Singles"
     ],
     "sports": [
       "Hockey"
