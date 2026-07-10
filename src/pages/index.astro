@@ -1,7 +1,52 @@
 ---
 import Base from '../layouts/Base.astro';
+import storesJson from '../data/stores.json';
+import type { Store } from '../lib/types';
+import { provincesWithStores, citiesIn } from '../lib/stores';
+
+const stores = storesJson as Store[];
+const provinces = provincesWithStores(stores);
+const featuredCities = provinces.flatMap((p) =>
+  citiesIn(stores, p.code).map((c) => ({ ...c, provinceSlug: p.slug, provinceCode: p.code })),
+).sort((a, b) => b.stores.length - a.stores.length).slice(0, 8);
 ---
-<Base title="Sports Cards Near Me" description="Find sports card shops across Canada.">
-  <h1 class="mt-16 text-6xl">The hobby, mapped.</h1>
-  <div class="refractor-rule mt-4 w-28"></div>
+<Base
+  title="Sports Cards Near Me — Every Card Shop in Canada, One Map"
+  description={`Canada's sports card shop directory: ${stores.length} verified stores with hours, ratings, and directions. Hockey, baseball, basketball, football, Pokémon.`}
+>
+  <section class="mt-16 md:mt-24">
+    <h1 class="max-w-3xl text-6xl md:text-8xl">Every card shop in Canada. One map.</h1>
+    <div class="refractor-rule mt-5 w-32"></div>
+    <p class="mt-5 max-w-xl text-lg text-muted">
+      {stores.length} shops — verified, mapped, and up to date. Find your next hit.
+    </p>
+  </section>
+
+  <section id="map-slot" class="mt-12 rounded-xl border border-bord bg-panel p-6 text-sm text-muted">
+    Interactive map coming right here — browse by city below.
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-3xl">Busiest cities</h2>
+    <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {featuredCities.map((c) => (
+        <li>
+          <a href={`/${c.provinceSlug}/${c.citySlug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+            <span class="font-display text-xl uppercase">{c.city}</span>
+            <span class="block text-sm text-muted">{c.stores.length} shops</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-3xl">Browse by province</h2>
+    <ul class="mt-6 flex flex-wrap gap-3">
+      {provinces.map((p) => (
+        <li><a href={`/${p.slug}/`} class="rounded-full border border-bord px-4 py-2 text-sm hover:border-prizm">{p.name} · {p.count}</a></li>
+      ))}
+    </ul>
+    <p class="mt-4 text-sm text-muted">More provinces are being verified now — Canada-wide coverage is on the way.</p>
+  </section>
 </Base>
