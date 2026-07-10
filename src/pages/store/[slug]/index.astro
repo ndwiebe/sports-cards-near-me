@@ -1,0 +1,67 @@
+---
+import Base from '../../../layouts/Base.astro';
+import storesJson from '../../../data/stores.json';
+import type { Store } from '../../../lib/types';
+import { PROVINCES } from '../../../lib/types';
+
+export function getStaticPaths() {
+  return (storesJson as Store[]).map((s) => ({ params: { slug: s.slug }, props: { store: s } }));
+}
+
+interface Props { store: Store }
+const { store } = Astro.props;
+const provinceName = PROVINCES[store.province].name;
+const provinceSlug = PROVINCES[store.province].slug;
+const directions = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Store',
+  name: store.name,
+  address: { '@type': 'PostalAddress', streetAddress: store.address, addressLocality: store.city, addressRegion: store.province, addressCountry: 'CA' },
+  geo: { '@type': 'GeoCoordinates', latitude: store.lat, longitude: store.lng },
+  ...(store.phone !== undefined && { telephone: store.phone }),
+  ...(store.website !== undefined && { url: store.website }),
+  ...(store.rating !== undefined &&
+    store.reviewCount !== undefined && {
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: store.rating, reviewCount: store.reviewCount },
+    }),
+};
+---
+<Base
+  title={`${store.name} — Sports Cards in ${store.city}, ${store.province} | Sports Cards Near Me`}
+  description={`${store.name} in ${store.city}, ${provinceName}: address, hours, phone, and what they carry.`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <nav class="mt-10 text-sm text-muted">
+    <a href={`/${provinceSlug}/`} class="hover:text-paper">{provinceName}</a> /
+    <a href={`/${provinceSlug}/${store.citySlug}/`} class="hover:text-paper">{store.city}</a> / {store.name}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{store.name}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  {store.rating !== undefined && (
+    <p class="mt-4" style="color:#FFC46B" data-testid="rating">
+      ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> · {store.reviewCount} Google reviews</span>}
+    </p>
+  )}
+  <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
+    <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{store.address}</dd></div>
+    {store.hours !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt><dd class="mt-1">{store.hours}</dd></div>}
+    {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="text-prizm">{store.phone}</a></dd></div>}
+  </dl>
+  <div class="mt-8 flex flex-wrap gap-3">
+    <a href={directions} rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Directions</a>
+    {store.website !== undefined && <a href={store.website} rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Website</a>}
+    {store.social !== undefined && <a href={store.social} rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
+  </div>
+  {(store.services.length > 0 || store.sports.length > 0) && (
+    <ul class="mt-8 flex max-w-2xl flex-wrap gap-2">
+      {[...store.services, ...store.sports].map((t) => (
+        <li class="rounded-full border border-bord px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted">{t}</li>
+      ))}
+    </ul>
+  )}
+  <p class="mt-12 text-sm text-muted">
+    Own this shop? <a href="/suggest/" class="text-prizm">Claim or update your listing</a>.
+  </p>
+</Base>
