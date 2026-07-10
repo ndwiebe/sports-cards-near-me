@@ -1,9 +1,21 @@
 {
-  "name": "sports-cards-near-me",
-  "version": "1.0.0",
+  "name": "sportscardsnearme",
   "type": "module",
+  "version": "2.0.0",
+  "private": true,
   "scripts": {
-    "pretest": "node scripts/generate-stores-json.mjs",
-    "test": "node --test"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "bake": "tsx scripts/bake-stores.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.0",
+    "vitest": "^4.1.10"
   }
 }
