@@ -30,6 +30,7 @@ export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts
   const token = import.meta.env.PUBLIC_MAPBOX_TOKEN;
   if (token === undefined || token === '') {
     shell.dataset['mapState'] = 'off';
+    shell.style.removeProperty('height');
     return null;
   }
   shell.dataset['mapState'] = 'on';

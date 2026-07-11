@@ -42,8 +42,12 @@ test('map island degrades cleanly without a token', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(String(e)));
   await page.goto('/');
   const shell = page.locator('#map-slot .map-shell');
+  const state = await shell.getAttribute('data-map-state');
+  test.skip(state === 'on', 'token present in this build — off-state not exercised');
   await expect(shell).toHaveAttribute('data-map-state', 'off');
   await expect(shell.locator('.map-fallback')).toBeVisible();
+  const box = await shell.boundingBox();
+  expect(box?.height ?? 0, 'off-state shell collapses instead of leaving a void').toBeLessThan(150);
   expect(errors).toEqual([]);
 });
 
