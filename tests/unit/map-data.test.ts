@@ -28,3 +28,12 @@ it('initialsOf falls back to ? when nothing badgeable', () => {
   expect(initialsOf('★★★')).toBe('?');
   expect(initialsOf('')).toBe('?');
 });
+
+it('toMapStores sets logo only for slugs in the logo set', () => {
+  const withLogo = toMapStores([store], new Set(['s']))[0];
+  const without = toMapStores([store], new Set(['other']))[0];
+  const noSet = toMapStores([store])[0];
+  expect(withLogo?.logo).toBe(true);
+  expect(Object.keys(without ?? {})).not.toContain('logo');
+  expect(Object.keys(noSet ?? {})).not.toContain('logo');
+});

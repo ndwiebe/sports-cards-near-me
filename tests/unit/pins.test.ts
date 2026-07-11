@@ -31,3 +31,11 @@ it('createClusterEl shows the count', () => {
   const el = createClusterEl(14);
   expect(el.querySelector('.cluster-inner')?.textContent).toBe('14');
 });
+
+it('createPinEl uses a logo image when the store has one', () => {
+  const elp = createPinEl({ ...store, logo: true });
+  const img = elp.querySelector<HTMLImageElement>('img.pin-badge-img');
+  expect(img).not.toBeNull();
+  expect(img?.getAttribute('src')).toBe(`/logos/${store.slug}.webp`);
+  expect(elp.querySelector('span.pin-badge')).toBeNull();
+});

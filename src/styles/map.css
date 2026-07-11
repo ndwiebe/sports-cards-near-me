@@ -73,3 +73,9 @@
 [data-map-settled] .cluster-inner {
   animation: none;
 }
+
+/* Real store logos in pin badges (fallback stays the initials chip) */
+.pin-badge-img {
+  object-fit: contain;
+  background: #fff;
+}

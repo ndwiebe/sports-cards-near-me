@@ -1,6 +1,7 @@
 ---
 import type { Store } from '../lib/types';
 import { toMapStores } from '../lib/map-data';
+import logoSlugs from '../data/logos.json';
 import '../styles/map.css';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   height?: string;
 }
 const { stores, mode, height } = Astro.props;
-const payload = JSON.stringify(toMapStores(stores)).replace(/</g, '\\u003c');
+const payload = JSON.stringify(toMapStores(stores, new Set(logoSlugs as string[]))).replace(/</g, '\\u003c');
 ---
 <div class="map-shell" data-map-mode={mode} style={height !== undefined ? `height:${height}` : undefined}>
   <script type="application/json" data-map-stores set:html={payload} />

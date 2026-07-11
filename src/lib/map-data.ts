@@ -7,11 +7,12 @@ export interface MapStore {
   lat: number;
   lng: number;
   rating?: number | undefined;
+  logo?: boolean | undefined;
   services: string[];
   sports: string[];
 }
 
-export function toMapStores(stores: Store[]): MapStore[] {
+export function toMapStores(stores: Store[], logoSlugs?: ReadonlySet<string>): MapStore[] {
   return stores.map((s) => ({
     slug: s.slug,
     name: s.name,
@@ -19,6 +20,7 @@ export function toMapStores(stores: Store[]): MapStore[] {
     lat: s.lat,
     lng: s.lng,
     ...(s.rating !== undefined && { rating: s.rating }),
+    ...(logoSlugs?.has(s.slug) === true && { logo: true }),
     services: s.services,
     sports: s.sports,
   }));
