@@ -8,7 +8,8 @@
   background: var(--color-panel);
 }
 .map-shell .mapboxgl-map { position: absolute; inset: 0; }
-.map-fallback { display: none; }
+.map-fallback { display: block; }
+.map-shell[data-map-state='on'] .map-fallback { display: none; }
 .map-shell[data-map-state='off'] { height: auto; border: 0; background: none; }
 .map-shell[data-map-state='off'] .map-fallback { display: block; }
 

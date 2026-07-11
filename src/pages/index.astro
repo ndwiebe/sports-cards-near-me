@@ -52,23 +52,27 @@ const featuredCities = provinces.flatMap((p) =>
     </div>
   </section>
   <script>
+    import { whenMapReady } from '../scripts/map-registry';
     import type { MapHandle } from '../scripts/map-core';
+
     const slot = document.getElementById('map-slot');
-    slot?.addEventListener('map:ready', (e) => {
-      const handle = (e as CustomEvent<MapHandle>).detail;
-      for (const btn of slot.querySelectorAll<HTMLButtonElement>('[data-fly]')) {
-        btn.addEventListener('click', () => {
-          const [lng, lat] = (btn.dataset['fly'] ?? '0,0').split(',').map(Number);
-          if (lng !== undefined && lat !== undefined) handle.flyTo(lng, lat, 12.5);
+    const shell = slot?.querySelector<HTMLElement>('.map-shell');
+    if (slot && shell) {
+      whenMapReady(shell, (handle: MapHandle) => {
+        for (const btn of slot.querySelectorAll<HTMLButtonElement>('[data-fly]')) {
+          btn.addEventListener('click', () => {
+            const [lng, lat] = (btn.dataset['fly'] ?? '0,0').split(',').map(Number);
+            if (lng !== undefined && lat !== undefined) handle.flyTo(lng, lat, 12.5);
+          });
+        }
+        slot.querySelector('[data-geolocate]')?.addEventListener('click', () => {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5),
+            () => window.alert('Location unavailable — pick a city instead.'),
+          );
         });
-      }
-      slot.querySelector('[data-geolocate]')?.addEventListener('click', () => {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5),
-          () => window.alert('Location unavailable — pick a city instead.'),
-        );
       });
-    });
+    }
   </script>
 
   <section class="mt-16">
