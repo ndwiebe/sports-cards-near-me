@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import StoreCard from '../../../components/StoreCard.astro';
+import MapIsland from '../../../components/MapIsland.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
@@ -17,18 +18,141 @@ const province = provinceBySlug(Astro.params.province);
 if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`);
 const cityGroup = citiesIn(stores, province.code).find((c) => c.citySlug === Astro.params.city);
 if (!cityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
+const services = [...new Set(cityGroup.stores.flatMap((s) => s.services))].sort();
+const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
 ---
 <Base
   title={`Sports Card Shops in ${cityGroup.city}, ${province.code} (${cityGroup.stores.length}) | Sports Cards Near Me`}
   description={`Find sports card shops in ${cityGroup.city}, ${province.name}: ${cityGroup.stores.length} verified ${cityGroup.stores.length === 1 ? 'store' : 'stores'} with ratings, hours, and directions.`}
 >
-  <nav class="mt-10 text-sm text-muted"><a href={`/${province.slug}/`} class="hover:text-paper">{province.name}</a> / {cityGroup.city}</nav>
-  <h1 class="mt-3 text-5xl md:text-7xl">{cityGroup.city}</h1>
-  <div class="refractor-rule mt-4 w-28"></div>
-  <p class="mt-4 max-w-prose text-muted">
-    {cityGroup.stores.length} sports card {cityGroup.stores.length === 1 ? 'shop' : 'shops'} in {cityGroup.city}, {province.name}.
-  </p>
-  <ul class="mt-10 space-y-4">
-    {cityGroup.stores.map((store) => <StoreCard store={store} />)}
-  </ul>
+  <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord">
+    <img
+      src="/images/city-generic.webp"
+      srcset="/images/city-generic@900.webp 900w, /images/city-generic.webp 1600w"
+      sizes="(max-width: 900px) 100vw, 1024px"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-50"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/25"></div>
+    <div class="relative px-6 py-10 md:px-12 md:py-14">
+      <nav class="text-sm text-muted"><a href={`/${province.slug}/`} class="hover:text-paper">{province.name}</a> / {cityGroup.city}</nav>
+      <h1 class="mt-3 text-5xl md:text-7xl">{cityGroup.city}</h1>
+      <div class="refractor-rule mt-4 w-28"></div>
+      <p class="mt-4 max-w-prose text-paper/85">
+        {cityGroup.stores.length} sports card {cityGroup.stores.length === 1 ? 'shop' : 'shops'} in {cityGroup.city}, {province.name}.
+      </p>
+    </div>
+  </section>
+
+  <div class="mt-8 flex flex-col gap-3" data-filterbar>
+    <input
+      type="search"
+      placeholder={`Search ${cityGroup.city} shops…`}
+      class="w-full max-w-md rounded-lg border border-bord bg-well px-4 py-2.5 text-sm text-paper placeholder:text-faint"
+      data-filter-search
+    />
+    {(services.length > 0 || sports.length > 0) && (
+      <div class="flex flex-wrap gap-1.5" role="group" aria-label="Filter stores">
+        {[...services, ...sports].map((t) => (
+          <button
+            type="button"
+            class="rounded-full border border-bord px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted hover:border-prizm aria-pressed:border-prizm aria-pressed:text-paper"
+            data-filter-tag={t}
+            aria-pressed="false"
+          >{t}</button>
+        ))}
+      </div>
+    )}
+    <p class="text-sm text-muted"><span data-results-count>{cityGroup.stores.length}</span> shown</p>
+  </div>
+
+  <div class="mt-4 flex gap-2 md:hidden">
+    <button type="button" class="flex-1 rounded-lg border border-prizm px-4 py-2 text-sm font-semibold" data-view="list" aria-pressed="true">List</button>
+    <button type="button" class="flex-1 rounded-lg border border-bord px-4 py-2 text-sm font-semibold text-muted" data-view="map" aria-pressed="false">Map</button>
+  </div>
+
+  <div class="mt-4 grid gap-6 md:grid-cols-[1fr_1fr]" data-city-layout>
+    <ul role="list" class="space-y-4" data-store-list>
+      {cityGroup.stores.map((store) => <StoreCard store={store} />)}
+    </ul>
+    <div data-city-map class="md:sticky md:top-6 md:self-start">
+      <MapIsland stores={cityGroup.stores} mode="city" height="560px" />
+    </div>
+  </div>
+
+  <script>
+    import { whenMapReady } from '../../../scripts/map-registry';
+    import type { MapHandle } from '../../../scripts/map-core';
+    import type { MapStore } from '../../../lib/map-data';
+
+    const layout = document.querySelector<HTMLElement>('[data-city-layout]');
+    const list = document.querySelector<HTMLElement>('[data-store-list]');
+    const search = document.querySelector<HTMLInputElement>('[data-filter-search]');
+    const tags = [...document.querySelectorAll<HTMLButtonElement>('[data-filter-tag]')];
+    const count = document.querySelector<HTMLElement>('[data-results-count]');
+    let handle: MapHandle | null = null;
+
+    const raw = document.querySelector('script[data-map-stores]')?.textContent ?? '[]';
+    const all = JSON.parse(raw) as MapStore[];
+
+    const mapShell = document.querySelector<HTMLElement>('[data-city-map] .map-shell');
+    if (mapShell) {
+      whenMapReady(mapShell, (h) => {
+        handle = h;
+        wireHover();
+      });
+    }
+
+    function activeTags(): string[] {
+      return tags.filter((t) => t.getAttribute('aria-pressed') === 'true').map((t) => t.dataset['filterTag'] ?? '');
+    }
+
+    function apply(): void {
+      const q = (search?.value ?? '').toLowerCase();
+      const need = activeTags();
+      const visible = new Set<string>();
+      for (const s of all) {
+        const hay = `${s.name} ${s.city}`.toLowerCase();
+        const tagPool = [...s.services, ...s.sports];
+        const ok = hay.includes(q) && need.every((n) => tagPool.includes(n));
+        if (ok) visible.add(s.slug);
+      }
+      for (const card of list?.querySelectorAll<HTMLElement>('[data-store-card]') ?? []) {
+        card.classList.toggle('hidden', !visible.has(card.dataset['storeCard'] ?? ''));
+      }
+      if (count) count.textContent = String(visible.size);
+      handle?.setStores(all.filter((s) => visible.has(s.slug)));
+    }
+
+    search?.addEventListener('input', apply);
+    for (const t of tags) {
+      t.addEventListener('click', () => {
+        t.setAttribute('aria-pressed', t.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+        apply();
+      });
+    }
+
+    function wireHover(): void {
+      for (const card of list?.querySelectorAll<HTMLElement>('[data-store-card]') ?? []) {
+        card.addEventListener('mouseenter', () => handle?.highlight(card.dataset['storeCard'] ?? null));
+        card.addEventListener('mouseleave', () => handle?.highlight(null));
+      }
+    }
+
+    for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-view]')) {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset['view'];
+        for (const b of document.querySelectorAll<HTMLButtonElement>('[data-view]')) {
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+          b.classList.toggle('border-prizm', b === btn);
+          b.classList.toggle('text-muted', b !== btn);
+        }
+        layout?.querySelector('[data-store-list]')?.classList.toggle('max-md:hidden', view === 'map');
+        layout?.querySelector('[data-city-map]')?.classList.toggle('max-md:hidden', view === 'list');
+      });
+    }
+    document.querySelector('[data-city-map]')?.classList.add('max-md:hidden');
+  </script>
 </Base>

@@ -4,7 +4,7 @@ import type { Store } from '../lib/types';
 interface Props { store: Store }
 const { store } = Astro.props;
 ---
-<li class="rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5">
+<li data-store-card={store.slug} class="rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5">
   <a href={`/store/${store.slug}/`} class="block">
     <h2 class="text-2xl">{store.name}</h2>
     <p class="mt-1 text-sm text-muted">{store.address}</p>
