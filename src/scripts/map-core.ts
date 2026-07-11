@@ -52,7 +52,7 @@ export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts
   if (opts.center === undefined && opts.zoom === undefined && stores.length >= 2) {
     const bounds = new mapboxgl.LngLatBounds();
     for (const s of stores) bounds.extend([s.lng, s.lat]);
-    map.fitBounds(bounds, { padding: 64, maxZoom: 13, animate: false });
+    map.fitBounds(bounds, { padding: 64, maxZoom: 13, animate: false, pitch: opts.pitch ?? 55, bearing: -12 });
   }
 
   let clickCb: ((slug: string) => void) | null = null;
