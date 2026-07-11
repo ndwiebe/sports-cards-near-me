@@ -1,4 +1,5 @@
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import Supercluster from 'supercluster';
 import type { MapStore } from '../lib/map-data';
 import { createPinEl, createClusterEl } from './pins';

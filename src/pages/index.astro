@@ -43,7 +43,7 @@ const featuredCities = provinces.flatMap((p) =>
         <button
           type="button"
           class="rounded-full border border-bord px-3 py-1 text-sm text-muted hover:border-prizm hover:text-paper"
-          data-fly={`${c.stores[0]?.lng ?? 0},${c.stores[0]?.lat ?? 0}`}
+          data-fly={`${(c.stores.reduce((n, s) => n + s.lng, 0) / c.stores.length).toFixed(5)},${(c.stores.reduce((n, s) => n + s.lat, 0) / c.stores.length).toFixed(5)}`}
         >{c.city}</button>
       ))}
       <button type="button" class="rounded-full border border-bord px-3 py-1 text-sm text-prizm hover:border-prizm" data-geolocate>
