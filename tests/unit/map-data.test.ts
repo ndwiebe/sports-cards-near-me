@@ -23,3 +23,8 @@ it('initialsOf keeps leading digits, else takes word initials', () => {
   expect(initialsOf("Wayne's Cards")).toBe('WC');
   expect(initialsOf('Breakaway')).toBe('BR');
 });
+
+it('initialsOf falls back to ? when nothing badgeable', () => {
+  expect(initialsOf('★★★')).toBe('?');
+  expect(initialsOf('')).toBe('?');
+});

@@ -34,5 +34,6 @@ export function initialsOf(name: string): string {
       .map((w) => (w[0] ?? '').toUpperCase())
       .join('');
   }
-  return name.slice(0, 2).toUpperCase();
+  const alnum = name.replace(/[^a-z0-9]/gi, '');
+  return alnum === '' ? '?' : alnum.slice(0, 2).toUpperCase();
 }
