@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import storesJson from '../data/stores.json';
 import type { Store } from '../lib/types';
 import { provincesWithStores, citiesIn } from '../lib/stores';
+import MapIsland from '../components/MapIsland.astro';
 
 const stores = storesJson as Store[];
 const provinces = provincesWithStores(stores);
@@ -14,17 +15,61 @@ const featuredCities = provinces.flatMap((p) =>
   title="Sports Cards Near Me — Every Card Shop in Canada, One Map"
   description={`Canada's sports card shop directory: ${stores.length} verified stores with hours, ratings, and directions. Hockey, baseball, basketball, football, Pokémon.`}
 >
-  <section class="mt-16 md:mt-24">
-    <h1 class="max-w-3xl text-6xl md:text-8xl">Every card shop in Canada. One map.</h1>
-    <div class="refractor-rule mt-5 w-32"></div>
-    <p class="mt-5 max-w-xl text-lg text-muted">
-      {stores.length} shops — verified, mapped, and up to date. Find your next hit.
-    </p>
+  <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord">
+    <img
+      src="/images/hero.webp"
+      srcset="/images/hero@900.webp 900w, /images/hero.webp 1600w"
+      sizes="(max-width: 900px) 100vw, 1024px"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-60"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20"></div>
+    <div class="relative px-6 py-16 md:px-12 md:py-24">
+      <h1 class="max-w-3xl text-6xl md:text-8xl">Every card shop in Canada. One map.</h1>
+      <div class="refractor-rule mt-5 w-32"></div>
+      <p class="mt-5 max-w-xl text-lg text-paper/85">
+        {stores.length} shops — verified, mapped, and up to date. Find your next hit.
+      </p>
+    </div>
   </section>
 
-  <section id="map-slot" class="mt-12 rounded-xl border border-bord bg-panel p-6 text-sm text-muted">
-    Interactive map coming right here — browse by city below.
+  <section id="map-slot" class="mt-12">
+    <MapIsland stores={stores} mode="home" height="520px" />
+    <div class="mt-4 flex flex-wrap items-center gap-2" data-city-flyto>
+      <span class="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Fly to:</span>
+      {featuredCities.map((c) => (
+        <button
+          type="button"
+          class="rounded-full border border-bord px-3 py-1 text-sm text-muted hover:border-prizm hover:text-paper"
+          data-fly={`${c.stores[0]?.lng ?? 0},${c.stores[0]?.lat ?? 0}`}
+        >{c.city}</button>
+      ))}
+      <button type="button" class="rounded-full border border-bord px-3 py-1 text-sm text-prizm hover:border-prizm" data-geolocate>
+        Find shops near me
+      </button>
+    </div>
   </section>
+  <script>
+    import type { MapHandle } from '../scripts/map-core';
+    const slot = document.getElementById('map-slot');
+    slot?.addEventListener('map:ready', (e) => {
+      const handle = (e as CustomEvent<MapHandle>).detail;
+      for (const btn of slot.querySelectorAll<HTMLButtonElement>('[data-fly]')) {
+        btn.addEventListener('click', () => {
+          const [lng, lat] = (btn.dataset['fly'] ?? '0,0').split(',').map(Number);
+          if (lng !== undefined && lat !== undefined) handle.flyTo(lng, lat, 12.5);
+        });
+      }
+      slot.querySelector('[data-geolocate]')?.addEventListener('click', () => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5),
+          () => window.alert('Location unavailable — pick a city instead.'),
+        );
+      });
+    });
+  </script>
 
   <section class="mt-16">
     <h2 class="text-3xl">Busiest cities</h2>

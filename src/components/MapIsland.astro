@@ -1,0 +1,42 @@
+---
+import type { Store } from '../lib/types';
+import { toMapStores } from '../lib/map-data';
+import '../styles/map.css';
+
+interface Props {
+  stores: Store[];
+  mode: 'home' | 'city' | 'store';
+  height?: string;
+}
+const { stores, mode, height } = Astro.props;
+const payload = JSON.stringify(toMapStores(stores)).replace(/</g, '\\u003c');
+---
+<div class="map-shell" data-map-mode={mode} style={height !== undefined ? `height:${height}` : undefined}>
+  <script type="application/json" data-map-stores set:html={payload} />
+  <p class="map-fallback p-6 text-sm text-muted">
+    The interactive map needs JavaScript (and a map key) — every store below is fully browsable without it.
+  </p>
+</div>
+<script>
+  import { mountMap } from '../scripts/map-core';
+  import type { MapStore } from '../lib/map-data';
+
+  for (const shell of document.querySelectorAll<HTMLElement>('.map-shell')) {
+    const raw = shell.querySelector('script[data-map-stores]')?.textContent ?? '[]';
+    const stores = JSON.parse(raw) as MapStore[];
+    const mode = shell.dataset['mapMode'];
+    const handle = mountMap(shell, stores, mode === 'store' ? { zoom: 14, pitch: 60 } : {});
+    if (!handle) continue;
+    handle.onPinClick((slug) => {
+      const card = document.querySelector(`[data-store-card="${slug}"]`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('ring-2', 'ring-prizm');
+        setTimeout(() => card.classList.remove('ring-2', 'ring-prizm'), 1800);
+      } else {
+        window.location.href = `/store/${slug}/`;
+      }
+    });
+    shell.dispatchEvent(new CustomEvent('map:ready', { detail: handle, bubbles: true }));
+  }
+</script>
