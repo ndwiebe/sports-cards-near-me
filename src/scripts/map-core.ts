@@ -49,10 +49,18 @@ export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts
   });
   map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right');
 
+  if (opts.center === undefined && opts.zoom === undefined && stores.length >= 2) {
+    const bounds = new mapboxgl.LngLatBounds();
+    for (const s of stores) bounds.extend([s.lng, s.lat]);
+    map.fitBounds(bounds, { padding: 64, maxZoom: 13, animate: false });
+  }
+
   let clickCb: ((slug: string) => void) | null = null;
   let markers: mapboxgl.Marker[] = [];
   let index: Supercluster<{ store: MapStore }> | null = null;
   let current: MapStore[] = stores;
+  let highlighted: string | null = null;
+  let firstRender = true;
 
   function rebuildIndex(list: MapStore[]): void {
     index = new Supercluster<{ store: MapStore }>({ radius: 52, maxZoom: 15 });
@@ -89,11 +97,18 @@ export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts
       } else {
         const store = (c.properties as { store: MapStore }).store;
         const elp = createPinEl(store);
+        elp.classList.toggle('pin-active', highlighted !== null && store.slug === highlighted);
         elp.addEventListener('click', () => clickCb?.(store.slug));
         markers.push(
           new mapboxgl.Marker({ element: elp, anchor: 'bottom' }).setLngLat([lng, lat]).addTo(map),
         );
       }
+    }
+    if (firstRender) {
+      firstRender = false;
+      window.setTimeout(() => {
+        shell.dataset['mapSettled'] = '';
+      }, 600);
     }
   }
 
@@ -115,6 +130,7 @@ export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts
       clickCb = cb;
     },
     highlight(slug: string | null): void {
+      highlighted = slug;
       for (const m of markers) {
         const node = m.getElement();
         node.classList.toggle('pin-active', slug !== null && node.dataset['slug'] === slug);
