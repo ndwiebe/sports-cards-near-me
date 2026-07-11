@@ -36,3 +36,32 @@ test('sitemap index exists and references a sitemap', async ({ request }) => {
   expect(res.status()).toBe(200);
   expect(await res.text()).toContain('sitemap-0.xml');
 });
+
+test('map island degrades cleanly without a token', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  await page.goto('/');
+  const shell = page.locator('#map-slot .map-shell');
+  await expect(shell).toHaveAttribute('data-map-state', 'off');
+  await expect(shell.locator('.map-fallback')).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('city filters narrow the list', async ({ page }) => {
+  await page.goto(`/alberta/${first.citySlug}/`);
+  const count = page.locator('[data-results-count]');
+  const before = Number(await count.textContent());
+  await page.locator('[data-filter-search]').fill('zzzz-no-store-matches-this');
+  await expect(count).toHaveText('0');
+  await page.locator('[data-filter-search]').fill('');
+  await expect(count).toHaveText(String(before));
+});
+
+test('mobile map/list toggle switches panels', async ({ page, viewport }) => {
+  test.skip((viewport?.width ?? 1280) > 500, 'mobile-only behavior');
+  await page.goto(`/alberta/${first.citySlug}/`);
+  await expect(page.locator('[data-store-list]')).toBeVisible();
+  await page.locator('button[data-view="map"]').click();
+  await expect(page.locator('[data-store-list]')).toBeHidden();
+  await expect(page.locator('[data-city-map]')).toBeVisible();
+});
