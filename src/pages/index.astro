@@ -32,6 +32,9 @@ const featuredCities = provinces.flatMap((p) =>
       <p class="mt-5 max-w-xl text-lg text-paper/85">
         {stores.length} shops — verified, mapped, and up to date. Find your next hit.
       </p>
+      <button type="button" class="mt-6 inline-flex items-center rounded-lg px-6 py-3 font-semibold text-ink" style="background:var(--gradient-refractor)" data-geolocate>
+        Find shops near me
+      </button>
     </div>
   </section>
 
@@ -71,15 +74,18 @@ const featuredCities = provinces.flatMap((p) =>
             if (lng !== undefined && lat !== undefined) handle.flyTo(lng, lat, 12.5);
           });
         }
-        slot.querySelector('[data-geolocate]')?.addEventListener('click', () => {
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5);
-              showNearest(pos.coords.latitude, pos.coords.longitude);
-            },
-            () => window.alert('Location unavailable — pick a city instead.'),
-          );
-        });
+        for (const geoBtn of document.querySelectorAll<HTMLButtonElement>('[data-geolocate]')) {
+          geoBtn.addEventListener('click', () => {
+            slot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5);
+                showNearest(pos.coords.latitude, pos.coords.longitude);
+              },
+              () => window.alert('Location unavailable — pick a city instead.'),
+            );
+          });
+        }
       });
     }
 
