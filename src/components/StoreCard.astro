@@ -9,12 +9,12 @@ const { store } = Astro.props;
     <h2 class="text-2xl">{store.name}</h2>
     <p class="mt-1 text-sm text-muted">{store.address}</p>
     {store.rating !== undefined && (
-      <p class="mt-1 text-sm" style="color:#FFC46B" data-testid="rating">
+      <p class="mt-1 text-sm text-gold" data-testid="rating">
         ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> ({store.reviewCount} Google reviews)</span>}
       </p>
     )}
     {(store.services.length > 0 || store.sports.length > 0) && (
-      <ul class="mt-3 flex flex-wrap gap-1.5">
+      <ul role="list" class="mt-3 flex flex-wrap gap-1.5">
         {[...store.services, ...store.sports].map((t) => (
           <li class="rounded-full border border-bord px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted">{t}</li>
         ))}

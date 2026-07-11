@@ -30,3 +30,9 @@ test('404 page serves', async ({ page }) => {
   const res = await page.goto('/this-page-does-not-exist/');
   expect(res?.status()).toBe(404);
 });
+
+test('sitemap index exists and references a sitemap', async ({ request }) => {
+  const res = await request.get('/sitemap-index.xml');
+  expect(res.status()).toBe(200);
+  expect(await res.text()).toContain('sitemap-0.xml');
+});

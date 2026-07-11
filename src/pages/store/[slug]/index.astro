@@ -40,7 +40,7 @@ const ld: Record<string, unknown> = {
   <h1 class="mt-3 text-5xl md:text-7xl">{store.name}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
   {store.rating !== undefined && (
-    <p class="mt-4" style="color:#FFC46B" data-testid="rating">
+    <p class="mt-4 text-gold" data-testid="rating">
       ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> · {store.reviewCount} Google reviews</span>}
     </p>
   )}
@@ -55,7 +55,7 @@ const ld: Record<string, unknown> = {
     {store.social !== undefined && <a href={store.social} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
   </div>
   {(store.services.length > 0 || store.sports.length > 0) && (
-    <ul class="mt-8 flex max-w-2xl flex-wrap gap-2">
+    <ul role="list" class="mt-8 flex max-w-2xl flex-wrap gap-2">
       {[...store.services, ...store.sports].map((t) => (
         <li class="rounded-full border border-bord px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted">{t}</li>
       ))}
