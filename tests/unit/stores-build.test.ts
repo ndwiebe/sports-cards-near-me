@@ -36,6 +36,11 @@ describe('rowToStore', () => {
     expect(rowToStore(row({ 0: null }))).toBeNull();
     expect(rowToStore(row({ 2: '123 Nowhere St' }))).toBeNull();
   });
+  it('drops non-http(s) website/social values', () => {
+    expect(rowToStore(row({ 6: 'javascript:alert(1)' }))?.website).toBeUndefined();
+    expect(rowToStore(row({ 7: 'ftp://example.com' }))?.social).toBeUndefined();
+    expect(rowToStore(row())?.website).toBe('https://www.203collectibles.com/');
+  });
 });
 
 describe('dedupeSlugs', () => {

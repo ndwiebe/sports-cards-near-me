@@ -5,6 +5,11 @@ import { parseRating, sanitizeText, slugify, deriveProvince, splitList } from '.
 const num = (c: GvizRow[number]): number | null =>
   c !== null && typeof c.v === 'number' ? c.v : null;
 
+const httpUrl = (raw: unknown): string | undefined => {
+  const text = sanitizeText(raw);
+  return text !== undefined && /^https?:\/\//i.test(text) ? text : undefined;
+};
+
 export function rowToStore(cells: GvizRow): Store | null {
   const name = sanitizeText(cells[0]?.v);
   const city = sanitizeText(cells[1]?.v);
@@ -26,8 +31,8 @@ export function rowToStore(cells: GvizRow): Store | null {
     reviewCount,
     hours: sanitizeText(cells[4]?.v),
     phone: sanitizeText(cells[5]?.v),
-    website: sanitizeText(cells[6]?.v),
-    social: sanitizeText(cells[7]?.v),
+    website: httpUrl(cells[6]?.v),
+    social: httpUrl(cells[7]?.v),
     services: splitList(cells[8]?.v),
     sports: splitList(cells[9]?.v),
     lat,
