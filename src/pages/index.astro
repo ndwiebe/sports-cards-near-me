@@ -50,10 +50,16 @@ const featuredCities = provinces.flatMap((p) =>
         Find shops near me
       </button>
     </div>
+    <div class="mt-6 hidden" data-nearest>
+      <h2 class="text-2xl">Closest to you</h2>
+      <ol role="list" class="mt-3 grid gap-2 sm:grid-cols-2" data-nearest-list></ol>
+    </div>
   </section>
   <script>
     import { whenMapReady } from '../scripts/map-registry';
     import type { MapHandle } from '../scripts/map-core';
+    import { distanceKm } from '../lib/map-data';
+    import type { MapStore } from '../lib/map-data';
 
     const slot = document.getElementById('map-slot');
     const shell = slot?.querySelector<HTMLElement>('.map-shell');
@@ -67,11 +73,43 @@ const featuredCities = provinces.flatMap((p) =>
         }
         slot.querySelector('[data-geolocate]')?.addEventListener('click', () => {
           navigator.geolocation.getCurrentPosition(
-            (pos) => handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5),
+            (pos) => {
+              handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5);
+              showNearest(pos.coords.latitude, pos.coords.longitude);
+            },
             () => window.alert('Location unavailable — pick a city instead.'),
           );
         });
       });
+    }
+
+    function showNearest(lat: number, lng: number): void {
+      const raw = document.querySelector('script[data-map-stores]')?.textContent ?? '[]';
+      const all = JSON.parse(raw) as MapStore[];
+      const box = slot?.querySelector<HTMLElement>('[data-nearest]');
+      const list = slot?.querySelector<HTMLElement>('[data-nearest-list]');
+      if (!box || !list) return;
+      list.textContent = '';
+      const nearest = all
+        .map((s) => ({ s, d: distanceKm(lat, lng, s.lat, s.lng) }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 6);
+      for (const { s, d } of nearest) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `/store/${s.slug}/`;
+        a.className = 'flex items-center justify-between gap-3 rounded-xl border border-bord bg-panel px-4 py-3 hover:border-prizm';
+        const name = document.createElement('span');
+        name.className = 'font-semibold';
+        name.textContent = s.name;
+        const meta = document.createElement('span');
+        meta.className = 'shrink-0 text-sm text-muted';
+        meta.textContent = `${s.city} · ${d < 10 ? d.toFixed(1) : String(Math.round(d))} km`;
+        a.append(name, meta);
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+      box.classList.remove('hidden');
     }
   </script>
 

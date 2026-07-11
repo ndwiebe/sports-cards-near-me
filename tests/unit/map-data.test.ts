@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { toMapStores, initialsOf } from '../../src/lib/map-data';
+import { toMapStores, initialsOf, distanceKm } from '../../src/lib/map-data';
 import type { Store } from '../../src/lib/types';
 
 const store: Store = {
@@ -36,4 +36,10 @@ it('toMapStores sets logo only for slugs in the logo set', () => {
   expect(withLogo?.logo).toBe(true);
   expect(Object.keys(without ?? {})).not.toContain('logo');
   expect(Object.keys(noSet ?? {})).not.toContain('logo');
+});
+
+it('distanceKm: Edmonton to Calgary is roughly 280 km', () => {
+  const d = distanceKm(53.5461, -113.4938, 51.0447, -114.0719);
+  expect(d).toBeGreaterThan(270);
+  expect(d).toBeLessThan(300);
 });

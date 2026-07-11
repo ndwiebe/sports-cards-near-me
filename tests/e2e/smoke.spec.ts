@@ -69,3 +69,15 @@ test('mobile map/list toggle switches panels', async ({ page, viewport }) => {
   await expect(page.locator('[data-store-list]')).toBeHidden();
   await expect(page.locator('[data-city-map]')).toBeVisible();
 });
+
+test.describe('nearest shops', () => {
+  test.use({ geolocation: { latitude: 53.5461, longitude: -113.4938 }, permissions: ['geolocation'] });
+  test('geolocate reveals a nearest-shops list with distances', async ({ page }) => {
+    await page.goto('/');
+    const state = await page.locator('#map-slot .map-shell').getAttribute('data-map-state');
+    test.skip(state !== 'on', 'geolocate wires with a token build');
+    await page.locator('[data-geolocate]').click();
+    await expect(page.locator('[data-nearest-list] a').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-nearest-list]')).toContainText('km');
+  });
+});
