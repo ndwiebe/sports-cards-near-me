@@ -76,7 +76,7 @@ test.describe('nearest shops', () => {
     await page.goto('/');
     const state = await page.locator('#map-slot .map-shell').getAttribute('data-map-state');
     test.skip(state !== 'on', 'geolocate wires with a token build');
-    await page.locator('[data-geolocate]').click();
+    await page.locator('[data-geolocate]').first().click();
     await expect(page.locator('[data-nearest-list] a').first()).toBeVisible({ timeout: 10000 });
     await expect(page.locator('[data-nearest-list]')).toContainText('km');
   });
