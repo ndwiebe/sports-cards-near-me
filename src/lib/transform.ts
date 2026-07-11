@@ -29,7 +29,7 @@ export function slugify(input: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-const PROVINCE_RE = /\b(AB|BC|MB|NB|NL|NS|ON|PE|QC|SK)\b/g;
+const PROVINCE_RE = /\b(AB|BC|MB|NB|NL|NS|NT|ON|PE|QC|SK|YT)\b/g;
 
 export function deriveProvince(address: string): ProvinceCode | null {
   const matches = [...address.matchAll(PROVINCE_RE)];
