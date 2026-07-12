@@ -42,3 +42,10 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Links inside running prose must not rely on color alone (WCAG 1.4.1) */
+.max-w-prose a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
