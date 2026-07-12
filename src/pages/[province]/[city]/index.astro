@@ -139,6 +139,7 @@ const resellerPins = toMapResellers(cityResellers, cityGroup.stores);
       const need = activeTags();
       const visible = new Set<string>();
       for (const s of all) {
+        if (s.kind === 'reseller') continue;
         const hay = `${s.name} ${s.city}`.toLowerCase();
         const tagPool = [...s.services, ...s.sports];
         const ok = hay.includes(q) && need.every((n) => tagPool.includes(n));

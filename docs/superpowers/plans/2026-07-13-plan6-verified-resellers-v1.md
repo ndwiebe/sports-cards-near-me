@@ -23,7 +23,7 @@ npx tsc --noEmit      # strictest TS — zero errors tolerated
 npm run build         # ~778 static pages
 npm run test:e2e      # Playwright — currently 39 passed / 3 conditional skips
 ```
-The e2e suite self-adjusts to token presence: with no `PUBLIC_MAPBOX_TOKEN` env var some map tests self-skip. Run gates BOTH ways when you touch map code (`env -u PUBLIC_MAPBOX_TOKEN npm run build && npm run test:e2e`, then with the token from `.env`).
+The e2e suite self-adjusts to token presence: with no `PUBLIC_MAPBOX_TOKEN` env var some map tests self-skip. Run gates BOTH ways when you touch map code (`PUBLIC_MAPBOX_TOKEN= npm run build && PUBLIC_MAPBOX_TOKEN= npm run test:e2e`, then with the token from `.env`; note `env -u` does NOT work — Vite reloads `.env` from disk, only an empty-string process var overrides it).
 
 **Data source of truth:** Google Sheet `14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I`. Tabs are fetched at bake time via the public gviz endpoint (`src/lib/sheet.ts` — `fetchSheetRowsByName(sheetId, tabName)`). Baked JSON is committed to `src/data/` and the site builds from it. A daily scheduled workflow re-bakes and republishes.
 
@@ -772,7 +772,7 @@ test('map payload carries reseller entries only when verified resellers exist', 
 });
 ```
 
-- [ ] **Step 4.9: gates BOTH token modes + commit.** `env -u PUBLIC_MAPBOX_TOKEN npm run build && env -u PUBLIC_MAPBOX_TOKEN npm run test:e2e`, then with `.env` loaded: `npm test && npx tsc --noEmit && npm run build && npm run test:e2e`. With the token, ALSO do the fixture visual check: inject one fixture reseller into `resellers.json`, `npm run dev`, screenshot a city map at 375px and desktop, confirm the ghost pin is visibly distinct from store chips and click-through works; restore `resellers.json` (`git checkout -- src/data/resellers.json`). Commit `feat: reseller map presence (ghost city-centroid pins)`.
+- [ ] **Step 4.9: gates BOTH token modes + commit.** `PUBLIC_MAPBOX_TOKEN= npm run build && PUBLIC_MAPBOX_TOKEN= npm run test:e2e`, then with `.env` loaded: `npm test && npx tsc --noEmit && npm run build && npm run test:e2e`. With the token, ALSO do the fixture visual check: inject one fixture reseller into `resellers.json`, `npm run dev`, screenshot a city map at 375px and desktop, confirm the ghost pin is visibly distinct from store chips and click-through works; restore `resellers.json` (`git checkout -- src/data/resellers.json`). Commit `feat: reseller map presence (ghost city-centroid pins)`.
 
 ### Task 5: Ship + verify
 
