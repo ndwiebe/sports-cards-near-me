@@ -17,6 +17,9 @@ function badgeFor(store: MapStore): HTMLElement {
     img.width = 20;
     img.height = 20;
     img.loading = 'lazy';
+    img.addEventListener('error', () => {
+      img.replaceWith(el('span', 'pin-badge', initialsOf(store.name)));
+    }, { once: true });
     return img;
   }
   return el('span', 'pin-badge', initialsOf(store.name));
