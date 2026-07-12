@@ -94,8 +94,15 @@ function hasTag(stores: Store[], predicate: (tag: string) => boolean): Store[] {
   return stores.filter((s) => [...s.services, ...s.sports].some((t) => predicate(t.trim().toLowerCase())));
 }
 
-function topRatedStore(stores: Store[]): Store | undefined {
-  const rated = stores.filter((s) => s.rating !== undefined);
+/** A shop needs at least this many Google reviews to be crowned "best"/"top-rated"/
+ * "highest-rated" or named as a top pick. Shops below this still get listed, just not crowned —
+ * it keeps a single 5-star review from one relative from outranking a shop with hundreds. */
+export const MIN_REVIEWS_FOR_TOP = 10;
+
+/** The highest-rated store eligible to be crowned "top-rated" — i.e. carrying a rating and
+ * at least MIN_REVIEWS_FOR_TOP reviews. Returns undefined when no store qualifies. */
+export function topRatedStore(stores: Store[]): Store | undefined {
+  const rated = stores.filter((s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
   if (rated.length === 0) return undefined;
   const sorted = [...rated].sort((a, b) => {
     const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0);
@@ -166,7 +173,13 @@ export function provinceAnswerCapsule(provinceName: string, cities: CityGroup[])
  * Three computed FAQ entries for a city page. Same array backs both the visible
  * FAQ section and the FAQPage JSON-LD — no independent copy to drift out of sync.
  */
-export function cityFaqs(city: string, provinceName: string, provinceUrl: string, stores: Store[]): FaqItem[] {
+export function cityFaqs(
+  city: string,
+  provinceName: string,
+  provinceUrl: string,
+  stores: Store[],
+  citySlug: string,
+): FaqItem[] {
   const total = stores.length;
   const shopWord = total === 1 ? 'shop' : 'shops';
   const top = topRatedStore(stores);
@@ -176,11 +189,13 @@ export function cityFaqs(city: string, provinceName: string, provinceUrl: string
       : `${city} has ${total} sports card ${shopWord} listed on Sports Cards Near Me.`;
 
   const buyers = hasTag(stores, (t) => t === 'buys');
+  const sellUrl = `/sell/${citySlug}/`;
   const buysFaq: FaqItem =
     buyers.length > 0
       ? {
           question: `Do any ${city} card shops buy collections?`,
           answer: `Yes — ${namesList(buyers)} ${buyers.length === 1 ? 'lists' : 'list'} buying collections as a service in ${city}.`,
+          link: { href: sellUrl, label: `See shops that buy in ${city}` },
         }
       : {
           question: `Do any ${city} card shops buy collections?`,
@@ -189,11 +204,13 @@ export function cityFaqs(city: string, provinceName: string, provinceUrl: string
         };
 
   const pokemonShops = hasTag(stores, (t) => t === 'pokemon');
+  const pokemonUrl = `/pokemon/${citySlug}/`;
   const pokemonFaq: FaqItem =
     pokemonShops.length > 0
       ? {
           question: `Do ${city} shops sell Pokémon cards?`,
           answer: `Yes — ${namesList(pokemonShops)} ${pokemonShops.length === 1 ? 'carries' : 'carry'} Pokémon cards in ${city}.`,
+          link: { href: pokemonUrl, label: `See Pokémon shops in ${city}` },
         }
       : {
           question: `Do ${city} shops sell Pokémon cards?`,

@@ -6,7 +6,9 @@ import {
   faqPageLd,
   itemListLd,
   ldJson,
+  MIN_REVIEWS_FOR_TOP,
   provinceAnswerCapsule,
+  topRatedStore,
 } from '../../src/lib/seo';
 import type { Store } from '../../src/lib/types';
 
@@ -141,63 +143,128 @@ describe('provinceAnswerCapsule', () => {
   });
 });
 
+describe('topRatedStore', () => {
+  it('picks the highest rating among stores meeting MIN_REVIEWS_FOR_TOP', () => {
+    const stores = [
+      store({ slug: 'a', name: 'A', rating: 4.5, reviewCount: 20 }),
+      store({ slug: 'b', name: 'B', rating: 4.9, reviewCount: 300 }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('B');
+  });
+
+  it('does not crown a sub-threshold 5.0-from-1-review store over an eligible 4.9/200 store', () => {
+    const stores = [
+      store({ slug: 'fluke', name: 'Fluke', rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'real', name: 'RealDeal', rating: 4.9, reviewCount: 200 }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('RealDeal');
+  });
+
+  it('returns undefined when every rated store is below MIN_REVIEWS_FOR_TOP', () => {
+    const stores = [
+      store({ slug: 'fluke-a', name: 'FlukeA', rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'fluke-b', name: 'FlukeB', rating: 5.0, reviewCount: 2 }),
+    ];
+    expect(topRatedStore(stores)).toBeUndefined();
+  });
+
+  it('treats a missing reviewCount as zero, below the threshold', () => {
+    const stores = [store({ slug: 'no-count', name: 'NoCount', rating: 5.0 })];
+    expect(topRatedStore(stores)).toBeUndefined();
+  });
+
+  it('is exactly at the threshold boundary — MIN_REVIEWS_FOR_TOP reviews qualifies', () => {
+    const stores = [store({ slug: 'boundary', name: 'Boundary', rating: 4.6, reviewCount: MIN_REVIEWS_FOR_TOP })];
+    expect(topRatedStore(stores)?.name).toBe('Boundary');
+  });
+});
+
 describe('cityFaqs', () => {
   it('generates exactly 3 questions', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({})]);
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({})], 'calgary');
     expect(faqs).toHaveLength(3);
   });
 
   it('names the top-rated store in the count answer when ratings exist', () => {
     const stores = [
-      store({ slug: 'a', name: 'Low', rating: 4.0 }),
-      store({ slug: 'b', name: 'Winner', rating: 4.9 }),
+      store({ slug: 'a', name: 'Low', rating: 4.0, reviewCount: 50 }),
+      store({ slug: 'b', name: 'Winner', rating: 4.9, reviewCount: 200 }),
     ];
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', stores);
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', stores, 'calgary');
     expect(faqs[0]?.answer).toContain('Winner');
     expect(faqs[0]?.answer).toContain('4.9 stars');
   });
 
   it('omits a top-rated claim when no store in the city has a rating', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ rating: undefined })]);
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ rating: undefined })], 'calgary');
     expect(faqs[0]?.answer).not.toContain('highest-rated');
   });
 
-  it('answers yes with names when a store lists Buys, no province link needed', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [
-      store({ name: 'Buyer Shop', services: ['Buys'] }),
-    ]);
+  it('does not crown a sub-threshold 5.0-from-1-review store when an eligible 4.9/200 store exists', () => {
+    const stores = [
+      store({ slug: 'fluke', name: 'Fluke', rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'real', name: 'RealDeal', rating: 4.9, reviewCount: 200 }),
+    ];
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', stores, 'calgary');
+    expect(faqs[0]?.answer).toContain('RealDeal');
+    expect(faqs[0]?.answer).toContain('4.9 stars');
+    expect(faqs[0]?.answer).not.toContain('Fluke');
+  });
+
+  it('drops the highest-rated claim when every rated store is below MIN_REVIEWS_FOR_TOP', () => {
+    const stores = [
+      store({ slug: 'fluke-a', name: 'FlukeA', rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'fluke-b', name: 'FlukeB', rating: 5.0, reviewCount: 2 }),
+    ];
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', stores, 'calgary');
+    expect(faqs[0]?.answer).not.toContain('highest-rated');
+    expect(faqs[0]?.answer).not.toContain('Fluke');
+  });
+
+  it('answers yes with names and links the sell page when a store lists Buys', () => {
+    const faqs = cityFaqs(
+      'Calgary',
+      'Alberta',
+      'https://x/alberta/',
+      [store({ name: 'Buyer Shop', services: ['Buys'] })],
+      'calgary',
+    );
     const buysFaq = faqs[1]!;
     expect(buysFaq.answer).toContain('Yes');
     expect(buysFaq.answer).toContain('Buyer Shop');
-    expect(buysFaq.link).toBeUndefined();
+    expect(buysFaq.link).toEqual({ href: '/sell/calgary/', label: 'See shops that buy in Calgary' });
   });
 
   it('answers honestly and links the province page when no store buys collections', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ services: [] })]);
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ services: [] })], 'calgary');
     const buysFaq = faqs[1]!;
     expect(buysFaq.answer).toContain('None');
     expect(buysFaq.link).toEqual({ href: 'https://x/alberta/', label: 'Alberta page' });
   });
 
-  it('answers yes for Pokemon when a sports tag matches case-insensitively', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [
-      store({ name: 'Poke Shop', sports: ['Pokemon'] }),
-    ]);
+  it('answers yes for Pokemon when a sports tag matches case-insensitively, and links the pokemon page', () => {
+    const faqs = cityFaqs(
+      'Calgary',
+      'Alberta',
+      'https://x/alberta/',
+      [store({ name: 'Poke Shop', sports: ['Pokemon'] })],
+      'calgary',
+    );
     const pokemonFaq = faqs[2]!;
     expect(pokemonFaq.answer).toContain('Yes');
     expect(pokemonFaq.answer).toContain('Poke Shop');
-    expect(pokemonFaq.link).toBeUndefined();
+    expect(pokemonFaq.link).toEqual({ href: '/pokemon/calgary/', label: 'See Pokémon shops in Calgary' });
   });
 
   it('answers honestly and links the province page when no store carries Pokemon', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ sports: [] })]);
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ sports: [] })], 'calgary');
     const pokemonFaq = faqs[2]!;
     expect(pokemonFaq.answer).toContain('None');
     expect(pokemonFaq.link).toEqual({ href: 'https://x/alberta/', label: 'Alberta page' });
   });
 
   it('produces the same question/answer array used for both visible copy and JSON-LD', () => {
-    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({})]);
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({})], 'calgary');
     const ld = faqPageLd(faqs);
     const entities = ld['mainEntity'] as Array<Record<string, unknown>>;
     expect(entities).toHaveLength(faqs.length);

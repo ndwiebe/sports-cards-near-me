@@ -88,12 +88,33 @@ describe('pokemonCityCapsule', () => {
 
   it('names the top-rated shop when a rating exists', () => {
     const shops = [
-      store({ slug: 'a', name: 'Low', sports: ['Pokemon'], rating: 4.0 }),
-      store({ slug: 'b', name: 'Winner', sports: ['Pokemon'], rating: 4.9 }),
+      store({ slug: 'a', name: 'Low', sports: ['Pokemon'], rating: 4.0, reviewCount: 50 }),
+      store({ slug: 'b', name: 'Winner', sports: ['Pokemon'], rating: 4.9, reviewCount: 88 }),
     ];
     const capsule = pokemonCityCapsule('Calgary', 'Alberta', shops);
     expect(capsule).toContain('Winner');
     expect(capsule).toContain('4.9 stars');
+  });
+
+  it('does not crown a sub-threshold 5.0-from-1-review shop when an eligible 4.9/200 shop exists', () => {
+    const shops = [
+      store({ slug: 'fluke', name: 'Fluke', sports: ['Pokemon'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'real', name: 'RealDeal', sports: ['Pokemon'], rating: 4.9, reviewCount: 200 }),
+    ];
+    const capsule = pokemonCityCapsule('Calgary', 'Alberta', shops);
+    expect(capsule).toContain('RealDeal');
+    expect(capsule).toContain('4.9 stars');
+    expect(capsule).not.toContain('Fluke');
+  });
+
+  it('never claims a rank when every rated shop is below MIN_REVIEWS_FOR_TOP', () => {
+    const shops = [
+      store({ slug: 'fluke-a', name: 'FlukeA', sports: ['Pokemon'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'fluke-b', name: 'FlukeB', sports: ['Pokemon'], rating: 5.0, reviewCount: 2 }),
+    ];
+    const capsule = pokemonCityCapsule('Calgary', 'Alberta', shops);
+    expect(capsule).not.toContain('ranks first');
+    expect(capsule).not.toContain('Fluke');
   });
 
   it('never contains fabricated price digits', () => {
@@ -137,6 +158,26 @@ describe('pokemonCityFaqs', () => {
     expect(faqs[1]?.answer).toContain('4.9 stars');
     expect(faqs[1]?.answer).toContain('not verified card inventory or stock');
     expect(faqs[1]?.link).toBeUndefined();
+  });
+
+  it('does not crown a sub-threshold 5.0-from-1-review shop as best when an eligible 4.9/200 shop exists', () => {
+    const shops = [
+      store({ slug: 'fluke', name: 'Fluke', sports: ['Pokemon'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'real', name: 'RealDeal', sports: ['Pokemon'], rating: 4.9, reviewCount: 200 }),
+    ];
+    const faqs = pokemonCityFaqs('Calgary', 'Alberta', shops, 'https://x/alberta/calgary/');
+    expect(faqs[1]?.answer).toContain('RealDeal');
+    expect(faqs[1]?.answer).not.toContain('Fluke');
+  });
+
+  it('answers the best-shop question honestly with a link when every rated shop is below the review threshold', () => {
+    const shops = [
+      store({ slug: 'fluke-a', name: 'FlukeA', sports: ['Pokemon'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'fluke-b', name: 'FlukeB', sports: ['Pokemon'], rating: 5.0, reviewCount: 2 }),
+    ];
+    const faqs = pokemonCityFaqs('Calgary', 'Alberta', shops, 'https://x/alberta/calgary/');
+    expect(faqs[1]?.answer).toContain("can't name a top pick");
+    expect(faqs[1]?.link).toEqual({ href: 'https://x/alberta/calgary/', label: 'Calgary shop directory' });
   });
 
   it('answers the best-shop question honestly with a link when no shop has a rating', () => {

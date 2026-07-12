@@ -1,4 +1,4 @@
-import type { FaqItem } from './seo';
+import { MIN_REVIEWS_FOR_TOP, topRatedStore, type FaqItem } from './seo';
 import type { ProvinceCode, Store } from './types';
 
 /** A store counts as a buyer iff it lists the exact (lowercased, trimmed) service "buys". */
@@ -34,6 +34,17 @@ function joinWithAnd(items: string[]): string {
   return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
 }
 
+/**
+ * Reorders buyers so shops meeting MIN_REVIEWS_FOR_TOP are named ahead of sub-threshold ones,
+ * preserving each group's existing rating-desc order. Used only for the NAMED top buyers in
+ * copy — the full ranked buyer listing on the page keeps buyersInCity's original order.
+ */
+function rankForNaming(buyers: Store[]): Store[] {
+  const eligible = buyers.filter((s) => (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
+  const ineligible = buyers.filter((s) => (s.reviewCount ?? 0) < MIN_REVIEWS_FOR_TOP);
+  return [...eligible, ...ineligible];
+}
+
 /** Names up to 3 buyers, then "and N more" for the rest — same shape as the other city pages. */
 function namesList(stores: Store[]): string {
   const names = stores.map((s) => s.name);
@@ -45,8 +56,8 @@ function namesList(stores: Store[]): string {
 
 /**
  * Computed 40-60 word answer capsule for a sell-city page. Every fact is derived from
- * `buyers` — no fabricated prices, just the count, the top-rated buyer (if any buyer
- * carries a rating), and a pointer to the ranked list on the page.
+ * `buyers` — no fabricated prices, just the count, the top-rated buyer (if one meets
+ * MIN_REVIEWS_FOR_TOP), and a pointer to the ranked list on the page.
  */
 export function sellCityCapsule(city: string, provinceName: string, buyers: Store[]): string {
   const total = buyers.length;
@@ -60,8 +71,8 @@ export function sellCityCapsule(city: string, provinceName: string, buyers: Stor
     `${total} sports card ${shopWord} in ${city}, ${provinceName} ${listVerb} buying collections as a service in the Sports Cards Near Me directory.`,
   ];
 
-  const top = buyers[0];
-  if (top !== undefined && top.rating !== undefined) {
+  const top = topRatedStore(buyers);
+  if (top !== undefined) {
     parts.push(`${top.name} is currently the highest-rated at ${top.rating} stars.`);
   }
 
@@ -87,7 +98,7 @@ export function sellCityFaqs(
 ): FaqItem[] {
   const whereAnswer =
     buyers.length > 0
-      ? `${namesList(buyers)} ${buyers.length === 1 ? 'buys' : 'buy'} sports card collections in ${city}, ${provinceName}, according to Sports Cards Near Me. This page lists them ranked by rating.`
+      ? `${namesList(rankForNaming(buyers))} ${buyers.length === 1 ? 'buys' : 'buy'} sports card collections in ${city}, ${provinceName}, according to Sports Cards Near Me. This page lists them ranked by rating.`
       : `No shops in ${city}, ${provinceName} currently list buying collections as a service on Sports Cards Near Me — check the full ${city} shop directory, since a shop may still buy in person even if it doesn't advertise it.`;
 
   return [

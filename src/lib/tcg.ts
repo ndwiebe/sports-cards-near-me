@@ -1,4 +1,4 @@
-import type { FaqItem } from './seo';
+import { topRatedStore, type FaqItem } from './seo';
 import { provincesWithStores, citiesIn } from './stores';
 import type { ProvinceCode, Store } from './types';
 
@@ -59,12 +59,6 @@ export function pokemonShopsInCity(stores: Store[], province: ProvinceCode, city
     .sort(compareShops);
 }
 
-function topRatedShop(shops: Store[]): Store | undefined {
-  const rated = shops.filter((s) => s.rating !== undefined);
-  if (rated.length === 0) return undefined;
-  return [...rated].sort(compareShops)[0];
-}
-
 function joinWithAnd(items: string[]): string {
   if (items.length === 0) return '';
   if (items.length === 1) return items[0]!;
@@ -93,7 +87,7 @@ export function pokemonCityCapsule(city: string, provinceName: string, shops: St
     `${city}, ${provinceName} has ${total} Pokémon card ${shopWord} listed on Sports Cards Near Me, ranked by Google rating and review count.`,
   ];
 
-  const top = topRatedShop(shops);
+  const top = topRatedStore(shops);
   if (top !== undefined) {
     parts.push(
       `${top.name} currently ranks first at ${top.rating} stars${top.reviewCount !== undefined ? ` from ${top.reviewCount} reviews` : ''}.`,
@@ -123,7 +117,7 @@ export function pokemonCityFaqs(city: string, provinceName: string, shops: Store
       : `${city} has ${total} Pokémon card ${shopWord} tracked on Sports Cards Near Me, including ${namesList(shops)}. See the full ranked list and map below.`;
   const whereFaq: FaqItem = { question: `Where can I buy Pokémon cards in ${city}?`, answer: whereAnswer };
 
-  const top = topRatedShop(shops);
+  const top = topRatedStore(shops);
   const bestFaq: FaqItem =
     top !== undefined
       ? {

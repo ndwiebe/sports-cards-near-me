@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
+import { MIN_REVIEWS_FOR_TOP } from '../../lib/seo';
 
 const stores = storesJson as Store[];
 const abStores = stores.filter((s) => s.province === 'AB');
@@ -13,7 +14,10 @@ const provinceSlug = PROVINCES.AB.slug;
 // Top Alberta shops by Google rating (ties broken by review count) — computed
 // at build time from stores.json, never hand-typed, so this list can't go
 // stale-wrong: it simply reflects whatever the directory's live data says.
-const topShops = [...abRated]
+// Only shops with at least MIN_REVIEWS_FOR_TOP reviews are eligible: a 5.0 rating
+// from a couple of reviews shouldn't outrank a shop with a real review history.
+const topEligible = abRated.filter((s) => (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
+const topShops = [...topEligible]
   .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))
   .slice(0, 8);
 const topCityCount = new Set(topShops.map((s) => s.citySlug)).size;
@@ -67,14 +71,17 @@ const ld: Record<string, unknown> = {
 
     <h2 class="text-3xl">How We Ranked These Shops</h2>
     <p>
-      Of the {abStores.length} Alberta shops in our directory, {abRated.length} carry a public Google rating. We
-      sorted those by rating first, then by review count as a tiebreaker when shops share the same rating — a shop
-      with a strong rating from dozens of reviews and one with the same rating from just a couple both earned it
-      fair and square, but the tiebreaker gives the edge to the one more collectors have weighed in on. This list is
-      generated straight from that data rather than hand-picked, so it updates the same way our directory does. No
-      shop here got a mention it didn't earn, and none of them paid to be on this page. One honest side effect of
-      ranking this way: a perfect rating from a few reviews outranks a near-perfect rating from hundreds, so a shop
-      just off this list may have far more collectors vouching for it — the{' '}
+      Of the {abStores.length} Alberta shops in our directory, {abRated.length} carry a public Google rating, and
+      {topEligible.length} of those have at least {MIN_REVIEWS_FOR_TOP} reviews behind that rating — the bar a shop
+      has to clear before it can land on this list. A perfect rating from just a review or two is too easy to fluke,
+      so shops below that bar are still in our directory, just not crowned here. Among the shops that clear it, we
+      sort by rating first, then by review count as a tiebreaker when shops share the same rating — a shop with a
+      strong rating from dozens of reviews and one with the same rating from a smaller but still substantial review
+      count both earned it fair and square, but the tiebreaker gives the edge to the one more collectors have weighed
+      in on. This list is generated straight from that data rather than hand-picked, so it updates the same way our
+      directory does. No shop here got a mention it didn't earn, and none of them paid to be on this page. One honest
+      side effect of ranking this way: a perfect rating from a modest number of reviews outranks a near-perfect
+      rating from hundreds, so a shop just off this list may have far more collectors vouching for it — the{' '}
       <a href={`/${provinceSlug}/`} class="text-prizm">full Alberta directory</a> shows every shop's numbers side by
       side.
     </p>

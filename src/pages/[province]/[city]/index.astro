@@ -41,7 +41,7 @@ const storeListLd = itemListLd(
   25,
 );
 const capsule = cityAnswerCapsule(cityGroup.city, province.name, cityGroup.stores);
-const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stores);
+const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stores, cityGroup.citySlug);
 const faqLd = faqPageLd(faqs);
 ---
 <Base

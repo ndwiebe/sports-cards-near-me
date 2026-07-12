@@ -105,6 +105,27 @@ describe('sellCityCapsule', () => {
     const capsule = sellCityCapsule('Brandon', 'Manitoba', [store({ name: 'Unrated', services: ['Buys'] })]);
     expect(capsule).not.toContain('highest-rated');
   });
+
+  it('does not crown a sub-threshold 5.0-from-1-review buyer when an eligible 4.9/200 buyer exists', () => {
+    const buyers = [
+      store({ slug: 'fluke', name: 'Fluke', services: ['Buys'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'real', name: 'RealDeal', services: ['Buys'], rating: 4.9, reviewCount: 200 }),
+    ];
+    const capsule = sellCityCapsule('Winnipeg', 'Manitoba', buyers);
+    expect(capsule).toContain('RealDeal');
+    expect(capsule).toContain('4.9 stars');
+    expect(capsule).not.toContain('Fluke');
+  });
+
+  it('omits the highest-rated claim when every rated buyer is below the review threshold', () => {
+    const buyers = [
+      store({ slug: 'fluke-a', name: 'FlukeA', services: ['Buys'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'fluke-b', name: 'FlukeB', services: ['Buys'], rating: 5.0, reviewCount: 2 }),
+    ];
+    const capsule = sellCityCapsule('Winnipeg', 'Manitoba', buyers);
+    expect(capsule).not.toContain('highest-rated');
+    expect(capsule).not.toContain('Fluke');
+  });
 });
 
 describe('sellCityFaqs', () => {
@@ -133,6 +154,15 @@ describe('sellCityFaqs', () => {
   it('answers honestly when a city has zero buyers', () => {
     const faqs = sellCityFaqs('Nowhere', 'Alberta', [], cityUrl, guideUrl);
     expect(faqs[0]?.answer).toContain('No shops');
+  });
+
+  it('names an eligible >=10-review buyer before a sub-threshold 5.0-from-1-review buyer, even though the latter ranks first by rating', () => {
+    const buyers = [
+      store({ slug: 'fluke', name: 'Fluke', services: ['Buys'], rating: 5.0, reviewCount: 1 }),
+      store({ slug: 'real', name: 'RealDeal', services: ['Buys'], rating: 4.9, reviewCount: 200 }),
+    ];
+    const faqs = sellCityFaqs('Winnipeg', 'Manitoba', buyers, cityUrl, guideUrl);
+    expect(faqs[0]?.answer).toContain('RealDeal and Fluke');
   });
 
   it('never states a price and always links the selling guide for the value question', () => {
