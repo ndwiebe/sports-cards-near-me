@@ -17,6 +17,7 @@ const topShops = [...abRated]
   .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))
   .slice(0, 8);
 const topCityCount = new Set(topShops.map((s) => s.citySlug)).size;
+const mostReviewed = [...topShops].sort((a, b) => (b.reviewCount ?? 0) - (a.reviewCount ?? 0))[0];
 
 const title = 'Best Card Shops in Alberta';
 const description =
@@ -71,7 +72,11 @@ const ld: Record<string, unknown> = {
       with a strong rating from dozens of reviews and one with the same rating from just a couple both earned it
       fair and square, but the tiebreaker gives the edge to the one more collectors have weighed in on. This list is
       generated straight from that data rather than hand-picked, so it updates the same way our directory does. No
-      shop here got a mention it didn't earn, and none of them paid to be on this page.
+      shop here got a mention it didn't earn, and none of them paid to be on this page. One honest side effect of
+      ranking this way: a perfect rating from a few reviews outranks a near-perfect rating from hundreds, so a shop
+      just off this list may have far more collectors vouching for it — the{' '}
+      <a href={`/${provinceSlug}/`} class="text-prizm">full Alberta directory</a> shows every shop's numbers side by
+      side.
     </p>
 
     <h2 class="text-3xl">What "Top" Means Here</h2>
@@ -93,7 +98,7 @@ const ld: Record<string, unknown> = {
             {s.rating !== undefined && (
               <span class="text-gold">
                 {' '}· ★ {s.rating}
-                {s.reviewCount !== undefined && <span class="text-muted"> ({s.reviewCount} Google reviews)</span>}
+                {s.reviewCount !== undefined && <span class="text-muted"> ({s.reviewCount} Google {s.reviewCount === 1 ? 'review' : 'reviews'})</span>}
               </span>
             )}
           </p>
@@ -109,10 +114,10 @@ const ld: Record<string, unknown> = {
     <p>
       A perfect rating means everyone who's left a review walked away happy, but it's worth reading the review count
       alongside the rating rather than the rating on its own.{' '}
-      {topShops[0] !== undefined && (
+      {mostReviewed !== undefined && (
         <>
-          <a href={`/store/${topShops[0].slug}/`} class="text-prizm">{topShops[0].name}</a>, for example, carries a{' '}
-          {topShops[0].rating} rating from {topShops[0].reviewCount} Google reviews — the most of any shop on this
+          <a href={`/store/${mostReviewed.slug}/`} class="text-prizm">{mostReviewed.name}</a>, for example, carries a{' '}
+          {mostReviewed.rating} rating from {mostReviewed.reviewCount} Google reviews — the most of any shop on this
           list, and a different kind of signal than a shop sitting at the same rating with only a couple of reviews
           behind it.{' '}
         </>
@@ -126,7 +131,8 @@ const ld: Record<string, unknown> = {
     <h2 class="text-3xl">What These Shops Have in Common</h2>
     <p>
       Most of the shops in our Alberta directory are small, independently run operations, and only a handful spell
-      out extras like card grading, wax breaks, or trade nights in what they list with us. That's a gap in what
+      out extras like card grading, box breaks (group openings of sealed boxes), or trade nights in what they list
+      with us. That's a gap in what
       we've verified so far rather than a sign those shops don't offer that — plenty of local shops run these kinds
       of extras without ever putting them on paper anywhere online. If you know a shop that does something worth
       mentioning, that's exactly the kind of detail we're trying to fill in as we verify more of the province. In
