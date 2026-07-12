@@ -51,6 +51,9 @@ export async function mountMap(
     accessToken: token,
     container,
     style: 'mapbox://styles/mapbox/standard',
+    // Standard style auto-switches to a globe at low zoom — at the national
+    // view that renders Earth-from-space instead of Canada. Lock to mercator.
+    projection: 'mercator',
     center: opts.center ?? centerOf(stores),
     zoom: opts.zoom ?? 10.5,
     pitch: opts.pitch ?? 55,
