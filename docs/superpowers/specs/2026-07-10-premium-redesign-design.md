@@ -41,7 +41,7 @@ Approved via interactive direction board (artifact `scnm-direction.html`, v2 wit
 
 - **World:** city at night. Desaturated ink-blue map so colourful store-logo pins land like spotlights (Airbnb/Nike desaturated-base + branded-pin pattern).
 - **Palette tokens:** ink `#0B1017` (page ground, blue-biased), panel `#121A26`, well `#0B121B`, border `#2A3C55`, paper `#EAF0F6`, muted `#8FA0B3`, solid accent "prizm" `#57B3FF`.
-- **Signature accent — the refractor line:** iridescent gradient `#5AD7FF → #907CFF → #FF7FB2 → #FFC46B` (foil-parallel homage). Exactly four sanctioned uses: headline rule, primary button, focus states, featured-shop ring/border. Never backgrounds, never body text.
+- **Signature accent — the refractor line:** iridescent gradient `#5AD7FF → #907CFF → #FF7FB2 → #FFC46B` (foil-parallel homage). Exactly five sanctioned uses: headline rule, primary button, focus states, featured-shop ring/border, and the brand mark's accent line (amended 2026-07-12 with Plan 4 Task 1). Never backgrounds, never body text.
 - **Type:** display = Barlow Condensed 600, uppercase, tight tracking (jersey-number energy). Body/UI = Instrument Sans 400/600. Numbers tabular (`font-variant-numeric: tabular-nums`) for hours/distances/ratings.
 - **Logo/mark:** full brand-identity pass runs as implementation phase 1 (brand-identity skill). Hard requirement: the mark must work at three sizes — header logo, favicon/social icon, and tiny map-pin chip (it is the designed fallback pin for stores without logos).
 - **Constraint:** no gold-on-black anywhere — that is DisplayMyCard's identity.
