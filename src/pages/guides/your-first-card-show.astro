@@ -12,11 +12,14 @@ const cityCount = new Set(stores.map((s) => s.citySlug)).size;
 // three examples aren't all pulled from the same town. Sorted by rating
 // (undefined last) then review count first, same tiebreak as our other
 // guides, so this tracks the directory's live data.
+const tradeNightAll = stores.filter((s) => s.services.some((v) => v.toLowerCase() === 'trade nights'));
+const tradeNightCount = tradeNightAll.length;
+
 const tradeNightStores: Store[] = [];
 const seenCities = new Set<string>();
-for (const s of [...stores]
-  .filter((s) => s.services.some((v) => v.toLowerCase() === 'trade nights'))
-  .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))) {
+for (const s of [...tradeNightAll].sort(
+  (a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0),
+)) {
   if (seenCities.has(s.citySlug)) continue;
   seenCities.add(s.citySlug);
   tradeNightStores.push(s);
@@ -63,9 +66,10 @@ const ld: Record<string, unknown> = {
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p>
       A card show is just a room full of folding tables, each one rented by a different dealer, all set up for a day
-      or a weekend in a community hall, arena concourse, or hotel ballroom. You pay a small admission fee at the
+      or a weekend in a community hall, arena concourse, or hotel ballroom. Most charge a small admission fee at the
       door, then walk the aisles browsing binders of loose "singles" (individual cards sold on their own, not in a
-      pack or box), display cases of graded cards, and boxes of cheaper commons you're welcome to dig through. Nobody
+      pack or box), display cases of graded cards, and boxes of cheaper "commons" (the everyday base cards that make
+      up most of any set) you're welcome to dig through. Nobody
       expects you to buy anything, and nobody's tracking how long you browse a table before moving on. If you've only
       ever bought cards online, the first show can feel like a lot at once — this guide walks through what actually
       happens, how to handle yourself once you're there, and how to find one near you.
@@ -87,8 +91,8 @@ const ld: Record<string, unknown> = {
       Most dealers at a Canadian card show still prefer cash, and plenty will only take cash — a card reader takes a
       processing cut out of a sale that's often already priced thin, so a lot of vendors would rather skip that
       entirely. Some tables do accept e-transfer or tap payment through a phone-based card reader, but don't assume
-      it — ask before you're at the register mentally, not after. Venues rarely have an ATM on site, so bring more
-      cash than you think you'll need rather than counting on finding a machine once you're there.
+      it — ask before you're at the register mentally, not after. Don't count on the venue having an ATM on site —
+      bring more cash than you think you'll need rather than counting on finding a machine once you're there.
     </p>
 
     <h2 class="text-3xl">Handling Cards Politely</h2>
@@ -109,8 +113,8 @@ const ld: Record<string, unknown> = {
       some back-and-forth and won't be offended by a reasonable counteroffer. There's a real difference, though,
       between negotiating and lowballing: offering noticeably less than a card is worth, especially without asking
       any questions about it first, tends to end the conversation fast. You generally get more room to negotiate when
-      you're buying several cards from the same dealer rather than haggling over one $5 card for ten minutes — a
-      small stack gives both of you something to work with. Decide your walk-away price before you're mid-negotiation
+      you're buying several cards from the same dealer rather than haggling over one bargain-bin card for ten
+      minutes — a small stack gives both of you something to work with. Decide your walk-away price before you're mid-negotiation
       standing at the table, and it's a lot easier to hold to it.
     </p>
 
@@ -128,10 +132,10 @@ const ld: Record<string, unknown> = {
 
     <h2 class="text-3xl">Trade Nights and Show Culture</h2>
     <p>
-      Shows aren't the only place collectors gather. A number of local shops run informal "trade nights" — a regular
-      evening set aside for collectors to bring cards and work out trades with each other, usually with less money
-      changing hands than a show and more relationship-building. In our directory, shops that list trade nights among
-      what they offer include{' '}
+      Shows aren't the only place collectors gather. Some local shops run informal "trade nights" — a regular evening
+      set aside for collectors to bring cards and work out trades with each other, usually with less money changing
+      hands than a show and more relationship-building. Trade nights show up in only {tradeNightCount} of our{' '}
+      {stores.length} directory listings so far — including{' '}
       {tradeNightStores.map((s, i) => (
         <span>
           <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a> in{' '}
@@ -139,8 +143,8 @@ const ld: Record<string, unknown> = {
           {i < tradeNightStores.length - 1 ? (i === tradeNightStores.length - 2 ? ', and ' : ', ') : '.'}
         </span>
       ))}
-      {' '}Ask your local shop whether they run one — it's a lower-pressure way to get a feel for trading before you
-      ever set foot at a show table.
+      {' '}Plenty of shops run one without ever listing it anywhere online, so ask your local shop directly — it's a
+      lower-pressure way to get a feel for trading before you ever set foot at a show table.
     </p>
 
     <h2 class="text-3xl">Finding a Show Near You</h2>

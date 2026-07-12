@@ -1,4 +1,6 @@
 ---
+// Store-link rule waived by review: this guide funnels submission/store specifics to
+// psa-grading-submissions-canada, which carries the computed store links.
 import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
@@ -81,7 +83,8 @@ const ld: Record<string, unknown> = {
       on photos or an in-person look, with no independent third party backing that up. A slabbed card has an
       independent grader's number attached to it, which is exactly what a buyer is paying for: certainty. A raw card
       described as "near mint" might really be a 7, an 8, or a 9 — nobody but the buyer's own judgment is confirming
-      it either way. A slabbed 9 is a 9 no matter who's holding it or who's buying it. That certainty is genuinely
+      it either way. A slabbed 9 doesn't need arguing for — the label settles the question before anyone asks it.
+      That certainty is genuinely
       worth something to buyers, which is why a graded copy of a card usually sells for more than an equivalent raw
       copy — but grading costs money and takes time, so it only makes sense to chase that premium on cards where the
       math actually works out.
@@ -115,7 +118,8 @@ const ld: Record<string, unknown> = {
     <h2 class="text-3xl">Which Cards Are Usually Worth Grading</h2>
     <p>
       In general, grading tends to make the most sense for rookie cards of star players, low-print-run inserts and
-      parallels, genuinely vintage cards in unusually strong shape for their age, and anything that already commands
+      parallels (special cards printed in far smaller numbers than a set's regular base cards), genuinely vintage
+      cards in unusually strong shape for their age, and anything that already commands
       real money as a raw card. Common veterans, base cards from recent sets, and anything with a low raw value to
       begin with almost never clear the bar, no matter how sharp the corners look, simply because there isn't enough
       room between the raw price and a realistic graded price to cover the cost of finding out. When in doubt, that
@@ -125,7 +129,8 @@ const ld: Record<string, unknown> = {
     <h2 class="text-3xl">If You'd Rather Not Ship It Yourself</h2>
     <p>
       If the idea of packing and shipping cards across the border puts you off entirely, {gradingStoreCount} shops in
-      our directory currently list grading services, meaning they'll handle the submission on your behalf. Our{' '}
+      our directory currently list grading services — which typically means they'll handle the submission on your
+      behalf; call ahead to confirm their current process. Our{' '}
       <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> covers that route
       alongside the other two Canadian collectors actually use.
     </p>

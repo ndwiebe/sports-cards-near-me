@@ -2,9 +2,26 @@
 import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
 
 const stores = storesJson as Store[];
 const cityCount = new Set(stores.map((s) => s.citySlug)).size;
+
+// Shops that list buying collections among what they offer — computed from
+// stores.json (case-insensitive match), deduped to one shop per city so the
+// three examples aren't all pulled from the same town. Sorted by rating
+// (undefined last) then review count, same tiebreak as our other guides, so
+// this tracks the directory's live data.
+const buyingStores: Store[] = [];
+const seenBuyingCities = new Set<string>();
+for (const s of stores
+  .filter((s) => s.services.some((v) => v.toLowerCase() === 'buys'))
+  .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))) {
+  if (seenBuyingCities.has(s.citySlug)) continue;
+  seenBuyingCities.add(s.citySlug);
+  buyingStores.push(s);
+  if (buyingStores.length === 3) break;
+}
 
 const title = "Selling a Collection You Inherited (or Outgrew)";
 const description =
@@ -78,7 +95,15 @@ const ld: Record<string, unknown> = {
         the least effort by far, but the price reflects the fact that the shop still has to resell what they buy from
         you, so it's typically the lowest of these four options. Our{' '}
         <a href="/" class="text-prizm">directory of {stores.length} shops across {cityCount} Canadian cities</a> is a
-        good place to find one near you.
+        good place to find one near you. Shops in our directory that spell out card buying among their services
+        include{' '}
+        {buyingStores.map((s, i) => (
+          <span>
+            <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a> in{' '}
+            <a href={`/${PROVINCES[s.province].slug}/${s.citySlug}/`} class="text-prizm">{s.city}, {s.province}</a>
+            {i < buyingStores.length - 1 ? (i === buyingStores.length - 2 ? ', and ' : ', ') : '.'}
+          </span>
+        ))}
       </li>
       <li>
         <strong>Consignment</strong> — a shop sells your cards on your behalf and takes an agreed cut once they sell,
@@ -93,8 +118,9 @@ const ld: Record<string, unknown> = {
       </li>
       <li>
         <strong>A show table</strong> — renting or sharing a table at a{' '}
-        <a href="/shows/" class="text-prizm">card show</a> puts you face-to-face with buyers and pays out same-day
-        cash, with the added benefit of seeing in real time what collectors are actually looking for.
+        <a href="/shows/" class="text-prizm">card show</a> puts you face-to-face with buyers, and whatever sells is
+        same-day cash. Weigh the table fee and a full day of your time against it, and know nothing is guaranteed to
+        sell — but you'll see in real time what collectors are actually looking for.
       </li>
     </ul>
 
@@ -102,9 +128,10 @@ const ld: Record<string, unknown> = {
     <p>
       It's common to get an offer for "the whole box" or "the whole binder" as one flat number, sight unseen. Those
       offers are almost always priced for the worst realistic case — hidden condition problems, mostly low-value
-      commons, and nothing genuinely worth a premium mixed in — because the buyer has no way to know otherwise until
-      they've sorted it themselves. Doing that sorting yourself first, and pulling out anything that actually clears
-      the bar above, almost always nets more in total than handing over one lump sum for everything unseen. It takes
+      commons (the everyday cards that make up the bulk of any collection), and nothing genuinely worth a premium
+      mixed in — because the buyer has no way to know otherwise until they've sorted it themselves. Doing that
+      sorting yourself first, and pulling out anything that actually clears the bar above, usually nets more in
+      total than handing over one lump sum for everything unseen. It takes
       longer, but it's the difference between someone else finding the good cards in your collection and you finding
       them yourself. The same logic applies to any "we buy collections" offer that quotes a price before actually
       seeing what's in the box — treat it as a starting point for a conversation, not a final number, and don't feel
@@ -127,7 +154,8 @@ const ld: Record<string, unknown> = {
     <p>
       However you end up selling, a little prep goes a long way. Sort into rough tiers — obviously worth a closer
       look, maybe, and probably not — so you're not re-evaluating the same pile every time you talk to a buyer. Slide
-      anything in the "worth a closer look" pile into a penny sleeve or toploader before it changes hands anywhere, so
+      anything in the "worth a closer look" pile into a penny sleeve or toploader (a thin plastic sleeve and a rigid
+      plastic holder — the standard cheap protection any card shop sells) before it changes hands anywhere, so
       a shop, a show buyer, or a shipping box can't be the thing that knocks a card down a grade. And snap a few
       photos of anything promising before you hand it over — cheap insurance if you ever need to reference its
       condition later. None of this needs to be fancy: a phone camera, a few plastic sleeves from any shop or

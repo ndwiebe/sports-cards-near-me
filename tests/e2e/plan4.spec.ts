@@ -93,6 +93,9 @@ test('selling your collection guide has an h1 and 3+ internal links', async ({ p
   const res = await page.goto('/guides/selling-your-collection/');
   expect(res?.status()).toBe(200);
   await expect(page.locator('h1')).toBeVisible();
+  const storeLinks = page.locator('main a[href^="/store/"]');
+  const cityLinks = page.locator('main a[href^="/alberta/"], main a[href^="/british-columbia/"], main a[href^="/ontario/"]');
+  expect((await storeLinks.count()) + (await cityLinks.count())).toBeGreaterThanOrEqual(3);
   const internalLinks = page.locator('main a[href^="/"]');
   expect(await internalLinks.count()).toBeGreaterThanOrEqual(3);
 });
