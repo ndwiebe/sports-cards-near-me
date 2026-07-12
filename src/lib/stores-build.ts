@@ -5,7 +5,7 @@ import { parseRating, sanitizeText, slugify, deriveProvince, splitList } from '.
 const num = (c: GvizRow[number]): number | null =>
   c !== null && typeof c.v === 'number' ? c.v : null;
 
-const httpUrl = (raw: unknown): string | undefined => {
+export const httpUrl = (raw: unknown): string | undefined => {
   const text = sanitizeText(raw);
   return text !== undefined && /^https?:\/\//i.test(text) ? text : undefined;
 };

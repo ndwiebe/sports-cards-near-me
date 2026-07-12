@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "bake": "tsx scripts/bake-stores.ts",
+    "bake:shows": "tsx scripts/bake-shows.ts",
     "test": "vitest run",
     "test:e2e": "playwright test"
   },

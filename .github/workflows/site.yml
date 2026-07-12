@@ -23,6 +23,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run bake
+      - run: npm run bake:shows
       - run: npm test
       - run: npm run build
         env:

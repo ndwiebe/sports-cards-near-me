@@ -23,3 +23,10 @@ export async function fetchSheetRows(sheetId: string, gid: string): Promise<Gviz
   if (!res.ok) throw new Error(`gviz: HTTP ${res.status}`);
   return parseGviz(await res.text());
 }
+
+export async function fetchSheetRowsByName(sheetId: string, name: string): Promise<GvizRow[]> {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(name)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`gviz: HTTP ${res.status}`);
+  return parseGviz(await res.text());
+}

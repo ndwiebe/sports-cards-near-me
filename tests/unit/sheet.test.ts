@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { parseGviz } from '../../src/lib/sheet';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { parseGviz, fetchSheetRowsByName } from '../../src/lib/sheet';
 
 const SAMPLE =
   '/*O_o*/\ngoogle.visualization.Query.setResponse({"version":"0.6","reqId":"0","status":"ok","table":{"cols":[{"id":"A"}],"rows":[{"c":[{"v":"203 Collectibles LTD."},null,{"v":"Edmonton, AB"},{"v":4.8,"f":"4.8"}]}]}});';
@@ -21,5 +21,32 @@ describe('parseGviz', () => {
     const rows = parseGviz(s);
     expect(rows).toHaveLength(1);
     expect(rows[0]?.[0]?.v).toBe('x');
+  });
+});
+
+describe('fetchSheetRowsByName', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('fetches the gviz endpoint by sheet name and parses the JSONP payload', async () => {
+    const fetchMock = vi.fn(async () => new Response(SAMPLE, { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const rows = await fetchSheetRowsByName('SHEET_ID_123', 'Shows');
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://docs.google.com/spreadsheets/d/SHEET_ID_123/gviz/tq?tqx=out:json&sheet=Shows',
+    );
+    expect(rows).toHaveLength(1);
+    expect(rows[0]?.[0]?.v).toBe('203 Collectibles LTD.');
+  });
+
+  it('throws on a non-ok response', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('nope', { status: 404 })),
+    );
+    await expect(fetchSheetRowsByName('SHEET_ID_123', 'Shows')).rejects.toThrow('gviz: HTTP 404');
   });
 });
