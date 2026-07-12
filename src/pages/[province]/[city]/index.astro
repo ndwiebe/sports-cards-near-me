@@ -8,6 +8,7 @@ import type { Store } from '../../../lib/types';
 import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
 import { toMapResellers } from '../../../lib/map-data';
+import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, faqPageLd, itemListLd, ldJson } from '../../../lib/seo';
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -27,11 +28,29 @@ const cityResellers = (resellersJson as ResellerRecord[]).filter(
   (r) => r.province === province.code && r.citySlug === cityGroup.citySlug,
 );
 const resellerPins = toMapResellers(cityResellers, cityGroup.stores);
+
+const provinceUrl = absoluteUrl(Astro.site, `/${province.slug}/`);
+const cityUrl = absoluteUrl(Astro.site, `/${province.slug}/${cityGroup.citySlug}/`);
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: province.name, url: provinceUrl },
+  { name: cityGroup.city, url: cityUrl },
+]);
+const storeListLd = itemListLd(
+  cityGroup.stores.map((s) => ({ name: s.name, url: absoluteUrl(Astro.site, `/store/${s.slug}/`) })),
+  25,
+);
+const capsule = cityAnswerCapsule(cityGroup.city, province.name, cityGroup.stores);
+const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stores);
+const faqLd = faqPageLd(faqs);
 ---
 <Base
   title={`Sports Card Shops in ${cityGroup.city}, ${province.code} (${cityGroup.stores.length}) | Sports Cards Near Me`}
   description={`Find sports card shops in ${cityGroup.city}, ${province.name}: ${cityGroup.stores.length} verified ${cityGroup.stores.length === 1 ? 'store' : 'stores'} with ratings, hours, and directions.`}
 >
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(storeListLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
   <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord">
     <img
       src="/images/city-generic.webp"
@@ -47,9 +66,7 @@ const resellerPins = toMapResellers(cityResellers, cityGroup.stores);
       <nav class="text-sm text-muted"><a href={`/${province.slug}/`} class="hover:text-paper">{province.name}</a> / {cityGroup.city}</nav>
       <h1 class="mt-3 text-5xl md:text-7xl">{cityGroup.city}</h1>
       <div class="refractor-rule mt-4 w-28"></div>
-      <p class="mt-4 max-w-prose text-paper/85">
-        {cityGroup.stores.length} sports card {cityGroup.stores.length === 1 ? 'shop' : 'shops'} in {cityGroup.city}, {province.name}.
-      </p>
+      <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
     </div>
   </section>
 
@@ -106,6 +123,27 @@ const resellerPins = toMapResellers(cityResellers, cityGroup.stores);
       </ul>
     </section>
   )}
+
+  <section class="mt-12">
+    <h2 class="text-2xl">FAQ</h2>
+    <dl class="mt-4 space-y-6">
+      {faqs.map((faq) => (
+        <div>
+          <dt class="font-semibold">{faq.question}</dt>
+          <dd class="mt-1 max-w-prose text-muted">
+            {faq.answer}
+            {faq.link !== undefined && (
+              <>
+                {' '}
+                <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+              </>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+  </section>
 
   <script>
     import { whenMapReady } from '../../../scripts/map-registry';

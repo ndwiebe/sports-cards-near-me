@@ -1,0 +1,209 @@
+import { describe, expect, it } from 'vitest';
+import {
+  breadcrumbListLd,
+  cityAnswerCapsule,
+  cityFaqs,
+  faqPageLd,
+  itemListLd,
+  ldJson,
+  provinceAnswerCapsule,
+} from '../../src/lib/seo';
+import type { Store } from '../../src/lib/types';
+
+function store(overrides: Partial<Store>): Store {
+  return {
+    slug: 'test-store',
+    name: 'Test Store',
+    city: 'Calgary',
+    citySlug: 'calgary',
+    address: '123 Main St',
+    province: 'AB',
+    services: [],
+    sports: [],
+    lat: 51.05,
+    lng: -114.07,
+    ...overrides,
+  };
+}
+
+describe('ldJson', () => {
+  it('escapes < to prevent script-breakout XSS', () => {
+    const out = ldJson({ name: '</script><script>alert(1)</script>' });
+    expect(out).not.toContain('</script>');
+    expect(out).toContain('\\u003c/script>\\u003cscript>alert(1)\\u003c/script>');
+  });
+
+  it('round-trips valid JSON', () => {
+    const payload = { a: 1, b: [1, 2, 3] };
+    expect(JSON.parse(ldJson(payload))).toEqual(payload);
+  });
+});
+
+describe('breadcrumbListLd', () => {
+  it('numbers positions from 1 and preserves order', () => {
+    const ld = breadcrumbListLd([
+      { name: 'Home', url: 'https://x/' },
+      { name: 'Alberta', url: 'https://x/alberta/' },
+      { name: 'Calgary', url: 'https://x/alberta/calgary/' },
+    ]);
+    expect(ld['@type']).toBe('BreadcrumbList');
+    const items = ld['itemListElement'] as Array<Record<string, unknown>>;
+    expect(items).toHaveLength(3);
+    expect(items.map((i) => i['position'])).toEqual([1, 2, 3]);
+    expect(items[2]?.['name']).toBe('Calgary');
+    expect(items[2]?.['item']).toBe('https://x/alberta/calgary/');
+  });
+});
+
+describe('itemListLd', () => {
+  it('caps items when a cap is given', () => {
+    const items = Array.from({ length: 30 }, (_, i) => ({ name: `Store ${i}`, url: `https://x/${i}/` }));
+    const ld = itemListLd(items, 25);
+    const list = ld['itemListElement'] as Array<Record<string, unknown>>;
+    expect(list).toHaveLength(25);
+    expect(list[24]?.['position']).toBe(25);
+  });
+
+  it('does not cap when no cap is given', () => {
+    const items = Array.from({ length: 30 }, (_, i) => ({ name: `City ${i}`, url: `https://x/${i}/` }));
+    const ld = itemListLd(items);
+    expect((ld['itemListElement'] as unknown[]).length).toBe(30);
+  });
+});
+
+describe('faqPageLd', () => {
+  it('maps question/answer pairs into schema.org shape', () => {
+    const ld = faqPageLd([{ question: 'Q1?', answer: 'A1.' }]);
+    expect(ld['@type']).toBe('FAQPage');
+    const entities = ld['mainEntity'] as Array<Record<string, unknown>>;
+    expect(entities[0]?.['name']).toBe('Q1?');
+    expect((entities[0]?.['acceptedAnswer'] as Record<string, unknown>)['text']).toBe('A1.');
+  });
+});
+
+describe('cityAnswerCapsule', () => {
+  it('produces a single paragraph in the 40-60 word range for a typical city', () => {
+    const stores = [
+      store({ slug: 'a', name: 'Andys', rating: 4.8, reviewCount: 172 }),
+      store({ slug: 'b', name: 'Celly', rating: 4.9, reviewCount: 110 }),
+      store({ slug: 'c', name: 'Collectors', rating: 4.4, reviewCount: 35 }),
+      store({ slug: 'd', name: 'Eastridge', rating: 4.5, reviewCount: 389 }),
+      store({ slug: 'e', name: 'Maple Leaf', rating: 4, reviewCount: 114 }),
+      store({ slug: 'f', name: 'Olympic', rating: 4.7, reviewCount: 74 }),
+      store({ slug: 'g', name: 'Overtime', rating: 4.5, reviewCount: 42 }),
+      store({ slug: 'h', name: 'Sentry Box', rating: 4.5, reviewCount: 285 }),
+    ];
+    const capsule = cityAnswerCapsule('Calgary', 'Alberta', stores);
+    const wordCount = capsule.trim().split(/\s+/).length;
+    expect(wordCount).toBeGreaterThanOrEqual(35);
+    expect(wordCount).toBeLessThanOrEqual(65);
+    expect(capsule).toContain('Calgary, Alberta has 8 sports card shops');
+    expect(capsule).toContain('map');
+  });
+
+  it('never claims a fact for cities with no rating data', () => {
+    const stores = [store({ slug: 'a', name: 'No Rating Shop' })];
+    const capsule = cityAnswerCapsule('Nowhere', 'Alberta', stores);
+    expect(capsule).not.toContain('rating');
+    expect(capsule).toContain('1 sports card shop');
+  });
+
+  it('mentions computed tags when services/sports are present', () => {
+    const stores = [store({ slug: 'a', name: 'Grader', services: ['Grading Services'], sports: ['Hockey'] })];
+    const capsule = cityAnswerCapsule('Tagtown', 'Alberta', stores);
+    expect(capsule).toContain('Grading Services');
+    expect(capsule).toContain('Hockey');
+  });
+});
+
+describe('provinceAnswerCapsule', () => {
+  it('names the single biggest city by store count', () => {
+    const capsule = provinceAnswerCapsule('Alberta', [
+      { city: 'Calgary', citySlug: 'calgary', stores: [store({}), store({}), store({})] },
+      { city: 'Edmonton', citySlug: 'edmonton', stores: [store({})] },
+    ]);
+    expect(capsule).toContain('Alberta has 4 sports card shops listed across 2 cities');
+    expect(capsule).toContain('Calgary has the most with 3 shops');
+  });
+
+  it('handles a tie honestly instead of naming one city as uniquely biggest', () => {
+    const capsule = provinceAnswerCapsule('Alberta', [
+      { city: 'Calgary', citySlug: 'calgary', stores: [store({})] },
+      { city: 'Edmonton', citySlug: 'edmonton', stores: [store({})] },
+    ]);
+    expect(capsule).toContain('2 cities tie for the most, each with 1 shop');
+  });
+
+  it('handles a province with zero stores without dividing by zero or naming a city', () => {
+    const capsule = provinceAnswerCapsule('Nunavut', [{ city: 'Iqaluit', citySlug: 'iqaluit', stores: [] }]);
+    expect(capsule).toContain('0 sports card shops');
+    expect(capsule).not.toContain('has the most');
+  });
+});
+
+describe('cityFaqs', () => {
+  it('generates exactly 3 questions', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({})]);
+    expect(faqs).toHaveLength(3);
+  });
+
+  it('names the top-rated store in the count answer when ratings exist', () => {
+    const stores = [
+      store({ slug: 'a', name: 'Low', rating: 4.0 }),
+      store({ slug: 'b', name: 'Winner', rating: 4.9 }),
+    ];
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', stores);
+    expect(faqs[0]?.answer).toContain('Winner');
+    expect(faqs[0]?.answer).toContain('4.9 stars');
+  });
+
+  it('omits a top-rated claim when no store in the city has a rating', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ rating: undefined })]);
+    expect(faqs[0]?.answer).not.toContain('highest-rated');
+  });
+
+  it('answers yes with names when a store lists Buys, no province link needed', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [
+      store({ name: 'Buyer Shop', services: ['Buys'] }),
+    ]);
+    const buysFaq = faqs[1]!;
+    expect(buysFaq.answer).toContain('Yes');
+    expect(buysFaq.answer).toContain('Buyer Shop');
+    expect(buysFaq.link).toBeUndefined();
+  });
+
+  it('answers honestly and links the province page when no store buys collections', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ services: [] })]);
+    const buysFaq = faqs[1]!;
+    expect(buysFaq.answer).toContain('None');
+    expect(buysFaq.link).toEqual({ href: 'https://x/alberta/', label: 'Alberta page' });
+  });
+
+  it('answers yes for Pokemon when a sports tag matches case-insensitively', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [
+      store({ name: 'Poke Shop', sports: ['Pokemon'] }),
+    ]);
+    const pokemonFaq = faqs[2]!;
+    expect(pokemonFaq.answer).toContain('Yes');
+    expect(pokemonFaq.answer).toContain('Poke Shop');
+    expect(pokemonFaq.link).toBeUndefined();
+  });
+
+  it('answers honestly and links the province page when no store carries Pokemon', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({ sports: [] })]);
+    const pokemonFaq = faqs[2]!;
+    expect(pokemonFaq.answer).toContain('None');
+    expect(pokemonFaq.link).toEqual({ href: 'https://x/alberta/', label: 'Alberta page' });
+  });
+
+  it('produces the same question/answer array used for both visible copy and JSON-LD', () => {
+    const faqs = cityFaqs('Calgary', 'Alberta', 'https://x/alberta/', [store({})]);
+    const ld = faqPageLd(faqs);
+    const entities = ld['mainEntity'] as Array<Record<string, unknown>>;
+    expect(entities).toHaveLength(faqs.length);
+    faqs.forEach((faq, i) => {
+      expect(entities[i]?.['name']).toBe(faq.question);
+      expect((entities[i]?.['acceptedAnswer'] as Record<string, unknown>)['text']).toBe(faq.answer);
+    });
+  });
+});

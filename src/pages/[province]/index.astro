@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
+import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson, provinceAnswerCapsule } from '../../lib/seo';
 
 export function getStaticPaths() {
   return provincesWithStores(storesJson as Store[]).map((p) => ({ params: { province: p.slug } }));
@@ -13,15 +14,26 @@ const province = provinceBySlug(Astro.params.province);
 if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`);
 const cities = citiesIn(stores, province.code);
 const total = cities.reduce((n, c) => n + c.stores.length, 0);
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: province.name, url: absoluteUrl(Astro.site, `/${province.slug}/`) },
+]);
+const cityListLd = itemListLd(
+  cities.map((c) => ({ name: c.city, url: absoluteUrl(Astro.site, `/${province.slug}/${c.citySlug}/`) })),
+);
+const capsule = provinceAnswerCapsule(province.name, cities);
 ---
 <Base
   title={`Sports Card Shops in ${province.name} (${total}) | Sports Cards Near Me`}
   description={`Every sports card shop in ${province.name} — ${total} verified stores across ${cities.length} cities, with hours, ratings, and directions.`}
 >
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(cityListLd)} />
   <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Province</p>
   <h1 class="mt-2 text-5xl md:text-7xl">{province.name}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
-  <p class="mt-4 max-w-prose text-muted">{total} card shops across {cities.length} cities.</p>
+  <p class="mt-4 max-w-prose text-muted" data-answer-capsule>{capsule}</p>
   <ul class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
     {cities.map((c) => (
       <li>
