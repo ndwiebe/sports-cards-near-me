@@ -16,3 +16,10 @@ test('nav carries the Resellers link on other pages', async ({ page }) => {
   await page.goto('/guides/');
   await expect(page.locator('header nav a[href="/resellers/"]')).toBeVisible();
 });
+
+test('join page explains the bar and offers an application path', async ({ page }) => {
+  const res = await page.goto('/resellers/join/');
+  expect(res?.status()).toBe(200);
+  await expect(page.getByRole('heading', { name: 'Become a Verified Reseller' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Open the application form|Apply by email/ })).toBeVisible();
+});

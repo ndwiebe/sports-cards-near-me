@@ -1,0 +1,43 @@
+---
+import Base from '../../../layouts/Base.astro';
+
+// Set by the controller once the Google Form exists (see plan §0 pre-work).
+// While it is null the page renders the email fallback — ship either way.
+const JOIN_FORM_URL: string | null = null;
+
+const CHECKLIST = [
+  'Your display name or handle (real name optional — profiles are public)',
+  "City and province (that's all the location we ever publish)",
+  'What you collect and sell, in a sentence or two',
+  'Links where you sell: eBay store, Facebook, Instagram, your own site',
+  'Track-record evidence: your eBay feedback page, or equivalent public history — this part stays private',
+];
+---
+<Base
+  title="Become a Verified Reseller | Sports Cards Near Me"
+  description="Apply for the SCNM Verified badge — for card sellers with an established track record and no storefront."
+>
+  <h1 class="mt-16 text-5xl md:text-7xl">Become a Verified Reseller</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-5 max-w-prose text-muted">
+    The <span class="text-gold">SCNM Verified</span> badge is for sellers with an established public track
+    record — roughly: 100+ eBay feedback at 98%+ positive across a year or more of selling, or the equivalent
+    history on Facebook or Instagram. Meeting the bar earns consideration, not automatic approval:
+    a human reviews every application. Your profile is public; verified status is removed if credible
+    problems are reported to us and confirmed.
+  </p>
+  <h2 class="mt-10 text-2xl">Have these ready</h2>
+  <ul role="list" class="mt-4 max-w-prose list-disc space-y-2 pl-5 text-paper/90">
+    {CHECKLIST.map((item) => <li>{item}</li>)}
+  </ul>
+  {JOIN_FORM_URL !== null ? (
+    <a href={JOIN_FORM_URL} target="_blank" rel="noopener"
+      class="mt-10 inline-block rounded-lg px-6 py-3 font-semibold text-ink"
+      style="background:var(--gradient-refractor)">Open the application form</a>
+  ) : (
+    <a href={`mailto:hello@displaymycard.com?subject=${encodeURIComponent('Verified Reseller application')}`}
+      class="mt-10 inline-block rounded-lg px-6 py-3 font-semibold text-ink"
+      style="background:var(--gradient-refractor)">Apply by email</a>
+  )}
+  <p class="mt-4 text-xs text-muted">Applications are reviewed by a person. No fees, no account needed.</p>
+</Base>
