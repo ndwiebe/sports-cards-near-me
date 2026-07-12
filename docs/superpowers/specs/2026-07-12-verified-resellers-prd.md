@@ -2,7 +2,7 @@
 
 **Product:** the reseller network layer of sportscardsnearme.ca (SCNM)
 **Author:** Fable, from Nathan's vision + three structured decision rounds, 2026-07-12
-**Status:** awaiting Nathan's review → then writing-plans → build
+**Status:** APPROVED by Nathan 2026-07-12 ("Everything else looks fine") → plan: docs/superpowers/plans/2026-07-13-plan6-verified-resellers-v1.md
 
 ---
 
@@ -35,6 +35,10 @@ A reseller earns **SCNM Verified** when they show **an established selling track
 - **eBay route:** 100+ feedback, ≥98% positive, account active ≥1 year, recent card sales visible.
 - **Social route (Facebook/Instagram sellers):** equivalent evidence — an active selling history ≥1 year with consistent public activity and references Nathan can check (group admin vouches, visible sold posts).
 - **Plus, always:** Nathan personally reviews every application. Meeting the floor earns consideration, not automatic approval.
+
+### Badge revocation (Nathan’s intent, 2026-07-12: report-driven, human-investigated)
+
+Revocation is **reactive, not surveilled**: SCNM does not monitor sellers algorithmically. The badge is removed when a credible problem reaches Nathan — a buyer report, word from the community, or a visible collapse in the seller’s public track record brought to his attention — and he investigates and decides. Site plumbing this requires in v1: a lightweight "Report a problem with this reseller" link on every profile (mailto or the suggest-form mechanism), and one published sentence: *"Verified status is removed if credible problems are reported to us and confirmed — tell us if something’s wrong."* No appeals process, no automation, no promises of response time.
 
 Future tier (roadmap, not v1): **ID-Verified** — government-ID check layered on top, distinct badge.
 
@@ -107,4 +111,4 @@ Inventory display of any kind · accounts/login · payments · messaging/DM rela
 1. Trust-number display (deselected for v1 — revisit with reseller feedback in v1.1)
 2. eBay live embed as v2 alternative if inventory-list adoption stalls
 3. Whether ID-Verified tier is a paid feature (interacts with monetization decision)
-4. Reseller removal policy (badge revocation criteria if track record sours) — needs one paragraph before v1 ships; Nathan drafts intent, Fable words it
+4. ~~Reseller removal policy~~ — RESOLVED 2026-07-12, see §3 Badge revocation
