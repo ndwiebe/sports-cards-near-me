@@ -31,7 +31,7 @@ const GVIZ_DATE_RE = /^Date\((\d{4}),(\d{1,2}),(\d{1,2})/;
 // is NOT guaranteed to be ISO. Parse `v`'s Date(...) constructor first, as
 // the primary path; fall back to ISO text on `f` then `v` for cells that
 // are plain text instead of native Sheets dates.
-const isoDate = (cell: GvizCell | null | undefined): string | undefined => {
+export const isoDate = (cell: GvizCell | null | undefined): string | undefined => {
   const raw = sanitizeText(cell?.v);
   const match = raw?.match(GVIZ_DATE_RE);
   const year = match?.[1];
