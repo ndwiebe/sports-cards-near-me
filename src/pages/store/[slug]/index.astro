@@ -35,8 +35,7 @@ const ld: Record<string, unknown> = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
   <nav class="mt-10 text-sm text-muted">
-    <a href={`/${provinceSlug}/`} class="hover:text-paper">{provinceName}</a> /
-    <a href={`/${provinceSlug}/${store.citySlug}/`} class="hover:text-paper">{store.city}</a> / {store.name}
+    <a href={`/${provinceSlug}/`} class="hover:text-paper">{provinceName}</a>{' / '}<a href={`/${provinceSlug}/${store.citySlug}/`} class="hover:text-paper">{store.city}</a>{' / '}{store.name}
   </nav>
   <h1 class="mt-3 text-5xl md:text-7xl">{store.name}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
