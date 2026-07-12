@@ -1,0 +1,164 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+
+const stores = storesJson as Store[];
+const abStores = stores.filter((s) => s.province === 'AB');
+const abRated = abStores.filter((s) => s.rating !== undefined);
+const cityCount = new Set(abStores.map((s) => s.citySlug)).size;
+const provinceSlug = PROVINCES.AB.slug;
+
+// Top Alberta shops by Google rating (ties broken by review count) — computed
+// at build time from stores.json, never hand-typed, so this list can't go
+// stale-wrong: it simply reflects whatever the directory's live data says.
+const topShops = [...abRated]
+  .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))
+  .slice(0, 8);
+const topCityCount = new Set(topShops.map((s) => s.citySlug)).size;
+
+const title = 'Best Card Shops in Alberta';
+const description =
+  "Alberta's top-rated sports card shops, ranked straight from our directory by Google rating and review count.";
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: new URL('/images/guide-best-alberta.webp', Astro.site).href,
+  datePublished: '2026-07-11',
+  dateModified: '2026-07-11',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+
+  <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
+    <img
+      src="/images/guide-best-alberta.webp"
+      srcset="/images/guide-best-alberta@900.webp 900w, /images/guide-best-alberta.webp 1600w"
+      sizes="(max-width: 900px) 100vw, 1024px"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-50"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/25"></div>
+    <div class="relative px-6 py-10 md:px-12 md:py-14">
+      <nav class="text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+      <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+      <div class="refractor-rule mt-4 w-28"></div>
+    </div>
+  </section>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      Alberta has one of the deepest sports card scenes in our directory: {abStores.length} shops spread across{' '}
+      {cityCount} cities, from big-city storefronts to small-town spots that have been buying, selling, and trading
+      cards for years. Instead of picking favorites ourselves, we pulled the numbers straight from our own listings —
+      every Alberta shop's public Google rating and review count — and ranked them the same way for every shop.
+      Here's what came out on top, and how to make the most of it once you've picked a shop to visit.
+    </p>
+
+    <h2 class="text-3xl">How We Ranked These Shops</h2>
+    <p>
+      Of the {abStores.length} Alberta shops in our directory, {abRated.length} carry a public Google rating. We
+      sorted those by rating first, then by review count as a tiebreaker when shops share the same rating — a shop
+      with a strong rating from dozens of reviews and one with the same rating from just a couple both earned it
+      fair and square, but the tiebreaker gives the edge to the one more collectors have weighed in on. This list is
+      generated straight from that data rather than hand-picked, so it updates the same way our directory does. No
+      shop here got a mention it didn't earn, and none of them paid to be on this page.
+    </p>
+
+    <h2 class="text-3xl">What "Top" Means Here</h2>
+    <p>
+      A ranking like this reflects reputation, not inventory. We're not weighing how many cards a shop stocks, how
+      big the store is, or what sports it focuses on, since we don't have consistent inventory details across every
+      Alberta shop yet. What we do have is a rating and a review count for most of them, and that's an honest,
+      apples-to-apples way to compare reputation across a province this size, whether a shop is a single storefront
+      in a small town or a bigger operation in one of the bigger cities.
+    </p>
+
+    <h2 class="text-3xl">The Top-Rated Card Shops in Alberta</h2>
+    <ol role="list" class="space-y-3">
+      {topShops.map((s, i) => (
+        <li class="rounded-xl border border-bord bg-panel p-4">
+          <a href={`/store/${s.slug}/`} class="text-xl font-semibold hover:text-prizm">{i + 1}. {s.name}</a>
+          <p class="mt-1 text-sm text-muted">
+            <a href={`/${provinceSlug}/${s.citySlug}/`} class="hover:text-paper">{s.city}, AB</a>
+            {s.rating !== undefined && (
+              <span class="text-gold">
+                {' '}· ★ {s.rating}
+                {s.reviewCount !== undefined && <span class="text-muted"> ({s.reviewCount} Google reviews)</span>}
+              </span>
+            )}
+          </p>
+        </li>
+      ))}
+    </ol>
+    <p>
+      Between them, these {topShops.length} shops span {topCityCount} different Alberta cities, so there's a decent
+      chance one of them isn't far from you.
+    </p>
+
+    <h2 class="text-3xl">Reading the Ratings</h2>
+    <p>
+      A perfect rating means everyone who's left a review walked away happy, but it's worth reading the review count
+      alongside the rating rather than the rating on its own.{' '}
+      {topShops[0] !== undefined && (
+        <>
+          <a href={`/store/${topShops[0].slug}/`} class="text-prizm">{topShops[0].name}</a>, for example, carries a{' '}
+          {topShops[0].rating} rating from {topShops[0].reviewCount} Google reviews — the most of any shop on this
+          list, and a different kind of signal than a shop sitting at the same rating with only a couple of reviews
+          behind it.{' '}
+        </>
+      )}
+      Both are genuinely strong, but more reviews means more collectors vouching for a shop across more visits.
+      Neither number tells you what's actually in the cases, or whether a shop leans hockey, Pokémon, or vintage, so
+      it's worth calling ahead or checking a shop's own page before making a special trip, especially if you're
+      driving in from out of town.
+    </p>
+
+    <h2 class="text-3xl">What These Shops Have in Common</h2>
+    <p>
+      Most of the shops in our Alberta directory are small, independently run operations, and only a handful spell
+      out extras like card grading, wax breaks, or trade nights in what they list with us. That's a gap in what
+      we've verified so far rather than a sign those shops don't offer that — plenty of local shops run these kinds
+      of extras without ever putting them on paper anywhere online. If you know a shop that does something worth
+      mentioning, that's exactly the kind of detail we're trying to fill in as we verify more of the province. In
+      the meantime, the surest way to find out what a shop actually stocks, whether they buy collections, or when
+      they're really open is to reach out directly before you make the trip.
+    </p>
+
+    <h2 class="text-3xl">Before You Go</h2>
+    <p>
+      A few things are worth checking no matter which shop you're headed to. Hours at small, independently run shops
+      can drift from whatever's posted online, especially outside the bigger cities, so a quick call or message
+      ahead confirms you're not driving out to a locked door. If you're hoping to sell or trade rather than just buy,
+      ask what a shop is looking for before you show up — some shops buy collections outright, others prefer
+      straight trades, and most would rather know in advance than sort through a box cold. And if you're chasing
+      something specific, whether it's a particular set, a player, or a sport, a quick message with your want list
+      often saves everyone a wasted trip.
+    </p>
+
+    <h2 class="text-3xl">Beyond the Top {topShops.length}</h2>
+    <p>
+      These {topShops.length} are the highest-rated shops in our Alberta directory as it stands today, but they're
+      far from the only ones worth a visit. Alberta has card shops spread across {cityCount} different cities in our
+      listings, and that list keeps growing as we verify more of the country. Browse the{' '}
+      <a href={`/${provinceSlug}/`} class="text-prizm">full Alberta directory</a> to see every shop we've mapped near
+      you.
+    </p>
+
+    <p class="text-sm text-muted">
+      Ratings and review counts shift as new collectors leave feedback, and shops open, close, or change hands over
+      time, so this list will look a little different the next time we regenerate it. Know a shop in Alberta we're
+      missing, or something here looks out of date? <a href="/suggest/" class="text-prizm">Let us know</a> and we'll
+      get it added or corrected.
+    </p>
+  </div>
+</Base>

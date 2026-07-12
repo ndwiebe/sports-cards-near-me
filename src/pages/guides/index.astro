@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import { GUIDES } from '../../lib/guides';
+---
+<Base
+  title="Collector Guides | Sports Cards Near Me"
+  description="Plain-language guides for Canadian card collectors — grading, submissions, and where to shop — grounded in our own directory data."
+>
+  <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Guides</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">Collector Guides</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-muted">
+    Straight answers for Canadian collectors, grounded in our own directory data — no guesswork, no fabricated facts.
+  </p>
+
+  <ul role="list" class="mt-10 grid gap-6 sm:grid-cols-2">
+    {GUIDES.map((g) => (
+      <li class="overflow-hidden rounded-2xl border border-bord bg-panel transition-transform duration-200 hover:-translate-y-0.5 hover:border-prizm">
+        <a href={`/guides/${g.slug}/`} class="group block">
+          <div class="relative aspect-video bg-well">
+            <img
+              src={`/images/${g.cover}.webp`}
+              srcset={`/images/${g.cover}@900.webp 900w, /images/${g.cover}.webp 1600w`}
+              sizes="(max-width: 700px) 100vw, 500px"
+              alt=""
+              loading="lazy"
+              class="absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity duration-200 group-hover:opacity-100"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-panel via-panel/10 to-transparent"></div>
+          </div>
+          <div class="p-5">
+            <h2 class="text-2xl">{g.title}</h2>
+            <p class="mt-2 text-sm text-muted">{g.dek}</p>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

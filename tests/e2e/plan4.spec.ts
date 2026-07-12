@@ -37,3 +37,34 @@ test('show detail page has Event structured data', async ({ page }) => {
   const ld = await page.locator('script[type="application/ld+json"]').textContent();
   expect(ld).toContain('"@type":"Event"');
 });
+
+test('guides index returns 200 with both guide cards', async ({ page }) => {
+  const res = await page.goto('/guides/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('a[href="/guides/psa-grading-submissions-canada/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/guides/best-card-shops-alberta/"]').first()).toBeVisible();
+});
+
+test('nav has a Guides link', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('a[href="/guides/"]').first()).toBeVisible();
+});
+
+test('PSA grading guide has an h1 and internal store links', async ({ page }) => {
+  const res = await page.goto('/guides/psa-grading-submissions-canada/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  const storeLinks = page.locator('a[href^="/store/"]');
+  expect(await storeLinks.count()).toBeGreaterThanOrEqual(3);
+  const ld = await page.locator('script[type="application/ld+json"]').textContent();
+  expect(ld).toContain('"@type":"Article"');
+});
+
+test('Alberta guide has an h1 and internal store/city links', async ({ page }) => {
+  const res = await page.goto('/guides/best-card-shops-alberta/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  const storeLinks = page.locator('a[href^="/store/"]');
+  const cityLinks = page.locator('a[href^="/alberta/"]');
+  expect((await storeLinks.count()) + (await cityLinks.count())).toBeGreaterThanOrEqual(3);
+});

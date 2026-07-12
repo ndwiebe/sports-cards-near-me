@@ -1,0 +1,168 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+
+const stores = storesJson as Store[];
+
+// Shops that list grading services among what they offer — computed from
+// stores.json (case-insensitive match, since the data has both "Grading
+// Services" and "Grading services") so this never drifts out of date with
+// hand-typed shop names. Sorted by rating (undefined last), then review
+// count, so the picks track whatever the directory's live data says today.
+const gradingStores = stores
+  .filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services'))
+  .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))
+  .slice(0, 3);
+
+const title = 'PSA Grading for Canadian Collectors';
+const description =
+  "How Canadian collectors get cards graded by PSA — direct submission, local shop drop-off, and group submissions — without any guessed-at prices.";
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: new URL('/images/guide-psa-submissions.webp', Astro.site).href,
+  datePublished: '2026-07-11',
+  dateModified: '2026-07-11',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+
+  <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
+    <img
+      src="/images/guide-psa-submissions.webp"
+      srcset="/images/guide-psa-submissions@900.webp 900w, /images/guide-psa-submissions.webp 1600w"
+      sizes="(max-width: 900px) 100vw, 1024px"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-50"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/25"></div>
+    <div class="relative px-6 py-10 md:px-12 md:py-14">
+      <nav class="text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+      <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+      <div class="refractor-rule mt-4 w-28"></div>
+    </div>
+  </section>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      A graded card is one that's been examined by a third-party company, checked for corners, centering, edges, and
+      surface, then sealed in a hard plastic slab with a number on the label. PSA, short for Professional Sports
+      Authenticator, is the name most collectors know best, and a strong PSA grade can genuinely change what a card
+      is worth to a buyer. Submitting from Canada works the same way in principle as submitting from anywhere else —
+      you're still sending PSA your cards and getting them back in slabs — but the border adds a few real wrinkles.
+      This guide covers what grading actually is, why Canadians run into extra friction, and the three routes
+      collectors here actually use to get cards graded.
+    </p>
+
+    <h2 class="text-3xl">What Grading Actually Means</h2>
+    <p>
+      When PSA grades a card, a grader looks it over under controlled lighting and assigns a number from 1 to 10
+      based on how close to perfect the card is: centering, corner sharpness, edge wear, and surface condition all
+      factor in. The card goes into a tamper-evident holder with the grade printed on the label, along with a
+      certification number anyone can look up. That certainty is what buyers are paying for — a raw card's condition
+      is a matter of opinion between buyer and seller, but a PSA 9 is a PSA 9 no matter who's holding it. Not every
+      card is worth grading, since submission and shipping costs only make sense once a card's raw value clears a
+      certain bar, but for the right card, grading can unlock value a raw copy simply can't reach.
+    </p>
+
+    <h2 class="text-3xl">Why Grading From Canada Takes Extra Planning</h2>
+    <p>
+      PSA's grading operations are based in the United States, so every Canadian submission crosses the border
+      twice — once on the way down, once on the way back. That creates a few things collectors submitting from
+      inside the U.S. don't have to think about nearly as much:
+    </p>
+    <ul role="list" class="list-disc space-y-2 pl-5">
+      <li>Customs paperwork needs to be filled out honestly and clearly, and cross-border parcels can occasionally get held for review.</li>
+      <li>PSA bills its fees in U.S. dollars, so the exchange rate is part of your real cost, not just the sticker price.</li>
+      <li>A box of cards worth submitting is worth insuring, and cross-border shipping with tracking and insurance costs more than a domestic parcel does.</li>
+      <li>Both the outbound and return legs simply take longer than a domestic shipment would, on top of PSA's own turnaround time once your cards arrive.</li>
+    </ul>
+    <p>
+      None of this makes grading from Canada impractical — plenty of Canadian collectors do it regularly — it just
+      means the planning starts before you print a shipping label.
+    </p>
+
+    <h2 class="text-3xl">Route 1 — Submit Directly to PSA Yourself</h2>
+    <p>
+      The most straightforward route is creating a PSA account, building your submission online, and shipping your
+      cards to PSA yourself. You're in full control of packing, insurance, and the declared value on your customs
+      form, and you deal with PSA's customer service directly if anything comes up. The tradeoff is that you're also
+      the one handling cross-border shipping and customs paperwork, and you're paying full retail on shipping and
+      insurance instead of sharing it with anyone else. This route tends to suit collectors who submit often enough
+      to have a system down, or who have a small number of higher-value cards where direct control over every step
+      matters.
+    </p>
+
+    <h2 class="text-3xl">Route 2 — Drop Off at a Local Shop</h2>
+    <p>
+      A number of Canadian card shops offer grading services of their own: they'll take your cards in person, handle
+      the submission and cross-border shipping on your behalf, and hand you your slabs when they arrive. Because the
+      shop is submitting regularly, it's usually current on PSA's submission process and any customs quirks, which
+      takes that entire piece off your plate. In our directory, shops that list grading services among what they
+      offer include{' '}
+      {gradingStores.map((s, i) => (
+        <span>
+          <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a> in{' '}
+          <a href={`/${PROVINCES[s.province].slug}/${s.citySlug}/`} class="text-prizm">{s.city}, {s.province}</a>
+          {i < gradingStores.length - 1 ? (i === gradingStores.length - 2 ? ', and ' : ', ') : '.'}
+        </span>
+      ))}
+      {' '}If you're near one, it's worth a call to ask about their current process and whatever they charge on top
+      of PSA's own fees.
+    </p>
+
+    <h2 class="text-3xl">Route 3 — Group Submissions</h2>
+    <p>
+      Some shops and local collector communities organize group submissions: a batch of cards from several
+      collectors shipped to PSA together under one combined submission. Because shipping, insurance, and customs
+      paperwork are shared across the whole group instead of paid in full by one person, group submissions can
+      meaningfully cut the per-card cost of grading, especially for cards that wouldn't be worth submitting solo. If
+      that interests you, ask your local shop whether they run them, or watch for community-organized submission
+      windows — they're usually announced with a deadline for dropping cards off before the batch ships.
+    </p>
+
+    <h2 class="text-3xl">What Grading Actually Costs</h2>
+    <p>
+      We're not going to quote you a number here, and that's on purpose. PSA's pricing depends on the service tier
+      you choose, since faster turnaround costs more, the declared value of your card, and membership status, and
+      all of it changes over time. Rather than print a price that's wrong six months from now, go straight to{' '}
+      <a href="https://www.psacard.com/pricing" target="_blank" rel="noopener" class="text-prizm">
+        PSA's official pricing page
+      </a>{' '}
+      for current tiers and turnaround estimates before you submit. If you're going through a local shop, ask them
+      directly what they charge on top of PSA's own fee for handling your submission.
+    </p>
+
+    <h2 class="text-3xl">Getting Your Cards Ready</h2>
+    <p>
+      However you submit, cards travel best in a penny sleeve inside a semi-rigid holder — never loose in a
+      toploader that can shift and scuff a corner in transit, and never with tape touching the card itself.
+      Double-check PSA's current submission form for exactly what they need declared, and photograph your cards
+      before they leave your hands, just in case you ever need to reference their condition later.
+    </p>
+
+    <h2 class="text-3xl">Which Route Fits You</h2>
+    <p>
+      If you submit often, want full control, and don't mind handling cross-border shipping yourself, submitting
+      direct works well. If you'd rather hand the logistics to someone who does this regularly, a local shop that
+      offers grading services does that job for you. And if you've got a stack of lower-value cards that wouldn't be
+      worth grading solo, a group submission is worth asking about. Whichever route you pick, the fundamentals don't
+      change: check PSA's current pricing before you commit, pack your cards properly, and give the process the time
+      it actually takes.
+    </p>
+
+    <p class="text-sm text-muted">
+      Know a shop that offers grading services we're missing? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+    </p>
+  </div>
+</Base>
