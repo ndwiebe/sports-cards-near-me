@@ -6,9 +6,11 @@ const cell = (v: string | number | null, f?: string): GvizCell | null =>
   v === null ? null : f !== undefined ? { v, f } : { v };
 
 // Start/End Date columns are native Sheets date cells: gviz returns v as a
-// "Date(y,m,d)" constructor string (0-indexed month) and f as the formatted
-// display text — which is ISO YYYY-MM-DD because the sheet column is
-// formatted that way. rowToShow must read the date from `f`, not `v`.
+// locale-independent "Date(y,m,d)" constructor string (0-indexed month) —
+// the ground truth — and f as the sheet's locale-formatted display text,
+// which is only ISO YYYY-MM-DD incidentally and not guaranteed to stay that
+// way. rowToShow must parse the date from `v`'s Date(...) constructor, not
+// trust `f`.
 const row = (over: Partial<Record<number, GvizCell | null>> = {}): GvizRow => {
   const base: (GvizCell | null)[] = [
     cell('Calgary Card Expo'),
@@ -59,6 +61,16 @@ describe('rowToShow', () => {
     const s = rowToShow(row({ 5: cell('2026-08-15'), 6: cell('2026-08-16') }));
     expect(s?.startDate).toBe('2026-08-15');
     expect(s?.endDate).toBe('2026-08-16');
+  });
+
+  it('parses the Date(y,m0,d) constructor in `v` with 0-indexed month, even with no `f`', () => {
+    const s = rowToShow(row({ 5: cell('Date(2026,6,10)') }));
+    expect(s?.startDate).toBe('2026-07-10');
+  });
+
+  it('trusts `v` over a locale-formatted `f` that is not ISO text', () => {
+    const s = rowToShow(row({ 5: cell('Date(2026,6,10)', '7/10/2026') }));
+    expect(s?.startDate).toBe('2026-07-10');
   });
 
   it('drops non-http(s) website/source values to undefined', () => {

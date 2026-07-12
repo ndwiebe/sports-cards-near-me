@@ -22,16 +22,29 @@ export interface ShowRecord {
 }
 
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const GVIZ_DATE_RE = /^Date\((\d{4}),(\d{1,2}),(\d{1,2})/;
 
 // Start/End Date sheet cells are native Sheets date cells: gviz reports `v`
-// as a "Date(y,m,d)" constructor string and `f` as the locale-formatted
-// display text, which is ISO YYYY-MM-DD because the column is formatted
-// that way. Prefer `f`; fall back to `v` in case a cell is plain text.
+// as a locale-independent "Date(y,m0,d)" constructor string (month
+// 0-indexed) — the ground truth — while `f` is the sheet's locale-formatted
+// display text (e.g. "7/10/2026" vs "10/7/2026" depending on locale), which
+// is NOT guaranteed to be ISO. Parse `v`'s Date(...) constructor first, as
+// the primary path; fall back to ISO text on `f` then `v` for cells that
+// are plain text instead of native Sheets dates.
 const isoDate = (cell: GvizCell | null | undefined): string | undefined => {
+  const raw = sanitizeText(cell?.v);
+  const match = raw?.match(GVIZ_DATE_RE);
+  const year = match?.[1];
+  const month = match?.[2];
+  const day = match?.[3];
+  if (year !== undefined && month !== undefined && day !== undefined) {
+    const mm = String(Number(month) + 1).padStart(2, '0');
+    const dd = day.padStart(2, '0');
+    return `${year}-${mm}-${dd}`;
+  }
   const formatted = sanitizeText(cell?.f);
   if (formatted !== undefined && ISO_DATE_RE.test(formatted)) return formatted;
-  const text = sanitizeText(cell?.v);
-  return text !== undefined && ISO_DATE_RE.test(text) ? text : undefined;
+  return raw !== undefined && ISO_DATE_RE.test(raw) ? raw : undefined;
 };
 
 const provinceCode = (raw: unknown): ProvinceCode | null => {
