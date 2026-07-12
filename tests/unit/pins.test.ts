@@ -39,3 +39,13 @@ it('createPinEl uses a logo image when the store has one', () => {
   expect(img?.getAttribute('src')).toBe(`/logos/${store.slug}.webp`);
   expect(elp.querySelector('span.pin-badge')).toBeNull();
 });
+
+it('createPinEl replaces a failed logo image with the initials badge', () => {
+  const elp = createPinEl({ ...store, logo: true });
+  const img = elp.querySelector<HTMLImageElement>('img.pin-badge-img');
+
+  img?.dispatchEvent(new Event('error'));
+
+  expect(elp.querySelector('img.pin-badge-img')).toBeNull();
+  expect(elp.querySelector('span.pin-badge')?.textContent).toBe('203');
+});

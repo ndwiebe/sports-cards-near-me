@@ -42,6 +42,7 @@ test('map island degrades cleanly without a token', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(String(e)));
   await page.goto('/');
   const shell = page.locator('#map-slot .map-shell');
+  await expect(shell).toHaveAttribute('data-map-state', /^(on|off)$/);
   const state = await shell.getAttribute('data-map-state');
   test.skip(state === 'on', 'token present in this build — off-state not exercised');
   await expect(shell).toHaveAttribute('data-map-state', 'off');
@@ -61,6 +62,21 @@ test('city filters narrow the list', async ({ page }) => {
   await expect(count).toHaveText(String(before));
 });
 
+test('city tag filter toggles the result count', async ({ page }) => {
+  await page.goto('/alberta/edmonton/');
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(String(error)));
+  const count = page.locator('[data-results-count]');
+  const initial = Number(await count.textContent());
+  const tag = page.locator('[data-filter-tag]').first();
+
+  await tag.click();
+  expect(Number(await count.textContent())).toBeLessThanOrEqual(initial);
+  await tag.click();
+  await expect(count).toHaveText(String(initial));
+  expect(errors).toEqual([]);
+});
+
 test('mobile map/list toggle switches panels', async ({ page, viewport }) => {
   test.skip((viewport?.width ?? 1280) > 500, 'mobile-only behavior');
   await page.goto(`/alberta/${first.citySlug}/`);
@@ -74,7 +90,9 @@ test.describe('nearest shops', () => {
   test.use({ geolocation: { latitude: 53.5461, longitude: -113.4938 }, permissions: ['geolocation'] });
   test('geolocate reveals a nearest-shops list with distances', async ({ page }) => {
     await page.goto('/');
-    const state = await page.locator('#map-slot .map-shell').getAttribute('data-map-state');
+    const shell = page.locator('#map-slot .map-shell');
+    await expect(shell).toHaveAttribute('data-map-state', /^(on|off)$/);
+    const state = await shell.getAttribute('data-map-state');
     test.skip(state !== 'on', 'geolocate wires with a token build');
     await page.locator('[data-geolocate]').first().click();
     await expect(page.locator('[data-nearest-list] a').first()).toBeVisible({ timeout: 10000 });

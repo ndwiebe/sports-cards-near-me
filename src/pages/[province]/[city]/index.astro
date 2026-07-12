@@ -77,7 +77,7 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
     <ul role="list" class="space-y-4" data-store-list>
       {cityGroup.stores.map((store) => <StoreCard store={store} />)}
     </ul>
-    <div data-city-map class="md:sticky md:top-6 md:self-start">
+    <div data-city-map class="max-md:hidden md:sticky md:top-6 md:self-start">
       <MapIsland stores={cityGroup.stores} mode="city" height="560px" />
     </div>
   </div>
@@ -94,10 +94,10 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
     const count = document.querySelector<HTMLElement>('[data-results-count]');
     let handle: MapHandle | null = null;
 
-    const raw = document.querySelector('script[data-map-stores]')?.textContent ?? '[]';
+    const mapShell = document.querySelector<HTMLElement>('[data-city-map] .map-shell');
+    const raw = mapShell?.querySelector('script[data-map-stores]')?.textContent ?? '[]';
     const all = JSON.parse(raw) as MapStore[];
 
-    const mapShell = document.querySelector<HTMLElement>('[data-city-map] .map-shell');
     if (mapShell) {
       whenMapReady(mapShell, (h) => {
         handle = h;
@@ -153,6 +153,5 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
         layout?.querySelector('[data-city-map]')?.classList.toggle('max-md:hidden', view === 'list');
       });
     }
-    document.querySelector('[data-city-map]')?.classList.add('max-md:hidden');
   </script>
 </Base>
