@@ -1,4 +1,5 @@
 import type { Store } from './types';
+import type { ResellerRecord } from './resellers';
 
 export interface MapStore {
   slug: string;
@@ -8,6 +9,7 @@ export interface MapStore {
   lng: number;
   rating?: number | undefined;
   logo?: boolean | undefined;
+  kind?: 'reseller' | undefined;
   services: string[];
   sports: string[];
 }
@@ -24,6 +26,29 @@ export function toMapStores(stores: Store[], logoSlugs?: ReadonlySet<string>): M
     services: s.services,
     sports: s.sports,
   }));
+}
+
+// Resellers have no address by design. Their pin sits at the centroid of the
+// stores already mapped in their city (same province) — a city-level marker,
+// never a walk-in location. Resellers in cities with no mapped stores are
+// list-only: visible on /resellers/ and city pages, absent from map data.
+export function toMapResellers(resellers: ResellerRecord[], stores: Store[]): MapStore[] {
+  return resellers.flatMap((r) => {
+    const cityStores = stores.filter((s) => s.province === r.province && s.citySlug === r.citySlug);
+    if (cityStores.length === 0) return [];
+    const lat = cityStores.reduce((n, s) => n + s.lat, 0) / cityStores.length;
+    const lng = cityStores.reduce((n, s) => n + s.lng, 0) / cityStores.length;
+    return [{
+      slug: r.slug,
+      name: r.name,
+      city: r.city,
+      lat,
+      lng,
+      kind: 'reseller' as const,
+      services: [],
+      sports: r.specialties,
+    }];
+  });
 }
 
 export function initialsOf(name: string): string {

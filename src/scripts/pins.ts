@@ -29,8 +29,12 @@ export function createPinEl(store: MapStore): HTMLElement {
   const outer = el('div', 'pin-outer');
   outer.dataset['slug'] = store.slug;
   const inner = el('div', 'pin-inner');
-  const chip = el('div', 'pin-chip');
-  chip.appendChild(badgeFor(store));
+  const chip = el('div', store.kind === 'reseller' ? 'pin-chip pin-chip-reseller' : 'pin-chip');
+  if (store.kind === 'reseller') {
+    chip.appendChild(el('span', 'pin-badge pin-badge-reseller', initialsOf(store.name)));
+  } else {
+    chip.appendChild(badgeFor(store));
+  }
   chip.appendChild(el('span', 'pin-name', store.name));
   inner.appendChild(chip);
   inner.appendChild(el('div', 'pin-stem'));

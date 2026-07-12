@@ -1,5 +1,6 @@
 ---
 import type { Store } from '../lib/types';
+import type { MapStore } from '../lib/map-data';
 import { toMapStores } from '../lib/map-data';
 import logoSlugs from '../data/logos.json';
 import '../styles/map.css';
@@ -8,9 +9,13 @@ interface Props {
   stores: Store[];
   mode: 'home' | 'city' | 'store';
   height?: string;
+  extra?: MapStore[] | undefined;
 }
-const { stores, mode, height } = Astro.props;
-const payload = JSON.stringify(toMapStores(stores, new Set(logoSlugs as string[]))).replace(/</g, '\\u003c');
+const { stores, mode, height, extra } = Astro.props;
+const payload = JSON.stringify([
+  ...toMapStores(stores, new Set(logoSlugs as string[])),
+  ...(extra ?? []),
+]).replace(/</g, '\\u003c');
 ---
 <div class="map-shell" data-map-mode={mode} style={height !== undefined ? `height:${height}` : undefined}>
   <script type="application/json" data-map-stores set:html={payload} />
@@ -30,13 +35,17 @@ const payload = JSON.stringify(toMapStores(stores, new Set(logoSlugs as string[]
     const handle = await mountMap(shell, stores, mode === 'store' ? { zoom: 14, pitch: 60 } : {});
     if (!handle) continue;
     handle.onPinClick((slug) => {
-      const card = document.querySelector(`[data-store-card="${slug}"]`);
+      const entry = stores.find((s) => s.slug === slug);
+      const isReseller = entry?.kind === 'reseller';
+      const card = document.querySelector(
+        isReseller ? `[data-reseller-card="${slug}"]` : `[data-store-card="${slug}"]`,
+      );
       if (card) {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         card.classList.add('ring-2', 'ring-prizm');
         setTimeout(() => card.classList.remove('ring-2', 'ring-prizm'), 1800);
       } else {
-        window.location.href = `/store/${slug}/`;
+        window.location.href = isReseller ? `/resellers/${slug}/` : `/store/${slug}/`;
       }
     });
     registerMap(shell, handle);
