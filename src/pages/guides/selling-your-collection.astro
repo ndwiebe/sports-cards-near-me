@@ -1,0 +1,142 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+
+const stores = storesJson as Store[];
+const cityCount = new Set(stores.map((s) => s.citySlug)).size;
+
+const title = "Selling a Collection You Inherited (or Outgrew)";
+const description =
+  'A Canadian collector’s guide to triaging an inherited or long-untouched card collection — what to check, which selling option fits your effort and timeline, and when grading first is worth it.';
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: new URL('/images/guide-selling-your-collection.webp', Astro.site).href,
+  datePublished: '2026-07-11',
+  dateModified: '2026-07-11',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+
+  <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
+    <img
+      src="/images/guide-selling-your-collection.webp"
+      srcset="/images/guide-selling-your-collection@900.webp 900w, /images/guide-selling-your-collection.webp 1600w"
+      sizes="(max-width: 900px) 100vw, 1024px"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-50"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/25"></div>
+    <div class="relative px-6 py-10 md:px-12 md:py-14">
+      <nav class="text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+      <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+      <div class="refractor-rule mt-4 w-28"></div>
+    </div>
+  </section>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      A shoebox from a parent's closet, a binder from your own childhood, a collection someone left behind — sooner
+      or later, most people end up holding a stack of cards they don't know the value of. The honest answer is that
+      most of it is probably just cards: fun to flip through, not worth much on their own. But "most" isn't "all,"
+      and it's worth ten minutes of sorting before you assume the whole box is worthless, or before you accept the
+      first offer someone makes for it sight unseen. This guide walks through how to tell what's worth a closer look,
+      the realistic ways to actually sell, and when it's worth grading a card before you sell it at all.
+    </p>
+
+    <h2 class="text-3xl">Is Anything Actually Valuable?</h2>
+    <p>
+      Three things move the needle more than anything else. <strong>Age</strong> matters, but not evenly — genuinely
+      vintage cards (mid-century and earlier) tend to hold value simply because fewer of them survived in any
+      condition, while a common modern card is rarely worth much regardless of how old it feels to you. <strong>Who's
+      on it</strong> matters more than most people expect: a star player, and especially a "rookie card" (a player's
+      first officially licensed card, generally the most sought-after card of that player's career), is far more
+      likely to carry real value than a random veteran or a team you've never heard of. And <strong>condition</strong>
+      is where the loupe look comes in — pull anything promising into good light and look closely, ideally with a
+      loupe (a small handheld magnifier collectors use to check a card's surface), at the corners, edges, and
+      surface. Sharp corners, no creases, and a clean surface free of scratches or stains are what separate a card
+      worth pursuing further from one that's just a card.
+    </p>
+
+    <h2 class="text-3xl">Your Options, Ranked by Effort vs. Return</h2>
+    <p>
+      There's no single right way to sell a collection — it depends on how much time you want to spend versus how
+      much of the final sale price you want to keep.
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>Local shop sale</strong> — walk in, get an on-the-spot offer, walk out with cash the same day. It's
+        the least effort by far, but the price reflects the fact that the shop still has to resell what they buy from
+        you, so it's typically the lowest of these four options. Our{' '}
+        <a href="/" class="text-prizm">directory of {stores.length} shops across {cityCount} Canadian cities</a> is a
+        good place to find one near you.
+      </li>
+      <li>
+        <strong>Consignment</strong> — a shop sells your cards on your behalf and takes an agreed cut once they sell,
+        rather than buying them from you outright. It usually nets you more than a straight sale since you're not
+        selling into the shop's own margin, but it takes longer, since your cards sell at whatever pace the shop's
+        customers actually buy them. Not every shop offers it, so ask directly.
+      </li>
+      <li>
+        <strong>Selling it yourself</strong> (eBay or similar) — the highest potential return, since there's no
+        middleman taking a cut, but also the most work: photographing each card, writing listings, packing and
+        shipping every sale, and handling buyer questions and the occasional return yourself.
+      </li>
+      <li>
+        <strong>A show table</strong> — renting or sharing a table at a{' '}
+        <a href="/shows/" class="text-prizm">card show</a> puts you face-to-face with buyers and pays out same-day
+        cash, with the added benefit of seeing in real time what collectors are actually looking for.
+      </li>
+    </ul>
+
+    <h2 class="text-3xl">Why Sight-Unseen Bulk Offers Run Low</h2>
+    <p>
+      It's common to get an offer for "the whole box" or "the whole binder" as one flat number, sight unseen. Those
+      offers are almost always priced for the worst realistic case — hidden condition problems, mostly low-value
+      commons, and nothing genuinely worth a premium mixed in — because the buyer has no way to know otherwise until
+      they've sorted it themselves. Doing that sorting yourself first, and pulling out anything that actually clears
+      the bar above, almost always nets more in total than handing over one lump sum for everything unseen. It takes
+      longer, but it's the difference between someone else finding the good cards in your collection and you finding
+      them yourself. The same logic applies to any "we buy collections" offer that quotes a price before actually
+      seeing what's in the box — treat it as a starting point for a conversation, not a final number, and don't feel
+      pressured to accept it on the spot.
+    </p>
+
+    <h2 class="text-3xl">When Grading First Makes Sense</h2>
+    <p>
+      Grading (having a third-party company examine a card and seal it in a tamper-evident holder with a numeric
+      grade) can raise what a card is worth to a buyer, but it costs money, takes time, and only pays off on cards
+      that clear a real value bar to begin with — it isn't worth doing to everything in the box. If you're not sure
+      whether a specific card is a candidate, our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> walks through how to decide.
+      If you've already decided something's worth submitting and you're doing it from Canada, our{' '}
+      <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> covers the three
+      routes collectors here actually use.
+    </p>
+
+    <h2 class="text-3xl">Getting Ready to Sell</h2>
+    <p>
+      However you end up selling, a little prep goes a long way. Sort into rough tiers — obviously worth a closer
+      look, maybe, and probably not — so you're not re-evaluating the same pile every time you talk to a buyer. Slide
+      anything in the "worth a closer look" pile into a penny sleeve or toploader before it changes hands anywhere, so
+      a shop, a show buyer, or a shipping box can't be the thing that knocks a card down a grade. And snap a few
+      photos of anything promising before you hand it over — cheap insurance if you ever need to reference its
+      condition later. None of this needs to be fancy: a phone camera, a few plastic sleeves from any shop or
+      big-box store, and an hour of sorting on a kitchen table is genuinely enough prep for most collections, whether
+      you end up selling it all at once or a piece at a time over several months.
+    </p>
+
+    <p class="text-sm text-muted">
+      Not sure where to start, or found a shop that buys collections we're missing? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>

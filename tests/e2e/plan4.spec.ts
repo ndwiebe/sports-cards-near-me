@@ -68,3 +68,39 @@ test('Alberta guide has an h1 and internal store/city links', async ({ page }) =
   const cityLinks = page.locator('a[href^="/alberta/"]');
   expect((await storeLinks.count()) + (await cityLinks.count())).toBeGreaterThanOrEqual(3);
 });
+
+test('guides index shows all five guide cards', async ({ page }) => {
+  const res = await page.goto('/guides/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('a[href="/guides/your-first-card-show/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/guides/selling-your-collection/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/guides/card-grading-101/"]').first()).toBeVisible();
+});
+
+test('first card show guide has an h1, the shows calendar link, and 3+ internal links', async ({ page }) => {
+  const res = await page.goto('/guides/your-first-card-show/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main a[href="/shows/"]').first()).toBeVisible();
+  const storeLinks = page.locator('main a[href^="/store/"]');
+  const cityLinks = page.locator('main a[href^="/alberta/"], main a[href^="/british-columbia/"], main a[href^="/ontario/"]');
+  expect((await storeLinks.count()) + (await cityLinks.count())).toBeGreaterThanOrEqual(3);
+  const internalLinks = page.locator('main a[href^="/"]');
+  expect(await internalLinks.count()).toBeGreaterThanOrEqual(3);
+});
+
+test('selling your collection guide has an h1 and 3+ internal links', async ({ page }) => {
+  const res = await page.goto('/guides/selling-your-collection/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  const internalLinks = page.locator('main a[href^="/"]');
+  expect(await internalLinks.count()).toBeGreaterThanOrEqual(3);
+});
+
+test('card grading 101 guide has an h1 and 3+ internal links', async ({ page }) => {
+  const res = await page.goto('/guides/card-grading-101/');
+  expect(res?.status()).toBe(200);
+  await expect(page.locator('h1')).toBeVisible();
+  const internalLinks = page.locator('main a[href^="/"]');
+  expect(await internalLinks.count()).toBeGreaterThanOrEqual(3);
+});

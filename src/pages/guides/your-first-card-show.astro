@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+
+const stores = storesJson as Store[];
+const cityCount = new Set(stores.map((s) => s.citySlug)).size;
+
+// Shops that list trade nights among what they offer — computed from
+// stores.json rather than hand-typed, deduped to one shop per city so the
+// three examples aren't all pulled from the same town. Sorted by rating
+// (undefined last) then review count first, same tiebreak as our other
+// guides, so this tracks the directory's live data.
+const tradeNightStores: Store[] = [];
+const seenCities = new Set<string>();
+for (const s of [...stores]
+  .filter((s) => s.services.some((v) => v.toLowerCase() === 'trade nights'))
+  .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))) {
+  if (seenCities.has(s.citySlug)) continue;
+  seenCities.add(s.citySlug);
+  tradeNightStores.push(s);
+  if (tradeNightStores.length === 3) break;
+}
+
+const title = 'Your First Card Show: What to Expect';
+const description =
+  'A newcomer’s guide to attending a Canadian card show: what happens, how to handle cards politely, cash vs. card, spotting real deals, and trade-night culture.';
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: new URL('/images/guide-first-card-show.webp', Astro.site).href,
+  datePublished: '2026-07-11',
+  dateModified: '2026-07-11',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+
+  <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
+    <img
+      src="/images/guide-first-card-show.webp"
+      srcset="/images/guide-first-card-show@900.webp 900w, /images/guide-first-card-show.webp 1600w"
+      sizes="(max-width: 900px) 100vw, 1024px"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-50"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/25"></div>
+    <div class="relative px-6 py-10 md:px-12 md:py-14">
+      <nav class="text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+      <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+      <div class="refractor-rule mt-4 w-28"></div>
+    </div>
+  </section>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      A card show is just a room full of folding tables, each one rented by a different dealer, all set up for a day
+      or a weekend in a community hall, arena concourse, or hotel ballroom. You pay a small admission fee at the
+      door, then walk the aisles browsing binders of loose "singles" (individual cards sold on their own, not in a
+      pack or box), display cases of graded cards, and boxes of cheaper commons you're welcome to dig through. Nobody
+      expects you to buy anything, and nobody's tracking how long you browse a table before moving on. If you've only
+      ever bought cards online, the first show can feel like a lot at once — this guide walks through what actually
+      happens, how to handle yourself once you're there, and how to find one near you.
+    </p>
+
+    <h2 class="text-3xl">What to Bring</h2>
+    <p>
+      Pack light, but pack a few specific things. Cash in small bills is the single most useful thing in your pocket
+      — more on why below. If you're hunting something specific, bring a written want list so you're not relying on
+      memory table after table. A few penny sleeves and toploaders (rigid plastic holders that protect a card in
+      transit) are worth tossing in a bag so anything you buy survives the trip home loose in your pocket. And if you
+      collect anything valuable enough that condition really matters, a small magnifying loupe (a jeweler's-style
+      handheld magnifier collectors use to check a card's surface up close) lets you check a card properly before you
+      commit, rather than trusting the lighting on a folding table.
+    </p>
+
+    <h2 class="text-3xl">Cash vs. Card</h2>
+    <p>
+      Most dealers at a Canadian card show still prefer cash, and plenty will only take cash — a card reader takes a
+      processing cut out of a sale that's often already priced thin, so a lot of vendors would rather skip that
+      entirely. Some tables do accept e-transfer or tap payment through a phone-based card reader, but don't assume
+      it — ask before you're at the register mentally, not after. Venues rarely have an ATM on site, so bring more
+      cash than you think you'll need rather than counting on finding a machine once you're there.
+    </p>
+
+    <h2 class="text-3xl">Handling Cards Politely</h2>
+    <p>
+      Card show etiquette is mostly common sense once someone spells it out. Ask before you pick anything up, even
+      cards sitting loose in a box — it's the dealer's table and their merchandise. Hold cards by the edges only,
+      since the oils on your fingers can leave marks on the surface over time, and that matters a lot more on a card
+      someone's hoping to grade later. If a card's sealed in a hard plastic "toploader" or slabbed in a graded
+      holder, don't pop it out yourself — ask the dealer to show it to you if you want a closer look. Put things back
+      exactly where you found them in the binder or box, and don't crowd a table when someone else is already looking
+      through it. None of this is complicated, but it's the difference between being welcomed back and being the
+      person a dealer watches a little closer next time.
+    </p>
+
+    <h2 class="text-3xl">Negotiating Without Being That Guy</h2>
+    <p>
+      Prices marked in a binder or on a box are usually a starting point, not a final number — most dealers expect
+      some back-and-forth and won't be offended by a reasonable counteroffer. There's a real difference, though,
+      between negotiating and lowballing: offering noticeably less than a card is worth, especially without asking
+      any questions about it first, tends to end the conversation fast. You generally get more room to negotiate when
+      you're buying several cards from the same dealer rather than haggling over one $5 card for ten minutes — a
+      small stack gives both of you something to work with. Decide your walk-away price before you're mid-negotiation
+      standing at the table, and it's a lot easier to hold to it.
+    </p>
+
+    <h2 class="text-3xl">Spotting an Actual Deal</h2>
+    <p>
+      A deal isn't just a lower number than you expected — it's a price that's genuinely below what the card is
+      trading for right now. Before you assume you've found one, check "comps" (comparable recent sold prices for
+      the same or a very similar card — recently completed eBay listings are the easiest free source) rather than
+      going on a hunch. Condition changes the math too: a card with a soft corner or slightly off centering can be
+      worth meaningfully less than the same card in sharper shape, even though they look nearly identical at a
+      glance across a table. And remember a "raw" card — meaning ungraded, sold on the dealer's word about its
+      condition rather than a third party's — should generally sell for less than the same card already sealed in a
+      graded holder, since the buyer is taking on the condition risk the grading company would otherwise absorb.
+    </p>
+
+    <h2 class="text-3xl">Trade Nights and Show Culture</h2>
+    <p>
+      Shows aren't the only place collectors gather. A number of local shops run informal "trade nights" — a regular
+      evening set aside for collectors to bring cards and work out trades with each other, usually with less money
+      changing hands than a show and more relationship-building. In our directory, shops that list trade nights among
+      what they offer include{' '}
+      {tradeNightStores.map((s, i) => (
+        <span>
+          <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a> in{' '}
+          <a href={`/${PROVINCES[s.province].slug}/${s.citySlug}/`} class="text-prizm">{s.city}, {s.province}</a>
+          {i < tradeNightStores.length - 1 ? (i === tradeNightStores.length - 2 ? ', and ' : ', ') : '.'}
+        </span>
+      ))}
+      {' '}Ask your local shop whether they run one — it's a lower-pressure way to get a feel for trading before you
+      ever set foot at a show table.
+    </p>
+
+    <h2 class="text-3xl">Finding a Show Near You</h2>
+    <p>
+      Shows run on their own calendar — some annual, some monthly, some one-off — so the best move is checking what's
+      actually coming up rather than guessing. Our{' '}
+      <a href="/shows/" class="text-prizm">live show calendar</a> lists upcoming Canadian card shows with dates,
+      venues, and admission, updated as new ones get added. If nothing's on the calendar near you right now, our
+      directory of {stores.length} shops across {cityCount} Canadian cities is worth browsing in the meantime — plenty
+      of local shops offer the same browsing, buying, and trading experience a show does, just on a Tuesday afternoon
+      instead of a weekend.
+    </p>
+
+    <p class="text-sm text-muted">
+      Know a show we're missing from the calendar? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+    </p>
+  </div>
+</Base>
