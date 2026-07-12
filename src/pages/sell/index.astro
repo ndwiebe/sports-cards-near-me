@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { citiesIn, provincesWithStores } from '../../lib/stores';
+import { isBuyer } from '../../lib/sell';
+import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+const buyerStores = stores.filter(isBuyer);
+const totalBuyers = buyerStores.length;
+const totalCities = new Set(buyerStores.map((s) => s.citySlug)).size;
+
+const provinceGroups = provincesWithStores(stores)
+  .map((p) => ({
+    name: p.name,
+    cities: citiesIn(stores, p.code)
+      .filter((c) => c.stores.some(isBuyer))
+      .map((c) => ({ city: c.city, citySlug: c.citySlug, count: c.stores.filter(isBuyer).length })),
+  }))
+  .filter((p) => p.cities.length > 0);
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Sell', url: absoluteUrl(Astro.site, '/sell/') },
+]);
+const cityListLd = itemListLd(
+  provinceGroups.flatMap((p) => p.cities.map((c) => ({ name: c.city, url: absoluteUrl(Astro.site, `/sell/${c.citySlug}/`) }))),
+);
+---
+<Base
+  title="Sell Your Sports Cards in Canada | Sports Cards Near Me"
+  description={`Find sports card shops across Canada that buy collections: ${totalBuyers} shops across ${totalCities} cities, ranked by rating.`}
+>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(cityListLd)} />
+
+  <nav class="mt-6 text-sm text-muted">Sell</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">Sell Your Sports Cards in Canada</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>
+    {totalBuyers} sports card {totalBuyers === 1 ? 'shop lists' : 'shops list'} buying collections as a service
+    across {totalCities} Canadian {totalCities === 1 ? 'city' : 'cities'}, according to Sports Cards Near Me.
+    Browse your city below to see who buys locally, or read our{' '}
+    <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> for how to sort,
+    value, and prep what you have before you sell — no price is ever guaranteed sight unseen.
+  </p>
+  <p class="mt-2 text-sm text-muted">
+    {totalBuyers} {totalBuyers === 1 ? 'shop' : 'shops'} across {totalCities} {totalCities === 1 ? 'city' : 'cities'} buy collections.
+  </p>
+
+  <div class="mt-10 space-y-10">
+    {provinceGroups.map((p) => (
+      <section>
+        <h2 class="text-2xl">{p.name}</h2>
+        <ul role="list" class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {p.cities.map((c) => (
+            <li>
+              <a href={`/sell/${c.citySlug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+                <span class="font-display text-xl uppercase">{c.city}</span>
+                <span class="block text-sm text-muted">{c.count} {c.count === 1 ? 'buyer' : 'buyers'}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

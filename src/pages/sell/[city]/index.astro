@@ -1,0 +1,102 @@
+---
+import Base from '../../../layouts/Base.astro';
+import StoreCard from '../../../components/StoreCard.astro';
+import storesJson from '../../../data/stores.json';
+import type { ProvinceCode, Store } from '../../../lib/types';
+import { PROVINCES } from '../../../lib/types';
+import { buyersInCity, isBuyer, sellCityCapsule, sellCityFaqs } from '../../../lib/sell';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson } from '../../../lib/seo';
+
+interface Props {
+  province: ProvinceCode;
+  citySlug: string;
+  city: string;
+}
+
+export function getStaticPaths() {
+  const stores = storesJson as Store[];
+  const seen = new Map<string, { province: ProvinceCode; citySlug: string; city: string }>();
+  for (const s of stores.filter(isBuyer)) {
+    if (!seen.has(s.citySlug)) seen.set(s.citySlug, { province: s.province, citySlug: s.citySlug, city: s.city });
+  }
+  return [...seen.values()].map((c) => ({
+    params: { city: c.citySlug },
+    props: { province: c.province, citySlug: c.citySlug, city: c.city },
+  }));
+}
+
+const { province, citySlug, city } = Astro.props;
+const stores = storesJson as Store[];
+const provinceName = PROVINCES[province].name;
+const provinceSlug = PROVINCES[province].slug;
+const buyers = buyersInCity(stores, province, citySlug);
+if (buyers.length === 0) throw new Error(`no buyers for city slug: ${citySlug}`);
+
+const sellUrl = absoluteUrl(Astro.site, `/sell/${citySlug}/`);
+const cityPageUrl = absoluteUrl(Astro.site, `/${provinceSlug}/${citySlug}/`);
+const guideUrl = absoluteUrl(Astro.site, '/guides/selling-your-collection/');
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Sell', url: absoluteUrl(Astro.site, '/sell/') },
+  { name: city, url: sellUrl },
+]);
+const buyerListLd = itemListLd(
+  buyers.map((b) => ({ name: b.name, url: absoluteUrl(Astro.site, `/store/${b.slug}/`) })),
+  25,
+);
+const capsule = sellCityCapsule(city, provinceName, buyers);
+const faqs = sellCityFaqs(city, provinceName, buyers, cityPageUrl, guideUrl);
+const faqLd = faqPageLd(faqs);
+---
+<Base
+  title={`Sell Sports Cards in ${city}, ${province} (${buyers.length}) | Sports Cards Near Me`}
+  description={`Where to sell sports cards in ${city}, ${provinceName}: ${buyers.length} ${buyers.length === 1 ? 'shop that lists' : 'shops that list'} buying collections, ranked by rating.`}
+>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(buyerListLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted"><a href="/sell/" class="hover:text-paper">Sell</a> / {city}</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">Sell Sports Cards in {city}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-muted" data-answer-capsule>{capsule}</p>
+
+  <p class="mt-6 max-w-prose text-sm text-muted">
+    See <a href={`/${provinceSlug}/${citySlug}/`} class="text-prizm">every card shop in {city}</a>, or read our{' '}
+    <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> for how to sort,
+    value, and prep what you have before you sell.
+  </p>
+
+  <section class="mt-10">
+    <h2 class="text-2xl">Shops That Buy Collections in {city}</h2>
+    <ol class="mt-4 space-y-4">
+      {buyers.map((buyer) => (
+        <li>
+          <StoreCard store={buyer} />
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">FAQ</h2>
+    <dl class="mt-4 space-y-6">
+      {faqs.map((faq) => (
+        <div>
+          <dt class="font-semibold">{faq.question}</dt>
+          <dd class="mt-1 max-w-prose text-muted">
+            {faq.answer}
+            {faq.link !== undefined && (
+              <>
+                {' '}
+                <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+              </>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+  </section>
+</Base>
