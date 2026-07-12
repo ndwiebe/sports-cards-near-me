@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
 
 // Set by the controller once the Google Form exists (see plan §0 pre-work).
 // While it is null the page renders the email fallback — ship either way.
@@ -41,4 +42,10 @@ const CHECKLIST = [
       style="background:var(--gradient-refractor)">Apply by email</a>
   )}
   <p class="mt-4 text-xs text-muted">Applications are reviewed by a person. No fees, no account needed.</p>
+
+  <CrossLinkCallout
+    heading="Selling as a business?"
+    body="If you're buying, grading, and reselling cards as a business, proper bookkeeping and tax planning are worth getting right — built specifically for card dealers."
+    links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+  />
 </Base>

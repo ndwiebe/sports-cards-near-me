@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
 import resellersJson from '../../data/resellers.json';
 import type { ResellerRecord } from '../../lib/resellers';
 import { PROVINCES } from '../../lib/types';
@@ -28,6 +29,12 @@ const groups = provinceOrder
   <a href="/resellers/join/"
     class="mt-8 inline-block rounded-lg px-6 py-3 font-semibold text-ink"
     style="background:var(--gradient-refractor)">Become a Verified Reseller</a>
+
+  <CrossLinkCallout
+    heading="Selling as a business?"
+    body="If you're buying, grading, and reselling cards as a business, proper bookkeeping and tax planning are worth getting right — built specifically for card dealers."
+    links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+  />
 
   {groups.length === 0 ? (
     <p class="mt-14 max-w-prose rounded-xl border border-bord bg-panel p-6 text-muted">

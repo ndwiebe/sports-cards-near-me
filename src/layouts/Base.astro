@@ -4,6 +4,7 @@ import '@fontsource/instrument-sans/400.css';
 import '@fontsource/instrument-sans/600.css';
 import '../styles/global.css';
 import Mark from '../components/Mark.astro';
+import EcosystemFooter from '../components/EcosystemFooter.astro';
 
 interface Props {
   title: string;
@@ -54,7 +55,8 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       <slot />
     </main>
     <footer class="border-t border-bord/50 py-8 text-center text-sm text-muted">
-      <p>© 2026 Sports Cards Near Me · Canada's card shop directory</p>
+      <EcosystemFooter />
+      <p class="mt-8">© 2026 Sports Cards Near Me · Canada's card shop directory</p>
     </footer>
   </body>
 </html>

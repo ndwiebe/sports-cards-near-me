@@ -1,6 +1,7 @@
 ---
 import { byRecommendedRank } from '../../lib/seo';
 import Base from '../../layouts/Base.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
@@ -163,6 +164,14 @@ const ld: Record<string, unknown> = {
       big-box store, and an hour of sorting on a kitchen table is genuinely enough prep for most collections, whether
       you end up selling it all at once or a piece at a time over several months.
     </p>
+
+    {/* CoinMyCard: add a linked entry here once it's out of pre-production — a
+        proof-of-possession tool that fits this seller context well. */}
+    <CrossLinkCallout
+      heading="Getting your cards ready to sell?"
+      body="Buyers judge a listing by its photos first — a quick AI enhancement can make your cards look their best before you post or bring them in."
+      links={[{ label: 'Make your cards look sharp →', href: 'https://displaymycard.com', external: true }]}
+    />
 
     <p class="text-sm text-muted">
       Not sure where to start, or found a shop that buys collections we're missing? <a href="/suggest/" class="text-prizm">Let us know</a>.

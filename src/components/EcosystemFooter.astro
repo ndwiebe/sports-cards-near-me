@@ -1,0 +1,46 @@
+---
+interface Product {
+  name: string;
+  href: string;
+  blurb: string;
+}
+
+// Nathan's other card products, in the order they should be recommended.
+// Slab Savvy Tracker has no web page and is intentionally omitted; CoinMyCard
+// isn't in production yet, so it renders below as a muted, unlinked label.
+const products: Product[] = [
+  {
+    name: 'DisplayMyCard',
+    href: 'https://displaymycard.com',
+    blurb: 'Make your cards look pro — AI photo enhancement',
+  },
+  {
+    name: 'Slab Savvy CPA',
+    href: 'https://slabsavvycpa.com',
+    blurb: 'Taxes & accounting for card dealers',
+  },
+];
+---
+<div class="mx-auto max-w-5xl px-5">
+  <p class="text-center font-display text-xs uppercase tracking-[0.14em] text-muted">
+    More tools for card collectors &amp; sellers
+  </p>
+  <ul role="list" class="mt-4 grid grid-cols-1 gap-3 text-left sm:grid-cols-3">
+    {products.map((p) => (
+      <li>
+        <a
+          href={p.href}
+          target="_blank"
+          rel="noopener"
+          class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm"
+        >
+          <span class="block font-display text-sm uppercase tracking-wide text-paper">{p.name}</span>
+          <span class="mt-1 block text-xs text-muted">{p.blurb}</span>
+        </a>
+      </li>
+    ))}
+    <li class="rounded-xl border border-bord/50 bg-panel/50 p-4">
+      <span class="block font-display text-sm uppercase tracking-wide text-muted">CoinMyCard — coming soon</span>
+    </li>
+  </ul>
+</div>

@@ -1,6 +1,7 @@
 ---
 import { byRecommendedRank } from '../../lib/seo';
 import Base from '../../layouts/Base.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
@@ -132,6 +133,12 @@ const ld: Record<string, unknown> = {
       that interests you, ask your local shop whether they run them, or watch for community-organized submission
       windows — they're usually announced with a deadline for dropping cards off before the batch ships.
     </p>
+
+    <CrossLinkCallout
+      heading="Selling as a business?"
+      body="If you're buying, grading, and reselling cards as a business, proper bookkeeping and tax planning are worth getting right — built specifically for card dealers."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
 
     <h2 class="text-3xl">What Grading Actually Costs</h2>
     <p>

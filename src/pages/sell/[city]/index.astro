@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import StoreCard from '../../../components/StoreCard.astro';
+import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
 import storesJson from '../../../data/stores.json';
 import type { ProvinceCode, Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
@@ -67,6 +68,14 @@ const faqLd = faqPageLd(faqs);
     <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> for how to sort,
     value, and prep what you have before you sell.
   </p>
+
+  {/* CoinMyCard: add a linked entry here once it's out of pre-production — a
+      proof-of-possession tool that fits this seller context well. */}
+  <CrossLinkCallout
+    heading="Getting your cards ready to sell?"
+    body="Buyers judge a listing by its photos first — a quick AI enhancement can make your cards look their best before you post or bring them in."
+    links={[{ label: 'Make your cards look sharp →', href: 'https://displaymycard.com', external: true }]}
+  />
 
   <section class="mt-10">
     <h2 class="text-2xl">Shops That Buy Collections in {city}</h2>
