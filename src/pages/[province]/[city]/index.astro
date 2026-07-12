@@ -3,8 +3,11 @@ import Base from '../../../layouts/Base.astro';
 import StoreCard from '../../../components/StoreCard.astro';
 import MapIsland from '../../../components/MapIsland.astro';
 import storesJson from '../../../data/stores.json';
+import resellersJson from '../../../data/resellers.json';
 import type { Store } from '../../../lib/types';
+import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
+import { toMapResellers } from '../../../lib/map-data';
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -20,6 +23,10 @@ const cityGroup = citiesIn(stores, province.code).find((c) => c.citySlug === Ast
 if (!cityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
 const services = [...new Set(cityGroup.stores.flatMap((s) => s.services))].sort();
 const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
+const cityResellers = (resellersJson as ResellerRecord[]).filter(
+  (r) => r.province === province.code && r.citySlug === cityGroup.citySlug,
+);
+const resellerPins = toMapResellers(cityResellers, cityGroup.stores);
 ---
 <Base
   title={`Sports Card Shops in ${cityGroup.city}, ${province.code} (${cityGroup.stores.length}) | Sports Cards Near Me`}
@@ -78,9 +85,27 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
       {cityGroup.stores.map((store) => <StoreCard store={store} />)}
     </ul>
     <div data-city-map class="max-md:hidden md:sticky md:top-6 md:self-start">
-      <MapIsland stores={cityGroup.stores} mode="city" height="560px" />
+      <MapIsland stores={cityGroup.stores} extra={resellerPins} mode="city" height="560px" />
     </div>
   </div>
+
+  {cityResellers.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-2xl">Verified resellers in {cityGroup.city}</h2>
+      <p class="mt-1 text-sm text-muted">Trusted sellers here without a storefront — sold online, checked by a human.</p>
+      <ul role="list" class="mt-4 grid gap-4 sm:grid-cols-2">
+        {cityResellers.map((r) => (
+          <li>
+            <a href={`/resellers/${r.slug}/`} data-reseller-card={r.slug}
+              class="flex items-center justify-between rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+              <span class="font-semibold">{r.name}</span>
+              <span class="rounded-full border border-gold/60 bg-well px-2.5 py-0.5 text-xs font-semibold text-gold">SCNM Verified</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <script>
     import { whenMapReady } from '../../../scripts/map-registry';
@@ -123,7 +148,7 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
         card.classList.toggle('hidden', !visible.has(card.dataset['storeCard'] ?? ''));
       }
       if (count) count.textContent = String(visible.size);
-      handle?.setStores(all.filter((s) => visible.has(s.slug)));
+      handle?.setStores([...all.filter((s) => s.kind !== 'reseller' && visible.has(s.slug)), ...all.filter((s) => s.kind === 'reseller')]);
     }
 
     search?.addEventListener('input', apply);
