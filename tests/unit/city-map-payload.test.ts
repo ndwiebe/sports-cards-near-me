@@ -12,3 +12,10 @@ it('reads the store payload from the city map island', () => {
   );
   expect(cityPage).not.toContain("document.querySelector('script[data-map-stores]')");
 });
+
+it('renders the city map hidden on mobile without a post-load mutation', () => {
+  expect(cityPage).toMatch(/<div data-city-map class="[^"]*\bmax-md:hidden\b[^"]*">/);
+  expect(cityPage).not.toContain(
+    "document.querySelector('[data-city-map]')?.classList.add('max-md:hidden');",
+  );
+});
