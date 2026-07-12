@@ -1,11 +1,10 @@
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import type { Map as MapboxMap, Marker as MapboxMarker } from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import type { MapStore } from '../lib/map-data';
 import { createPinEl, createClusterEl } from './pins';
 
 export interface MapHandle {
-  map: mapboxgl.Map;
+  map: MapboxMap;
   setStores(stores: MapStore[]): void;
   flyTo(lng: number, lat: number, zoom?: number): void;
   onPinClick(cb: (slug: string) => void): void;
@@ -27,13 +26,22 @@ function centerOf(stores: MapStore[]): [number, number] {
   return [lng, lat];
 }
 
-export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts = {}): MapHandle | null {
+export async function mountMap(
+  shell: HTMLElement,
+  stores: MapStore[],
+  opts: MountOpts = {},
+): Promise<MapHandle | null> {
   const token = import.meta.env.PUBLIC_MAPBOX_TOKEN;
   if (token === undefined || token === '') {
     shell.dataset['mapState'] = 'off';
     shell.style.removeProperty('height');
     return null;
   }
+  const [mapboxModule] = await Promise.all([
+    import('mapbox-gl'),
+    import('mapbox-gl/dist/mapbox-gl.css'),
+  ]);
+  const mapboxgl = mapboxModule.default;
   shell.dataset['mapState'] = 'on';
 
   const container = document.createElement('div');
@@ -58,7 +66,7 @@ export function mountMap(shell: HTMLElement, stores: MapStore[], opts: MountOpts
   }
 
   let clickCb: ((slug: string) => void) | null = null;
-  let markers: mapboxgl.Marker[] = [];
+  let markers: MapboxMarker[] = [];
   let index: Supercluster<{ store: MapStore }> | null = null;
   let current: MapStore[] = stores;
   let highlighted: string | null = null;

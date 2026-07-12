@@ -42,6 +42,7 @@ test('map island degrades cleanly without a token', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(String(e)));
   await page.goto('/');
   const shell = page.locator('#map-slot .map-shell');
+  await expect(shell).toHaveAttribute('data-map-state', /^(on|off)$/);
   const state = await shell.getAttribute('data-map-state');
   test.skip(state === 'on', 'token present in this build — off-state not exercised');
   await expect(shell).toHaveAttribute('data-map-state', 'off');
@@ -74,7 +75,9 @@ test.describe('nearest shops', () => {
   test.use({ geolocation: { latitude: 53.5461, longitude: -113.4938 }, permissions: ['geolocation'] });
   test('geolocate reveals a nearest-shops list with distances', async ({ page }) => {
     await page.goto('/');
-    const state = await page.locator('#map-slot .map-shell').getAttribute('data-map-state');
+    const shell = page.locator('#map-slot .map-shell');
+    await expect(shell).toHaveAttribute('data-map-state', /^(on|off)$/);
+    const state = await shell.getAttribute('data-map-state');
     test.skip(state !== 'on', 'geolocate wires with a token build');
     await page.locator('[data-geolocate]').first().click();
     await expect(page.locator('[data-nearest-list] a').first()).toBeVisible({ timeout: 10000 });
