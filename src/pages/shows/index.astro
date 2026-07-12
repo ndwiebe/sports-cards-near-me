@@ -29,10 +29,15 @@ const formatRange = (show: ShowRecord): string => {
   <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Calendar</p>
   <h1 class="mt-2 text-5xl md:text-7xl">Card Shows</h1>
   <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-5 max-w-prose text-muted">
+    Verified card shows across Canada — every listing checked against a public source.
+    Run a show, or know one we're missing?
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScRyvOUWQCBNnQBIfdDU2MVkqfgM4uy9HsEz7Tf5bWYA7H3kQ/viewform" target="_blank" rel="noopener" class="text-prizm">Add a show</a> — it's free, and a person reviews every submission.
+  </p>
 
   {upcoming.length === 0 ? (
     <p class="mt-8 max-w-prose text-muted">
-      No upcoming shows listed yet — know one? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+      No upcoming shows listed yet — know one? <a href="https://docs.google.com/forms/d/e/1FAIpQLScRyvOUWQCBNnQBIfdDU2MVkqfgM4uy9HsEz7Tf5bWYA7H3kQ/viewform" target="_blank" rel="noopener" class="text-prizm">Suggest it</a>.
     </p>
   ) : (
     <div class="mt-10 space-y-10">

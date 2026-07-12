@@ -98,7 +98,7 @@ Inventory display of any kind · accounts/login · payments · messaging/DM rela
 
 **v3 — The network:** cross-country inventory visibility (shop↔reseller, reseller↔reseller), buyer-side "find this card near you" search across all published inventory. The market-efficiency endgame.
 
-**Monetization checkpoint:** revisit at v2 with real usage data. Leading hypothesis stays free-network/paid-services; freemium storefront upgrades are the fallback.
+**Monetization checkpoint:** revisit at v2 with real usage data. Leading candidate (Nathan, 2026-07-12): **paid "Featured" placement** — featured reseller/shop/show prominently displayed in their area (the design system's reserved "featured ring" exists for this). Hard rules: Featured ≠ Verified (one is paid, one is earned — never blur them); paid placement always labeled; scarce slots (1–3 per city). Don't sell until per-page traffic data proves the value. Full sketch: vault 00-Inbox/2026-07-12-scnm-featured-placement-monetization.md. Fallbacks: free-network/paid-services flywheel; freemium storefront upgrades.
 
 ## 6. Success metrics
 
