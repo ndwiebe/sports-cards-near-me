@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import resellersJson from '../../data/resellers.json';
+import type { ResellerRecord } from '../../lib/resellers';
+import { PROVINCES } from '../../lib/types';
+import type { ProvinceCode } from '../../lib/types';
+import { initialsOf } from '../../lib/map-data';
+
+const resellers = resellersJson as ResellerRecord[];
+const provinceOrder = Object.keys(PROVINCES) as ProvinceCode[];
+const groups = provinceOrder
+  .map((code) => ({ code, name: PROVINCES[code].name, resellers: resellers.filter((r) => r.province === code) }))
+  .filter((g) => g.resellers.length > 0);
+---
+<Base
+  title="Verified Resellers | Sports Cards Near Me"
+  description="Canada's verified card resellers — trusted sellers without a storefront, checked by a human before listing."
+>
+  <p class="mt-16 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Directory</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">Verified Resellers</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-5 max-w-prose text-muted">
+    Not every trusted card seller has a storefront. These sellers earned the
+    <span class="text-gold">SCNM Verified</span> badge by showing an established public selling track record —
+    and a human checked every application. We don't process transactions and can't guarantee any sale;
+    verified status is removed if credible problems are reported to us and confirmed.
+  </p>
+  <a href="/resellers/join/"
+    class="mt-8 inline-block rounded-lg px-6 py-3 font-semibold text-ink"
+    style="background:var(--gradient-refractor)">Become a Verified Reseller</a>
+
+  {groups.length === 0 ? (
+    <p class="mt-14 max-w-prose rounded-xl border border-bord bg-panel p-6 text-muted">
+      Verified reseller profiles are coming — the first applications are being reviewed now.
+      Sell cards without a storefront? <a href="/resellers/join/" class="text-prizm">Apply above.</a>
+    </p>
+  ) : (
+    groups.map((g) => (
+      <section class="mt-12">
+        <h2 class="text-2xl">{g.name}</h2>
+        <ul role="list" class="mt-4 grid gap-4 sm:grid-cols-2">
+          {g.resellers.map((r) => (
+            <li>
+              <a href={`/resellers/${r.slug}/`} data-reseller-card={r.slug}
+                class="flex items-center gap-4 rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-bord bg-well font-display text-prizm" aria-hidden="true">{initialsOf(r.name)}</span>
+                <span>
+                  <span class="block font-semibold">{r.name}</span>
+                  <span class="block text-sm text-muted">{r.city} · {r.specialties.slice(0, 3).join(', ')}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  )}
+</Base>

@@ -1,0 +1,112 @@
+---
+import Base from '../../../layouts/Base.astro';
+import resellersJson from '../../../data/resellers.json';
+import storesJson from '../../../data/stores.json';
+import type { ResellerRecord } from '../../../lib/resellers';
+import type { Store } from '../../../lib/types';
+import { PROVINCES } from '../../../lib/types';
+import { initialsOf } from '../../../lib/map-data';
+import { parseLocalDate } from '../../../lib/shows';
+
+export function getStaticPaths() {
+  return (resellersJson as ResellerRecord[]).map((r) => ({ params: { slug: r.slug }, props: { reseller: r } }));
+}
+const { reseller } = Astro.props as { reseller: ResellerRecord };
+const prov = PROVINCES[reseller.province];
+const stores = storesJson as Store[];
+// Link the city name only when the directory actually has a page for it.
+const cityHasPage = stores.some((s) => s.province === reseller.province && s.citySlug === reseller.citySlug);
+const links: { label: string; href: string }[] = [
+  ...(reseller.ebay !== undefined ? [{ label: 'eBay store', href: reseller.ebay }] : []),
+  ...(reseller.facebook !== undefined ? [{ label: 'Facebook', href: reseller.facebook }] : []),
+  ...(reseller.instagram !== undefined ? [{ label: 'Instagram', href: reseller.instagram }] : []),
+  ...(reseller.website !== undefined ? [{ label: 'Website', href: reseller.website }] : []),
+];
+const verifiedSinceLabel =
+  reseller.verifiedSince !== undefined
+    ? new Intl.DateTimeFormat('en-CA', { month: 'long', year: 'numeric' }).format(parseLocalDate(reseller.verifiedSince))
+    : undefined;
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: reseller.name,
+    ...(reseller.bio !== undefined && { description: reseller.bio }),
+    address: { '@type': 'PostalAddress', addressLocality: reseller.city, addressRegion: reseller.province, addressCountry: 'CA' },
+    ...(links.length > 0 && { sameAs: links.map((l) => l.href) }),
+  },
+};
+const reportHref = `mailto:hello@displaymycard.com?subject=${encodeURIComponent(`Report a problem: ${reseller.name} (verified reseller)`)}`;
+---
+<Base
+  title={`${reseller.name} — Verified Reseller in ${reseller.city} | Sports Cards Near Me`}
+  description={`${reseller.name} is an SCNM Verified card reseller in ${reseller.city}, ${prov.name}.${reseller.bio !== undefined ? ` ${reseller.bio}` : ''}`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <nav class="mt-10 text-sm text-muted">
+    <a href="/resellers/" class="hover:text-paper">Verified Resellers</a>
+    <span aria-hidden="true"> / </span>
+    <span>{reseller.name}</span>
+  </nav>
+  <div class="mt-6 flex items-start gap-5">
+    {reseller.photo !== undefined ? (
+      <img src={reseller.photo} alt="" width="72" height="72" loading="lazy"
+        class="h-18 w-18 rounded-full border border-bord bg-well object-cover" />
+    ) : (
+      <div class="grid h-18 w-18 place-items-center rounded-full border border-bord bg-well font-display text-2xl text-prizm" aria-hidden="true">
+        {initialsOf(reseller.name)}
+      </div>
+    )}
+    <div>
+      <h1 class="text-4xl md:text-6xl">{reseller.name}</h1>
+      <div class="refractor-rule mt-3 w-24"></div>
+      <p class="mt-3 flex flex-wrap items-center gap-3 text-sm">
+        <span class="rounded-full border border-gold/60 bg-well px-3 py-1 font-semibold text-gold">SCNM Verified</span>
+        {verifiedSinceLabel !== undefined && <span class="text-muted">since {verifiedSinceLabel}</span>}
+        <span class="text-muted">
+          {cityHasPage ? <a href={`/${prov.slug}/${reseller.citySlug}/`} class="hover:text-paper">{reseller.city}, {prov.name}</a> : `${reseller.city}, ${prov.name}`}
+        </span>
+      </p>
+    </div>
+  </div>
+
+  {reseller.bio !== undefined && <p class="mt-8 max-w-prose text-paper/90">{reseller.bio}</p>}
+
+  {reseller.specialties.length > 0 && (
+    <div class="mt-6 flex flex-wrap gap-2">
+      {reseller.specialties.map((s) => (
+        <span class="rounded-full border border-bord bg-well px-3 py-1 text-xs uppercase tracking-wide text-muted">{s}</span>
+      ))}
+    </div>
+  )}
+
+  {links.length > 0 && (
+    <section class="mt-10">
+      <h2 class="text-2xl">Where they sell</h2>
+      <ul role="list" class="mt-4 flex flex-wrap gap-3">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} target="_blank" rel="noopener nofollow"
+              class="inline-block rounded-lg border border-bord bg-panel px-5 py-2.5 font-semibold hover:border-prizm">
+              {l.label} ↗
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {reseller.contact !== undefined && (
+    <p class="mt-8 text-sm text-muted">Prefers to be reached at: <span class="text-paper">{reseller.contact}</span></p>
+  )}
+
+  <footer class="mt-14 max-w-prose border-t border-bord/50 pt-6 text-xs text-muted">
+    <p>
+      <strong class="text-paper">What "verified" means:</strong> we checked this seller's public selling track
+      record before listing them. Sports Cards Near Me doesn't process transactions and can't guarantee any sale.
+      Verified status is removed if credible problems are reported to us and confirmed —
+      <a href={reportHref} class="text-prizm">tell us if something's wrong</a>.
+    </p>
+  </footer>
+</Base>
