@@ -3,6 +3,7 @@ import '@fontsource/barlow-condensed/600.css';
 import '@fontsource/instrument-sans/400.css';
 import '@fontsource/instrument-sans/600.css';
 import '../styles/global.css';
+import Mark from '../components/Mark.astro';
 
 interface Props {
   title: string;
@@ -21,6 +22,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -32,7 +34,10 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <body>
     <header class="border-b border-bord/50">
       <nav class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-        <a href="/" class="font-display text-xl uppercase tracking-wide">Sports Cards Near Me</a>
+        <a href="/" class="flex items-center gap-2 font-display text-xl uppercase tracking-wide">
+          <Mark size={22} />
+          Sports Cards Near Me
+        </a>
         <div class="flex gap-5 text-sm text-muted">
           <a href="/alberta/" class="hover:text-paper">Browse</a>
           <a href="/suggest/" class="hover:text-paper">Suggest a store</a>
