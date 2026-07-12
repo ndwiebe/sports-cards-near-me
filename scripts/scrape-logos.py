@@ -7,12 +7,57 @@ og:image, normalizes to 64x64 webp, and rewrites src/data/logos.json as the
 sorted list of slugs that have a logo file on disk.
 Usage: python3 scripts/scrape-logos.py
 """
-import json, re, io, pathlib, urllib.request, urllib.parse, concurrent.futures
+import json, re, io, pathlib, hashlib, urllib.request, urllib.parse, concurrent.futures
 from PIL import Image
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'public/logos'
 UA = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36'}
+
+# Hosts whose favicon/apple-touch-icon/og:image is always the PLATFORM's own
+# branding, never the store's — a `website` pointed here can only ever yield
+# a platform icon, so skip fetching it at all. (Site builders like
+# square.site / Google Sites are deliberately NOT here: stores frequently
+# upload real logos there, confirmed while cleaning up logos.json.)
+PLATFORM_HOSTS = (
+    'instagram.com', 'facebook.com', 'fb.com', 'linktr.ee', 'linktree.com',
+    'twitter.com', 'x.com', 'tiktok.com', 'youtube.com', 'wa.me',
+    'ebay.com', 'ebay.ca', 'etsy.com', 'myshopify.com',
+)
+
+# Substrings of *source* candidate URLs that are always a site-builder's own
+# default placeholder, never a store's real logo — checked before download.
+# These sit on stores' own custom domains (so PLATFORM_HOSTS can't catch
+# them), but the CDN path is a fixed platform asset regardless of which
+# store's site references it. Found while cleaning up logos.json: three
+# different GoDaddy Website Builder stores all served the same
+# logo-default.png, and Shopify's own no-image.gif showed up as an og:image
+# on stores that hadn't set a real share image. (Byte/pixel hashing these
+# doesn't work — GoDaddy's CDN resizes on the fly and returns non-identical
+# bytes/pixels per request for the "same" default image.)
+PLATFORM_ASSET_URL_PATTERNS = (
+    'wsimg.com/isteam/ip/static/pwa-app/logo-default',  # GoDaddy Website Builder default logo
+    '/cdn/shopifycloud/storefront/assets/no-image',  # Shopify built-in "no image" placeholder
+)
+
+# md5 of decoded RGBA pixel data (not the encoded webp bytes, which vary run
+# to run) for known platform-icon renders, found by grouping public/logos/*
+# by hash and spotting the same image shared across 3+ unrelated stores.
+# Belt-and-suspenders against PLATFORM_HOSTS/PLATFORM_ASSET_URL_PATTERNS
+# missing a case.
+PLATFORM_ICON_PIXEL_HASHES = {
+    '9e214e496b95727995b55eb232be0c94',  # Instagram app icon
+    'b76cd8c068aafc6d98e97386fadbf6e4',  # Linktree icon (green square, asterisk)
+    'a134bfeb1196e2fb98bac80933de8675',  # Shopify default favicon (light hexagon)
+}
+
+def is_platform_site(url):
+    host = urllib.parse.urlparse(url).netloc.lower()
+    if host.startswith('www.'):
+        host = host[4:]
+    if host == 'google.com' and urllib.parse.urlparse(url).path.startswith('/maps'):
+        return True
+    return any(host == h or host.endswith('.' + h) for h in PLATFORM_HOSTS)
 
 def fetch(url, timeout=6):
     req = urllib.request.Request(url, headers=UA)
@@ -35,14 +80,15 @@ def candidates(html, base):
 
 def grab(store):
     slug, site = store['slug'], store.get('website')
-    if not site or (OUT / f'{slug}.webp').exists():
+    if not site or is_platform_site(site) or (OUT / f'{slug}.webp').exists():
         return None
     try:
         html = fetch(site).decode('utf-8', 'ignore')
     except Exception:
         return None
     for url in candidates(html, site):
-        if url.lower().endswith('.svg'):
+        low = url.lower()
+        if low.endswith('.svg') or any(p in low for p in PLATFORM_ASSET_URL_PATTERNS):
             continue
         try:
             img = Image.open(io.BytesIO(fetch(url)))
@@ -53,6 +99,8 @@ def grab(store):
             img.thumbnail((64, 64), Image.LANCZOS)
             canvas = Image.new('RGBA', (64, 64), (0, 0, 0, 0))
             canvas.paste(img, ((64 - img.size[0]) // 2, (64 - img.size[1]) // 2))
+            if hashlib.md5(canvas.tobytes()).hexdigest() in PLATFORM_ICON_PIXEL_HASHES:
+                continue
             canvas.save(OUT / f'{slug}.webp', 'WEBP', quality=82)
             return slug
         except Exception:
