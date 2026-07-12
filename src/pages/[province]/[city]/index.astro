@@ -94,10 +94,10 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
     const count = document.querySelector<HTMLElement>('[data-results-count]');
     let handle: MapHandle | null = null;
 
-    const raw = document.querySelector('script[data-map-stores]')?.textContent ?? '[]';
+    const mapShell = document.querySelector<HTMLElement>('[data-city-map] .map-shell');
+    const raw = mapShell?.querySelector('script[data-map-stores]')?.textContent ?? '[]';
     const all = JSON.parse(raw) as MapStore[];
 
-    const mapShell = document.querySelector<HTMLElement>('[data-city-map] .map-shell');
     if (mapShell) {
       whenMapReady(mapShell, (h) => {
         handle = h;
