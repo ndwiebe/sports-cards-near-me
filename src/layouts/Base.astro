@@ -35,13 +35,13 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body>
     <header class="border-b border-bord/50">
-      <nav class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-        <a href="/" class="flex items-center gap-2 font-display text-xl uppercase tracking-wide">
-          <Mark size={22} />
+      <nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-y-1 px-5 py-2.5 md:flex-nowrap md:py-4">
+        <a href="/" class="flex items-center gap-2 font-display text-base uppercase tracking-wide max-[420px]:text-sm md:text-xl">
+          <Mark size={26} />
           Sports Cards Near Me
         </a>
-        <div class="flex flex-wrap justify-end gap-x-5 gap-y-1 text-sm text-muted">
-          <a href="/alberta/" class="hover:text-paper">Browse</a>
+        <div class="flex w-full flex-wrap justify-end gap-x-4 gap-y-1 text-sm text-muted md:w-auto md:gap-x-5">
+          <a href="/#browse" class="hover:text-paper">Browse</a>
           <a href="/shows/" class="hover:text-paper">Shows</a>
           <a href="/resellers/" class="hover:text-paper">Resellers</a>
           <a href="/guides/" class="hover:text-paper">Guides</a>
