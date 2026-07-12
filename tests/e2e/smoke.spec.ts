@@ -62,6 +62,21 @@ test('city filters narrow the list', async ({ page }) => {
   await expect(count).toHaveText(String(before));
 });
 
+test('city tag filter toggles the result count', async ({ page }) => {
+  await page.goto('/alberta/edmonton/');
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(String(error)));
+  const count = page.locator('[data-results-count]');
+  const initial = Number(await count.textContent());
+  const tag = page.locator('[data-filter-tag]').first();
+
+  await tag.click();
+  expect(Number(await count.textContent())).toBeLessThanOrEqual(initial);
+  await tag.click();
+  await expect(count).toHaveText(String(initial));
+  expect(errors).toEqual([]);
+});
+
 test('mobile map/list toggle switches panels', async ({ page, viewport }) => {
   test.skip((viewport?.width ?? 1280) > 500, 'mobile-only behavior');
   await page.goto(`/alberta/${first.citySlug}/`);
