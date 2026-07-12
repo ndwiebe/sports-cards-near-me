@@ -112,7 +112,7 @@ function namesList(stores: Store[]): string {
   if (names.length <= 3) return joinWithAnd(names);
   const shown = names.slice(0, 3);
   const rest = names.length - shown.length;
-  return `${joinWithAnd(shown)}, and ${rest} more`;
+  return `${shown.join(', ')}, and ${rest} more`;
 }
 
 /** Computed 40-60 word answer capsule for a city page. Every fact is derived from `stores`. */
@@ -132,9 +132,11 @@ export function cityAnswerCapsule(city: string, provinceName: string, stores: St
   if (rated.length > 0) {
     const avg = Math.round((rated.reduce((sum, s) => sum + (s.rating ?? 0), 0) / rated.length) * 10) / 10;
     parts.push(
-      rated.length === total
-        ? `All ${total} carry a public Google rating, averaging ${avg} out of 5.`
-        : `${rated.length} of them carry a public Google rating, averaging ${avg} out of 5.`,
+      total === 1
+        ? `Its Google rating is ${avg} out of 5.`
+        : rated.length === total
+          ? `All ${total} carry a public Google rating, averaging ${avg} out of 5.`
+          : `${rated.length} of them carry a public Google rating, averaging ${avg} out of 5.`,
     );
   }
 
@@ -150,7 +152,7 @@ export function provinceAnswerCapsule(provinceName: string, cities: CityGroup[])
   const base = `${provinceName} has ${total} sports card ${shopWord} listed across ${cities.length} ${cityWord} on Sports Cards Near Me.`;
 
   const max = cities.reduce((m, c) => Math.max(m, c.stores.length), 0);
-  if (max === 0) return base;
+  if (max === 0 || cities.length === 1) return base;
   const leaders = cities.filter((c) => c.stores.length === max);
   const shopWordMax = max === 1 ? 'shop' : 'shops';
   const leaderClause =
