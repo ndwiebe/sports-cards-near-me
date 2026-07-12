@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { pokemonCityEntries, pokemonShopsInCity } from '../../lib/tcg';
+import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../lib/seo';
+
+interface CityCount {
+  city: string;
+  citySlug: string;
+  count: number;
+}
+
+interface ProvinceGroup {
+  provinceCode: string;
+  provinceName: string;
+  cities: CityCount[];
+}
+
+const stores = storesJson as Store[];
+const entries = pokemonCityEntries(stores);
+
+const groupsByProvince = new Map<string, ProvinceGroup>();
+for (const e of entries) {
+  const group = groupsByProvince.get(e.provinceCode) ?? {
+    provinceCode: e.provinceCode,
+    provinceName: e.provinceName,
+    cities: [],
+  };
+  const count = pokemonShopsInCity(stores, e.provinceCode, e.citySlug).length;
+  group.cities.push({ city: e.city, citySlug: e.citySlug, count });
+  groupsByProvince.set(e.provinceCode, group);
+}
+const groups = [...groupsByProvince.values()].sort((a, b) => a.provinceName.localeCompare(b.provinceName));
+
+const totalShops = groups.reduce((n, g) => n + g.cities.reduce((m, c) => m + c.count, 0), 0);
+const totalCities = groups.reduce((n, g) => n + g.cities.length, 0);
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Pokémon', url: absoluteUrl(Astro.site, '/pokemon/') },
+]);
+const cityListLd = itemListLd(
+  groups.flatMap((g) =>
+    g.cities.map((c) => ({
+      name: `${c.city}, ${g.provinceCode}`,
+      url: absoluteUrl(Astro.site, `/pokemon/${c.citySlug}/`),
+    })),
+  ),
+);
+
+const capsule = `Sports Cards Near Me tracks ${totalShops} Pokémon card ${totalShops === 1 ? 'shop' : 'shops'} across ${totalCities} ${totalCities === 1 ? 'city' : 'cities'} in Canada, ranked by Google rating and review count. Browse a city below, or see the full sports card shop directory for every category.`;
+---
+<Base
+  title={`Pokémon Card Shops in Canada (${totalShops}) | Sports Cards Near Me`}
+  description={`Find Pokémon card shops across Canada: ${totalShops} ranked shops in ${totalCities} cities, with ratings and directions.`}
+>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(cityListLd)} />
+
+  <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Pokémon</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">Pokémon Card Shops in Canada</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-muted" data-answer-capsule>{capsule}</p>
+  <p class="mt-3 text-sm text-muted">
+    Looking for every category, not just Pokémon? See the <a href="/" class="text-prizm">full sports card shop directory</a>.
+  </p>
+  <p class="mt-6 text-sm text-muted">{totalShops} shops in {totalCities} cities.</p>
+
+  {groups.map((g) => (
+    <section class="mt-10">
+      <h2 class="text-2xl">{g.provinceName}</h2>
+      <ul class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {g.cities.map((c) => (
+          <li>
+            <a href={`/pokemon/${c.citySlug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+              <span class="font-display text-xl uppercase">{c.city}</span>
+              <span class="block text-sm text-muted">{c.count} {c.count === 1 ? 'shop' : 'shops'}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>

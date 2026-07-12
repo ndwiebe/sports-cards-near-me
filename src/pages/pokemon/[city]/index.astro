@@ -1,0 +1,77 @@
+---
+import Base from '../../../layouts/Base.astro';
+import StoreCard from '../../../components/StoreCard.astro';
+import storesJson from '../../../data/stores.json';
+import type { Store } from '../../../lib/types';
+import { pokemonCityEntries, pokemonCityCapsule, pokemonCityFaqs, pokemonShopsInCity } from '../../../lib/tcg';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson } from '../../../lib/seo';
+
+export function getStaticPaths() {
+  const stores = storesJson as Store[];
+  return pokemonCityEntries(stores).map((c) => ({ params: { city: c.citySlug } }));
+}
+
+const stores = storesJson as Store[];
+const entry = pokemonCityEntries(stores).find((c) => c.citySlug === Astro.params.city);
+if (!entry) throw new Error(`unknown pokemon city slug: ${Astro.params.city}`);
+const shops = pokemonShopsInCity(stores, entry.provinceCode, entry.citySlug);
+if (shops.length === 0) throw new Error(`no pokemon shops for city slug: ${entry.citySlug}`);
+
+const generalCityUrl = `/${entry.provinceSlug}/${entry.citySlug}/`;
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Pokémon', url: absoluteUrl(Astro.site, '/pokemon/') },
+  { name: entry.city, url: absoluteUrl(Astro.site, `/pokemon/${entry.citySlug}/`) },
+]);
+const shopListLd = itemListLd(
+  shops.map((s) => ({ name: s.name, url: absoluteUrl(Astro.site, `/store/${s.slug}/`) })),
+  25,
+);
+const capsule = pokemonCityCapsule(entry.city, entry.provinceName, shops);
+const faqs = pokemonCityFaqs(entry.city, entry.provinceName, shops, absoluteUrl(Astro.site, generalCityUrl));
+const faqLd = faqPageLd(faqs);
+---
+<Base
+  title={`Pokémon Card Shops in ${entry.city}, ${entry.provinceCode} (${shops.length}) | Sports Cards Near Me`}
+  description={`Find Pokémon card shops in ${entry.city}, ${entry.provinceName}: ${shops.length} ranked ${shops.length === 1 ? 'shop' : 'shops'} with ratings and directions.`}
+>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(shopListLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/pokemon/" class="hover:text-paper">Pokémon</a> / {entry.city}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">Pokémon Card Shops in {entry.city}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-muted" data-answer-capsule>{capsule}</p>
+  <p class="mt-3 text-sm text-muted">
+    Looking for every category of shop, not just Pokémon? See the{' '}
+    <a href={generalCityUrl} class="text-prizm">full {entry.city} shop directory</a>.
+  </p>
+
+  <ul role="list" class="mt-8 space-y-4">
+    {shops.map((shop) => <StoreCard store={shop} />)}
+  </ul>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">FAQ</h2>
+    <dl class="mt-4 space-y-6">
+      {faqs.map((faq) => (
+        <div>
+          <dt class="font-semibold">{faq.question}</dt>
+          <dd class="mt-1 max-w-prose text-muted">
+            {faq.answer}
+            {faq.link !== undefined && (
+              <>
+                {' '}
+                <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+              </>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+  </section>
+</Base>
