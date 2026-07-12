@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { rowToShow } from '../../src/lib/shows';
+import { rowToShow, parseLocalDate, isUpcoming, groupShowsByMonth } from '../../src/lib/shows';
+import type { ShowRecord } from '../../src/lib/shows';
 import type { GvizRow, GvizCell } from '../../src/lib/sheet';
 
 const cell = (v: string | number | null, f?: string): GvizCell | null =>
@@ -91,5 +92,50 @@ describe('rowToShow', () => {
     expect(s).not.toBeNull();
     expect(s?.startDate).toBe('2020-01-01');
     expect(s?.endDate).toBeUndefined();
+  });
+});
+
+const makeShow = (startDate: string): ShowRecord => ({
+  slug: `show-${startDate}`,
+  name: 'Test Show',
+  city: 'Calgary',
+  citySlug: 'calgary',
+  province: 'AB',
+  startDate,
+});
+
+describe('parseLocalDate', () => {
+  it('parses an ISO date as a local calendar date, not UTC', () => {
+    const d = parseLocalDate('2026-07-10');
+    expect(d.getFullYear()).toBe(2026);
+    expect(d.getMonth()).toBe(6);
+    expect(d.getDate()).toBe(10);
+  });
+});
+
+describe('isUpcoming', () => {
+  it('treats a startDate equal to the build date as upcoming', () => {
+    expect(isUpcoming(makeShow('2026-07-11'), new Date(2026, 6, 11, 18, 0))).toBe(true);
+  });
+
+  it('treats a startDate before the build date as not upcoming', () => {
+    expect(isUpcoming(makeShow('2026-07-10'), new Date(2026, 6, 11))).toBe(false);
+  });
+
+  it('treats a startDate after the build date as upcoming', () => {
+    expect(isUpcoming(makeShow('2026-07-12'), new Date(2026, 6, 11))).toBe(true);
+  });
+});
+
+describe('groupShowsByMonth', () => {
+  it('groups shows by calendar month, preserving first-seen month order', () => {
+    const groups = groupShowsByMonth([makeShow('2026-07-10'), makeShow('2026-07-12'), makeShow('2026-08-09')]);
+    expect(groups.map((g) => g.label)).toEqual(['July 2026', 'August 2026']);
+    expect(groups[0]?.shows).toHaveLength(2);
+    expect(groups[1]?.shows).toHaveLength(1);
+  });
+
+  it('returns no groups for an empty list', () => {
+    expect(groupShowsByMonth([])).toEqual([]);
   });
 });

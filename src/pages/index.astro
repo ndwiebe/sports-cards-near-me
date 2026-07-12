@@ -1,7 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 import storesJson from '../data/stores.json';
+import showsJson from '../data/shows.json';
 import type { Store } from '../lib/types';
+import type { ShowRecord } from '../lib/shows';
+import { parseLocalDate, isUpcoming } from '../lib/shows';
 import { provincesWithStores, citiesIn } from '../lib/stores';
 import MapIsland from '../components/MapIsland.astro';
 
@@ -10,6 +13,12 @@ const provinces = provincesWithStores(stores);
 const featuredCities = provinces.flatMap((p) =>
   citiesIn(stores, p.code).map((c) => ({ ...c, provinceSlug: p.slug, provinceCode: p.code })),
 ).sort((a, b) => b.stores.length - a.stores.length).slice(0, 8);
+
+// Build-time snapshot — see the comment on isUpcoming() in src/lib/shows.ts
+// for why "now" here means "when this static build ran", not "right now".
+const buildDate = new Date();
+const upcomingShows = (showsJson as ShowRecord[]).filter((s) => isUpcoming(s, buildDate)).slice(0, 4);
+const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
 ---
 <Base
   title="Sports Cards Near Me — Every Card Shop in Canada, One Map"
@@ -132,6 +141,23 @@ const featuredCities = provinces.flatMap((p) =>
       ))}
     </ul>
   </section>
+
+  {upcomingShows.length > 0 && (
+    <section class="mt-16">
+      <h2 class="text-3xl">Upcoming shows</h2>
+      <ul class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+        {upcomingShows.map((show) => (
+          <li>
+            <a href={`/shows/${show.slug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+              <span class="font-display text-xl uppercase">{show.name}</span>
+              <span class="block text-sm text-muted">{show.city}, {show.province} · {showDateFormat.format(parseLocalDate(show.startDate))}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-4 text-sm text-muted"><a href="/shows/" class="text-prizm">See all upcoming shows</a></p>
+    </section>
+  )}
 
   <section class="mt-16">
     <h2 class="text-3xl">Browse by province</h2>

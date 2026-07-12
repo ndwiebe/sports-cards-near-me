@@ -54,6 +54,49 @@ const provinceCode = (raw: unknown): ProvinceCode | null => {
   return code in PROVINCES ? (code as ProvinceCode) : null;
 };
 
+// Parses an ISO `YYYY-MM-DD` string as a local calendar date rather than
+// UTC midnight. `new Date('2026-07-10')` is parsed as UTC and can render as
+// the previous day in negative-offset timezones (e.g. all of Canada) — so
+// every date shown to visitors goes through this instead.
+export function parseLocalDate(iso: string): Date {
+  const [year, month, day] = iso.split('-').map(Number);
+  return new Date(year ?? 0, (month ?? 1) - 1, day ?? 1);
+}
+
+// "Upcoming" is a build-time snapshot: it compares each show's startDate to
+// the date the static site was generated, not the visitor's request time.
+// That's acceptable here because the site rebuilds daily (scheduled GitHub
+// Actions run + pushes to `redesign`), so the upcoming/past boundary is
+// never more than a day stale — a page can't recompute this itself since
+// there's no server, only pre-rendered HTML.
+export function isUpcoming(show: ShowRecord, buildDate: Date): boolean {
+  const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
+  return parseLocalDate(show.startDate).getTime() >= today.getTime();
+}
+
+export interface ShowMonthGroup {
+  label: string;
+  shows: ShowRecord[];
+}
+
+export function groupShowsByMonth(shows: ShowRecord[]): ShowMonthGroup[] {
+  const monthFormat = new Intl.DateTimeFormat('en-CA', { month: 'long', year: 'numeric' });
+  const groups: ShowMonthGroup[] = [];
+  const index = new Map<string, ShowMonthGroup>();
+  for (const show of shows) {
+    const date = parseLocalDate(show.startDate);
+    const key = `${date.getFullYear()}-${date.getMonth()}`;
+    let group = index.get(key);
+    if (!group) {
+      group = { label: monthFormat.format(date), shows: [] };
+      index.set(key, group);
+      groups.push(group);
+    }
+    group.shows.push(show);
+  }
+  return groups;
+}
+
 export function rowToShow(cells: GvizRow): ShowRecord | null {
   const name = sanitizeText(cells[0]?.v);
   const city = sanitizeText(cells[1]?.v);

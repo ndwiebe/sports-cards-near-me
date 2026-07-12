@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import showsJson from '../../data/shows.json';
+import type { ShowRecord } from '../../lib/shows';
+import { parseLocalDate, isUpcoming, groupShowsByMonth } from '../../lib/shows';
+import { PROVINCES } from '../../lib/types';
+
+const shows = showsJson as ShowRecord[];
+
+// Build-time snapshot — see the comment on isUpcoming() in src/lib/shows.ts
+// for why "now" here means "when this static build ran", not "right now".
+const buildDate = new Date();
+const upcoming = shows.filter((s) => isUpcoming(s, buildDate));
+const past = shows.filter((s) => !isUpcoming(s, buildDate)).reverse();
+const monthGroups = groupShowsByMonth(upcoming);
+
+const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
+const formatRange = (show: ShowRecord): string => {
+  const start = dateFormat.format(parseLocalDate(show.startDate));
+  if (show.endDate === undefined) return start;
+  const end = dateFormat.format(parseLocalDate(show.endDate));
+  return end === start ? start : `${start} – ${end}`;
+};
+---
+<Base
+  title="Card Shows in Canada | Sports Cards Near Me"
+  description={`Upcoming sports card shows across Canada — ${upcoming.length} listed with dates, venues, and admission.`}
+>
+  <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Calendar</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">Card Shows</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+
+  {upcoming.length === 0 ? (
+    <p class="mt-8 max-w-prose text-muted">
+      No upcoming shows listed yet — know one? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+    </p>
+  ) : (
+    <div class="mt-10 space-y-10">
+      {monthGroups.map((group) => (
+        <section>
+          <h2 class="text-3xl">{group.label}</h2>
+          <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
+            {group.shows.map((show) => (
+              <li>
+                <a
+                  href={`/shows/${show.slug}/`}
+                  class="block rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5 hover:border-prizm"
+                >
+                  <h3 class="text-xl">{show.name}</h3>
+                  <p class="mt-1 text-sm text-muted">{formatRange(show)}</p>
+                  <p class="mt-1 text-sm text-muted">{show.city}, {PROVINCES[show.province].name}{show.venue !== undefined ? ` · ${show.venue}` : ''}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  )}
+
+  {past.length > 0 && (
+    <details class="mt-16">
+      <summary class="cursor-pointer text-sm font-semibold uppercase tracking-wide text-muted hover:text-paper">
+        Past shows ({past.length})
+      </summary>
+      <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
+        {past.map((show) => (
+          <li>
+            <a
+              href={`/shows/${show.slug}/`}
+              class="block rounded-xl border border-bord bg-panel p-5 hover:border-prizm"
+            >
+              <h3 class="text-xl">{show.name}</h3>
+              <p class="mt-1 text-sm text-muted">{formatRange(show)}</p>
+              <p class="mt-1 text-sm text-muted">{show.city}, {PROVINCES[show.province].name}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )}
+</Base>

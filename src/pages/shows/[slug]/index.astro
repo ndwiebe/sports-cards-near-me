@@ -1,0 +1,63 @@
+---
+import Base from '../../../layouts/Base.astro';
+import showsJson from '../../../data/shows.json';
+import type { ShowRecord } from '../../../lib/shows';
+import { parseLocalDate } from '../../../lib/shows';
+import { PROVINCES } from '../../../lib/types';
+
+export function getStaticPaths() {
+  return (showsJson as ShowRecord[]).map((s) => ({ params: { slug: s.slug }, props: { show: s } }));
+}
+
+interface Props { show: ShowRecord }
+const { show } = Astro.props;
+const provinceName = PROVINCES[show.province].name;
+
+const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
+const startFormatted = dateFormat.format(parseLocalDate(show.startDate));
+const endFormatted = show.endDate !== undefined ? dateFormat.format(parseLocalDate(show.endDate)) : undefined;
+const dateRange = endFormatted !== undefined && endFormatted !== startFormatted ? `${startFormatted} – ${endFormatted}` : startFormatted;
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: show.name,
+  startDate: show.startDate,
+  ...(show.endDate !== undefined && { endDate: show.endDate }),
+  location: {
+    '@type': 'Place',
+    name: show.venue ?? show.name,
+    ...(show.address !== undefined && {
+      address: { '@type': 'PostalAddress', streetAddress: show.address, addressLocality: show.city, addressRegion: show.province, addressCountry: 'CA' },
+    }),
+  },
+  ...(show.admission !== undefined && { offers: { '@type': 'Offer', description: show.admission } }),
+};
+---
+<Base
+  title={`${show.name} — ${show.city}, ${show.province} | Sports Cards Near Me`}
+  description={`${show.name} in ${show.city}, ${provinceName} on ${dateRange}. Venue, hours, and admission details.`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <nav class="mt-10 text-sm text-muted">
+    <a href="/shows/" class="hover:text-paper">Shows</a> / {show.name}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{show.name}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 text-lg text-paper/85">{dateRange}</p>
+  <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
+    <div><dt class="font-semibold uppercase tracking-wide text-muted">Location</dt><dd class="mt-1">{show.city}, {provinceName}</dd></div>
+    {show.venue !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Venue</dt><dd class="mt-1">{show.venue}</dd></div>}
+    {show.address !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{show.address}</dd></div>}
+    {show.hours !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt><dd class="mt-1">{show.hours}</dd></div>}
+    {show.admission !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Admission</dt><dd class="mt-1">{show.admission}</dd></div>}
+    {show.recurring !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Recurring</dt><dd class="mt-1">{show.recurring}</dd></div>}
+  </dl>
+  <div class="mt-8 flex flex-wrap gap-3">
+    {show.website !== undefined && <a href={show.website} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Website</a>}
+    {show.sourceUrl !== undefined && <a href={show.sourceUrl} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Source</a>}
+  </div>
+  <p class="mt-12 text-sm text-muted">
+    Know of a show we're missing? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+  </p>
+</Base>
