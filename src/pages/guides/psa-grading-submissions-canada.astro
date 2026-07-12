@@ -1,4 +1,5 @@
 ---
+import { byRecommendedRank } from '../../lib/seo';
 import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
@@ -13,7 +14,7 @@ const stores = storesJson as Store[];
 // count, so the picks track whatever the directory's live data says today.
 const gradingStores = stores
   .filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services'))
-  .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0))
+  .sort(byRecommendedRank)
   .slice(0, 3);
 
 const title = 'PSA Grading for Canadian Collectors';

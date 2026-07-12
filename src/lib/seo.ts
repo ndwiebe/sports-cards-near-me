@@ -114,6 +114,22 @@ export function topRatedStore(stores: Store[]): Store | undefined {
   return sorted[0]!;
 }
 
+/** Sort comparator for rating-ordered shop lists that must still show everyone.
+ * Shops eligible to be crowned (rated with >= MIN_REVIEWS_FOR_TOP reviews) rank
+ * first by rating then reviews; rated-but-sub-threshold shops next; unrated last.
+ * Keeps a 5.0-from-one-review shop from leading a list without hiding anyone. */
+export function byRecommendedRank(a: Store, b: Store): number {
+  const tier = (s: Store): number =>
+    s.rating === undefined ? 2 : (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP ? 0 : 1;
+  const tierDiff = tier(a) - tier(b);
+  if (tierDiff !== 0) return tierDiff;
+  return (
+    (b.rating ?? 0) - (a.rating ?? 0) ||
+    (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
+    a.name.localeCompare(b.name)
+  );
+}
+
 function namesList(stores: Store[]): string {
   const names = stores.map((s) => s.name);
   if (names.length <= 3) return joinWithAnd(names);
