@@ -4,9 +4,9 @@ import shows from '../../src/data/shows.json' with { type: 'json' };
 function findUpcoming(buildDate: Date): (typeof shows)[number] | undefined {
   const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
   return shows.find((s) => {
-    const [y, m, d] = s.startDate.split('-').map(Number);
-    const start = new Date(y ?? 0, (m ?? 1) - 1, d ?? 1);
-    return start.getTime() >= today.getTime();
+    const [y, m, d] = (s.endDate ?? s.startDate).split('-').map(Number);
+    const end = new Date(y ?? 0, (m ?? 1) - 1, d ?? 1);
+    return end.getTime() >= today.getTime();
   });
 }
 

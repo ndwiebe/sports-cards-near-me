@@ -63,15 +63,17 @@ export function parseLocalDate(iso: string): Date {
   return new Date(year ?? 0, (month ?? 1) - 1, day ?? 1);
 }
 
-// "Upcoming" is a build-time snapshot: it compares each show's startDate to
-// the date the static site was generated, not the visitor's request time.
-// That's acceptable here because the site rebuilds daily (scheduled GitHub
-// Actions run + pushes to `redesign`), so the upcoming/past boundary is
-// never more than a day stale — a page can't recompute this itself since
-// there's no server, only pre-rendered HTML.
+// "Upcoming" is a build-time snapshot: it compares each show's last day
+// (endDate, or startDate for single-day shows) to the date the static site
+// was generated, not the visitor's request time. A multi-day show stays
+// upcoming through its last day rather than dropping out the morning after
+// it starts. That's acceptable here because the site rebuilds daily
+// (scheduled GitHub Actions run + pushes to `redesign`), so the
+// upcoming/past boundary is never more than a day stale — a page can't
+// recompute this itself since there's no server, only pre-rendered HTML.
 export function isUpcoming(show: ShowRecord, buildDate: Date): boolean {
   const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
-  return parseLocalDate(show.startDate).getTime() >= today.getTime();
+  return parseLocalDate(show.endDate ?? show.startDate).getTime() >= today.getTime();
 }
 
 export interface ShowMonthGroup {

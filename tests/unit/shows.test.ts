@@ -95,13 +95,14 @@ describe('rowToShow', () => {
   });
 });
 
-const makeShow = (startDate: string): ShowRecord => ({
+const makeShow = (startDate: string, endDate?: string): ShowRecord => ({
   slug: `show-${startDate}`,
   name: 'Test Show',
   city: 'Calgary',
   citySlug: 'calgary',
   province: 'AB',
   startDate,
+  endDate,
 });
 
 describe('parseLocalDate', () => {
@@ -124,6 +125,14 @@ describe('isUpcoming', () => {
 
   it('treats a startDate after the build date as upcoming', () => {
     expect(isUpcoming(makeShow('2026-07-12'), new Date(2026, 6, 11))).toBe(true);
+  });
+
+  it('treats a multi-day show as upcoming while the build date falls between start and end', () => {
+    expect(isUpcoming(makeShow('2026-07-10', '2026-07-12'), new Date(2026, 6, 11))).toBe(true);
+  });
+
+  it('treats a multi-day show as not upcoming once the end date has passed', () => {
+    expect(isUpcoming(makeShow('2026-07-10', '2026-07-12'), new Date(2026, 6, 13))).toBe(false);
   });
 });
 
