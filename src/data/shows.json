@@ -60,6 +60,21 @@
     "recurring": "monthly"
   },
   {
+    "slug": "maritime-collectible-expo-moncton-2026-08-09",
+    "name": "Maritime Collectible Expo",
+    "city": "Moncton",
+    "citySlug": "moncton",
+    "province": "NB",
+    "venue": "Moncton Coliseum",
+    "address": "377 Killam Dr, Moncton, NB E1C 3T1",
+    "startDate": "2026-08-09",
+    "hours": "11am-5pm",
+    "admission": "Under 6 free; 6-13 $3; 13+ $6; family (2 adult+3 kids) $15; VIP $12",
+    "website": "https://www.monctoncoliseum.com/",
+    "sourceUrl": "https://www.monctoncoliseum.com/events-calendar",
+    "recurring": "quarterly"
+  },
+  {
     "slug": "capital-trade-shows-pokemon-show-ottawa-2026-08-16",
     "name": "Capital Trade Shows: Pokemon Show",
     "city": "Ottawa",
@@ -176,6 +191,22 @@
     "recurring": "annual"
   },
   {
+    "slug": "sports-cards-fest-saint-hyacinthe-2026-10-03",
+    "name": "Sports Cards Fest",
+    "city": "Saint-Hyacinthe",
+    "citySlug": "saint-hyacinthe",
+    "province": "QC",
+    "venue": "Centre des congrès de St-Hyacinthe",
+    "address": "1325 Rue Daniel Johnson Ouest, Saint-Hyacinthe, QC J2S 8S4",
+    "startDate": "2026-10-03",
+    "endDate": "2026-10-04",
+    "hours": "Sat 10am-5pm, Sun 10am-4pm",
+    "admission": "Free",
+    "website": "https://sportscardsfest.com/",
+    "sourceUrl": "https://sportscardsfest.com/",
+    "recurring": "annual (fall)"
+  },
+  {
     "slug": "capital-trade-shows-card-comic-show-ottawa-2026-10-11",
     "name": "Capital Trade Shows: Card & Comic Show",
     "city": "Ottawa",
@@ -189,6 +220,22 @@
     "website": "https://www.capitaltradeshows.ca/schedule",
     "sourceUrl": "https://gradexmedia.com/shows/",
     "recurring": "monthly"
+  },
+  {
+    "slug": "atlantic-entertainment-expo-aex-moncton-moncton-2026-10-17",
+    "name": "Atlantic Entertainment Expo (AEX) — Moncton",
+    "city": "Moncton",
+    "citySlug": "moncton",
+    "province": "NB",
+    "venue": "Moncton Coliseum",
+    "address": "377 Killam Dr, Moncton, NB E1C 3T1",
+    "startDate": "2026-10-17",
+    "endDate": "2026-10-18",
+    "hours": "Sat 10am-6pm, Sun 12pm-6pm",
+    "admission": "Sat $35 / Sun $25 / Weekend $50; kids 13 & under free",
+    "website": "https://atlanticexpo.ca/",
+    "sourceUrl": "https://atlanticexpo.ca/moncton-26/",
+    "recurring": "annual"
   },
   {
     "slug": "capital-trade-shows-card-comic-show-ottawa-2026-11-01",

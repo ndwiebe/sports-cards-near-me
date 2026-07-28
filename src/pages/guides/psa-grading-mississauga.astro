@@ -1,0 +1,190 @@
+---
+import Base from '../../layouts/Base.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, type FaqItem } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+
+// PSA's own Canadian receiving centre is a real entry in our directory data —
+// looked up by its stable slug rather than hand-typed, so the address and
+// coordinates here can never drift from what's in stores.json.
+const psaLocation = stores.find(
+  (s) => s.slug === 'professional-sports-authenticator-psa-canada-mississauga',
+);
+if (psaLocation === undefined) {
+  throw new Error('PSA Canada Mississauga entry missing from stores.json');
+}
+
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${psaLocation.lat},${psaLocation.lng}`;
+const storePageUrl = `/store/${psaLocation.slug}/`;
+
+const title = 'PSA Grading Drop-Off in Mississauga, Ontario';
+const description =
+  "What PSA Canada's Mississauga receiving centre actually is: address, hours, and how in-person drop-off works — verified against psacard.com, not guessed at.";
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Where is PSA Canada’s office in Mississauga?',
+    answer: `${psaLocation.address}. This is PSA's own Canadian receiving centre, confirmed on psacard.com and listed in our directory.`,
+    link: { href: storePageUrl, label: 'See this location in our directory' },
+  },
+  {
+    question: 'What are PSA Mississauga’s hours?',
+    answer:
+      'As posted on psacard.com, the Mississauga receiving centre is open Monday to Thursday, 10am to 6pm, and Friday, 10am to 7pm. Hours can change around holidays, so confirm on psacard.com before a special trip.',
+    link: { href: 'https://www.psacard.com/en-CA/info/PSA_Toronto', label: "PSA's Mississauga info page" },
+  },
+  {
+    question: 'Can I just walk in and drop off cards, or do I need an appointment?',
+    answer:
+      "No appointment is listed, but you can't walk in cold, either. PSA has you build your submission online first, then bring your cards to Mississauga along with the QR code from your digital confirmation (or a printed copy) during opening hours.",
+  },
+  {
+    question: 'Is there a phone number for PSA Canada’s Mississauga office?',
+    answer:
+      "PSA doesn't publish a public phone number for this location on psacard.com. For questions before you go, use PSA's online support or submission centre rather than calling.",
+    link: { href: 'https://www.psacard.com/en-CA/support/faq', label: "PSA's Canadian support page" },
+  },
+  {
+    question: 'How much does PSA grading cost, and how long does it take?',
+    answer:
+      "We're not going to guess at a number — PSA's fees depend on the service tier and card value, and both fees and turnaround times change over time. Check PSA's own pricing page for current numbers before you submit.",
+    link: { href: 'https://www.psacard.com/pricing', label: "PSA's official pricing page" },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, '/guides/psa-grading-mississauga/') },
+]);
+const faqLd = faqPageLd(faqs);
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-07-28',
+  dateModified: '2026-07-28',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(ld)} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">PSA Grading Drop-Off in Mississauga</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      This page is about one specific place: PSA's own Canadian receiving centre in Mississauga, Ontario, where
+      collectors can drop cards off in person instead of shipping them. If you're still deciding how to submit at
+      all — direct to PSA, through a local shop, or as part of a group submission — our{' '}
+      <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> covers all three
+      routes. This one is just about what the Mississauga location is, where it is, and how in-person drop-off there
+      actually works.
+    </p>
+
+    <h2 class="text-3xl">Why PSA Opened a Canadian Office</h2>
+    <p>
+      For years, grading from Canada meant shipping cards across the border to PSA's operations in the U.S. and back
+      — two international crossings, customs paperwork, cross-border shipping costs, and exposure to duties and
+      tariffs along the way. PSA opened the Mississauga facility to take that friction out of the process for
+      Canadian collectors: submissions routed through PSA Canada move under a bundled customs arrangement instead of
+      being taxed individually, so collectors avoid the extra tariffs and international shipping costs that direct
+      cross-border submissions carry. It's a genuinely different experience than mailing cards to California, not
+      just a marketing location.
+    </p>
+
+    <h2 class="text-3xl">The Address</h2>
+    <p>
+      PSA Canada's receiving centre is at <strong>{psaLocation.address}</strong>, according to PSA's own site and
+      matching our directory listing for the location. It sits near Toronto Pearson Airport, which is deliberate —
+      PSA has noted the location makes it easy for collectors flying in from elsewhere in the country to drop off or
+      pick up in person. Get{' '}
+      <a href={directionsUrl} target="_blank" rel="noopener" class="text-prizm">directions from Google Maps</a>, or
+      see the{' '}
+      <a href={storePageUrl} class="text-prizm">full listing in our directory</a>.
+    </p>
+
+    <h2 class="text-3xl">Hours</h2>
+    <p>
+      As posted on psacard.com, the Mississauga receiving centre is open <strong>Monday to Thursday, 10am to 6pm,
+      and Friday, 10am to 7pm</strong>. Hours around statutory holidays can shift, so if you're planning a special
+      trip, it's worth checking{' '}
+      <a href="https://www.psacard.com/en-CA/info/PSA_Toronto" target="_blank" rel="noopener" class="text-prizm">
+        PSA's Mississauga info page
+      </a>{' '}
+      directly before you go — we'd rather send you to the source than risk printing a schedule that's since changed.
+    </p>
+
+    <h2 class="text-3xl">How In-Person Drop-Off Actually Works</h2>
+    <p>
+      Dropping cards off at PSA Canada isn't a walk-in-with-a-shoebox process — PSA has you do the paperwork online
+      first, then bring the cards to match it. Based on PSA's own submission instructions, the flow looks like this:
+    </p>
+    <ul role="list" class="list-disc space-y-2 pl-5">
+      <li>Build your submission through PSA's online Submission Centre before you go, the same as any other route.</li>
+      <li>Organize your cards in the same order they appear on your submission confirmation — it makes checking your items in at the counter faster.</li>
+      <li>Bring your cards along with either the QR code from your digital confirmation or a printed copy of it.</li>
+      <li>Your submission becomes official once PSA physically receives the cards at the counter, not when you complete the online form.</li>
+      <li>After that, you track your submission's progress the same way as any other route — through PSA's own account tools.</li>
+    </ul>
+    <p>
+      In other words: the online submission is the actual paperwork, and the Mississauga visit is where you hand
+      over the cards that match it — not a substitute for the online step.
+    </p>
+
+    <h2 class="text-3xl">How to Pack What You're Bringing</h2>
+    <p>
+      PSA's own guidance is that standard cards should travel in a flexible, protective holder — a Card Saver I is
+      the one PSA names specifically — ideally with a soft penny sleeve inside it for extra protection, rather than
+      loose or in a hard case. Top loaders and hard acrylic holders on standard cards can cause delays at intake and
+      won't be returned to you, so leave those at home for anything but genuinely thick items. Double-check PSA's
+      current submission instructions before you pack, since exact packaging requirements are the kind of detail
+      that's worth confirming fresh rather than relying on a guide that could be a season out of date.
+    </p>
+
+    <CrossLinkCallout
+      heading="Grading as part of a card business?"
+      body="If you're submitting regularly and reselling graded cards, proper bookkeeping and tax planning for that income stream are worth getting right — built specifically for card dealers."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <h2 class="text-3xl">What We Couldn't Verify</h2>
+    <p>
+      We're not printing a phone number for this location because PSA doesn't publish one on psacard.com — if you
+      need to reach someone before you go, PSA's{' '}
+      <a href="https://www.psacard.com/en-CA/support/faq" target="_blank" rel="noopener" class="text-prizm">
+        online support
+      </a>{' '}
+      is the route PSA points collectors to. Turnaround times and current pricing move often enough that we're not
+      quoting numbers here either — PSA's{' '}
+      <a href="https://www.psacard.com/pricing" target="_blank" rel="noopener" class="text-prizm">
+        official pricing page
+      </a>{' '}
+      has whatever's current the day you check.
+    </p>
+
+    <h2 class="text-3xl">Other Ways to Submit From Canada</h2>
+    <p>
+      Mississauga drop-off is one route, not the only one. Plenty of Canadian collectors still ship directly to PSA,
+      and a number of local shops handle submissions on a collector's behalf. Our{' '}
+      <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> walks through
+      all three, including which one tends to fit which kind of collector. And if you're still deciding whether a
+      specific card is worth grading at all before you submit anything, our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers that decision.
+    </p>
+
+    <p class="text-sm text-muted">
+      Something here out of date, or a detail you can confirm we got wrong? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>

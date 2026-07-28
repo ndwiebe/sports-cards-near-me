@@ -18,14 +18,16 @@ import { GUIDES } from '../../lib/guides';
       <li class="overflow-hidden rounded-2xl border border-bord bg-panel transition-transform duration-200 hover:-translate-y-0.5 hover:border-prizm">
         <a href={`/guides/${g.slug}/`} class="group block">
           <div class="relative aspect-video bg-well">
-            <img
-              src={`/images/${g.cover}.webp`}
-              srcset={`/images/${g.cover}@900.webp 900w, /images/${g.cover}.webp 1600w`}
-              sizes="(max-width: 700px) 100vw, 500px"
-              alt=""
-              loading="lazy"
-              class="absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity duration-200 group-hover:opacity-100"
-            />
+            {g.cover !== undefined ? (
+              <img
+                src={`/images/${g.cover}.webp`}
+                srcset={`/images/${g.cover}@900.webp 900w, /images/${g.cover}.webp 1600w`}
+                sizes="(max-width: 700px) 100vw, 500px"
+                alt=""
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity duration-200 group-hover:opacity-100"
+              />
+            ) : null}
             <div class="absolute inset-0 bg-gradient-to-t from-panel via-panel/10 to-transparent"></div>
           </div>
           <div class="p-5">

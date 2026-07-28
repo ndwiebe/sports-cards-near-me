@@ -99,6 +99,47 @@ export function groupShowsByMonth(shows: ShowRecord[]): ShowMonthGroup[] {
   return groups;
 }
 
+/** A province's shows in a given calendar year (by startDate), chronological. */
+export function showsInProvinceYear(shows: ShowRecord[], province: ProvinceCode, year: number): ShowRecord[] {
+  return shows
+    .filter((s) => s.province === province && parseLocalDate(s.startDate).getFullYear() === year)
+    .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
+}
+
+export interface WeekendWindow {
+  start: Date;
+  end: Date;
+}
+
+// The Friday-Sunday window that counts as "this weekend" relative to
+// buildDate. Mon-Thu roll forward to the upcoming Friday; Fri/Sat/Sun use
+// the weekend already under way, so the page never skips the weekend it's
+// published during. Both ends are local-calendar midnight, inclusive.
+export function weekendWindow(buildDate: Date): WeekendWindow {
+  const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
+  const daysSinceFriday = (today.getDay() - 5 + 7) % 7;
+  const fridayOffset = daysSinceFriday <= 2 ? -daysSinceFriday : 7 - daysSinceFriday;
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate() + fridayOffset);
+  const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 2);
+  return { start, end };
+}
+
+/** True when a show's date range (startDate..endDate, or just startDate for a
+ * single-day show) overlaps the given weekend window at all. */
+export function isInWeekend(show: ShowRecord, window: WeekendWindow): boolean {
+  const start = parseLocalDate(show.startDate).getTime();
+  const end = parseLocalDate(show.endDate ?? show.startDate).getTime();
+  return start <= window.end.getTime() && end >= window.start.getTime();
+}
+
+/** Shows overlapping this weekend (see weekendWindow), chronological by start date. */
+export function showsThisWeekend(shows: ShowRecord[], buildDate: Date): ShowRecord[] {
+  const window = weekendWindow(buildDate);
+  return shows
+    .filter((s) => isInWeekend(s, window))
+    .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
+}
+
 export function rowToShow(cells: GvizRow): ShowRecord | null {
   const name = sanitizeText(cells[0]?.v);
   const city = sanitizeText(cells[1]?.v);

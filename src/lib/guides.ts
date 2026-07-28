@@ -2,7 +2,8 @@ export interface GuideMeta {
   slug: string;
   title: string;
   dek: string;
-  cover: string;
+  /** Omit when the page has no dedicated cover image yet — the grid falls back to a plain panel. */
+  cover?: string;
 }
 
 export const GUIDES: GuideMeta[] = [
@@ -35,5 +36,20 @@ export const GUIDES: GuideMeta[] = [
     title: 'Card Grading 101: Should You Get a Card Graded?',
     dek: 'The 1–10 scale explained, raw vs. slabbed value, and the math behind deciding whether a specific card is worth grading.',
     cover: 'guide-grading-101',
+  },
+  {
+    slug: 'psa-grading-mississauga',
+    title: 'PSA Grading Drop-Off in Mississauga',
+    dek: "Address, hours, and how the in-person submission process works at PSA's Canadian receiving centre.",
+  },
+  {
+    slug: 'how-much-are-my-sports-cards-worth',
+    title: 'How Much Are My Sports Cards Worth?',
+    dek: "What actually drives a card's value, how to check real comps, and where to get an honest read before you sell.",
+  },
+  {
+    slug: 'pokemon-tcg-shops-canada',
+    title: 'Pokémon & TCG Shops in Canada',
+    dek: "How many shops in our sports card directory also carry Pokémon and other trading card games, and where.",
   },
 ];

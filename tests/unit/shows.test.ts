@@ -1,5 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { rowToShow, parseLocalDate, isUpcoming, groupShowsByMonth } from '../../src/lib/shows';
+import {
+  rowToShow,
+  parseLocalDate,
+  isUpcoming,
+  groupShowsByMonth,
+  showsInProvinceYear,
+  weekendWindow,
+  isInWeekend,
+  showsThisWeekend,
+} from '../../src/lib/shows';
 import type { ShowRecord } from '../../src/lib/shows';
 import type { GvizRow, GvizCell } from '../../src/lib/sheet';
 
@@ -95,12 +104,12 @@ describe('rowToShow', () => {
   });
 });
 
-const makeShow = (startDate: string, endDate?: string): ShowRecord => ({
+const makeShow = (startDate: string, endDate?: string, province: ShowRecord['province'] = 'AB'): ShowRecord => ({
   slug: `show-${startDate}`,
   name: 'Test Show',
   city: 'Calgary',
   citySlug: 'calgary',
-  province: 'AB',
+  province,
   startDate,
   endDate,
 });
@@ -146,5 +155,80 @@ describe('groupShowsByMonth', () => {
 
   it('returns no groups for an empty list', () => {
     expect(groupShowsByMonth([])).toEqual([]);
+  });
+});
+
+describe('showsInProvinceYear', () => {
+  it('keeps only shows in the given province and calendar year, chronological', () => {
+    const shows = [
+      makeShow('2026-08-09', undefined, 'ON'),
+      makeShow('2026-03-01', undefined, 'ON'),
+      makeShow('2027-01-05', undefined, 'ON'),
+      makeShow('2026-05-05', undefined, 'AB'),
+    ];
+    const result = showsInProvinceYear(shows, 'ON', 2026);
+    expect(result.map((s) => s.startDate)).toEqual(['2026-03-01', '2026-08-09']);
+  });
+
+  it('returns an empty array when the province/year has no shows', () => {
+    expect(showsInProvinceYear([makeShow('2026-05-05', undefined, 'AB')], 'QC', 2026)).toEqual([]);
+  });
+});
+
+// Local-calendar-date assertion helper (avoids toISOString(), which converts
+// to UTC and would shift by a day in negative-offset timezones like Canada's
+// — the same reasoning as parseLocalDate's own doc comment above).
+const asLocalIso = (d: Date): string =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+describe('weekendWindow', () => {
+  it('rolls a Monday forward to the upcoming Friday-Sunday', () => {
+    // 2026-07-13 is a Monday
+    const { start, end } = weekendWindow(new Date(2026, 6, 13));
+    expect(asLocalIso(start)).toBe('2026-07-17');
+    expect(asLocalIso(end)).toBe('2026-07-19');
+  });
+
+  it('keeps a Friday build date as the start of that same weekend', () => {
+    // 2026-07-17 is a Friday
+    const { start, end } = weekendWindow(new Date(2026, 6, 17));
+    expect(asLocalIso(start)).toBe('2026-07-17');
+    expect(asLocalIso(end)).toBe('2026-07-19');
+  });
+
+  it('keeps a Sunday build date within the weekend already under way', () => {
+    // 2026-07-19 is a Sunday
+    const { start, end } = weekendWindow(new Date(2026, 6, 19));
+    expect(asLocalIso(start)).toBe('2026-07-17');
+    expect(asLocalIso(end)).toBe('2026-07-19');
+  });
+});
+
+describe('isInWeekend', () => {
+  const window = weekendWindow(new Date(2026, 6, 13)); // Mon -> Fri 17 - Sun 19
+
+  it('is true for a show starting inside the window', () => {
+    expect(isInWeekend(makeShow('2026-07-18'), window)).toBe(true);
+  });
+
+  it('is true for a multi-day show that only overlaps the window at the edge', () => {
+    expect(isInWeekend(makeShow('2026-07-16', '2026-07-17'), window)).toBe(true);
+  });
+
+  it('is false for a show entirely before or after the window', () => {
+    expect(isInWeekend(makeShow('2026-07-10'), window)).toBe(false);
+    expect(isInWeekend(makeShow('2026-07-21'), window)).toBe(false);
+  });
+});
+
+describe('showsThisWeekend', () => {
+  it('returns only shows overlapping the weekend, sorted chronologically', () => {
+    const shows = [makeShow('2026-07-19'), makeShow('2026-07-17'), makeShow('2026-07-10')];
+    const result = showsThisWeekend(shows, new Date(2026, 6, 13));
+    expect(result.map((s) => s.startDate)).toEqual(['2026-07-17', '2026-07-19']);
+  });
+
+  it('returns an empty array when nothing falls on the weekend', () => {
+    expect(showsThisWeekend([makeShow('2026-07-10')], new Date(2026, 6, 13))).toEqual([]);
   });
 });
