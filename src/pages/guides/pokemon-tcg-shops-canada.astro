@@ -1,0 +1,171 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { isPokemonShop, pokemonCityEntries, pokemonShopsInCity } from '../../lib/tcg';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+
+const pokemonStores = stores.filter(isPokemonShop);
+const totalPokemon = pokemonStores.length;
+
+// Other TCGs the directory already tracks in the same `sports` field — computed
+// the same way as Pokémon, so these counts can't drift stale relative to it.
+function hasSport(store: Store, tag: string): boolean {
+  return store.sports.some((t) => t.trim().toLowerCase() === tag);
+}
+const magicCount = stores.filter((s) => hasSport(s, 'magic')).length;
+const yugiohCount = stores.filter((s) => hasSport(s, 'yu-gi-oh')).length;
+const lorcanaCount = stores.filter((s) => hasSport(s, 'lorcana')).length;
+const onePieceCount = stores.filter((s) => hasSport(s, 'one piece')).length;
+
+const cityEntries = pokemonCityEntries(stores);
+const topCities = cityEntries
+  .map((c) => ({ ...c, count: pokemonShopsInCity(stores, c.provinceCode, c.citySlug).length }))
+  .sort((a, b) => b.count - a.count || a.city.localeCompare(b.city))
+  .slice(0, 10);
+const totalPokemonCities = cityEntries.length;
+
+const title = 'Pokémon & TCG Card Shops in Canada';
+const description =
+  "Sports Cards Near Me is a sports card directory, but most of the shops in it also carry Pokémon and other trading card games. Here's how many, which cities have the most, and how to find one near you.";
+const pagePath = '/guides/pokemon-tcg-shops-canada/';
+
+const capsule = `${totalPokemon} shops in the Sports Cards Near Me directory carry Pokémon cards, across ${totalPokemonCities} Canadian cities, alongside ${magicCount} shops carrying Magic: The Gathering. This directory is built around sports cards, but the same local shops overwhelmingly carry other trading card games too.`;
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Does a sports card directory really cover Pokémon shops?',
+    answer: `Yes — ${totalPokemon} of the shops in our directory list Pokémon among what they carry, which is more than any other trading card game we track besides sports cards themselves. We're built around sports cards, but most independent card shops carry both, and our listings reflect what shops actually report stocking.`,
+    link: { href: '/pokemon/', label: 'Browse Pokémon shops by city' },
+  },
+  {
+    question: 'How many Pokémon card shops are in Canada?',
+    answer: `${totalPokemon} shops in the Sports Cards Near Me directory carry Pokémon cards, spread across ${totalPokemonCities} cities. That count grows as we verify more of the country, so it will look a little different the next time this page regenerates.`,
+  },
+  {
+    question: 'Which Canadian cities have the most Pokémon card shops?',
+    answer:
+      topCities.length > 0
+        ? `${topCities[0]!.city}, ${topCities[0]!.provinceCode} currently has the most, with ${topCities[0]!.count} Pokémon-carrying shops in our directory. See the ranked list below for the rest of the top ${topCities.length}.`
+        : 'We don’t have enough verified Pokémon listings yet to rank cities.',
+  },
+  {
+    question: 'Do these shops also carry Magic, Yu-Gi-Oh, or other TCGs?',
+    answer: `Often, yes. Our directory currently tracks ${magicCount} shops carrying Magic: The Gathering, ${yugiohCount} carrying Yu-Gi-Oh, ${lorcanaCount} carrying Lorcana, and ${onePieceCount} carrying One Piece card game, alongside their sports and Pokémon inventory.`,
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-07-28',
+  dateModified: '2026-07-28',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const cityListLd = itemListLd(
+  topCities.map((c) => ({ name: `${c.city}, ${c.provinceCode}`, url: absoluteUrl(Astro.site, `/pokemon/${c.citySlug}/`) })),
+);
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(cityListLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / {title}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">Does a Sports Card Directory Really Cover Pokémon?</h2>
+    <p>
+      Sports Cards Near Me is built and branded around sports cards, but the shops we list rarely sell only one
+      thing. {totalPokemon} of the {stores.length} shops in our directory list Pokémon among what they carry — a
+      real majority — because most independent card shops stock whatever their local collectors buy, sports and
+      trading card games alike. This page exists because that overlap is genuinely large, not because we're trying
+      to be something we're not.
+    </p>
+
+    <h2 class="text-3xl">How Many Pokémon Card Shops Are in Canada?</h2>
+    <p>
+      Our directory currently tracks {totalPokemon} shops carrying Pokémon cards across {totalPokemonCities}{' '}
+      Canadian cities. That's a live count computed from the same shop data behind the rest of the site, so it grows
+      as we verify more shops — it isn't a fixed number we typed in once and forgot about.
+    </p>
+
+    <h2 class="text-3xl">Which Canadian Cities Have the Most Pokémon Card Shops?</h2>
+    <p>Ranked by how many Pokémon-carrying shops we track in each city:</p>
+    <ol role="list" class="space-y-3">
+      {topCities.map((c, i) => (
+        <li class="rounded-xl border border-bord bg-panel p-4">
+          <a href={`/pokemon/${c.citySlug}/`} class="text-xl font-semibold hover:text-prizm">
+            {i + 1}. {c.city}, {c.provinceCode}
+          </a>
+          <p class="mt-1 text-sm text-muted">{c.count} {c.count === 1 ? 'shop' : 'shops'}</p>
+        </li>
+      ))}
+    </ol>
+    <p>
+      That's the top {topCities.length} by count. Browse the{' '}
+      <a href="/pokemon/" class="text-prizm">full Pokémon shop directory</a> to see every city we track,
+      province by province.
+    </p>
+
+    <h2 class="text-3xl">Do These Shops Also Carry Magic, Yu-Gi-Oh, or Other TCGs?</h2>
+    <p>
+      Often, yes. Alongside Pokémon, our directory currently tracks {magicCount} shops carrying Magic: The
+      Gathering, {yugiohCount} carrying Yu-Gi-Oh, {lorcanaCount} carrying Lorcana, and {onePieceCount} carrying the
+      One Piece card game. A shop that lists one trading card game frequently lists several, since most run the same
+      singles cases and trade nights across all of them.
+    </p>
+
+    <h2 class="text-3xl">How Do I Find a Pokémon Shop Near Me?</h2>
+    <p>
+      The list above covers the cities with the most Pokémon-carrying shops, but it isn't the whole country. The{' '}
+      <a href="/pokemon/" class="text-prizm">Pokémon shop directory</a> lets you browse every city we track,
+      province by province, with each shop's rating, address, and map pin. If you're also after sports cards in the
+      same trip, the <a href="/" class="text-prizm">full directory</a> shows every category side by side for a
+      given shop.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">Quick Answers</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+    </section>
+
+    <p class="text-sm text-muted">
+      Know a shop that carries Pokémon or another TCG we're missing? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>

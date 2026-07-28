@@ -1,0 +1,124 @@
+---
+import Base from '../../../layouts/Base.astro';
+import showsJson from '../../../data/shows.json';
+import type { ShowRecord } from '../../../lib/shows';
+import { parseLocalDate, weekendWindow, showsThisWeekend } from '../../../lib/shows';
+import { PROVINCES } from '../../../lib/types';
+import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../lib/seo';
+
+const shows = showsJson as ShowRecord[];
+
+// Build-time snapshot — see the comment on isUpcoming() in src/lib/shows.ts
+// for why "now" here means "when this static build ran". The site rebuilds
+// daily, so this page always reflects the current or next Friday-Sunday.
+const buildDate = new Date();
+const window = weekendWindow(buildDate);
+const weekendShows = showsThisWeekend(shows, buildDate);
+
+// When nothing lands on this exact weekend, fall back to the next shows on
+// the calendar so the page stays useful instead of reading as empty/broken.
+const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
+const upcomingAll = shows
+  .filter((s) => parseLocalDate(s.endDate ?? s.startDate).getTime() >= today.getTime())
+  .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
+const comingSoon = weekendShows.length === 0 ? upcomingAll.slice(0, 6) : [];
+
+const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
+const weekendStartFormat = new Intl.DateTimeFormat('en-CA', { month: 'long', day: 'numeric' });
+const weekendLabel = `${weekendStartFormat.format(window.start)} – ${dateFormat.format(window.end)}`;
+
+const formatRange = (show: ShowRecord): string => {
+  const start = dateFormat.format(parseLocalDate(show.startDate));
+  if (show.endDate === undefined) return start;
+  const end = dateFormat.format(parseLocalDate(show.endDate));
+  return end === start ? start : `${start} – ${end}`;
+};
+
+const title = 'Card Shows This Weekend';
+const description =
+  weekendShows.length > 0
+    ? `${weekendShows.length} sports card ${weekendShows.length === 1 ? 'show is' : 'shows are'} on across Canada this weekend (${weekendLabel}) — dates, venues, and admission.`
+    : `No sports card shows are confirmed across Canada for this weekend (${weekendLabel}) yet — see what's coming up next on our show calendar.`;
+
+const capsule =
+  weekendShows.length > 0
+    ? `Sports Cards Near Me is tracking ${weekendShows.length} sports card ${weekendShows.length === 1 ? 'show' : 'shows'} running this weekend (${weekendLabel}) across Canada. This page rebuilds daily, so it always reflects the current weekend.`
+    : `Sports Cards Near Me has no sports card shows confirmed for this weekend (${weekendLabel}) yet. This page rebuilds daily and reflects whatever's on our show calendar as of the latest build — check the shows coming up soon below, or browse the full calendar.`;
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Shows', url: absoluteUrl(Astro.site, '/shows/') },
+  { name: 'This Weekend', url: absoluteUrl(Astro.site, '/shows/this-weekend/') },
+]);
+const displayedForLd = weekendShows.length > 0 ? weekendShows : comingSoon;
+const showListLd = itemListLd(
+  displayedForLd.map((s) => ({ name: s.name, url: absoluteUrl(Astro.site, `/shows/${s.slug}/`) })),
+);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  {displayedForLd.length > 0 && <script type="application/ld+json" set:html={ldJson(showListLd)} />}
+
+  <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Updated Daily</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-2 text-lg text-paper/85">{weekendLabel}</p>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+  <p class="mt-3 text-sm text-muted">
+    Looking further ahead? See the full <a href="/shows/" class="text-prizm">Canada-wide show calendar</a>, or jump
+    straight to the <a href="/shows/ontario-2026/" class="text-prizm">Ontario</a>,{' '}
+    <a href="/shows/alberta-2026/" class="text-prizm">Alberta</a>, or{' '}
+    <a href="/shows/quebec-2026/" class="text-prizm">Quebec</a> {new Date().getFullYear()} calendars.
+  </p>
+
+  {weekendShows.length > 0 ? (
+    <ul role="list" class="mt-10 grid gap-4 sm:grid-cols-2">
+      {weekendShows.map((show) => (
+        <li>
+          <a
+            href={`/shows/${show.slug}/`}
+            class="block rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5 hover:border-prizm"
+          >
+            <h3 class="text-xl">{show.name}</h3>
+            <p class="mt-1 text-sm text-muted">{formatRange(show)}</p>
+            <p class="mt-1 text-sm text-muted">
+              {show.city}, {PROVINCES[show.province].name}{show.venue !== undefined ? ` · ${show.venue}` : ''}
+              {show.admission !== undefined ? ` · ${show.admission}` : ''}
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <>
+      <p class="mt-10 max-w-prose text-muted">
+        Nothing on our calendar lands this weekend yet. Run a show, or know of one we're missing?{' '}
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScRyvOUWQCBNnQBIfdDU2MVkqfgM4uy9HsEz7Tf5bWYA7H3kQ/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
+      </p>
+      {comingSoon.length > 0 && (
+        <section class="mt-10">
+          <h2 class="text-3xl">Coming Up Soon</h2>
+          <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
+            {comingSoon.map((show) => (
+              <li>
+                <a
+                  href={`/shows/${show.slug}/`}
+                  class="block rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5 hover:border-prizm"
+                >
+                  <h3 class="text-xl">{show.name}</h3>
+                  <p class="mt-1 text-sm text-muted">{formatRange(show)}</p>
+                  <p class="mt-1 text-sm text-muted">{show.city}, {PROVINCES[show.province].name}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </>
+  )}
+
+  <p class="mt-12 text-sm text-muted">
+    This page rebuilds daily, so "this weekend" always means the weekend closest to today. Know of a show we're
+    missing? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+  </p>
+</Base>

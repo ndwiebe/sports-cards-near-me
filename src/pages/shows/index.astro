@@ -35,6 +35,21 @@ const formatRange = (show: ShowRecord): string => {
     <a href="https://docs.google.com/forms/d/e/1FAIpQLScRyvOUWQCBNnQBIfdDU2MVkqfgM4uy9HsEz7Tf5bWYA7H3kQ/viewform" target="_blank" rel="noopener" class="text-prizm">Add a show</a> — it's free, and a person reviews every submission.
   </p>
 
+  <ul role="list" class="mt-6 flex flex-wrap gap-3">
+    {[
+      { href: '/shows/this-weekend/', label: 'This weekend' },
+      { href: '/shows/ontario-2026/', label: 'Ontario 2026' },
+      { href: '/shows/alberta-2026/', label: 'Alberta 2026' },
+      { href: '/shows/quebec-2026/', label: 'Quebec 2026' },
+    ].map((l) => (
+      <li>
+        <a href={l.href} class="rounded-full border border-bord px-4 py-1.5 text-sm text-muted transition-colors hover:border-prizm hover:text-paper">
+          {l.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
   {upcoming.length === 0 ? (
     <p class="mt-8 max-w-prose text-muted">
       No upcoming shows listed yet — know one? <a href="https://docs.google.com/forms/d/e/1FAIpQLScRyvOUWQCBNnQBIfdDU2MVkqfgM4uy9HsEz7Tf5bWYA7H3kQ/viewform" target="_blank" rel="noopener" class="text-prizm">Suggest it</a>.

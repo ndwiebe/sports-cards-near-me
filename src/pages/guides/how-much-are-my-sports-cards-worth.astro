@@ -1,0 +1,180 @@
+---
+import { byRecommendedRank } from '../../lib/seo';
+import Base from '../../layouts/Base.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+import { isBuyer } from '../../lib/sell';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+
+// Shops that list buying collections as a service — same computed filter the
+// sell hub and selling-your-collection guide use, so this page's numbers and
+// list can't drift out of sync with the directory's live data. Ranked with the
+// same tiered comparator the PSA guide uses for its store list (rated shops
+// with enough reviews to trust first, then rated-but-thinner, then unrated
+// last) rather than the stricter "crowned best" cutoff — this section isn't
+// claiming a definitive "best," just a ranked sample.
+const buyerStores = stores.filter(isBuyer);
+const buyerCityCount = new Set(buyerStores.map((s) => s.citySlug)).size;
+const topBuyers = [...buyerStores].sort(byRecommendedRank).slice(0, 8);
+
+const title = 'How Much Are My Sports Cards Worth?';
+const description =
+  'An honest answer to what your sports cards are worth: the four things that actually drive value, how to check real comps, and where to find shops near you that buy or appraise collections.';
+const pagePath = '/guides/how-much-are-my-sports-cards-worth/';
+
+const capsule = `There's no single number for what a sports card or a collection is worth — it depends on the specific card's condition, whether it's raw or graded, demand for that player or set, and what comparable cards are actually selling for right now, not a flat formula. ${buyerStores.length} shops in the Sports Cards Near Me directory list buying collections as a service, and the fastest way to get a real number is to check recent sold comps yourself or bring your cards to one of them.`;
+
+const faqs: FaqItem[] = [
+  {
+    question: "How much are my sports cards worth?",
+    answer:
+      "There's no single number — a card's value depends on its specific condition, whether it's raw or graded, demand for that player or set, and what comparable cards are actually selling for right now. The only honest way to get a real number is to check recent sold comps yourself or bring the card to a shop that buys or appraises collections.",
+    link: { href: '/sell/', label: 'Find shops that buy near you' },
+  },
+  {
+    question: "What determines a sports card's value?",
+    answer:
+      "Four things drive it more than anything else: condition, grading status, demand for the player or set, and real market comps rather than asking prices. Change any one of those and the number moves, which is why a flat per-card or per-collection formula doesn't exist.",
+  },
+  {
+    question: 'Is an online or sight-unseen valuation accurate?',
+    answer:
+      "Treat it as a starting point, not a final number. Bulk offers and online estimators are priced for the worst realistic case because they can't see condition, so an in-person look almost always changes the number.",
+    link: { href: '/guides/selling-your-collection/', label: 'Why sight-unseen offers run low' },
+  },
+  {
+    question: 'Where can I get my cards appraised or get an offer near me?',
+    answer: `${buyerStores.length} shops in the Sports Cards Near Me directory list buying collections as a service across ${buyerCityCount} cities. This page ranks a sample of them below, and our sell hub lets you browse every one by city.`,
+    link: { href: '/sell/', label: 'Browse shops that buy by city' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-07-28',
+  dateModified: '2026-07-28',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / {title}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">What Actually Determines a Card's Value?</h2>
+    <p>
+      Four things drive a card's value more than anything else: condition, grading status, demand for the specific
+      player or set, and what comparable cards are actually selling for right now. Change any one of those and the
+      number moves — which is why nobody can honestly quote you a per-card or per-collection price without seeing
+      what you actually have.
+    </p>
+    <ul role="list" class="list-disc space-y-2 pl-5">
+      <li><strong>Condition</strong> — corner sharpness, edge wear, surface cleanliness, and centering (how even the border sits around the image). A card that looks fine at a glance can still have a soft corner or a hairline scratch that changes the number.</li>
+      <li><strong>Grading status</strong> — whether the card is "raw" (ungraded, condition unverified) or already sealed in a slab with a numeric grade from a third-party company like PSA. A slabbed grade removes the guesswork a buyer would otherwise price in.</li>
+      <li><strong>Demand</strong> — how many collectors currently want that specific player, team, or set. Demand shifts with performance, nostalgia, and the broader market, so a card's value today isn't fixed.</li>
+      <li><strong>Market comps</strong> — what identical or near-identical cards have actually sold for recently, not what someone is currently asking. Asking prices are aspirational; sold prices are real.</li>
+    </ul>
+
+    <h2 class="text-3xl">How Do I Check What a Card Is Actually Worth?</h2>
+    <p>
+      Look at completed, sold listings for the same card in the same condition — not active listings, which show what
+      sellers hope to get, not what buyers actually paid. If the card is graded, its certification number can
+      usually be looked up directly with the grading company to confirm the grade is real before you trust a comp
+      based on it. If you're weighing whether a specific card is worth grading in the first place, our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> walks through that decision.
+    </p>
+
+    <h2 class="text-3xl">Is an Online or Sight-Unseen Valuation Accurate?</h2>
+    <p>
+      Treat any value you get without someone actually looking at the card as a starting point, not a final number.
+      Online estimators and bulk "we buy collections" quotes are priced for the worst realistic case, because the
+      person quoting it can't see condition, edition, or authenticity until the cards are in hand. Our{' '}
+      <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> covers why
+      sight-unseen bulk offers tend to run low, and how sorting first usually nets more.
+    </p>
+
+    <h2 class="text-3xl">Where Can I Get My Cards Appraised or Get an Offer Near Me?</h2>
+    <p>
+      {buyerStores.length} shops in our directory list buying collections as a service, across {buyerCityCount}{' '}
+      Canadian cities. A shop that buys collections is also, in practice, giving you an informal appraisal — they
+      look the cards over and make an offer based on condition and demand, the same fundamentals covered above.
+      Here are {topBuyers.length} of them, ranked by Google rating and review count:
+    </p>
+    <ol role="list" class="space-y-3">
+      {topBuyers.map((s, i) => (
+        <li class="rounded-xl border border-bord bg-panel p-4">
+          <a href={`/store/${s.slug}/`} class="text-xl font-semibold hover:text-prizm">{i + 1}. {s.name}</a>
+          <p class="mt-1 text-sm text-muted">
+            <a href={`/${PROVINCES[s.province].slug}/${s.citySlug}/`} class="hover:text-paper">{s.city}, {s.province}</a>
+            {s.rating !== undefined && (
+              <span class="text-gold">
+                {' '}· ★ {s.rating}
+                {s.reviewCount !== undefined && <span class="text-muted"> ({s.reviewCount} Google {s.reviewCount === 1 ? 'review' : 'reviews'})</span>}
+              </span>
+            )}
+          </p>
+        </li>
+      ))}
+    </ol>
+    <p>
+      That's a small slice of the {buyerStores.length} shops that list buying collections across the country. Browse
+      the <a href="/sell/" class="text-prizm">full sell hub</a> to find every one of them by city, or check the{' '}
+      <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA grading guide</a> if a specific card
+      might be worth submitting before you sell it.
+    </p>
+
+    <CrossLinkCallout
+      heading="Sitting on something bigger than a shoebox?"
+      body="If what you're holding turns out to be worth real money and you're already buying, grading, and reselling as more than a hobby, tax planning built for card dealers is worth getting right from the start."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <section class="mt-12">
+      <h2 class="text-2xl">Quick Answers</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+    </section>
+
+    <p class="text-sm text-muted">
+      Know a shop that buys or appraises collections we're missing? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>
