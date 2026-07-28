@@ -16,14 +16,22 @@ interface Props {
 const { title, description, canonical, ogImage, noindex } = Astro.props;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
-// Analytics + Search Console verification are both config-only: set the env vars
-// and they appear site-wide; leave them unset and nothing is emitted at all (no
-// broken script tag, no empty meta). Plausible is privacy-first and needs no
-// cookie banner, which is why it's the default shape here.
-//   PUBLIC_PLAUSIBLE_DOMAIN=sportscardsnearme.ca
-//   PUBLIC_GSC_VERIFICATION=<the content= value from Search Console's HTML-tag method>
-const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+// Analytics + Search Console verification are all config-only: set an env var and
+// it appears site-wide; leave it unset and nothing is emitted at all (no broken
+// script tag, no empty meta). Set only the one(s) you actually want.
+//
+//   PUBLIC_GSC_VERIFICATION=<content= value from Search Console's HTML-tag method>
+//   PUBLIC_CF_ANALYTICS_TOKEN=<token from Cloudflare Web Analytics>  free, no cookies
+//   PUBLIC_GA4_ID=G-XXXXXXXXXX                                       free, Google's own
+//   PUBLIC_PLAUSIBLE_DOMAIN=sportscardsnearme.ca                     paid alternative
+//
+// Cookie note: Cloudflare Web Analytics and Plausible set no cookies and need no
+// consent banner. GA4 does set cookies — running it means PIPEDA/GDPR consent is
+// Nathan's call, which is why it is opt-in here rather than assumed.
 const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
+const cfAnalyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
 ---
 <!doctype html>
 <html lang="en">
@@ -43,6 +51,25 @@ const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
     {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site).href} />}
     <meta name="twitter:card" content="summary_large_image" />
     {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+    {cfAnalyticsToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${cfAnalyticsToken}"}`}
+      ></script>
+    )}
+    {ga4Id && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+        <script is:inline define:vars={{ ga4Id }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { window.dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', ga4Id);
+        </script>
+      </>
+    )}
     {plausibleDomain && (
       <script is:inline defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js"></script>
     )}
