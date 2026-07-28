@@ -1,0 +1,210 @@
+---
+import { byRecommendedRank } from '../../lib/seo';
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+import { isBuyer } from '../../lib/sell';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+
+// Same computed, deduped-by-city buyer sample as the junk-wax-era guide, framed
+// here around getting an in-person look rather than an appraisal or a sale —
+// a shop that handles graded cards daily will often eyeball authenticity as a
+// courtesy even when you're not selling.
+const buyerStores = stores.filter(isBuyer);
+const buyerCityCount = new Set(buyerStores.map((s) => s.citySlug)).size;
+const namedBuyers: Store[] = [];
+const seenCities = new Set<string>();
+for (const s of [...buyerStores].sort(byRecommendedRank)) {
+  if (seenCities.has(s.citySlug)) continue;
+  seenCities.add(s.citySlug);
+  namedBuyers.push(s);
+  if (namedBuyers.length === 3) break;
+}
+
+const title = 'How to Spot Fake Sports Cards';
+const description =
+  "Practical, checkable signs a sports card or graded slab might be counterfeit: print quality under magnification, card stock and edges, fake holograms, and how to verify a certification number yourself before you buy or sell.";
+const pagePath = '/guides/how-to-spot-fake-sports-cards/';
+
+const capsule =
+  "A fake sports card usually gives itself away under a magnifier: blotchy or misaligned print dots, card stock that's too thin, glossy, or flimsy, and — on graded cards — a slab hologram or label that doesn't match a genuine one. The most reliable check is looking the certification number up directly on the grading company's own website.";
+
+const faqs: FaqItem[] = [
+  {
+    question: 'How can I tell if a sports card is fake?',
+    answer:
+      "Look at the print under a magnifier for blotchy or misaligned dots, check that the card stock's weight and texture match a known-genuine card of the same era, and if it's graded, verify the certification number directly on the grading company's own website rather than trusting the slab alone.",
+  },
+  {
+    question: 'What does a fake rookie card look like?',
+    answer:
+      'Often close enough at a glance to fool someone, but wrong under closer inspection — soft or blurry printing, colors that look slightly off compared to a genuine copy, card stock that feels wrong in the hand, or a price well below what that specific rookie card actually sells for. High-demand rookie cards are the most commonly counterfeited, precisely because they command the most money.',
+    link: { href: '/guides/how-much-are-my-sports-cards-worth/', label: 'Check what a genuine copy actually sells for' },
+  },
+  {
+    question: 'How do I know if a graded slab is fake?',
+    answer:
+      "Check the hologram — a genuine one shifts or shows depth as you tilt it, where a fake is often just a flat printed sticker — along with the label's print quality and whether the case looks like it's ever been opened and reglued. Then confirm it independently: search the certification number on the grading company's own website and make sure the player, set, and grade it shows match the card in your hand.",
+  },
+  {
+    question: 'Is my card real — can I check this myself?',
+    answer:
+      "For a graded card, yes — PSA, BGS (Beckett), SGC, and CGC all offer a free certification-number lookup on their own websites, and it's the single most reliable check available to a collector without any special equipment. For a raw (ungraded) card, a loupe and a genuine card from the same set to compare against get you most of the way there.",
+  },
+  {
+    question: 'What are common counterfeit hockey cards?',
+    answer:
+      'Counterfeiters generally target whatever commands real money — high-value rookie cards and cards of star players are far more likely to be faked than a common veteran base card, because there\'s no financial upside to counterfeiting something worth very little.',
+    link: { href: '/guides/are-old-hockey-cards-worth-anything/', label: 'Which old hockey cards are actually worth money' },
+  },
+  {
+    question: "What should I do if I think I bought a fake card?",
+    answer:
+      "Get a second opinion in person before doing anything else — a local shop that handles graded cards regularly can usually tell within a minute, even if you're not buying or selling anything from them.",
+    link: { href: '/sell/', label: 'Find a shop near you' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-07-28',
+  dateModified: '2026-07-28',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / {title}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">How Can I Tell If a Card's Print Is Fake?</h2>
+    <p>
+      Look at the printed surface under a loupe (a small handheld magnifier collectors use to check a card's
+      surface) rather than trusting how it looks to the naked eye. Genuine factory printing uses a tightly controlled
+      dot pattern or ink layering, while cards run off lower-quality printing equipment often show visibly larger,
+      uneven, or blotchy dots, faint color banding, or edges around text and logos that look slightly soft instead of
+      crisp.
+    </p>
+    <p>
+      This check works best side by side with a card you already know is genuine — from the same set if possible, or
+      at least the same general era. Small print differences are easy to miss in isolation but jump out fast once
+      you have a real comparison point in the same light.
+    </p>
+
+    <h2 class="text-3xl">Does the Card Stock and Cut Feel Right?</h2>
+    <p>
+      Every manufacturer and era has a fairly consistent card stock — the paperboard the card itself is printed on —
+      in terms of thickness, texture, and gloss. A counterfeit is frequently printed on stock that feels a bit too
+      thin and flimsy, too glossy, or oddly thick compared to a genuine card from that same set, because matching a
+      specific manufacturer's stock exactly is harder than matching the image on the front.
+    </p>
+    <p>
+      Edges are worth a second look too. Factory-cut cards from a real production run tend to look consistent across
+      an entire set, while a counterfeit's edges can be slightly uneven, fuzzy under magnification, or — just as
+      often — cut suspiciously too clean and perfect for the era the card claims to be from.
+    </p>
+
+    <h2 class="text-3xl">How Do I Know If a Graded Slab Is Fake?</h2>
+    <p>
+      Fake slabs exist specifically to mimic the tamper-evident cases used by real grading companies like PSA, BGS
+      (Beckett), SGC, and CGC. Start with the hologram on the label — a genuine one shifts, shows depth, or changes
+      as you tilt it under light, where a counterfeit is frequently just a flat printed image standing in for one.
+      Check the label's print quality and font against a genuine example too, and look closely at the case itself
+      for any sign it's been opened and reglued, since a real slab is sealed to be tamper-evident, not tamper-proof.
+    </p>
+    <p>
+      The single most reliable check doesn't depend on spotting any of that by eye: every major grader — PSA, BGS,
+      SGC, and CGC — offers a free certification-number lookup tool on its own website. Search the number printed on
+      the label there directly, and confirm the player, set, and grade it returns actually match the card sitting in
+      front of you. If a seller won't provide a clear photo of the cert number, or the number doesn't come back at
+      all, treat that as a hard stop.
+    </p>
+
+    <h2 class="text-3xl">What Red Flags Should I Watch for in a Listing?</h2>
+    <p>
+      A price meaningfully below what that specific card in that specific grade actually sells for is the first and
+      biggest tell — genuine scarce cards don't go for a fraction of their real value by accident. Beyond price,
+      watch for stock or watermarked photos instead of real pictures of the actual card, no photo of the back of the
+      card or the slab's edges, and a seller who won't provide extra photos or the certification number on request.
+    </p>
+    <p>
+      Brand-new seller accounts with no history, and listings that only show a graded card at an angle that
+      conveniently hides the label, are both worth treating as reasons to slow down rather than reasons to walk away
+      outright — plenty of legitimate sellers are new too. The point isn't to accuse anyone; it's to ask the
+      questions a genuine card and seller can always answer.
+    </p>
+
+    <h2 class="text-3xl">What Should I Do If I Think My Card Is Fake?</h2>
+    <p>
+      Get an in-person second opinion before doing anything else. A shop that already handles graded cards day to
+      day can usually tell within a minute, even if you're not buying, selling, or grading anything with them. If a
+      card turns out to be genuine and you're then trying to work out whether it's actually worth anything, our{' '}
+      <a href="/guides/how-much-are-my-sports-cards-worth/" class="text-prizm">guide to what your cards are worth</a> covers
+      how to check real comps, and our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers whether it's worth
+      submitting for grading once you know.
+    </p>
+    <p>
+      {buyerStores.length} shops in our directory list buying collections as a service across {buyerCityCount}{' '}
+      Canadian cities, including{' '}
+      {namedBuyers.map((s, i) => (
+        <span>
+          <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a> in{' '}
+          <a href={`/${PROVINCES[s.province].slug}/${s.citySlug}/`} class="text-prizm">{s.city}, {s.province}</a>
+          {i < namedBuyers.length - 1 ? (i === namedBuyers.length - 2 ? ', and ' : ', ') : '.'}
+        </span>
+      ))}
+      {' '}Browse the <a href="/sell/" class="text-prizm">full sell hub</a> to find one near you — and if a card
+      genuinely turns out to be worthless costume cardboard rather than a collectible, our{' '}
+      <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> covers what's
+      actually worth doing with the rest of the box.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">Quick Answers</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+    </section>
+
+    <p class="text-sm text-muted">
+      Spot something here that doesn't match what you're seeing on an actual card? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>

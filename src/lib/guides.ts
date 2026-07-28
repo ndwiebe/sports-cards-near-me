@@ -20,6 +20,16 @@ export const GUIDES: GuideMeta[] = [
     cover: 'guide-best-alberta',
   },
   {
+    slug: 'best-card-shops-edmonton',
+    title: 'Best Card Shops in Edmonton',
+    dek: "Edmonton's top-rated sports card shops, ranked straight from our directory by Google rating and review count.",
+  },
+  {
+    slug: 'best-card-shops-calgary',
+    title: 'Best Card Shops in Calgary',
+    dek: "Calgary's top-rated sports card shops, ranked straight from our directory by Google rating and review count.",
+  },
+  {
     slug: 'your-first-card-show',
     title: 'Your First Card Show: What to Expect',
     dek: 'What actually happens at a Canadian card show, how to handle cards politely, cash vs. card, and how to spot a real deal.',
@@ -51,5 +61,20 @@ export const GUIDES: GuideMeta[] = [
     slug: 'pokemon-tcg-shops-canada',
     title: 'Pokémon & TCG Shops in Canada',
     dek: "How many shops in our sports card directory also carry Pokémon and other trading card games, and where.",
+  },
+  {
+    slug: 'card-grading-companies-canada',
+    title: 'PSA vs SGC vs BGS vs CGC: Card Grading Companies in Canada',
+    dek: 'An honest comparison of every grader Canadians can actually use — turnaround, cost, cross-border shipping, and which one fits which situation.',
+  },
+  {
+    slug: 'are-old-hockey-cards-worth-anything',
+    title: 'Are My Old Hockey Cards Worth Anything?',
+    dek: 'The honest answer for most 1990s cards, why the "junk wax era" happened, and which old hockey cards actually are valuable.',
+  },
+  {
+    slug: 'how-to-spot-fake-sports-cards',
+    title: 'How to Spot Fake Sports Cards',
+    dek: 'Practical, checkable signs a card or graded slab might be counterfeit — print quality, card stock, fake holograms, and cert lookups.',
   },
 ];

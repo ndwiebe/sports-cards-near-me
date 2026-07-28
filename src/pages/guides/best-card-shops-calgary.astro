@@ -1,0 +1,287 @@
+---
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+import { isBuyer } from '../../lib/sell';
+import { isPokemonShop } from '../../lib/tcg';
+import {
+  MIN_REVIEWS_FOR_TOP,
+  topRatedStore,
+  absoluteUrl,
+  breadcrumbListLd,
+  faqPageLd,
+  ldJson,
+  type FaqItem,
+} from '../../lib/seo';
+
+const stores = storesJson as Store[];
+const CITY = 'Calgary';
+const CITY_SLUG = 'calgary';
+const province = PROVINCES.AB;
+
+const cityStores = stores.filter((s) => s.province === 'AB' && s.citySlug === CITY_SLUG);
+const cityRated = cityStores.filter((s) => s.rating !== undefined);
+
+// Shops eligible to be crowned "best"/"top-rated": a public rating plus at least
+// MIN_REVIEWS_FOR_TOP reviews behind it, computed fresh from stores.json every build so this
+// page can't go stale-wrong. Sub-threshold shops are still listed below, just not ranked here.
+const topEligible = cityRated.filter((s) => (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
+const topShops = [...topEligible].sort(
+  (a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0) || a.name.localeCompare(b.name),
+);
+const top = topRatedStore(cityStores);
+const otherShops = cityStores.filter((s) => !topEligible.includes(s));
+const unratedCount = cityStores.length - cityRated.length;
+const ratedBelowBarCount = cityRated.length - topEligible.length;
+
+const buyers = cityStores.filter(isBuyer);
+const pokemonShops = cityStores.filter(isPokemonShop);
+const hockeyShops = cityStores.filter((s) => s.sports.some((t) => t.trim().toLowerCase() === 'hockey'));
+
+function joinWithAnd(items: string[]): string {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0]!;
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+function namesList(shops: Store[]): string {
+  const names = shops.map((s) => s.name);
+  if (names.length <= 3) return joinWithAnd(names);
+  const shown = names.slice(0, 3);
+  return `${shown.join(', ')}, and ${names.length - shown.length} more`;
+}
+
+const title = `Best Card Shops in ${CITY}, Alberta`;
+const description = `${topShops.length} of Calgary's ${cityStores.length} sports card shops meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking — ranked by Google rating and review count, straight from our directory.`;
+const pagePath = `/guides/best-card-shops-${CITY_SLUG}/`;
+
+const capsule =
+  top !== undefined
+    ? `${CITY} has ${cityStores.length} sports card shops listed on Sports Cards Near Me, and ${topShops.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar to be ranked here. ${top.name} currently ranks first, at ${top.rating} stars from ${top.reviewCount} Google reviews — ahead of the field on both rating and review count.`
+    : `${CITY} has ${cityStores.length} sports card shops listed on Sports Cards Near Me. None currently carry enough Google reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking, so this page lists what we have and explains why.`;
+
+const faqs: FaqItem[] = [
+  {
+    question: `How many card shops are in ${CITY}?`,
+    answer: `${cityStores.length} sports card shops are listed in ${CITY} on Sports Cards Near Me, and ${topShops.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking.`,
+    link: { href: `/${province.slug}/${CITY_SLUG}/`, label: `Full ${CITY} shop directory` },
+  },
+  top !== undefined
+    ? {
+        question: `Which ${CITY} card shop is rated highest?`,
+        answer: `${top.name} is currently the highest-rated ${CITY} card shop that meets our review bar, at ${top.rating} stars from ${top.reviewCount} Google reviews.`,
+        link: { href: `/store/${top.slug}/`, label: `See ${top.name}'s listing` },
+      }
+    : {
+        question: `Which ${CITY} card shop is rated highest?`,
+        answer: `No ${CITY} shop currently has enough reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar, so we're not naming a highest-rated pick yet.`,
+      },
+  buyers.length > 0
+    ? {
+        question: `Do ${CITY} card shops buy collections?`,
+        answer: `Yes — ${namesList(buyers)} ${buyers.length === 1 ? 'lists' : 'list'} buying collections as a service in ${CITY}.`,
+        link: { href: `/sell/${CITY_SLUG}/`, label: `Shops that buy in ${CITY}` },
+      }
+    : {
+        question: `Do ${CITY} card shops buy collections?`,
+        answer: `None of the ${CITY} shops listed here currently advertise buying collections as a service. Check our sell hub for shops that do buy collections in other Alberta cities.`,
+        link: { href: '/sell/', label: 'Browse shops that buy collections' },
+      },
+  pokemonShops.length > 0
+    ? {
+        question: `Do ${CITY} card shops sell Pokémon cards?`,
+        answer: `Yes — ${namesList(pokemonShops)} ${pokemonShops.length === 1 ? 'carries' : 'carry'} Pokémon cards in ${CITY}.`,
+        link: { href: `/pokemon/${CITY_SLUG}/`, label: `Pokémon shops in ${CITY}` },
+      }
+    : {
+        question: `Do ${CITY} card shops sell Pokémon cards?`,
+        answer: `None of the ${CITY} shops listed here currently tag Pokémon in their catalog.`,
+      },
+  {
+    question: `Which ${CITY} shops carry hockey cards?`,
+    answer:
+      hockeyShops.length > 0
+        ? `${namesList(hockeyShops)} ${hockeyShops.length === 1 ? 'tags' : 'tag'} hockey specifically in ${CITY}. Most general sports card shops in the city carry hockey inventory even when they haven't tagged it, so it's worth checking with any shop directly.`
+        : `None of the ${CITY} shops listed here currently tag hockey specifically. That's a gap in what we've verified, not proof no Calgary shop stocks hockey cards — most general sports card shops carry some hockey inventory without listing every sport online, so it's worth calling ahead if hockey is what you're after.`,
+  },
+  {
+    question: `What's the bar for a shop to be called "best" on this page?`,
+    answer: `A shop needs a public Google rating and at least ${MIN_REVIEWS_FOR_TOP} reviews behind it before we'll call it "best" or "top-rated." A single 5-star review from one relative shouldn't outrank a shop with hundreds of real reviews, so shops below that bar are still listed in our directory, just not crowned on this page.`,
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-07-28',
+  dateModified: '2026-07-28',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">How Many Card Shops Are in Calgary?</h2>
+    <p>
+      Calgary has {cityStores.length} sports card shops in our directory, from single-owner storefronts to
+      multi-sport hobby shops that also carry Pokémon and other trading card games. See every one of them, with
+      addresses, hours, and a map, on the <a href={`/${province.slug}/${CITY_SLUG}/`} class="text-prizm">full Calgary shop directory</a>.
+    </p>
+
+    <h2 class="text-3xl">How We Pick the Best Card Shops in Calgary</h2>
+    <p>
+      Of Calgary's {cityStores.length} shops, {cityRated.length} carry a public Google rating, and {topShops.length} of
+      those have at least {MIN_REVIEWS_FOR_TOP} reviews behind that rating — the bar a shop has to clear before we'll
+      call it "best" or "top-rated" on this page. A perfect rating from a couple of reviews is too easy to fluke, so a
+      shop with hundreds of honest reviews shouldn't get outranked by one with a single 5-star review from a relative.
+      Shops below that bar are still in our directory, just not crowned here.
+    </p>
+
+    <h2 class="text-3xl">Which Calgary Card Shop Is Rated Highest?</h2>
+    <p>
+      {top !== undefined ? (
+        <>
+          <a href={`/store/${top.slug}/`} class="text-prizm">{top.name}</a> currently ranks first among Calgary card
+          shops that clear our review bar, at {top.rating} stars from {top.reviewCount} Google reviews. That ranking
+          is computed fresh from our directory data every time this page builds, so it moves the same way real
+          ratings do — it isn't a fixed list we typed once and forgot about.
+        </>
+      ) : (
+        <>No Calgary shop currently has {MIN_REVIEWS_FOR_TOP} or more reviews behind its rating, so we aren't naming a top pick yet.</>
+      )}
+    </p>
+
+    <h2 class="text-3xl">The Best Card Shops in Calgary</h2>
+    <p>Ranked by Google rating, then review count as a tiebreaker — all {topShops.length} shops that clear our {MIN_REVIEWS_FOR_TOP}-review bar:</p>
+    <ol role="list" class="space-y-3">
+      {topShops.map((s, i) => (
+        <li class="rounded-xl border border-bord bg-panel p-4">
+          <a href={`/store/${s.slug}/`} class="text-xl font-semibold hover:text-prizm">{i + 1}. {s.name}</a>
+          <p class="mt-1 text-sm text-muted">
+            {s.address}
+            {s.rating !== undefined && (
+              <span class="text-gold">
+                {' '}· ★ {s.rating}
+                {s.reviewCount !== undefined && <span class="text-muted"> ({s.reviewCount} Google {s.reviewCount === 1 ? 'review' : 'reviews'})</span>}
+              </span>
+            )}
+          </p>
+        </li>
+      ))}
+    </ol>
+
+    <h2 class="text-3xl">Do Calgary Card Shops Carry Hockey Cards?</h2>
+    <p>
+      {hockeyShops.length > 0 ? (
+        <>
+          {namesList(hockeyShops)} {hockeyShops.length === 1 ? 'tags' : 'tag'} hockey specifically in our directory
+          data for {CITY}. That's a gap in what we've verified rather than a sign other shops don't carry hockey —
+          general sports card shops often stock hockey without listing every sport online, so it's worth asking any
+          Calgary shop directly if hockey is what you're after.
+        </>
+      ) : (
+        <>
+          None of the Calgary shops in our directory currently tag hockey specifically. That's a gap in what we've
+          verified, not proof no Calgary shop stocks hockey cards — a general sports card shop often carries hockey
+          inventory without listing every sport online, so it's worth calling ahead before a special trip.
+        </>
+      )}
+    </p>
+
+    <h2 class="text-3xl">Do Calgary Card Shops Buy Collections?</h2>
+    <p>
+      {buyers.length > 0 ? (
+        <>
+          {namesList(buyers)} {buyers.length === 1 ? 'lists' : 'list'} buying collections as a service in Calgary. See{' '}
+          <a href={`/sell/${CITY_SLUG}/`} class="text-prizm">where to sell sports cards in Calgary</a> for the full
+          ranked list, addresses, and what to bring.
+        </>
+      ) : (
+        <>
+          None of the Calgary shops listed here currently advertise buying collections outright, though plenty of
+          local shops do trade-ins or consignment without putting it on paper anywhere online — it's worth asking in
+          person. Our <a href="/sell/" class="text-prizm">sell hub</a> covers shops that do list it as a service in
+          other Alberta cities.
+        </>
+      )}
+    </p>
+
+    <h2 class="text-3xl">What About the Other Calgary Shops?</h2>
+    <p>
+      {otherShops.length > 0 ? (
+        <>
+          {otherShops.length} more {otherShops.length === 1 ? 'shop is' : 'shops are'} listed in Calgary but {otherShops.length === 1 ? "doesn't" : "don't"} yet clear our {MIN_REVIEWS_FOR_TOP}-review bar
+          {' '}— {unratedCount > 0 && ratedBelowBarCount > 0 ? (
+            <>{unratedCount} without a public rating yet and {ratedBelowBarCount} rated but with fewer than {MIN_REVIEWS_FOR_TOP} reviews</>
+          ) : unratedCount > 0 ? (
+            <>none of them carry a public rating yet</>
+          ) : (
+            <>all of them rated, just with fewer than {MIN_REVIEWS_FOR_TOP} reviews so far</>
+          )}. That's not a knock on any of them — a newer shop or one that hasn't built up Google reviews yet can
+          still be worth a visit. Browse the{' '}
+          <a href={`/${province.slug}/${CITY_SLUG}/`} class="text-prizm">full Calgary directory</a> to see all {cityStores.length}.
+        </>
+      ) : (
+        <>Every Calgary shop in our directory currently clears the {MIN_REVIEWS_FOR_TOP}-review bar above — the full list is the whole list.</>
+      )}
+    </p>
+
+    <h2 class="text-3xl">Before You Visit a Calgary Card Shop</h2>
+    <p>
+      Hours at small, independently run shops can drift from whatever's posted online, so a quick call or message
+      ahead saves a wasted trip. If you're hoping to sell or trade, ask what a shop is looking for before you show
+      up — some buy collections outright, others prefer straight trades. Our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> is worth a read first if
+      you're weighing whether a card is worth grading before you sell or trade it.
+    </p>
+    <p>
+      If you'd rather browse in person, Alberta's card show calendar is another way to see a lot of dealers in one
+      place — check <a href="/shows/alberta-2026/" class="text-prizm">upcoming Alberta card shows</a> for dates near
+      Calgary. And Calgary is one of many Alberta cities in our directory — see how it compares in our{' '}
+      <a href="/guides/best-card-shops-alberta/" class="text-prizm">province-wide best card shops in Alberta guide</a>.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+    </section>
+
+    <p class="text-sm text-muted">
+      Know a Calgary shop we're missing, or something here looks out of date? <a href="/suggest/" class="text-prizm">Let us know</a> and we'll get it added or corrected.
+    </p>
+  </div>
+</Base>

@@ -15,6 +15,15 @@ interface Props {
 }
 const { title, description, canonical, ogImage, noindex } = Astro.props;
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+
+// Analytics + Search Console verification are both config-only: set the env vars
+// and they appear site-wide; leave them unset and nothing is emitted at all (no
+// broken script tag, no empty meta). Plausible is privacy-first and needs no
+// cookie banner, which is why it's the default shape here.
+//   PUBLIC_PLAUSIBLE_DOMAIN=sportscardsnearme.ca
+//   PUBLIC_GSC_VERIFICATION=<the content= value from Search Console's HTML-tag method>
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
 ---
 <!doctype html>
 <html lang="en">
@@ -33,6 +42,10 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:url" content={canonicalURL} />
     {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site).href} />}
     <meta name="twitter:card" content="summary_large_image" />
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+    {plausibleDomain && (
+      <script is:inline defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js"></script>
+    )}
   </head>
   <body>
     <header class="border-b border-bord/50">

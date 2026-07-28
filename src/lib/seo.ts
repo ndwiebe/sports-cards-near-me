@@ -1,3 +1,4 @@
+import storesJson from '../data/stores.json';
 import type { Store } from './types';
 
 export interface BreadcrumbItem {
@@ -97,37 +98,107 @@ function hasTag(stores: Store[], predicate: (tag: string) => boolean): Store[] {
 /** A shop needs at least this many Google reviews to be crowned "best"/"top-rated"/
  * "highest-rated" or named as a top pick. Shops below this still get listed, just not crowned —
  * it keeps a single 5-star review from one relative from outranking a shop with hundreds. */
-export const MIN_REVIEWS_FOR_TOP = 10;
+export const MIN_REVIEWS_FOR_TOP = 20;
 
-/** The highest-rated store eligible to be crowned "top-rated" — i.e. carrying a rating and
- * at least MIN_REVIEWS_FOR_TOP reviews. Returns undefined when no store qualifies. */
-export function topRatedStore(stores: Store[]): Store | undefined {
-  const rated = stores.filter((s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
-  if (rated.length === 0) return undefined;
-  const sorted = [...rated].sort((a, b) => {
-    const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0);
-    if (ratingDiff !== 0) return ratingDiff;
-    const reviewDiff = (b.reviewCount ?? 0) - (a.reviewCount ?? 0);
-    if (reviewDiff !== 0) return reviewDiff;
-    return a.name.localeCompare(b.name);
-  });
+/**
+ * Bayesian ("shrunk") rating — the score that decides who gets crowned.
+ *
+ * A raw average treats 5.0-from-22-reviews as better than 4.9-from-267, which is
+ * the wrong answer: the second shop has vastly more evidence behind a nearly
+ * identical score. This blends each shop's own rating toward the directory-wide
+ * mean, weighted by how much evidence it actually has:
+ *
+ *   score = (v / (v + m)) * R  +  (m / (v + m)) * C
+ *
+ * where R is the shop's rating, v its review count, C the mean rating across every
+ * rated shop, and m (MIN_REVIEWS_FOR_TOP) the prior weight — effectively "every shop
+ * starts out treated as if it already had m reviews at the directory average."
+ * A shop with few reviews sits close to C; evidence pulls it toward its true rating.
+ * Same method IMDb uses for its Top 250.
+ */
+export function weightedRating(
+  rating: number,
+  reviewCount: number,
+  corpusMean: number,
+  priorWeight: number = MIN_REVIEWS_FOR_TOP,
+): number {
+  const v = Math.max(0, reviewCount);
+  if (v + priorWeight === 0) return corpusMean;
+  return (v / (v + priorWeight)) * rating + (priorWeight / (v + priorWeight)) * corpusMean;
+}
+
+/** Mean rating across every rated store — the prior that `weightedRating` shrinks toward.
+ * Falls back to 0 when nothing is rated, which makes weightedRating a no-op rather than NaN. */
+export function corpusMeanRating(stores: Store[]): number {
+  const rated = stores.filter((s) => s.rating !== undefined);
+  if (rated.length === 0) return 0;
+  return rated.reduce((sum, s) => sum + (s.rating ?? 0), 0) / rated.length;
+}
+
+/**
+ * Directory-wide mean rating — the DEFAULT prior for every weighted ranking.
+ *
+ * This deliberately comes from the whole directory rather than whatever slice is
+ * being sorted. Shrinking a two-shop city list toward its own two-shop average is
+ * meaningless: if both shops are ~4.95, the prior is ~4.95 and thin evidence stops
+ * being penalised at all. Judging every shop against the same national baseline is
+ * what makes "4.9 from 267 reviews beats 5.0 from 22" hold everywhere.
+ */
+export const DIRECTORY_MEAN_RATING = corpusMeanRating(storesJson as Store[]);
+
+/** The store most deserving of being crowned "top-rated": highest Bayesian-weighted
+ * score among shops carrying a rating and at least MIN_REVIEWS_FOR_TOP reviews.
+ * Shrinks toward DIRECTORY_MEAN_RATING by default so every city is judged against the
+ * same national baseline; pass `corpusMean` only to score against a different corpus.
+ * Returns undefined when no store qualifies. */
+export function topRatedStore(stores: Store[], corpusMean?: number): Store | undefined {
+  const eligible = stores.filter(
+    (s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP,
+  );
+  if (eligible.length === 0) return undefined;
+  const mean = corpusMean ?? DIRECTORY_MEAN_RATING;
+  const score = (s: Store): number => weightedRating(s.rating ?? 0, s.reviewCount ?? 0, mean);
+  const sorted = [...eligible].sort(
+    (a, b) =>
+      score(b) - score(a) ||
+      (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
+      a.name.localeCompare(b.name),
+  );
   return sorted[0]!;
 }
 
 /** Sort comparator for rating-ordered shop lists that must still show everyone.
  * Shops eligible to be crowned (rated with >= MIN_REVIEWS_FOR_TOP reviews) rank
- * first by rating then reviews; rated-but-sub-threshold shops next; unrated last.
- * Keeps a 5.0-from-one-review shop from leading a list without hiding anyone. */
+ * first, ordered by Bayesian-weighted score so review volume counts as evidence
+ * rather than only raw rating; rated-but-sub-threshold shops next; unrated last.
+ * Nobody is hidden — a thin 5.0 just can't lead the list over a well-reviewed 4.9.
+ *
+ * Shrinks toward DIRECTORY_MEAN_RATING, so this is safe to use on any filtered slice. */
 export function byRecommendedRank(a: Store, b: Store): number {
+  return byWeightedRankIn([a, b])(a, b);
+}
+
+/** Comparator factory: same ranking as `byRecommendedRank`, with an explicit corpus.
+ * Only reach for this when a list should be judged against something other than the
+ * directory-wide mean (the default) — e.g. scoring within a single province. */
+export function byWeightedRankIn(
+  corpus: Store[],
+  corpusMean?: number,
+): (a: Store, b: Store) => number {
+  const mean = corpusMean ?? (corpus.length > 0 ? DIRECTORY_MEAN_RATING : 0);
   const tier = (s: Store): number =>
     s.rating === undefined ? 2 : (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP ? 0 : 1;
-  const tierDiff = tier(a) - tier(b);
-  if (tierDiff !== 0) return tierDiff;
-  return (
-    (b.rating ?? 0) - (a.rating ?? 0) ||
-    (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
-    a.name.localeCompare(b.name)
-  );
+  const score = (s: Store): number =>
+    s.rating === undefined ? 0 : weightedRating(s.rating, s.reviewCount ?? 0, mean);
+  return (a, b) => {
+    const tierDiff = tier(a) - tier(b);
+    if (tierDiff !== 0) return tierDiff;
+    return (
+      score(b) - score(a) ||
+      (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
+      a.name.localeCompare(b.name)
+    );
+  };
 }
 
 function namesList(stores: Store[]): string {

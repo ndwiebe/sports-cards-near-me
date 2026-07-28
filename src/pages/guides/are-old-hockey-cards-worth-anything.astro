@@ -1,0 +1,215 @@
+---
+import { byRecommendedRank } from '../../lib/seo';
+import Base from '../../layouts/Base.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { PROVINCES } from '../../lib/types';
+import { isBuyer } from '../../lib/sell';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+
+// Shops that list buying collections as a service, deduped to one per city so a
+// short inline mention doesn't read as three shops in the same town. Same
+// computed filter and dedupe pattern as the selling-your-collection guide, but
+// framed here around offloading a box of common cards rather than an appraisal
+// (that framing stays exclusive to how-much-are-my-sports-cards-worth).
+const buyerStores = stores.filter(isBuyer);
+const buyerCityCount = new Set(buyerStores.map((s) => s.citySlug)).size;
+const namedBuyers: Store[] = [];
+const seenCities = new Set<string>();
+for (const s of [...buyerStores].sort(byRecommendedRank)) {
+  if (seenCities.has(s.citySlug)) continue;
+  seenCities.add(s.citySlug);
+  namedBuyers.push(s);
+  if (namedBuyers.length === 3) break;
+}
+
+const title = 'Are My Old Hockey Cards Worth Anything?';
+const description =
+  "The honest answer for most late-80s and 90s hockey cards: not much, and here's exactly why. What the \"junk wax era\" was, which old hockey cards actually are valuable, and how to check what you've got before you decide what to do with it.";
+const pagePath = '/guides/are-old-hockey-cards-worth-anything/';
+
+const capsule =
+  'Most mass-produced hockey cards from the late-1980s and early-1990s "junk wax era" are worth very little, because manufacturers printed them in numbers far beyond collector demand. The real exceptions are genuine pre-1980 vintage, rookie cards of true Hall-of-Famers, high-grade graded copies, and documented error cards — everything else is common.';
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Are 1990 hockey cards worth anything?',
+    answer:
+      'Most individual 1990 and 1990-91 hockey cards are worth very little on their own, because sets from that period were printed in huge numbers during the "junk wax era." A handful of rookie cards from that stretch — for players who went on to real Hall-of-Fame careers — are the exception, especially in high graded condition.',
+    link: { href: '/guides/card-grading-101/', label: 'How to tell if a card is worth grading' },
+  },
+  {
+    question: 'What is the "junk wax era"?',
+    answer:
+      'It\'s the nickname collectors gave to roughly the late 1980s through the mid-1990s, when a speculation boom in trading cards led manufacturers to print far more cards than collector demand could ever absorb. The result is that most cards from that period exist in huge, easy-to-find supply today, which keeps their value low regardless of condition.',
+  },
+  {
+    question: 'Are all 1990s hockey cards worthless?',
+    answer:
+      "No — \"worth very little\" isn't the same as \"worthless,\" and it doesn't apply evenly. Star rookie cards, low-print inserts, and cards that grade at or near perfect are the exceptions within an otherwise low-value era.",
+  },
+  {
+    question: 'Which old hockey cards are actually worth money?',
+    answer:
+      "Genuine pre-1980 vintage cards, rookie cards of true Hall-of-Famers, cards that come back from grading at or near a perfect score, and documented printing-error cards are the categories that hold real value. Age alone isn't the deciding factor — what's printed on the card and its actual condition are.",
+  },
+  {
+    question: 'Should I get my 1990s hockey cards graded?',
+    answer:
+      "Only if a specific card already clears a real value bar before grading fees, shipping, and time are factored in — grading a common card doesn't create value that wasn't already there. Our card grading 101 guide walks through that math card by card.",
+    link: { href: '/guides/card-grading-101/', label: 'Card grading 101' },
+  },
+  {
+    question: 'Where can I sell old hockey cards in Canada?',
+    answer: `${buyerStores.length} shops in the Sports Cards Near Me directory list buying collections as a service across ${buyerCityCount} Canadian cities, and our sell hub lets you browse all of them by city.`,
+    link: { href: '/sell/', label: 'Browse shops that buy near you' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-07-28',
+  dateModified: '2026-07-28',
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / {title}
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">Why Are 1990s Hockey Cards Worth So Little?</h2>
+    <p>
+      The honest answer starts with print runs, not player names. Hockey card makers were caught up in the same
+      speculation boom that hit baseball cards a few years earlier, and several new brands entered the hockey market
+      for the first time chasing it — all of them printing sets in enormous quantities to meet demand from people
+      buying cards as an investment rather than a hobby.
+    </p>
+    <p>
+      A card's value depends heavily on scarcity, and a card that was printed by the millions, then heavily hoarded
+      by collectors "for the future," has neither. Multiply that across several competing manufacturers all doing
+      the same thing in the same few years, and most of what came out of that stretch is genuinely common — not
+      rare, not scarce, just cardboard from a boom that never had the collector demand to match the supply.
+    </p>
+
+    <h2 class="text-3xl">What Was the "Junk Wax Era," Exactly?</h2>
+    <p>
+      "Junk wax era" is the nickname collectors gave this stretch — roughly the late 1980s through the mid-1990s,
+      with no single agreed-on start or end year, because it describes a market condition, not a hard cutoff.
+      Manufacturers released hockey sets by the dozen during those years, several of them entering the sport's card
+      market for the first time as hockey rode the same wave baseball cards had already been through.
+    </p>
+    <p>
+      None of that history changes the math for a card sitting in your collection today. When the same base card
+      exists in nearly unlimited supply, condition and rarity — the two things that actually drive value — mostly
+      drop out of the equation, no matter how sharp the corners are or how old the card feels to you.
+    </p>
+
+    <h2 class="text-3xl">Which Old Hockey Cards ARE Valuable?</h2>
+    <p>
+      "Old" and "junk wax era" aren't the same thing, and this is where the real exceptions live.
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>Genuine pre-1980 vintage.</strong> Cards printed before the boom exist in far smaller numbers to
+        begin with, simply because fewer were made and fewer survived decades of handling. Wayne Gretzky's 1979-80
+        O-Pee-Chee rookie card is generally regarded across the hobby as the single most valuable hockey card in
+        existence — a useful reminder of how much a genuinely low print run, decades of scarcity, and an all-time
+        great player can move a card's value, none of which applies to a common card from the early 1990s.
+      </li>
+      <li>
+        <strong>Rookie cards of true Hall-of-Famers.</strong> Even within the flood, a small number of rookie cards
+        belong to players good enough that demand for their career start never went away — a young Jaromir Jagr or
+        Eric Lindros rookie card is a fair example of the type. These aren't exceptions because they're old; they're
+        exceptions because of who's on them.
+      </li>
+      <li>
+        <strong>Graded high-grade examples.</strong> Sloppy mass production is, oddly, part of why a true top grade
+        from this era can be worth something. Printing at that volume produced plenty of off-center, poorly cut
+        cards, so a copy that genuinely earns a perfect or near-perfect grade from a third-party grader can be
+        legitimately scarce even when millions of raw copies of the same card exist. Whether that's worth chasing on
+        a specific card is exactly what our <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> walks
+        through.
+      </li>
+      <li>
+        <strong>Documented error cards.</strong> A printing mistake — a wrong stat, a missing detail, a variation
+        that got caught and corrected mid-run — can turn an otherwise unlimited base card into something genuinely
+        limited, purely by accident. These are a minority of a minority, but they're real.
+      </li>
+    </ul>
+
+    <h2 class="text-3xl">How Can I Check What My Specific Cards Are Actually Worth?</h2>
+    <p>
+      We're not going to invent a number for a card we haven't seen, and no honest source should. The only real way
+      to know is to check what identical cards in the same condition have actually sold for recently, not what
+      someone is asking for one — our <a href="/guides/how-much-are-my-sports-cards-worth/" class="text-prizm">guide to what your cards are worth</a> walks
+      through how to check real comps and where to get an in-person look if you'd rather not do it yourself.
+    </p>
+
+    <h2 class="text-3xl">What Should I Do With a Box of Common 1990s Cards?</h2>
+    <p>
+      A box of common junk wax era cards isn't necessarily trash even when it isn't valuable — it just changes what
+      "selling" looks like. Our <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> covers
+      the realistic options, from a local shop sale to a show table, ranked by how much effort each one takes versus
+      what it typically returns.
+    </p>
+    <p>
+      If you'd rather just be rid of it than sort through it card by card, {buyerStores.length} shops in our
+      directory list buying collections as a service across {buyerCityCount} Canadian cities, including{' '}
+      {namedBuyers.map((s, i) => (
+        <span>
+          <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a> in{' '}
+          <a href={`/${PROVINCES[s.province].slug}/${s.citySlug}/`} class="text-prizm">{s.city}, {s.province}</a>
+          {i < namedBuyers.length - 1 ? (i === namedBuyers.length - 2 ? ', and ' : ', ') : '.'}
+        </span>
+      ))}
+      {' '}Browse the <a href="/sell/" class="text-prizm">full sell hub</a> to find one near you.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">Quick Answers</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+    </section>
+
+    <p class="text-sm text-muted">
+      Found a card here that doesn't match what you're actually seeing? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>

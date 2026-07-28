@@ -9,6 +9,9 @@ import {
   MIN_REVIEWS_FOR_TOP,
   provinceAnswerCapsule,
   topRatedStore,
+  weightedRating,
+  corpusMeanRating,
+  byWeightedRankIn,
 } from '../../src/lib/seo';
 import type { Store } from '../../src/lib/types';
 
@@ -272,5 +275,91 @@ describe('cityFaqs', () => {
       expect(entities[i]?.['name']).toBe(faq.question);
       expect((entities[i]?.['acceptedAnswer'] as Record<string, unknown>)['text']).toBe(faq.answer);
     });
+  });
+});
+
+// --- Bayesian weighting -----------------------------------------------------
+// The motivating real case: Edmonton's Dave's Card Shop (5.0 from 22 reviews)
+// outranked Froggers (4.9 from 267) under raw-rating sorting. Volume is evidence;
+// a thin perfect score should not beat a well-evidenced near-perfect one.
+
+describe('weightedRating', () => {
+  it('pulls a low-review rating toward the corpus mean', () => {
+    const mean = 4.6;
+    const thin = weightedRating(5.0, 2, mean);
+    expect(thin).toBeGreaterThan(mean);
+    expect(thin).toBeLessThan(5.0);
+  });
+
+  it('barely moves a rating backed by many reviews', () => {
+    const mean = 4.6;
+    expect(weightedRating(4.9, 1000, mean)).toBeCloseTo(4.9, 1);
+  });
+
+  it('returns the corpus mean for a shop with zero reviews', () => {
+    expect(weightedRating(5.0, 0, 4.6)).toBeCloseTo(4.6, 5);
+  });
+
+  it('ranks 4.9-from-267 above 5.0-from-22 (the case that motivated this)', () => {
+    const mean = 4.6063;
+    expect(weightedRating(4.9, 267, mean)).toBeGreaterThan(weightedRating(5.0, 22, mean));
+  });
+
+  it('still prefers the higher rating when review counts are comparable', () => {
+    const mean = 4.6;
+    expect(weightedRating(4.9, 200, mean)).toBeGreaterThan(weightedRating(4.7, 200, mean));
+  });
+});
+
+describe('corpusMeanRating', () => {
+  it('averages only rated stores, ignoring unrated ones', () => {
+    const stores = [
+      store({ slug: 'a', name: 'A', rating: 5.0, reviewCount: 10 }),
+      store({ slug: 'b', name: 'B', rating: 4.0, reviewCount: 10 }),
+      store({ slug: 'c', name: 'C' }),
+    ];
+    expect(corpusMeanRating(stores)).toBeCloseTo(4.5, 5);
+  });
+
+  it('returns 0 when nothing is rated, rather than NaN', () => {
+    expect(corpusMeanRating([store({ slug: 'a', name: 'A' })])).toBe(0);
+  });
+});
+
+describe('byWeightedRankIn', () => {
+  const wellReviewed = store({ slug: 'frog', name: 'Froggers', rating: 4.9, reviewCount: 267 });
+  const thinPerfect = store({ slug: 'daves', name: "Dave's", rating: 5.0, reviewCount: 22 });
+  const belowBar = store({ slug: 'new', name: 'Newcomer', rating: 5.0, reviewCount: 3 });
+  const unrated = store({ slug: 'unrated', name: 'Unrated' });
+
+  it('puts the well-reviewed 4.9 ahead of the thin 5.0', () => {
+    const corpus = [thinPerfect, wellReviewed];
+    const sorted = [...corpus].sort(byWeightedRankIn(corpus));
+    expect(sorted.map((s) => s.name)).toEqual(['Froggers', "Dave's"]);
+  });
+
+  it('keeps sub-threshold and unrated shops listed, just never on top', () => {
+    const corpus = [unrated, belowBar, thinPerfect, wellReviewed];
+    const sorted = [...corpus].sort(byWeightedRankIn(corpus));
+    expect(sorted.map((s) => s.name)).toEqual(['Froggers', "Dave's", 'Newcomer', 'Unrated']);
+    expect(sorted).toHaveLength(4);
+  });
+});
+
+describe('topRatedStore with weighting', () => {
+  it('crowns the better-evidenced shop, not the thin perfect score', () => {
+    const stores = [
+      store({ slug: 'daves', name: "Dave's", rating: 5.0, reviewCount: 22 }),
+      store({ slug: 'frog', name: 'Froggers', rating: 4.9, reviewCount: 267 }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('Froggers');
+  });
+
+  it('still ignores shops below MIN_REVIEWS_FOR_TOP entirely', () => {
+    const stores = [
+      store({ slug: 'thin', name: 'Thin', rating: 5.0, reviewCount: MIN_REVIEWS_FOR_TOP - 1 }),
+      store({ slug: 'ok', name: 'Qualified', rating: 4.2, reviewCount: MIN_REVIEWS_FOR_TOP }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('Qualified');
   });
 });
