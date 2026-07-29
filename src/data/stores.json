@@ -3078,6 +3078,23 @@
     "lng": -64.64425
   },
   {
+    "slug": "pabi-s-collectibles-pabi-s-hobbies-collectibles-miramichi",
+    "name": "Pabi's Collectibles (PABI's Hobbies & Collectibles)",
+    "city": "Miramichi",
+    "citySlug": "miramichi",
+    "address": "315 Pleasant St, Miramichi, NB E1V 1Z1",
+    "province": "NB",
+    "phone": "(506) 424-1720",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 47.00209,
+    "lng": -65.56562
+  },
+  {
     "slug": "d-m-sports-cards-moncton",
     "name": "D&M Sports Cards",
     "city": "Moncton",
@@ -4244,6 +4261,22 @@
     "lng": -82.18475
   },
   {
+    "slug": "onyx-cards-games-collingwood",
+    "name": "Onyx Cards & Games",
+    "city": "Collingwood",
+    "citySlug": "collingwood",
+    "address": "864 Hurontario St Unit 8 North, Collingwood, ON",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
+    "lat": 44.48019,
+    "lng": -80.21338
+  },
+  {
     "slug": "dave-s-sportscard-shop-cornwall",
     "name": "Dave's Sportscard Shop",
     "city": "Cornwall",
@@ -4284,6 +4317,24 @@
     "lng": -79.95932
   },
   {
+    "slug": "rt-sports-cards-r-t-sport-cards-collectibles-dunnville",
+    "name": "RT Sports Cards (R/T Sport Cards & Collectibles)",
+    "city": "Dunnville",
+    "citySlug": "dunnville",
+    "address": "122 Queen Street West, Dunnville, ON",
+    "province": "ON",
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 42.90179,
+    "lng": -79.61829
+  },
+  {
     "slug": "total-sports-cards-collectibles-etobicoke",
     "name": "Total Sports Cards & Collectibles",
     "city": "Etobicoke",
@@ -4308,6 +4359,24 @@
     ],
     "lat": 43.5947,
     "lng": -79.53163
+  },
+  {
+    "slug": "studio-151-fort-erie",
+    "name": "Studio 151",
+    "city": "Fort Erie",
+    "citySlug": "fort-erie",
+    "address": "Fort Erie, ON (exact address not confirmed)",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 42.913,
+    "lng": -78.91876
   },
   {
     "slug": "prospects-antiques-sports-cards-gravenhurst",
@@ -4530,6 +4599,41 @@
     "sports": [],
     "lat": 46.52178,
     "lng": -80.9296
+  },
+  {
+    "slug": "tcm-the-card-mann-sports-cards-pokemon-grimsby",
+    "name": "TCM - The Card Mann Sports Cards Pokemon",
+    "city": "Grimsby",
+    "citySlug": "grimsby",
+    "address": "63 Main St W, Grimsby, ON L3M 4H1",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 43.19375,
+    "lng": -79.56359
+  },
+  {
+    "slug": "xtreme-collectables-grimsby",
+    "name": "Xtreme Collectables",
+    "city": "Grimsby",
+    "citySlug": "grimsby",
+    "address": "Grimsby, ON (downtown; exact address not confirmed)",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 43.91131,
+    "lng": -79.39971
   },
   {
     "slug": "brodie-s-gaming-guelph",
@@ -5138,6 +5242,25 @@
     ],
     "lat": 43.23968,
     "lng": -79.80765
+  },
+  {
+    "slug": "lasting-memories-locker-room-hanover",
+    "name": "Lasting Memories Locker Room",
+    "city": "Hanover",
+    "citySlug": "hanover",
+    "address": "318 10th Street, Hanover, ON",
+    "province": "ON",
+    "services": [
+      "Buys",
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 44.15228,
+    "lng": -81.02721
   },
   {
     "slug": "up-north-games-huntsville",
@@ -8070,6 +8193,25 @@
     "lng": -78.3212
   },
   {
+    "slug": "gameshq-aka-the-trading-card-store-port-perry-port-perry",
+    "name": "GamesHQ (aka The Trading Card Store Port Perry)",
+    "city": "Port Perry",
+    "citySlug": "port-perry",
+    "address": "1869 Scugog Street Unit 1, Port Perry, ON L9L 1J1",
+    "province": "ON",
+    "phone": "905-982-7866",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 44.10126,
+    "lng": -78.93998
+  },
+  {
     "slug": "board-game-bliss-richmond-hill",
     "name": "Board Game Bliss",
     "city": "Richmond Hill",
@@ -8375,6 +8517,23 @@
     "lng": -81.15998
   },
   {
+    "slug": "trade-em-stadium-stoney-creek",
+    "name": "Trade Em Stadium",
+    "city": "Stoney Creek",
+    "citySlug": "stoney-creek",
+    "address": "570 Hwy 8 Unit 3, Stoney Creek, ON L8G 4M2",
+    "province": "ON",
+    "phone": "289-656-1188",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 43.21443,
+    "lng": -79.70996
+  },
+  {
     "slug": "the-den-hobby-gifts-stratford",
     "name": "The Den Hobby & Gifts",
     "city": "Stratford",
@@ -8395,6 +8554,23 @@
     ],
     "lat": 43.36883,
     "lng": -80.98087
+  },
+  {
+    "slug": "mk-ultra-cards-strathroy",
+    "name": "MK Ultra Cards",
+    "city": "Strathroy",
+    "citySlug": "strathroy",
+    "address": "61 Queensway Dr, Strathroy, ON N7G 4M2",
+    "province": "ON",
+    "phone": "519-318-3936",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 42.95385,
+    "lng": -81.60894
   },
   {
     "slug": "boreal-gaming-cards-thorold",
@@ -8508,6 +8684,23 @@
     ],
     "lat": 48.38396,
     "lng": -89.24478
+  },
+  {
+    "slug": "jason-randy-s-sports-cards-timmins",
+    "name": "Jason & Randy's Sports & Cards",
+    "city": "Timmins",
+    "citySlug": "timmins",
+    "address": "173 Wilson Ave, Timmins, ON P4N 2T2",
+    "province": "ON",
+    "services": [
+      "Buys",
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 48.47519,
+    "lng": -81.34051
   },
   {
     "slug": "401-games-toronto",
@@ -9245,6 +9438,22 @@
     ],
     "lat": 43.70455,
     "lng": -79.3662
+  },
+  {
+    "slug": "j-b-books-cards-comics-gaming-collectables-trenton-quinte-west",
+    "name": "J&B Books-cards Comics Gaming Collectables",
+    "city": "Trenton (Quinte West)",
+    "citySlug": "trenton-quinte-west",
+    "address": "97 Dundas Street W, Trenton, ON K8V 3P4",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 44.10009,
+    "lng": -77.5773
   },
   {
     "slug": "401-games-vaughan-vaughan",

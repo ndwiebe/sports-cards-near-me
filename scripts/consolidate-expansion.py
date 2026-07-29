@@ -76,8 +76,12 @@ def main():
                     geocoded += 1
                 time.sleep(0.12)
             row = [name, city, address, '', '', phone, website, social, services, sports, lat, lng]
+            # Match on the leading tier word, not the whole string: agents write
+            # 'high — <reason>' as often as bare 'high', and an exact match
+            # silently demoted well-sourced rows into the review queue.
             conf_norm = conf.strip().lower()
-            (main_rows if conf_norm == 'high' else cand_rows).append(row)
+            is_high = conf_norm.startswith('high') or conf_norm.startswith('medium-high')
+            (main_rows if is_high else cand_rows).append(row)
             src_rows.append([sl, md.name, conf, sources])
 
     # No header row: both CSVs are appended directly onto an existing sheet
