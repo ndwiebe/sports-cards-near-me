@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import storesJson from '../data/stores.json';
+import showsJson from '../data/shows.json';
+import type { Store } from '../lib/types';
+import type { ShowRecord } from '../lib/shows';
+import { isUpcoming } from '../lib/shows';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, MIN_REVIEWS_FOR_TOP, type FaqItem } from '../lib/seo';
+
+const stores = storesJson as Store[];
+const shows = showsJson as ShowRecord[];
+
+// Every number on this page is computed, for the same reason the rest of the
+// site is: a hand-typed count on the page that explains our standards would
+// undercut the standards.
+const storeCount = stores.length;
+const cityCount = new Set(stores.map((s) => `${s.province}/${s.citySlug}`)).size;
+const provinceCount = new Set(stores.map((s) => s.province)).size;
+const ratedCount = stores.filter((s) => s.rating !== undefined).length;
+const eligibleCount = stores.filter(
+  (s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP,
+).length;
+const upcomingShows = shows.filter((s) => isUpcoming(s, new Date())).length;
+
+const CONTACT = 'slabsavvycpa@gmail.com';
+
+const title = 'About Sports Cards Near Me';
+const description =
+  `Who runs this directory, where the ${storeCount} listings come from, and the standards behind them — including what "best" has to mean before we'll print it.`;
+const pagePath = '/about/';
+
+const capsule = `Sports Cards Near Me is an independent Canadian card-shop directory built and maintained by Nathan Wiebe, a CPA who buys and sells cards himself. It lists ${storeCount} shops across ${cityCount} cities in ${provinceCount} provinces and territories, compiled from public sources, reviewed by a person, and rebuilt daily.`;
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Who runs Sports Cards Near Me?',
+    answer:
+      'Nathan Wiebe, a Chartered Professional Accountant in Alberta who collects, buys and sells sports cards. The directory is independent and not owned by a shop, a grader, or a marketplace.',
+  },
+  {
+    question: 'Where do the listings come from?',
+    answer: `Public sources — shops' own websites and social pages, business directories, and reader submissions — compiled and then checked by a person before publishing. The directory currently lists ${storeCount} shops and rebuilds every morning, so hours, listings and show dates stay current.`,
+  },
+  {
+    question: 'How do you decide which shop is "best"?',
+    answer: `A shop is only called best, top-rated, or a top pick if it carries a Google rating backed by at least ${MIN_REVIEWS_FOR_TOP} reviews — ${eligibleCount} of our ${storeCount} listings currently clear that bar. Ranking uses a weighted score, so a shop with hundreds of reviews outranks one with a perfect score from a handful. Shops below the bar are still listed; they just are not crowned.`,
+    link: { href: '/guides/best-card-shops-edmonton/', label: 'See how a city ranking looks' },
+  },
+  {
+    question: 'Can a shop pay to rank higher?',
+    answer:
+      'No. Nothing on this site is paid placement, and no shop has paid to appear or to rank. Rankings are computed from public Google ratings and review counts.',
+  },
+  {
+    question: 'How do I get my shop or show listed, or fix a mistake?',
+    answer: `Use the suggest-a-store or add-a-show forms — both are free and a person reviews every submission. For a correction to an existing listing, email ${CONTACT} and it will be fixed at the next daily rebuild.`,
+    link: { href: '/suggest/', label: 'Suggest a store' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'About', url: absoluteUrl(Astro.site, pagePath) },
+]);
+
+// Person + Organization so the author behind the directory is machine-readable,
+// not just prose. This is the signal AI answer engines look for when deciding
+// whether a source is worth quoting on valuation and grading questions.
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: title,
+  description,
+  url: absoluteUrl(Astro.site, pagePath),
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'Sports Cards Near Me',
+    url: absoluteUrl(Astro.site, '/'),
+    email: CONTACT,
+    areaServed: { '@type': 'Country', name: 'Canada' },
+    founder: {
+      '@type': 'Person',
+      name: 'Nathan Wiebe',
+      jobTitle: 'Chartered Professional Accountant',
+      email: CONTACT,
+      knowsAbout: [
+        'sports card collecting',
+        'sports card grading',
+        'card shop retail',
+        'accounting and tax for card dealers',
+      ],
+    },
+  },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(aboutLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqPageLd(faqs))} />
+
+  <nav class="mt-10 text-sm text-muted"><a href="/" class="hover:text-paper">Home</a> / About</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">About</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+
+  <div class="mt-8 max-w-prose space-y-6 text-paper/90">
+    <p data-answer-capsule>{capsule}</p>
+
+    <h2 class="text-3xl">Who runs this</h2>
+    <p>
+      My name is Nathan Wiebe. I'm a Chartered Professional Accountant in Alberta, and I collect, buy and sell
+      sports cards. I've set up at the Edmonton Sports Expo a handful of times — I'm not a full-time show vendor,
+      but I've stood on both sides of the table.
+    </p>
+    <p>
+      I built this directory because I kept hitting the same problem myself: there was no single, current, genuinely
+      national list of Canadian card shops. Searching turned up American directories, dead listings, and shops that
+      closed years ago. The accounting side of my work also means I spend a fair amount of time on the money end of
+      this hobby — what a collection is worth, what grading actually costs, what a dealer owes at tax time — which is
+      where a lot of the guides here come from.
+    </p>
+
+    <h2 class="text-3xl">What's in the directory</h2>
+    <p>
+      {storeCount} card shops across {cityCount} cities in {provinceCount} provinces and territories, plus{' '}
+      {upcomingShows} upcoming card shows with dates, venues and admission. {ratedCount} of the shops carry a public
+      Google rating. It rebuilds every morning, so a shop that updates its hours or a show that confirms a date shows
+      up here the next day rather than months later.
+    </p>
+
+    <h2 class="text-3xl">How listings are compiled</h2>
+    <p>
+      Listings come from public sources — a shop's own website and social pages, business directories, and
+      submissions from readers — and a person reviews each one before it goes live. Generic sporting-goods stores,
+      big-box retailers, and online-only sellers without a storefront are deliberately excluded: this is a directory
+      of places you can actually walk into.
+    </p>
+    <p>
+      Ratings and review counts come from Google. Where a shop could not be matched confidently, its rating is left
+      blank rather than guessed at — an empty field is honest, a wrong rating attached to a real business is not.
+    </p>
+
+    <h2 class="text-3xl">What "best" has to mean here</h2>
+    <p>
+      A shop is only described as best, top-rated, or a top pick if it has a Google rating backed by at least{' '}
+      {MIN_REVIEWS_FOR_TOP} reviews. {eligibleCount} of the {storeCount} listings currently clear that bar. Rankings
+      use a weighted score rather than the raw average, so review volume counts as evidence — a shop rated 4.9 from
+      hundreds of reviews ranks above one sitting at 5.0 from twenty. Shops below the bar are still listed and still
+      findable; they just don't get crowned.
+    </p>
+
+    <h2 class="text-3xl">Independence</h2>
+    <p>
+      Nothing here is paid placement. No shop has paid to be listed, to rank higher, or to be described as best, and
+      there is no arrangement under which they could. I run other card-hobby projects, which are linked in the footer
+      and labelled as mine — none of them affect how shops are ranked on this site.
+    </p>
+
+    <h2 class="text-3xl">Corrections</h2>
+    <p>
+      If a listing here is wrong — a shop has moved, closed, changed hands, or should never have been listed — tell
+      me and I'll fix it. Email <a href={`mailto:${CONTACT}`} class="text-prizm">{CONTACT}</a>, or use{' '}
+      <a href="/suggest/" class="text-prizm">the suggest-a-store form</a>. Corrections go live at the next daily
+      rebuild. Shop owners can also ask to have their listing removed entirely, no reason required.
+    </p>
+
+    <h2 class="text-3xl">Common questions</h2>
+    <dl class="space-y-5">
+      {faqs.map((f) => (
+        <div>
+          <dt class="font-display text-lg uppercase tracking-wide text-paper">{f.question}</dt>
+          <dd class="mt-1 text-paper/85">
+            {f.answer}
+            {f.link !== undefined ? (
+              <>{' '}<a href={f.link.href} class="text-prizm">{f.link.label}</a>.</>
+            ) : null}
+          </dd>
+        </div>
+      ))}
+    </dl>
+
+    <p class="text-sm text-muted">
+      Know a shop or show we're missing? <a href="/suggest/" class="text-prizm">Suggest a store</a> — it's free, and
+      a person reviews every submission.
+    </p>
+  </div>
+</Base>
