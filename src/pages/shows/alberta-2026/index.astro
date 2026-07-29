@@ -63,12 +63,16 @@ const showListLd = itemListLd(
     the full <a href="/shows/" class="text-prizm">Canada-wide show calendar</a>, or every shop in{' '}
     <a href={`/${province.slug}/`} class="text-prizm">{province.name}</a>.
   </p>
+  <p class="mt-2 text-sm text-muted">
+    Run a show in {province.name}, or know one we're missing?{' '}
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
+  </p>
 
   {yearShows.length === 0 ? (
     <p class="mt-10 max-w-prose text-muted">
       No {province.name} shows are confirmed for {YEAR} yet — our calendar is actively growing. Run a show, or know
       of one we're missing?{' '}
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLScRyvOUWQCBNnQBIfdDU2MVkqfgM4uy9HsEz7Tf5bWYA7H3kQ/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
     </p>
   ) : (
     <>
