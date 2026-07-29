@@ -426,6 +426,8 @@
     "citySlug": "drumheller",
     "address": "65 3 Ave W, Drumheller, AB T0J 0Y4",
     "province": "AB",
+    "rating": 4.7,
+    "reviewCount": 53,
     "phone": "(403) 823-2175",
     "services": [
       "Sells"
@@ -1147,6 +1149,8 @@
     "citySlug": "okotoks",
     "address": "21 Elizabeth St Unit 2, Okotoks, AB",
     "province": "AB",
+    "rating": 4.2,
+    "reviewCount": 26,
     "social": "https://www.facebook.com/tailgatemercantileco/",
     "services": [],
     "sports": [],
@@ -1437,6 +1441,8 @@
     "citySlug": "abbotsford",
     "address": "#6 2664 Gladys Avenue, Abbotsford, BC V2S 3X8",
     "province": "BC",
+    "rating": 4.6,
+    "reviewCount": 633,
     "phone": "604-776-0766",
     "website": "https://houseofcards.ca/",
     "services": [
@@ -1511,6 +1517,8 @@
     "citySlug": "burnaby",
     "address": "Metropolis at Metrotown Unit G15, 4700 Kingsway, Burnaby, BC V5H 4M5",
     "province": "BC",
+    "rating": 3.7,
+    "reviewCount": 98,
     "phone": "604-432-9979",
     "website": "https://pastimesports.ca/",
     "services": [
@@ -1539,6 +1547,8 @@
     "citySlug": "chilliwack",
     "address": "District 1881, 46128 Yale Rd, Chilliwack, BC",
     "province": "BC",
+    "rating": 4.8,
+    "reviewCount": 24,
     "social": "https://www.facebook.com/goallinesportscards/",
     "services": [
       "Buys",
@@ -1561,6 +1571,8 @@
     "citySlug": "chilliwack",
     "address": "District 1881, 46128 Yale Rd, Chilliwack, BC",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 61,
     "services": [
       "Sells"
     ],
@@ -1602,6 +1614,8 @@
     "citySlug": "cranbrook",
     "address": "1777 2nd Street N, Cranbrook, BC V1C",
     "province": "BC",
+    "rating": 4.7,
+    "reviewCount": 12,
     "social": "https://www.instagram.com/kootenaysportscards/",
     "services": [
       "Buys",
@@ -1758,6 +1772,8 @@
     "citySlug": "langley",
     "address": "B2-9640 201 Street, Langley, BC V1M 3E8",
     "province": "BC",
+    "rating": 4.3,
+    "reviewCount": 472,
     "phone": "604-882-7616",
     "website": "https://www.wiserscollectibles.com/",
     "services": [
@@ -1912,6 +1928,8 @@
     "citySlug": "port-alberni",
     "address": "Unit A - 5262 Argyle Street, Port Alberni, BC V9Y 1T9",
     "province": "BC",
+    "rating": 4.6,
+    "reviewCount": 57,
     "services": [
       "Sells",
       "Trades Singles"
@@ -1959,6 +1977,8 @@
     "citySlug": "prince-george",
     "address": "Pine Centre Mall, 3055 Massey Drive, Prince George, BC V2N 2S9",
     "province": "BC",
+    "rating": 4.2,
+    "reviewCount": 2902,
     "services": [
       "Sells"
     ],
@@ -1979,6 +1999,8 @@
     "citySlug": "prince-george",
     "address": "795 Central Street W, Prince George, BC",
     "province": "BC",
+    "rating": 4.3,
+    "reviewCount": 861,
     "website": "https://www.greatwhite.ca/",
     "social": "https://www.facebook.com/greatwhite.ca/",
     "services": [
@@ -2049,6 +2071,8 @@
     "citySlug": "richmond",
     "address": "Parker Place Mall, 4380 No. 3 Road, Richmond, BC V6X 3V7",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 292,
     "website": "https://teamcollectors.com/",
     "services": [
       "Sells",
@@ -2114,6 +2138,8 @@
     "citySlug": "surrey",
     "address": "#101 5660 176A Street, Surrey, BC V3S 4H1",
     "province": "BC",
+    "rating": 4.7,
+    "reviewCount": 223,
     "phone": "778-547-8866",
     "website": "https://houseofcards.ca/",
     "services": [
@@ -2135,6 +2161,8 @@
     "citySlug": "surrey",
     "address": "Guildford Town Centre, 10355 152 Street, Surrey, BC",
     "province": "BC",
+    "rating": 4,
+    "reviewCount": 86,
     "phone": "604-584-5507",
     "website": "https://pastimesports.ca/",
     "services": [
@@ -2349,6 +2377,8 @@
     "citySlug": "brandon",
     "address": "1608 Park Ave, Brandon, MB R7A 1J5",
     "province": "MB",
+    "rating": 4.6,
+    "reviewCount": 250,
     "website": "https://iwantthatstuff.store/",
     "social": "https://www.facebook.com/iwantthatstuffbdn/",
     "services": [
@@ -2546,6 +2576,8 @@
     "citySlug": "winnipeg",
     "address": "1885C Portage Avenue, Winnipeg, MB R3J 0H3",
     "province": "MB",
+    "rating": 4.6,
+    "reviewCount": 61,
     "website": "http://www.superstarssports.com/",
     "services": [
       "Buys",
@@ -2647,6 +2679,8 @@
     "citySlug": "fredericton",
     "address": "Brookside Mall, 435 Brookside Drive, Unit 68, Fredericton, NB",
     "province": "NB",
+    "rating": 4.6,
+    "reviewCount": 46,
     "phone": "506-451-7773",
     "website": "https://www.facebook.com/cardrackbrooksidemall/",
     "social": "https://www.facebook.com/cardrackbrooksidemall/",
@@ -2669,6 +2703,8 @@
     "citySlug": "fredericton",
     "address": "Fredericton, NB",
     "province": "NB",
+    "rating": 4.8,
+    "reviewCount": 51,
     "phone": "506-206-9505",
     "website": "https://www.cardboardherofredericton.com/",
     "social": "https://www.facebook.com/cardboardherofredericton",
@@ -2698,6 +2734,8 @@
     "citySlug": "fredericton",
     "address": "Fredericton, NB",
     "province": "NB",
+    "rating": 4.8,
+    "reviewCount": 361,
     "website": "https://www.endeavoursthinkplay.com/",
     "services": [
       "Sells"
@@ -2908,6 +2946,8 @@
     "citySlug": "saint-john",
     "address": "519 Westmorland Road, Saint John, NB",
     "province": "NB",
+    "rating": 3.5,
+    "reviewCount": 31,
     "phone": "506-645-1121",
     "services": [
       "Sells",
@@ -3064,6 +3104,8 @@
     "citySlug": "bedford-halifax",
     "address": "1658 Bedford Highway, Unit 200, Bedford, NS",
     "province": "NS",
+    "rating": 4.5,
+    "reviewCount": 143,
     "phone": "902-407-5002",
     "website": "https://amgcollectibles.ca/",
     "services": [
@@ -3161,6 +3203,8 @@
     "citySlug": "new-glasgow",
     "address": "168 Archimedes Street, New Glasgow, NS",
     "province": "NS",
+    "rating": 4.9,
+    "reviewCount": 31,
     "phone": "902-752-9366",
     "services": [
       "Sells",
@@ -3264,6 +3308,8 @@
     "citySlug": "yellowknife",
     "address": "Unit 8 - 483 Range Lake Rd, Yellowknife, NT",
     "province": "NT",
+    "rating": 4.6,
+    "reviewCount": 9,
     "phone": "867-446-8878",
     "social": "https://www.facebook.com/thetabletopyk/",
     "services": [
@@ -3503,6 +3549,8 @@
     "citySlug": "barrie",
     "address": "1 Irish Ln, Barrie, ON L4M 6H8",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 91,
     "phone": "(202) 643-0559",
     "website": "https://wa.me/message/4G23PO7DGGGFE1",
     "services": [],
@@ -3614,6 +3662,8 @@
     "citySlug": "brampton",
     "address": "Brampton, ON (Heart Lake District)",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 1177,
     "website": "https://www.cardboardmemories.ca",
     "social": "https://www.facebook.com/cardboard.memories",
     "services": [
@@ -3885,6 +3935,8 @@
     "citySlug": "greater-sudbury",
     "address": "1490 Main St, Val Caron, ON P3N 1P8",
     "province": "ON",
+    "rating": 4.2,
+    "reviewCount": 117,
     "phone": "(226) 201-3662",
     "website": "http://bfireballdragon.com/",
     "services": [],
@@ -3963,6 +4015,8 @@
     "citySlug": "greater-sudbury",
     "address": "Sudbury, ON P3A 1Z6",
     "province": "ON",
+    "rating": 4.5,
+    "reviewCount": 322,
     "phone": "705-566-5093",
     "services": [
       "Sells"
@@ -4982,6 +5036,8 @@
     "citySlug": "kitchener",
     "address": "645 Victoria St N, Kitchener, ON N2H 5G3",
     "province": "ON",
+    "rating": 4.4,
+    "reviewCount": 381,
     "phone": "519-954-8278",
     "website": "https://cloutsnchara.com",
     "social": "https://www.facebook.com/CloutsnChara",
@@ -5010,6 +5066,8 @@
     "citySlug": "london",
     "address": "London, ON",
     "province": "ON",
+    "rating": 4.7,
+    "reviewCount": 64,
     "website": "https://beyondthepond.ca",
     "social": "https://www.facebook.com/111744666878615",
     "services": [
@@ -5322,6 +5380,8 @@
     "citySlug": "london",
     "address": "Inside TMC pharmacy, 990 Gainsborough Rd, London, ON N6H 5L4",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 153,
     "website": "http://www.pokanada.ca/",
     "services": [],
     "sports": [
@@ -5921,6 +5981,8 @@
     "citySlug": "markham",
     "address": "4418 Hwy 7 #204, Unionville, ON L3R 1M2",
     "province": "ON",
+    "rating": 5,
+    "reviewCount": 65,
     "phone": "(289) 554-9650",
     "website": "https://www.facebook.com/groups/546030109461282",
     "services": [],
@@ -6295,6 +6357,8 @@
     "citySlug": "mississauga",
     "address": "Central Parkway & Burnhamthorpe, Mississauga, ON",
     "province": "ON",
+    "rating": 4.4,
+    "reviewCount": 445,
     "website": "https://untouchables.ca",
     "social": "https://instagram.com/untouchablesmississauga",
     "services": [
@@ -6544,6 +6608,8 @@
     "citySlug": "oakville",
     "address": "2828 Kingsway Dr, Oakville, ON L6J 7M2",
     "province": "ON",
+    "rating": 4.6,
+    "reviewCount": 306,
     "phone": "289-644-3223",
     "website": "https://www.oakvilleshops.com/stores/game-3-tcg-hobby/",
     "social": "https://www.facebook.com/game3tcg",
@@ -6798,6 +6864,8 @@
     "citySlug": "oshawa",
     "address": "909 Simcoe St N Unit 204, Oshawa, ON L1G 4W1",
     "province": "ON",
+    "rating": 5,
+    "reviewCount": 20,
     "phone": "(365) 633-0280",
     "website": "https://overthetopgaming.ca/",
     "services": [],
@@ -7255,6 +7323,8 @@
     "citySlug": "ottawa",
     "address": "90 Elgin St, Ottawa, ON K1P 5E9",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 74,
     "phone": "(615) 268-1673",
     "website": "https://www.facebook.com/share/1CNPHB3Gmx/?mibextid=wwXIfr",
     "services": [],
@@ -7860,6 +7930,8 @@
     "citySlug": "thunder-bay",
     "address": "217 Cumberland St N, Thunder Bay, ON P7A 4N2",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 57,
     "phone": "(807) 935-7642",
     "website": "https://collectem.ca",
     "services": [
@@ -7881,6 +7953,8 @@
     "citySlug": "thunder-bay",
     "address": "470 Hodder Ave Unit B, Thunder Bay, ON P7A 7X5",
     "province": "ON",
+    "rating": 4.3,
+    "reviewCount": 53,
     "phone": "807-683-3943",
     "website": "https://www.skafexpress.ca",
     "services": [
@@ -7902,6 +7976,8 @@
     "citySlug": "thunder-bay",
     "address": "416 Victoria Ave E, Thunder Bay, ON P7C 1A5",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 57,
     "phone": "807-286-5753",
     "services": [
       "Sells"
@@ -8146,6 +8222,8 @@
     "citySlug": "toronto",
     "address": "394 Spadina Ave (2nd Flr), Toronto, ON M5T 2G5",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 433,
     "website": "https://clutchgames.ca",
     "services": [
       "Buys",
@@ -9093,6 +9171,8 @@
     "citySlug": "whitby",
     "address": "B1-306 Dundas St W, Whitby, ON L1N 2M5",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 586,
     "phone": "905-493-1300",
     "website": "https://maximumcards.ca",
     "services": [
@@ -9489,6 +9569,8 @@
     "citySlug": "charlottetown",
     "address": "Charlottetown, PE",
     "province": "PE",
+    "rating": 4.3,
+    "reviewCount": 9,
     "website": "https://www.facebook.com/downtowncards/",
     "social": "https://www.facebook.com/downtowncards/",
     "services": [
@@ -9741,6 +9823,8 @@
     "citySlug": "boucherville",
     "address": "1001 boulevard de Montarville, Unit 12, Boucherville, QC",
     "province": "QC",
+    "rating": 4.5,
+    "reviewCount": 68,
     "phone": "450-641-7650",
     "services": [
       "Sells",
@@ -9937,6 +10021,8 @@
     "citySlug": "chicoutimi-saguenay",
     "address": "1401 boulevard Talbot, Chicoutimi, QC",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 62,
     "phone": "418-579-1966",
     "website": "https://imaginaire.com/fr",
     "services": [
@@ -9980,6 +10066,8 @@
     "citySlug": "dolbeau-mistassini",
     "address": "1311 boulevard Wallberg, Dolbeau-Mistassini, QC",
     "province": "QC",
+    "rating": 4.4,
+    "reviewCount": 21,
     "phone": "418-276-8592",
     "services": [
       "Sells",
@@ -9998,6 +10086,8 @@
     "citySlug": "dollard-des-ormeaux",
     "address": "4065 boulevard St-Jean, Dollard-des-Ormeaux, QC H9G 2R4",
     "province": "QC",
+    "rating": 4.8,
+    "reviewCount": 18,
     "phone": "514-696-2273",
     "website": "https://collectorsavenue.com/fr",
     "services": [
@@ -10047,6 +10137,8 @@
     "citySlug": "drummondville",
     "address": "441 rue Lindsay, Drummondville, QC",
     "province": "QC",
+    "rating": 4.5,
+    "reviewCount": 174,
     "phone": "819-472-5389",
     "services": [
       "Sells",
@@ -10229,6 +10321,8 @@
     "citySlug": "jonquiere-saguenay",
     "address": "3460 boulevard Saint-François, Jonquière, QC",
     "province": "QC",
+    "rating": 4.2,
+    "reviewCount": 68,
     "phone": "418-547-5361",
     "services": [
       "Sells",
@@ -10801,6 +10895,8 @@
     "citySlug": "montreal",
     "address": "7105 rue Saint-Denis, Unit 202, Montréal, QC H2S 2S5",
     "province": "QC",
+    "rating": 4.9,
+    "reviewCount": 626,
     "phone": "514-495-7758",
     "website": "https://cardbrawlers.com/",
     "social": "https://www.facebook.com/cardbrawlers/",
@@ -11050,6 +11146,8 @@
     "citySlug": "pointe-claire",
     "address": "6801 route Transcanadienne, Pointe-Claire, QC",
     "province": "QC",
+    "rating": 4.5,
+    "reviewCount": 301,
     "phone": "514-694-1857",
     "website": "https://imaginaire.com/fr",
     "services": [
@@ -11071,6 +11169,8 @@
     "citySlug": "pointe-claire",
     "address": "267 boulevard Saint-Jean, Pointe-Claire, QC H9R 3J1",
     "province": "QC",
+    "rating": 3.7,
+    "reviewCount": 265,
     "phone": "514-695-4313",
     "website": "https://bluenosecollect.com/",
     "services": [
@@ -11116,6 +11216,8 @@
     "citySlug": "quebec",
     "address": "Galeries de la Capitale, 5401 boulevard des Galeries, Québec, QC",
     "province": "QC",
+    "rating": 4.4,
+    "reviewCount": 177,
     "phone": "418-614-7876",
     "website": "https://www.boutique-tpm.com/",
     "services": [
@@ -11184,6 +11286,8 @@
     "citySlug": "quebec",
     "address": "Centre d'achats Fleur de Lys, 550 boulevard Wilfrid-Hamel, Québec, QC G1M 2S6",
     "province": "QC",
+    "rating": 4.4,
+    "reviewCount": 177,
     "phone": "418-524-7894",
     "website": "https://www.boutique-tpm.com/",
     "services": [
@@ -11233,6 +11337,8 @@
     "citySlug": "quebec-ste-foy",
     "address": "Place Laurier, 2740 boulevard Laurier, 3e étage, Québec, QC G1V 4P7",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 2274,
     "phone": "418-658-5639",
     "website": "https://imaginaire.com/fr",
     "services": [
@@ -11297,6 +11403,8 @@
     "citySlug": "roberval",
     "address": "1221 boulevard Marcotte, Roberval, QC",
     "province": "QC",
+    "rating": 4.4,
+    "reviewCount": 21,
     "phone": "418-275-6429",
     "services": [
       "Sells",
@@ -11315,6 +11423,8 @@
     "citySlug": "rouyn-noranda",
     "address": "93 avenue Principale, Rouyn-Noranda, QC J9X 4P2",
     "province": "QC",
+    "rating": 4.8,
+    "reviewCount": 6,
     "phone": "819-764-9663",
     "website": "https://www.lazonevd.com/",
     "services": [
@@ -11337,6 +11447,8 @@
     "citySlug": "rouyn-noranda",
     "address": "10a rue Perreault Est, Rouyn-Noranda, QC J9X 4M7",
     "province": "QC",
+    "rating": 4.6,
+    "reviewCount": 31,
     "phone": "819-290-8460",
     "services": [
       "Sells",
@@ -11379,6 +11491,8 @@
     "citySlug": "saint-bruno-de-montarville",
     "address": "Promenades St-Bruno, 1 boulevard des Promenades, Saint-Bruno-de-Montarville, QC J3V 6A8",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 1454,
     "phone": "450-286-5389",
     "website": "https://imaginaire.com/fr",
     "services": [
@@ -11400,6 +11514,8 @@
     "citySlug": "saint-eustache",
     "address": "Marché aux puces St-Eustache, kiosque 7 et 8, 455 avenue Mathers, Saint-Eustache, QC J7P 4C1",
     "province": "QC",
+    "rating": 4.2,
+    "reviewCount": 6298,
     "phone": "514-820-5880",
     "services": [
       "Sells",
@@ -11463,6 +11579,8 @@
     "citySlug": "saint-hubert-longueuil",
     "address": "3055 Montée Saint-Hubert, Saint-Hubert, QC",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 118,
     "phone": "450-486-1551",
     "services": [
       "Sells",
@@ -11483,6 +11601,8 @@
     "citySlug": "saint-hubert-longueuil",
     "address": "Marché Marcado, kiosque 117-121, 3565 boulevard Taschereau, Saint-Hubert, QC J4T 2G2",
     "province": "QC",
+    "rating": 3.7,
+    "reviewCount": 1840,
     "phone": "450-812-5202",
     "services": [
       "Sells"
@@ -11698,6 +11818,8 @@
     "citySlug": "saint-jerome",
     "address": "562 rue Saint-Georges, Saint-Jérôme, QC",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 140,
     "phone": "450-565-0369",
     "services": [
       "Sells",
@@ -11790,6 +11912,8 @@
     "citySlug": "sherbrooke",
     "address": "Carrefour de l'Estrie, 3050 boulevard Portland, Unit 126A, Sherbrooke, QC J1L 1K1",
     "province": "QC",
+    "rating": 4.6,
+    "reviewCount": 792,
     "phone": "819-200-3733",
     "website": "https://imaginaire.com/fr",
     "services": [
@@ -11857,6 +11981,8 @@
     "citySlug": "sherbrooke",
     "address": "13e Avenue, Unit 930, Sherbrooke, QC",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 129,
     "phone": "819-791-7077",
     "services": [
       "Sells",
@@ -11918,6 +12044,8 @@
     "citySlug": "terrebonne",
     "address": "313 Montée des Pionniers, Terrebonne, QC",
     "province": "QC",
+    "rating": 4.8,
+    "reviewCount": 387,
     "phone": "450-581-4444",
     "services": [
       "Sells",
@@ -12052,6 +12180,8 @@
     "citySlug": "trois-rivieres",
     "address": "Centre commercial Les Rivières, 4225 boulevard des Forges, local E2B, Trois-Rivières, QC G8Y 1W2",
     "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 817,
     "phone": "819-415-5855",
     "website": "https://imaginaire.com/fr",
     "services": [
@@ -12235,6 +12365,8 @@
     "citySlug": "regina",
     "address": "1042 Albert Street, Regina, SK",
     "province": "SK",
+    "rating": 4.6,
+    "reviewCount": 17,
     "services": [
       "Buys",
       "Sells"
@@ -12256,6 +12388,8 @@
     "citySlug": "regina",
     "address": "B-1865 Mackay St, Regina, SK",
     "province": "SK",
+    "rating": 4.5,
+    "reviewCount": 122,
     "services": [
       "Buys",
       "Sells"
@@ -12277,6 +12411,8 @@
     "citySlug": "regina",
     "address": "Victoria Square Shopping Centre, 2223 Victoria Avenue E, Regina, SK S4N 6E4",
     "province": "SK",
+    "rating": 3.8,
+    "reviewCount": 47,
     "social": "https://www.facebook.com/sportsworldcollectibles/",
     "services": [
       "Buys",
@@ -12319,6 +12455,8 @@
     "citySlug": "saskatoon",
     "address": "2B 718 Circle Drive East, Saskatoon, SK",
     "province": "SK",
+    "rating": 5,
+    "reviewCount": 747,
     "phone": "306-979-2273",
     "website": "https://www.306sportscards.com/",
     "social": "https://www.facebook.com/306sportscards/",
@@ -12394,6 +12532,8 @@
     "citySlug": "saskatoon",
     "address": "A7 3510 8th Street East, Saskatoon, SK",
     "province": "SK",
+    "rating": 4,
+    "reviewCount": 69,
     "website": "https://radcardsandcollectibles.com/",
     "social": "https://www.facebook.com/p/RAD-Cards-and-Collectibles-100089882463699/",
     "services": [
