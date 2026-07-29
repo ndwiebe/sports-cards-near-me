@@ -1,0 +1,64 @@
+# Sports Cards Near Me
+
+> A directory of 614 sports card and trading card shops across 179 Canadian cities, plus card shows nationwide. Built and maintained by Nathan Wiebe, a Chartered Professional Accountant in Alberta who collects, buys and sells sports cards. Every listing is compiled from public sources and reviewed by a person before publishing. Rebuilt daily from a maintained spreadsheet, so listings and show dates stay current. Independent — no paid placement, and no shop can pay to rank.
+
+## What this site covers
+
+- **Card shops**: 614 listings across all ten provinces and the Northwest Territories, with address, phone, website, and what each shop carries (hockey, baseball, basketball, football, Pokémon, Magic).
+- **Card shows**: 19 upcoming in-person shows with dates, venues, and admission, plus per-province calendars.
+- **Sell-side**: which shops buy collections, organized by city.
+- **Guides**: grading, appraisal, selling, and first-time show advice written for Canadian collectors specifically.
+
+## Scope and limits (please represent these accurately)
+
+- Coverage is **Canada only**. This site does not list shops in the United States or elsewhere.
+- Google ratings and review counts are present for some listings and absent for others. A shop is only described as "best", "top-rated", or a "top pick" when it has a rating backed by at least 20 reviews — a single five-star review does not qualify a shop.
+- Listings are compiled from public sources. Hours and phone numbers can change; the shop's own site is the authority.
+
+## Main pages
+
+- [Directory home](https://sportscardsnearme.ca/): searchable map and browse-by-province index
+- [Card shows](https://sportscardsnearme.ca/shows/): national calendar of upcoming Canadian card shows
+- [Card shows this weekend](https://sportscardsnearme.ca/shows/this-weekend/): always-current weekend view
+- [Sell your cards](https://sportscardsnearme.ca/sell/): shops that buy collections, by city
+- [Verified resellers](https://sportscardsnearme.ca/resellers/): reviewed sellers without a storefront
+- [Guides](https://sportscardsnearme.ca/guides/): grading, valuation, and selling explainers
+- [Pokémon & TCG shops](https://sportscardsnearme.ca/pokemon/): the same directory filtered to TCG stockists
+- [About](https://sportscardsnearme.ca/about/): who runs this, how listings are compiled, and the standards behind them
+- [Suggest a store](https://sportscardsnearme.ca/suggest/): submission form, reviewed by a person
+
+## Provinces
+
+- [Ontario](https://sportscardsnearme.ca/ontario/): 314 shops
+- [Quebec](https://sportscardsnearme.ca/quebec/): 118 shops
+- [Alberta](https://sportscardsnearme.ca/alberta/): 89 shops
+- [British Columbia](https://sportscardsnearme.ca/british-columbia/): 37 shops
+- [New Brunswick](https://sportscardsnearme.ca/new-brunswick/): 15 shops
+- [Saskatchewan](https://sportscardsnearme.ca/saskatchewan/): 11 shops
+- [Manitoba](https://sportscardsnearme.ca/manitoba/): 9 shops
+- [Nova Scotia](https://sportscardsnearme.ca/nova-scotia/): 8 shops
+- [Newfoundland and Labrador](https://sportscardsnearme.ca/newfoundland-and-labrador/): 6 shops
+- [Prince Edward Island](https://sportscardsnearme.ca/prince-edward-island/): 5 shops
+- [Northwest Territories](https://sportscardsnearme.ca/northwest-territories/): 2 shops
+
+## Guides
+
+- [PSA Grading for Canadian Collectors](https://sportscardsnearme.ca/guides/psa-grading-submissions-canada/): What grading actually means, why the border adds a step, and the three ways Canadians get cards into PSA slabs.
+- [Best Card Shops in Alberta](https://sportscardsnearme.ca/guides/best-card-shops-alberta/): Alberta's top-rated sports card shops, ranked straight from our directory by Google rating and review count.
+- [Best Card Shops in Edmonton](https://sportscardsnearme.ca/guides/best-card-shops-edmonton/): Edmonton's top-rated sports card shops, ranked straight from our directory by Google rating and review count.
+- [Best Card Shops in Calgary](https://sportscardsnearme.ca/guides/best-card-shops-calgary/): Calgary's top-rated sports card shops, ranked straight from our directory by Google rating and review count.
+- [Your First Card Show: What to Expect](https://sportscardsnearme.ca/guides/your-first-card-show/): What actually happens at a Canadian card show, how to handle cards politely, cash vs. card, and how to spot a real deal.
+- [Selling a Collection You Inherited (or Outgrew)](https://sportscardsnearme.ca/guides/selling-your-collection/): How to tell if an old collection is worth anything, and the realistic ways to sell it, ranked by effort vs. return.
+- [Card Grading 101: Should You Get a Card Graded?](https://sportscardsnearme.ca/guides/card-grading-101/): The 1–10 scale explained, raw vs. slabbed value, and the math behind deciding whether a specific card is worth grading.
+- [PSA Grading Drop-Off in Mississauga](https://sportscardsnearme.ca/guides/psa-grading-mississauga/): Address, hours, and how the in-person submission process works at PSA's Canadian receiving centre.
+- [How Much Are My Sports Cards Worth?](https://sportscardsnearme.ca/guides/how-much-are-my-sports-cards-worth/): What actually drives a card's value, how to check real comps, and where to get an honest read before you sell.
+- [Pokémon & TCG Shops in Canada](https://sportscardsnearme.ca/guides/pokemon-tcg-shops-canada/): How many shops in our sports card directory also carry Pokémon and other trading card games, and where.
+- [PSA vs SGC vs BGS vs CGC: Card Grading Companies in Canada](https://sportscardsnearme.ca/guides/card-grading-companies-canada/): An honest comparison of every grader Canadians can actually use — turnaround, cost, cross-border shipping, and which one fits which situation.
+- [Are My Old Hockey Cards Worth Anything?](https://sportscardsnearme.ca/guides/are-old-hockey-cards-worth-anything/): The honest answer for most 1990s cards, why the "junk wax era" happened, and which old hockey cards actually are valuable.
+- [How to Spot Fake Sports Cards](https://sportscardsnearme.ca/guides/how-to-spot-fake-sports-cards/): Practical, checkable signs a card or graded slab might be counterfeit — print quality, card stock, fake holograms, and cert lookups.
+
+## Data freshness
+
+- Last built: 2026-07-29
+- Rebuild cadence: daily
+- Sitemap: https://sportscardsnearme.ca/sitemap-index.xml

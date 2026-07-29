@@ -1,0 +1,1 @@
+var e=new Map,t=new Map;function n(n,r){e.set(n,r);for(let e of t.get(n)??[])e(r);t.delete(n)}function r(n,r){let i=e.get(n);if(i){r(i);return}let a=t.get(n)??[];a.push(r),t.set(n,a)}export{r as n,n as t};
