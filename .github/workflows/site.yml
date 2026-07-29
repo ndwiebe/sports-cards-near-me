@@ -29,6 +29,14 @@ jobs:
       - run: npm run build
         env:
           PUBLIC_MAPBOX_TOKEN: ${{ secrets.PUBLIC_MAPBOX_TOKEN }}
+          # Search Console ownership token. Not a secret — Google's HTML-tag method
+          # publishes this value in the page source by design. NOTE: this workflow file
+          # must stay in sync with the copy on `redesign`; the publish-to-Pages job only
+          # runs when the triggering ref is `main`, so it is main's copy that decides
+          # what the live site is built with.
+          PUBLIC_GSC_VERIFICATION: oqigACqbn4bKdAfTZBv3_Bw9Wg3vo7HSk6IXml4riks
+          PUBLIC_CF_ANALYTICS_TOKEN: ${{ vars.PUBLIC_CF_ANALYTICS_TOKEN }}
+          PUBLIC_GA4_ID: ${{ vars.PUBLIC_GA4_ID }}
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
