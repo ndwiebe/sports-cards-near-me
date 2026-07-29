@@ -29,6 +29,17 @@ jobs:
       - run: npm run build
         env:
           PUBLIC_MAPBOX_TOKEN: ${{ secrets.PUBLIC_MAPBOX_TOKEN }}
+          # Search Console ownership token. Not a secret — Google's HTML-tag method
+          # publishes this value in the page source by design, so it lives in the
+          # workflow rather than in repo secrets. Removing it un-verifies the property.
+          PUBLIC_GSC_VERIFICATION: oqigACqbn4bKdAfTZBv3_Bw9Wg3vo7HSk6IXml4riks
+          # Cloudflare Web Analytics beacon token — also public by design (it ships in
+          # the beacon script tag). Set as a repo variable once the site is added at
+          # dash.cloudflare.com > Web Analytics; unset means no beacon is emitted.
+          PUBLIC_CF_ANALYTICS_TOKEN: ${{ vars.PUBLIC_CF_ANALYTICS_TOKEN }}
+          # GA4 measurement ID (G-XXXXXXXXXX), public by design. Opt-in: GA4 sets
+          # cookies, so leaving this unset also avoids a consent-banner obligation.
+          PUBLIC_GA4_ID: ${{ vars.PUBLIC_GA4_ID }}
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
