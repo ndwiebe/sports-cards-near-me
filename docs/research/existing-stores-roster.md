@@ -1,8 +1,8 @@
-# Existing SCNM store roster (573, generated from stores.json 2026-07-28)
+# Existing SCNM roster (614 stores, generated 2026-07-29)
 
-Use this to avoid re-researching stores already in the directory. Match by name+city, not exact spelling.
+Do NOT re-find these. Match loosely by name+city.
 
-## AB (70)
+## AB (89)
 - 203 Collectibles LTD. — Edmonton
 - All In Sports Den — Fort McMurray
 - Andys Sports Cards and Collectibles — Calgary
@@ -16,16 +16,20 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Bingham's Sports Cards — Lethbridge
 - Border City Games — Lloydminster
 - CamroseNextGen Gaming — Camrose
-- Capital City Cards & Collectibles — Beaumont
+- Capital City Cards & Collectibles — Edmonton
 - Capital City Sports Cards — Edmonton
+- Cardera Collectibles — Balzac (Rocky View County)
 - Celly Sports & Games — Calgary
 - Collectible Card Caddy — Okotoks
 - Collectors Books & Cards — Calgary
 - Comic Readers — Medicine Hat
-- Common Box Games — Beaumont
+- Common Box Games — Edmonton
 - Cool Pool Cards — Cold Lake
 - D J's Sports Cards Comics — Red Deer
-- Dave's Card Shop — Brooks
+- D&C's Collectibles — Whitecourt
+- D&C's Collectibles — Whitecourt
+- DJS Sportscards, Comics & Collectibles — Red Deer
+- Dave's Card Shop — Edmonton
 - ENV Collectible — Sherwood Park
 - Eastridge Sports Cards & Games — Calgary
 - Eclipse Games — Edmonton
@@ -33,58 +37,77 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Froggers House of Cards and Autograph Gallery — Edmonton
 - Galactic Trading Post — Fort McMurray
 - Games Galore & The Billiard Store — Medicine Hat
+- Gamesland Canada — Edmonton
 - Georges II — Sherwood Park
+- Hockey Central Sports Memorabilia Inc — Sylvan Lake
 - Holler Collectibles — Camrose
 - Holmestead Sports Cards & Collectibles — Red Deer
 - Hyperspace Comics & Games — Spruce Grove
 - Icons and Heroes — Edmonton
+- Imperial Garden Sports Collectibles — Grande Prairie
 - King Arthur's Collectibles — Lethbridge
-- Lakeland Sports Cards — Cold Lake
+- Lakeland Sports Cards — Bonnyville
 - Maple Leaf Sports — Calgary
 - Mission: Fun & Games — St. Albert
 - Morrison Trading Post — Airdrie
 - Olympic Sports Cards and Games — Calgary
-- Overtime Sports Cards & Grading — Calgary
+- Outpost Sports Cards and Games — Edmonton
+- Overtime Sports Cards & Grading — Balzac
 - Paradise Games and Customs — Spruce Grove
 - Personalized Sportcards — Lethbridge
 - Pirates Cove Collectibles Ltd — Lethbridge
+- Premier Sportscards — Banff
 - Prisma Games — Edmonton
 - Quantum Comics & Collectibles — Camrose
 - Retro — Camrose
 - Sentry Box Cards — Calgary
+- ShoeBox Games & Cafe — Calgary
 - Showcase Comics & Hobbies Ltd., Comics, Collectibles, RC, Boardgames — Lethbridge
 - Slab Savvy CPA — Sherwood Park
 - Snap! Collectables — Airdrie
 - Sports Closet — Sherwood Park
 - Sports Closet — St. Albert
+- Stettler Game Corner — Stettler
 - Strange Ideas Comics and Collectibles — Grande Prairie
+- Swirl Café & Games — Edmonton
+- THE FORT Gaming & Collectibles (board games & card ... — Fort Saskatchewan
+- TUGS Cards & Comics (Tugs Pop Culture & Sports) — Drumheller
 - Tactical Magic Games Inc — Fort McMurray
-- Taps Games — Beaumont
-- The Card Goat — Lethbridge
+- Tailgate Mercantile Co. — Okotoks
+- Taps Games — Edmonton
+- The Card Goat — Edmonton
 - The Cardboard Casket — Medicine Hat
 - The Data Base Camrose — Camrose
+- The Fort Board Games and Card Games (THE FORT Gaming & Collectibles) — Fort Saskatchewan
 - The Hobby Spot Leduc & Quarantined Case Breaks — Leduc
 - The Memorabilia Shop — Chestermere
 - The Vault Sports Cards and Collectables — Lethbridge
 - ThunderGround Comics And Collectibles — St. Albert
 - Toyz Game Emporium Inc — Grande Prairie
 - Treasure Cove Comics & Collectables — Airdrie
+- WAYNE'S SPORTS CARDS AND COLLECTIBLES — Edmonton
 - Wayne's Sports Cards & Collectibles — Edmonton
+- West's Sports Cards & Collectibles — Edmonton
 - West's Sports Cards — Edmonton
+- Wizard's Loft — Red Deer
 - Wonderland Games — Grande Prairie
-- YEG NHLHockeyStickers.Com — Beaumont
+- YEG NHLHockeyStickers.Com — Edmonton
 
-## BC (32)
+## BC (37)
 - A-Star Collectibles — Prince George
 - Arcardia Collectibles & Exchange — Richmond
 - Collectors Corner — Maple Ridge
 - Colossal Cards and Collectables — Courtenay
 - Desert City Games — Kamloops
+- Draw For Turn Games — Richmond
 - Epic Games & More — Victoria
 - Gauntlet Games — Victoria
 - Goalline Sports Cards — Chilliwack
 - Great White Toys · Comics · Games — Prince George
 - Hobbybox604 — North Vancouver
+- House of Cards (Abbotsford) — Abbotsford
+- House of Cards (Cloverdale) — Surrey
+- Infinity Cards & Collectibles — Aldergrove
 - Kanto Poke Mart — Chilliwack
 - Kootenay Sports Cards & Collectables — Cranbrook
 - Let's Collect Cards — Burnaby
@@ -102,22 +125,25 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Team Collectors — Richmond
 - The Card Corner and Games — Port Alberni
 - The Game Hub — Kamloops
+- Treasure Chest Games & Collectibles — Port Coquitlam
 - Triple Play Sports Cards — Victoria
 - UBECard — Vancouver
 - Vancity CJ Trading Cards — Richmond
 - Wally's Pro Sports Cards — Vancouver
 - Wiser's Wide World of Collectibles — Langley
 
-## MB (7)
+## MB (9)
 - CanCentral Sports Cards & Memorabilia — Winnipeg
 - First Row Collectibles — Winnipeg
+- Fusion Gaming — Winnipeg
 - I Want That Stuff — Brandon
 - Inner Hero Collectibles — Brandon
 - Joe Daley's Sports & Framing — Winnipeg
 - Lower Level Sports Cards & Collectibles — Winnipeg
+- ManitobaTCG — Winnipeg
 - Superstars Sports Collectibles — Winnipeg
 
-## NB (11)
+## NB (15)
 - B&T Sportscards & Gaming — Bathurst
 - Boutique Nostalgies — Lamèque
 - Card Rack — Fredericton
@@ -126,7 +152,11 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - D&M Sports Cards — Moncton
 - Endeavours ThinkPlay — Fredericton
 - Fundy Coins and Collectibles — Saint John
+- GameZilla Bathurst — Bathurst
+- GameZilla Fredericton — Fredericton
+- GameZilla Saint John — Saint John
 - Heroes' Beacon — Saint John
+- Merchant's Shop (La Shop du Marchand / Merchant's Inventory) — Bathurst
 - Trading Card Warehouse — Moncton
 - Vintage Pursuit Hobby Shop — Saint John
 
@@ -152,7 +182,7 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Ogre's Lair Family Game Shop — Yellowknife
 - The Tabletop Games & Collectibles — Yellowknife
 
-## ON (309)
+## ON (314)
 - 1UP Games — Hamilton
 - 401 Games Vaughan — Vaughan
 - 401 Games — Toronto
@@ -211,6 +241,7 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Chumleighs — Kingston
 - CloutsnChara Sports Cards — Kitchener
 - Clutch Games — Toronto
+- Collect 'em All - Cards and Games — Thunder Bay
 - Collectors Dreams — Richmond Hill
 - Comfy Hobbies — Markham
 - Comic Alley Toys — Oshawa
@@ -238,6 +269,7 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Dragon World Card Games & Collectibles — Brampton
 - Duck Duck Games & Collectibles — Toronto
 - Duel City Games — Mississauga
+- Dueling Grounds Tabletop Games — Peterborough
 - Dxhers — Ottawa
 - EA Collectibles — London
 - Elite Cards Toronto — Vaughan
@@ -314,8 +346,8 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Kanto Kreations — Sault Ste. Marie
 - Kingston Card Den — Kingston
 - Kingston Gaming Nexus — Kingston
+- Kollect This Inc. — Peterborough
 - Korekuta Games — Vaughan
-- Krown & The Shine Shop — Timmins
 - KunaiGames — Windsor
 - L. A. Mood Comics & Games — London
 - LVLUP GAMES — Mississauga
@@ -362,6 +394,7 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Novel Idea — Kingston
 - OMG Games — Barrie
 - Out of the Box — Ottawa
+- Outpost Gaming — North Bay
 - Over The Top Gaming — Oshawa
 - Panda Hobby - Canada's Largest Gundam Store — Markham
 - ParadoxTCG — Hamilton
@@ -395,10 +428,12 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - SCAHub Marketplace — Guelph
 - SOAR Hobby & More — Windsor
 - Sell Your Pokemon Cards — Barrie
+- Sequence Comics and Gaming — Brockville
 - Seven Sisters Ritual Apothecary — London
 - Shikdar Trading Inc. — Ottawa
 - Simply Wonderful Toys & Gizmos Inc — Guelph
 - Sino Hobby Markham — Markham
+- Skaf Express (Let's Play! Cards and Games!) — Thunder Bay
 - Skyfox Games — Oshawa
 - Slab Labs TCG — Greater Sudbury
 - Slab Sharks - Sports Cards & Collectibles Consignment — Mississauga
@@ -470,7 +505,7 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Exor Games — Charlottetown
 - Gifted Rookies — Charlottetown
 
-## QC (113)
+## QC (118)
 - 1000000 Comix — Montréal
 - 3 Mana — Saint-Hubert (Longueuil)
 - 418 Sports — Québec (Charlesbourg)
@@ -478,11 +513,13 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Achetons-Vendons — Rivière-du-Loup
 - All-In Hobby Sports — Brossard
 - BD Cosmos — Laval
+- BOG Collectibles — Kahnawake
 - Between 2 Games — Saint-Amable
 - Bocado — La Sarre
 - Boutique La Coupe Stanley — Saint-Jérôme
 - Boutique Sportive Alexcardz — Victoriaville
 - Capitaine Québec — Montréal
+- Card Brawlers — Montréal
 - CardChasers (Les Collectionneurs CardChasers) — Laval
 - Cartes Champions — Anjou (Montréal)
 - Cartes Léo — Lachute
@@ -521,6 +558,7 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Hobby Saguenay — Jonquière (Saguenay)
 - Hobby Sport Îles-de-la-Madeleine — L'Étang-du-Nord
 - Hobby et Collection (TPM) — Québec
+- KSKS Sports Collectibles Inc. — Pointe-Claire
 - Kingdom of Titans — Chicoutimi (Saguenay)
 - L'Armoire à Jeux — Magog
 - L'Arène des Dieux — Québec
@@ -555,10 +593,12 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Librairie Crossover Comics — Montréal
 - Librairie Moderne — Saint-Jean-sur-Richelieu
 - Lobby Sport — Saint-Hyacinthe
+- MB Cartes — Sherbrooke
 - Miraj Trading — Montréal
 - Modern TCG — Rouyn-Noranda
 - Monnaie Sherbrooke — Sherbrooke
 - Ontario Bric à Brac — Montréal
+- PPAG Hockey Cards — Granby
 - Poke Jeux — Boucherville
 - Rémi Card Trader — Saint-Hubert (Longueuil)
 - Savage Cards — Piedmont / Saint-Sauveur
@@ -585,13 +625,14 @@ Use this to avoid re-researching stores already in the directory. Match by name+
 - Zone Collection Rive-Sud — Longueuil
 - Zone Collection St-Jean — Saint-Jean-sur-Richelieu
 
-## SK (10)
+## SK (11)
 - 306 Sports Cards — Saskatoon
 - Big Time Sportscards — Regina
 - Collector's Lane — Saskatoon
 - Flawless Victory — Prince Albert
 - Man Cave Sports Cards — Regina
 - Mana Vault — Saskatoon
+- Prairie Canucks Cards & Collectibles — Weyburn
 - RAD Cards and Collectibles — Saskatoon
 - Sportsworld Collectibles — Regina
 - The Nut Man (Cards & Collectables) — Regina

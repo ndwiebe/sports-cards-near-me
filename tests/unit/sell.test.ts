@@ -51,7 +51,12 @@ describe('buyersInCity', () => {
     expect(buyersInCity(stores, 'MB', 'winnipeg')).toEqual([]);
   });
 
-  it('ranks by rating desc (undefined last), then reviewCount desc, then name', () => {
+  // Updated 2026-07-29: this previously asserted raw-rating order, which put a
+  // 4.9-from-one-review shop at the top of a sell page. buyersInCity now shares
+  // the site-wide weighted ranking, so review volume counts as evidence: shops
+  // clearing the 20-review bar rank first (by shrunk score), sub-threshold shops
+  // next, unrated last. The old expectation encoded the distortion, not the intent.
+  it('ranks buyers by the site-wide weighted ranking, not raw rating', () => {
     const stores = [
       store({ slug: 'no-rating-b', name: 'Zeta', services: ['Buys'], rating: undefined }),
       store({ slug: 'no-rating-a', name: 'Alpha', services: ['Buys'], rating: undefined }),
@@ -62,13 +67,21 @@ describe('buyersInCity', () => {
     ];
     const result = buyersInCity(stores, 'MB', 'winnipeg');
     expect(result.map((s) => s.slug)).toEqual([
-      'top',
-      'tie-more-reviews',
-      'tie-fewer-reviews',
-      'low-rating',
+      'tie-more-reviews', // 4.8 from 300 — best evidence-backed score
+      'low-rating', // 4.0 from 500 — weaker score but still over the bar
+      'tie-fewer-reviews', // 4.8 from 10 — under the bar, so ranks below
+      'top', // 4.9 from 1 — thin evidence no longer wins
       'no-rating-a',
       'no-rating-b',
     ]);
+  });
+
+  it('never lets a thin perfect score lead a sell page', () => {
+    const stores = [
+      store({ slug: 'thin', name: 'Thin', services: ['Buys'], rating: 5.0, reviewCount: 2 }),
+      store({ slug: 'proven', name: 'Proven', services: ['Buys'], rating: 4.7, reviewCount: 400 }),
+    ];
+    expect(buyersInCity(stores, 'MB', 'winnipeg')[0]?.slug).toBe('proven');
   });
 });
 

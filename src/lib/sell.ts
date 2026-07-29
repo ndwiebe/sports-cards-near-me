@@ -1,4 +1,4 @@
-import { MIN_REVIEWS_FOR_TOP, topRatedStore, type FaqItem } from './seo';
+import { MIN_REVIEWS_FOR_TOP, byRecommendedRank, topRatedStore, type FaqItem } from './seo';
 import type { ProvinceCode, Store } from './types';
 
 /** A store counts as a buyer iff it lists the exact (lowercased, trimmed) service "buys". */
@@ -6,25 +6,17 @@ export function isBuyer(store: Store): boolean {
   return store.services.some((s) => s.trim().toLowerCase() === 'buys');
 }
 
-function compareBuyers(a: Store, b: Store): number {
-  if (a.rating !== undefined && b.rating !== undefined) {
-    const ratingDiff = b.rating - a.rating;
-    if (ratingDiff !== 0) return ratingDiff;
-  } else if (a.rating !== undefined) {
-    return -1;
-  } else if (b.rating !== undefined) {
-    return 1;
-  }
-  const reviewDiff = (b.reviewCount ?? 0) - (a.reviewCount ?? 0);
-  if (reviewDiff !== 0) return reviewDiff;
-  return a.name.localeCompare(b.name);
-}
-
-/** Buyers in one city, ranked by rating desc (undefined last), then review count desc, then name. */
+/** Buyers in one city, ranked the same way every other list on the site is.
+ *
+ * This deliberately delegates to byRecommendedRank rather than keeping its own
+ * comparator: it previously sorted on raw rating, so a 5.0 from three reviews
+ * outranked a 4.8 from four hundred — exactly the distortion the weighted
+ * ranking exists to prevent. A second comparator is a second thing to forget to
+ * fix, so there is only one now. */
 export function buyersInCity(stores: Store[], province: ProvinceCode, citySlug: string): Store[] {
   return stores
     .filter((s) => s.province === province && s.citySlug === citySlug && isBuyer(s))
-    .sort(compareBuyers);
+    .sort(byRecommendedRank);
 }
 
 function joinWithAnd(items: string[]): string {
