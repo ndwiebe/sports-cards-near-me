@@ -6,3 +6,7 @@ playwright-report/
 .DS_Store
 .env*
 genimg-out/
+
+# Ratings-refresh output: regenerated on demand, contains a working snapshot of
+# Google ratings pending manual spot-check before it goes into the sheet.
+docs/research/ratings-refresh*.csv
