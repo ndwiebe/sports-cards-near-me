@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
@@ -35,7 +36,12 @@ const ld: Record<string, unknown> = {
   image: new URL('/images/guide-best-alberta.webp', Astro.site).href,
   datePublished: '2026-07-11',
   dateModified: '2026-07-11',
-  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+  },
   publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
 };
 ---
@@ -57,6 +63,7 @@ const ld: Record<string, unknown> = {
       <nav class="text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
       <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
       <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published="2026-07-11" modified="2026-07-11" />
     </div>
   </section>
 

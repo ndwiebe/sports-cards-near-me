@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import { absoluteUrl, breadcrumbListLd, ldJson } from '../lib/seo';
+
+// Written from what this site actually does, verified against the built output:
+// a Cloudflare Web Analytics beacon (cookieless), Mapbox tiles loaded only when
+// a map renders, Google Forms for the three submission forms, self-hosted fonts
+// (no Google Fonts CDN), no cookies or localStorage set by the site itself, and
+// static hosting on GitHub Pages. If any of that changes, this page must change
+// with it — a privacy policy that describes a site you no longer run is worse
+// than none at all.
+const CONTACT = 'slabsavvycpa@gmail.com';
+const UPDATED = '2026-07-29';
+
+const title = 'Privacy Policy';
+const description =
+  'What this site collects, what it does not, and who else sees your data when you use it — written from what the site actually does.';
+const pagePath = '/privacy/';
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Privacy', url: absoluteUrl(Astro.site, pagePath) },
+]);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+
+  <nav class="mt-10 text-sm text-muted"><a href="/" class="hover:text-paper">Home</a> / Privacy</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">Privacy</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+
+  <div class="mt-8 max-w-prose space-y-6 text-paper/90">
+    <p data-answer-capsule>
+      Sports Cards Near Me does not set cookies, does not run advertising, does not have user accounts, and does not
+      sell or share data with anyone. It uses a privacy-first analytics tool that counts visits without identifying
+      visitors. If you submit one of our forms or email us, we keep what you send so we can act on it.
+    </p>
+    <p class="text-sm text-muted">Last updated {UPDATED}.</p>
+
+    <h2 class="text-3xl">What this site does not do</h2>
+    <p>
+      No cookies are set by this site. There are no accounts, no logins, and no advertising or ad-tech trackers.
+      Nothing you do here is sold, rented, or shared with a data broker, and there is no email list to be added to.
+      Fonts are served from this site rather than a font CDN, so loading a page does not announce your visit to a
+      third-party font provider.
+    </p>
+
+    <h2 class="text-3xl">Analytics</h2>
+    <p>
+      This site uses Cloudflare Web Analytics. It counts page views and rough traffic patterns without cookies and
+      without building a profile of you — it is specifically designed not to identify individual visitors, and we
+      cannot use it to single anyone out. That is why it was chosen over the more common alternatives.
+    </p>
+
+    <h2 class="text-3xl">The map</h2>
+    <p>
+      Pages with an interactive map load it from Mapbox, and only when such a page is opened. Loading map tiles
+      means Mapbox receives your IP address and the map area being viewed, the same as any embedded map. If you
+      never open a page with a map, Mapbox is never contacted. Their handling of that request is governed by
+      Mapbox's own privacy policy.
+    </p>
+
+    <h2 class="text-3xl">Forms</h2>
+    <p>
+      The suggest-a-store, add-a-show, and verified-reseller forms are Google Forms. Anything you type into them
+      goes to Google and then into a private spreadsheet only I can see. What is collected is what the form asks
+      for — typically a business name, address, and contact details — plus, on some forms, your email address so a
+      submission can be followed up on. Google's own privacy policy covers their part of that.
+    </p>
+    <p>
+      Submitting a shop or show means asking for it to be published, so the business details you send are intended
+      to appear publicly. Your email address is not published. The verified-reseller form is different: it exists
+      specifically to publish a profile, so what appears on the resellers page is what that person asked to have
+      shown there.
+    </p>
+
+    <h2 class="text-3xl">Email</h2>
+    <p>
+      If you email <a href={`mailto:${CONTACT}`} class="text-prizm">{CONTACT}</a>, I keep the message so I can
+      reply and act on it. Nothing else happens to it.
+    </p>
+
+    <h2 class="text-3xl">Hosting</h2>
+    <p>
+      The site is static and hosted on GitHub Pages. Like any web host, GitHub receives the requests needed to serve
+      a page, including your IP address, and handles those under its own terms. There is no database here and no
+      server-side code that stores anything about you.
+    </p>
+
+    <h2 class="text-3xl">Links to other sites</h2>
+    <p>
+      This directory links out to shops' own websites and social pages, ticket platforms, and grading companies.
+      Once you follow a link, you are on their site under their rules — nothing in this policy applies there.
+    </p>
+
+    <h2 class="text-3xl">Your requests</h2>
+    <p>
+      Email <a href={`mailto:${CONTACT}`} class="text-prizm">{CONTACT}</a> and I will act on it. Shop owners can ask
+      to have a listing corrected or removed entirely, no reason required. If you have submitted a form and want
+      what you sent deleted, say so and it will be deleted. Under Canadian privacy law (PIPEDA) you can also ask
+      what personal information is held about you; given how little this site collects, the honest answer is usually
+      "nothing beyond a form you filled in."
+    </p>
+
+    <h2 class="text-3xl">Changes</h2>
+    <p>
+      If what the site collects ever changes, this page changes with it and the date above is updated. See{' '}
+      <a href="/about/" class="text-prizm">the About page</a> for who runs this directory, where listings come from,
+      and how corrections work.
+    </p>
+  </div>
+</Base>

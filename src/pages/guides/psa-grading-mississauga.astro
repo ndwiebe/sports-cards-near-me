@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
 import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
@@ -69,7 +70,12 @@ const ld: Record<string, unknown> = {
   description,
   datePublished: '2026-07-28',
   dateModified: '2026-07-28',
-  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+  },
   publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
 };
 ---
@@ -81,6 +87,7 @@ const ld: Record<string, unknown> = {
   <nav class="mt-6 text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
   <h1 class="mt-3 text-5xl md:text-7xl">PSA Grading Drop-Off in Mississauga</h1>
   <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published="2026-07-28" modified="2026-07-28" />
 
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p>

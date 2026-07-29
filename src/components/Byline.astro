@@ -1,0 +1,19 @@
+---
+// Visible byline for guide pages. Pairs with the Person author in each guide's
+// Article schema — the visible line and the structured data have to agree, or
+// the structured data is just a claim nothing on the page supports.
+interface Props {
+  published: string;
+  modified?: string;
+}
+const { published, modified } = Astro.props;
+
+const fmt = (iso: string): string =>
+  new Intl.DateTimeFormat('en-CA', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
+
+const showUpdated = modified !== undefined && modified !== published;
+---
+<p class="mt-4 text-sm text-muted">
+  By <a href="/about/" class="text-prizm">Nathan Wiebe, CPA</a> — collector, and a buyer and seller of cards.
+  {' '}Published {fmt(published)}{showUpdated ? ` · Updated ${fmt(modified!)}` : ''}.
+</p>
