@@ -9,8 +9,21 @@
     "rating": 4.4,
     "reviewCount": 100,
     "website": "https://morrisontradingpost.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax",
+      "Breaks",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Pokemon"
+    ],
     "lat": 51.26272830000001,
     "lng": -113.9960026
   },
@@ -24,7 +37,9 @@
     "rating": 4.8,
     "reviewCount": 331,
     "website": "http://www.snapcollectables.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 51.29344099999999,
     "lng": -114.012999
@@ -39,8 +54,14 @@
     "rating": 4.4,
     "reviewCount": 207,
     "website": "http://www.treasurecoveltd.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 51.2927851,
     "lng": -114.0124649
   },
@@ -55,8 +76,19 @@
     "reviewCount": 42,
     "website": "https://www.overtimesportscards.ca/",
     "social": "https://www.facebook.com/OvertimeSportsCards/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 51.196195,
     "lng": -113.9958807
   },
@@ -170,8 +202,20 @@
     "rating": 4.9,
     "reviewCount": 110,
     "website": "http://www.cellysports.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax",
+      "Breaks"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 50.9902704,
     "lng": -113.957318
   },
@@ -185,8 +229,13 @@
     "rating": 4.4,
     "reviewCount": 35,
     "website": "http://collectorsbooksandcards.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Hockey"
+    ],
     "lat": 50.9884554,
     "lng": -114.06332
   },
@@ -201,8 +250,19 @@
     "reviewCount": 389,
     "website": "http://www.ersportscards.ca/",
     "social": "https://www.facebook.com/erhobbies/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 50.9908824,
     "lng": -114.0694367
   },
@@ -216,8 +276,19 @@
     "rating": 4,
     "reviewCount": 114,
     "website": "http://www.mapleleafsports.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Breaks"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 51.0738411,
     "lng": -114.0619601
   },
@@ -232,7 +303,9 @@
     "reviewCount": 74,
     "website": "http://www.olympicsportscardsandgames.com/",
     "social": "https://m.facebook.com/100073075794816/about/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 50.9695367,
     "lng": -114.0697216
@@ -247,8 +320,14 @@
     "rating": 4.5,
     "reviewCount": 285,
     "website": "http://sentryboxcards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 51.04431229999999,
     "lng": -114.1035333
   },
@@ -299,8 +378,13 @@
     "rating": 4.9,
     "reviewCount": 18,
     "website": "http://www.battleriversports.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Hockey"
+    ],
     "lat": 53.0184116,
     "lng": -112.8470906
   },
@@ -314,7 +398,9 @@
     "rating": 5,
     "reviewCount": 1,
     "website": "https://sites.google.com/view/camrosenextgengaming/home",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 53.0214357,
     "lng": -112.8182731
@@ -327,7 +413,9 @@
     "address": "5016D 52a St, Camrose, AB T4V 1W8",
     "province": "AB",
     "website": "https://holler-computer-services-and-collectibles.square.site/s/shop",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 53.0237576,
     "lng": -112.829285
@@ -342,8 +430,13 @@
     "rating": 4.6,
     "reviewCount": 98,
     "website": "http://www.quantumcomics.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 53.0218692,
     "lng": -112.8232002
   },
@@ -357,7 +450,10 @@
     "rating": 4.6,
     "reviewCount": 287,
     "website": "https://play-here.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [],
     "lat": 53.0229055,
     "lng": -112.8258214
@@ -372,7 +468,9 @@
     "rating": 5,
     "reviewCount": 29,
     "website": "http://www.thedatabasecamrose.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 53.0214357,
     "lng": -112.8182731
@@ -442,7 +540,9 @@
     "rating": 4.3,
     "reviewCount": 23,
     "website": "https://www.arkane-angel.ca/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=3851568251012994274",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 54.4132028,
     "lng": -110.2089141
@@ -491,8 +591,16 @@
     "rating": 4.8,
     "reviewCount": 33,
     "website": "https://www.203collectibles.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Grading Services",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 53.4557662,
     "lng": -113.432123
   },
@@ -506,7 +614,9 @@
     "rating": 5,
     "reviewCount": 14,
     "website": "https://www.instagram.com/capitalcitycardsyeg/?hl=en",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 53.5581999,
     "lng": -113.5299609
@@ -551,8 +661,13 @@
     "rating": 4.7,
     "reviewCount": 109,
     "website": "https://commonboxgames.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 53.5706037,
     "lng": -113.4792382
   },
@@ -581,8 +696,14 @@
     "rating": 4.7,
     "reviewCount": 41,
     "website": "https://eclipsegames.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.4315307,
     "lng": -113.4694644
   },
@@ -596,8 +717,19 @@
     "rating": 4.9,
     "reviewCount": 267,
     "website": "https://froggerscards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.56984689999999,
     "lng": -113.5894202
   },
@@ -636,8 +768,17 @@
     "rating": 4.7,
     "reviewCount": 136,
     "website": "https://iconsandheroes.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.52224709999999,
     "lng": -113.6230717
   },
@@ -680,7 +821,10 @@
     "rating": 4.5,
     "reviewCount": 143,
     "website": "http://www.prismatcg.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 53.4857551,
     "lng": -113.4869758
@@ -717,8 +861,14 @@
     "rating": 4.6,
     "reviewCount": 513,
     "website": "http://www.tapsgames.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.458606,
     "lng": -113.4945283
   },
@@ -732,8 +882,15 @@
     "rating": 4.9,
     "reviewCount": 68,
     "website": "http://thecardgoat.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.4744092,
     "lng": -113.481658
   },
@@ -762,8 +919,17 @@
     "rating": 4.7,
     "reviewCount": 294,
     "website": "http://www.waynessportscards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Pokemon"
+    ],
     "lat": 53.5259148,
     "lng": -113.6174699
   },
@@ -792,8 +958,18 @@
     "rating": 4.6,
     "reviewCount": 283,
     "website": "https://www.westssportscards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Breaks"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Pokemon"
+    ],
     "lat": 53.5707432,
     "lng": -113.4629238
   },
@@ -807,8 +983,12 @@
     "rating": 4,
     "reviewCount": 4,
     "website": "http://www.nhlhockeystickers.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey"
+    ],
     "lat": 53.513908,
     "lng": -113.494988
   },
@@ -836,8 +1016,15 @@
     "rating": 5,
     "reviewCount": 19,
     "website": "https://galactictp.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 56.7167438,
     "lng": -111.350768
   },
@@ -926,7 +1113,9 @@
     "rating": 4.5,
     "reviewCount": 192,
     "website": "https://www.strangeideascomics.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 55.1857018,
     "lng": -118.7905488
@@ -1005,8 +1194,13 @@
     "rating": 4.7,
     "reviewCount": 154,
     "website": "https://evolutionsportsexcellence.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Hockey"
+    ],
     "lat": 53.2638386,
     "lng": -113.5598824
   },
@@ -1020,8 +1214,19 @@
     "rating": 4.9,
     "reviewCount": 211,
     "website": "http://www.thehobbyspot.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Breaks",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Baseball",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.2768813,
     "lng": -113.5471883
   },
@@ -1050,7 +1255,9 @@
     "reviewCount": 2,
     "website": "https://www.ebay.ca/str/kingarthurscollectiblescanada?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=aZbMmwG3Tr6&sssrc=3418065&ssuid=aZbMmwG3Tr6&widget_ver=artemis&media=COPY",
     "social": "https://www.facebook.com/kingarthurscollectibles/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 49.7032561,
     "lng": -112.8243276
@@ -1093,8 +1300,18 @@
     "rating": 4.8,
     "reviewCount": 580,
     "website": "https://showcasecomics.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Breaks"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 49.6966951,
     "lng": -112.825251
   },
@@ -1139,8 +1356,17 @@
     "reviewCount": 94,
     "website": "http://www.bordercitygames.ca/",
     "social": "https://m.facebook.com/Bordercitygames/photos/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Football",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.2666263,
     "lng": -110.0218739
   },
@@ -1154,8 +1380,13 @@
     "rating": 4.7,
     "reviewCount": 104,
     "website": "http://www.avalonhobbies.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Basketball",
+      "Football"
+    ],
     "lat": 50.0340682,
     "lng": -110.7038682
   },
@@ -1169,7 +1400,9 @@
     "rating": 4.6,
     "reviewCount": 261,
     "website": "https://comicreadersregina.wordpress.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 50.031695,
     "lng": -110.662883
@@ -1184,8 +1417,12 @@
     "rating": 4.3,
     "reviewCount": 66,
     "website": "http://www.gamesgalore.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey"
+    ],
     "lat": 50.0029551,
     "lng": -110.6511416
   },
@@ -1295,8 +1532,18 @@
     "rating": 4.5,
     "reviewCount": 79,
     "website": "https://www.djsgaming.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 52.265395,
     "lng": -113.8271034
   },
@@ -1374,8 +1621,15 @@
     "rating": 4.3,
     "reviewCount": 18,
     "website": "http://www.envcollectible.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
+    "sports": [
+      "Basketball",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.54231790000001,
     "lng": -113.3177277
   },
@@ -1422,8 +1676,15 @@
     "rating": 4.4,
     "reviewCount": 67,
     "website": "https://sportscloset.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey"
+    ],
     "lat": 53.531001,
     "lng": -113.2933251
   },
@@ -1457,8 +1718,13 @@
     "rating": 4.7,
     "reviewCount": 166,
     "website": "https://hyperspacecomics.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.5415149,
     "lng": -113.9033915
   },
@@ -1472,7 +1738,9 @@
     "rating": 4.6,
     "reviewCount": 28,
     "website": "http://paradisegames.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 53.554189,
     "lng": -113.9359418
@@ -1487,8 +1755,17 @@
     "rating": 4.7,
     "reviewCount": 1191,
     "website": "http://www.boardgames.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Basketball",
+      "Football",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 53.6513067,
     "lng": -113.6297053
   },
@@ -1502,8 +1779,15 @@
     "rating": 4.9,
     "reviewCount": 14,
     "website": "https://sportscloset.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey"
+    ],
     "lat": 53.6427211,
     "lng": -113.622506
   },
@@ -1517,8 +1801,15 @@
     "rating": 4.7,
     "reviewCount": 331,
     "website": "http://www.thundergroundcomics.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic"
+    ],
     "lat": 53.63702310000001,
     "lng": -113.6070419
   },
@@ -4099,7 +4390,10 @@
     "reviewCount": 214,
     "phone": "(905) 713-1734",
     "website": "http://www.boxofcards.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -4120,7 +4414,9 @@
     "reviewCount": 547,
     "phone": "(705) 739-1513",
     "website": "http://www.bigbbarrie.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4140,7 +4436,10 @@
     "reviewCount": 322,
     "phone": "(249) 388-3009",
     "website": "https://boxofcards.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -4161,7 +4460,9 @@
     "reviewCount": 46,
     "phone": "(705) 503-2800",
     "website": "http://www.douglauriesports.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -4182,7 +4483,11 @@
     "reviewCount": 147,
     "phone": "(705) 481-7774",
     "website": "http://www.gamerslair.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4202,7 +4507,9 @@
     "reviewCount": 269,
     "phone": "705-725-9965",
     "website": "http://www.idealhobbies.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4222,8 +4529,19 @@
     "reviewCount": 91,
     "phone": "(705) 730-0088",
     "website": "http://www.lootkingdom.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Pokemon"
+    ],
     "lat": 44.37193,
     "lng": -79.69647
   },
@@ -4238,7 +4556,13 @@
     "reviewCount": 324,
     "phone": "(705) 721-4263",
     "website": "http://www.omggames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4278,7 +4602,11 @@
     "reviewCount": 681,
     "phone": "(705) 503-4263",
     "website": "http://www.powerupgaming.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4296,7 +4624,11 @@
     "province": "ON",
     "phone": "(647) 564-8344",
     "website": "https://ca.sellccg.com/location/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon"
     ],
@@ -4314,7 +4646,10 @@
     "reviewCount": 164,
     "phone": "(705) 722-7383",
     "website": "http://www.videotime.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 44.39439,
     "lng": -79.69395
@@ -4348,7 +4683,9 @@
     "reviewCount": 90,
     "phone": "613-966-6900",
     "website": "https://stephenlicence.my.canva.site/stephenlicence/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4388,7 +4725,10 @@
     "reviewCount": 63,
     "phone": "(647) 335-8142",
     "website": "http://www.mintsportscardsandcollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -4506,8 +4846,13 @@
     "reviewCount": 15,
     "phone": "(647) 786-5408",
     "website": "https://fearocards.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 43.7948,
     "lng": -79.67521
   },
@@ -4548,7 +4893,9 @@
     "reviewCount": 1,
     "phone": "(519) 494-0606",
     "website": "https://www.rollsandrealms.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.13175,
     "lng": -80.2802
@@ -4613,7 +4960,10 @@
     "rating": 5,
     "reviewCount": 15,
     "website": "http://racinghalloffamecollection.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 43.38169,
     "lng": -79.78535
@@ -4943,7 +5293,10 @@
     "reviewCount": 105,
     "phone": "(705) 815-2273",
     "website": "https://231405-3.myshopify.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -4963,7 +5316,9 @@
     "reviewCount": 149,
     "phone": "705-671-6111",
     "website": "https://docs-hobby-shop.myshopify.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5026,8 +5381,12 @@
     "reviewCount": 282,
     "phone": "(705) 586-1080",
     "website": "http://www.gwnpottery.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Basketball"
+    ],
     "lat": 46.46502,
     "lng": -81.03106
   },
@@ -5042,7 +5401,9 @@
     "reviewCount": 33,
     "phone": "(705) 673-7149",
     "website": "http://www.nepalhandicraftsontario.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 46.49392,
     "lng": -80.99273
@@ -5092,7 +5453,9 @@
     "reviewCount": 29,
     "phone": "(249) 360-5255",
     "website": "https://valixya.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 46.52178,
     "lng": -80.9296
@@ -5163,7 +5526,11 @@
     "reviewCount": 426,
     "phone": "(519) 823-2622",
     "website": "https://microplayvideogames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5183,7 +5550,10 @@
     "reviewCount": 230,
     "phone": "(519) 821-7442",
     "website": "http://royalcatrecords.blogspot.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 43.5439,
     "lng": -80.2494
@@ -5213,8 +5583,12 @@
     "reviewCount": 122,
     "phone": "(519) 824-5682",
     "website": "http://www.simplywonderfultoys.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 43.54488,
     "lng": -80.25279
   },
@@ -5229,7 +5603,10 @@
     "reviewCount": 344,
     "phone": "(519) 823-5341",
     "website": "http://www.beatgoeson.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 43.54196,
     "lng": -80.24356
@@ -5245,7 +5622,9 @@
     "reviewCount": 767,
     "phone": "(519) 821-3311",
     "website": "https://bookshelf.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.54542,
     "lng": -80.25046
@@ -5261,7 +5640,11 @@
     "reviewCount": 690,
     "phone": "(519) 763-5544",
     "website": "http://www.dragonguelph.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5281,8 +5664,17 @@
     "reviewCount": 55,
     "phone": "(519) 822-0505",
     "website": "https://roundtabletavern.crystalcommerce.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Football",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.54116,
     "lng": -80.24888
   },
@@ -5320,8 +5712,13 @@
     "reviewCount": 417,
     "phone": "(519) 767-1317",
     "website": "https://www.wyndhamartsupplies.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Basketball",
+      "Football"
+    ],
     "lat": 43.54716,
     "lng": -80.2499
   },
@@ -5336,7 +5733,11 @@
     "reviewCount": 574,
     "phone": "(905) 228-3331",
     "website": "https://www.1upgames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trades Singles",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5356,7 +5757,11 @@
     "reviewCount": 992,
     "phone": "(905) 318-9636",
     "website": "http://www.bigbcomics.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5376,7 +5781,13 @@
     "reviewCount": 978,
     "phone": "(905) 296-3401",
     "website": "https://blackknightgames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5396,7 +5807,12 @@
     "reviewCount": 333,
     "phone": "(289) 239-9544",
     "website": "http://www.breakawaysc.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Breaks",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -5417,7 +5833,9 @@
     "reviewCount": 153,
     "phone": "(905) 312-6642",
     "website": "http://www.burdinscomics.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5437,7 +5855,9 @@
     "reviewCount": 212,
     "phone": "(905) 318-5141",
     "website": "https://conspiracycomics.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5457,7 +5877,13 @@
     "reviewCount": 513,
     "phone": "(905) 385-1338",
     "website": "http://darkfoxtcg.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5509,7 +5935,9 @@
     "reviewCount": 131,
     "phone": "(289) 389-1960",
     "website": "http://m4cardstore.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -5530,7 +5958,10 @@
     "reviewCount": 877,
     "phone": "(905) 393-6815",
     "website": "http://www.mancalamonk.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5550,7 +5981,12 @@
     "reviewCount": 149,
     "phone": "(905) 410-2226",
     "website": "https://www.mypops.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5570,7 +6006,9 @@
     "reviewCount": 261,
     "phone": "(905) 385-5454",
     "website": "https://neverboardgames.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5590,7 +6028,9 @@
     "reviewCount": 317,
     "phone": "(365) 476-3412",
     "website": "https://paradoxtcg.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5610,8 +6050,13 @@
     "reviewCount": 270,
     "phone": "(289) 682-8697",
     "website": "http://retrosaurus.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 43.25352,
     "lng": -79.86135
   },
@@ -5653,7 +6098,10 @@
     "reviewCount": 320,
     "phone": "(905) 523-0739",
     "website": "https://thebardandbear.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5673,7 +6121,9 @@
     "reviewCount": 111,
     "phone": "(905) 547-0236",
     "website": "http://www.dragonslairunleashed.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5693,7 +6143,9 @@
     "reviewCount": 977,
     "phone": "(905) 667-5307",
     "website": "http://tistaminis.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.2407,
     "lng": -79.78981
@@ -5709,7 +6161,12 @@
     "reviewCount": 234,
     "phone": "(289) 443-7111",
     "website": "http://www.waypointgames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5729,7 +6186,10 @@
     "reviewCount": 49,
     "phone": "(905) 581-2538",
     "website": "https://www.webberscards.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -5770,7 +6230,10 @@
     "reviewCount": 154,
     "phone": "(705) 784-0784",
     "website": "http://www.upnorthgames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5841,7 +6304,10 @@
     "reviewCount": 349,
     "phone": "(613) 547-5730",
     "website": "http://actionpackedcomics.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5861,7 +6327,9 @@
     "reviewCount": 116,
     "phone": "(613) 767-7860",
     "website": "http://shop.artnoise.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 44.23235,
     "lng": -76.48855
@@ -5876,8 +6344,13 @@
     "rating": 4.8,
     "reviewCount": 25,
     "website": "http://www.boosterhouse.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 44.24422,
     "lng": -76.50599
   },
@@ -5892,7 +6365,10 @@
     "reviewCount": 150,
     "phone": "(613) 507-3377",
     "website": "http://www.chumleighs.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 44.24624,
     "lng": -76.56879
@@ -5927,7 +6403,10 @@
     "reviewCount": 4,
     "phone": "(613) 561-1684",
     "website": "http://shop.improbableescapes.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5947,8 +6426,14 @@
     "reviewCount": 128,
     "phone": "(343) 580-8242",
     "website": "https://kingstoncardden.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon"
+    ],
     "lat": 44.24624,
     "lng": -76.56879
   },
@@ -5963,7 +6448,10 @@
     "reviewCount": 585,
     "phone": "(613) 546-2565",
     "website": "http://kingstonnexus.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -5983,7 +6471,10 @@
     "reviewCount": 359,
     "phone": "(613) 545-2308",
     "website": "http://www.minotaurgifts.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6001,7 +6492,10 @@
     "province": "ON",
     "phone": "(514) 664-4271",
     "website": "https://mmlorcana.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [],
     "lat": 44.23689,
     "lng": -76.51767
@@ -6017,7 +6511,9 @@
     "reviewCount": 300,
     "phone": "(613) 546-9799",
     "website": "http://novelideabooks.ca/wp/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 44.23173,
     "lng": -76.48441
@@ -6053,7 +6549,9 @@
     "reviewCount": 118,
     "phone": "(613) 548-4222",
     "website": "http://www.therockinghorse.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 44.23219,
     "lng": -76.48536
@@ -6069,7 +6567,9 @@
     "reviewCount": 426,
     "phone": "(613) 893-6115",
     "website": "https://games.tomtechrepairs.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6089,7 +6589,14 @@
     "reviewCount": 342,
     "phone": "(226) 647-8746",
     "website": "http://www.chimeragamingonline.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6223,8 +6730,15 @@
     "rating": 4.8,
     "reviewCount": 127,
     "website": "https://cardcycle.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Trades Singles",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 42.98149,
     "lng": -81.28958
   },
@@ -6239,7 +6753,10 @@
     "reviewCount": 418,
     "phone": "(519) 697-1675",
     "website": "https://www.cellularmagician.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Magic"
     ],
@@ -6257,7 +6774,13 @@
     "reviewCount": 432,
     "phone": "(519) 852-3570",
     "website": "https://www.eacollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -6279,8 +6802,17 @@
     "reviewCount": 89,
     "phone": "(519) 434-3355",
     "website": "https://forestcitycollectibles.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Baseball",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 42.98226,
     "lng": -81.24863
   },
@@ -6295,7 +6827,9 @@
     "reviewCount": 515,
     "phone": "(519) 601-1299",
     "website": "http://www.gamecycle.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6315,7 +6849,9 @@
     "reviewCount": 896,
     "phone": "(519) 601-8990",
     "website": "http://www.gclw.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6335,7 +6871,10 @@
     "reviewCount": 133,
     "phone": "(519) 914-5311",
     "website": "http://www.gameknightleagues.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6355,7 +6894,10 @@
     "reviewCount": 152,
     "phone": "(519) 619-5281",
     "website": "http://gamersemporium.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6375,7 +6917,11 @@
     "reviewCount": 36,
     "phone": "(548) 888-1216",
     "website": "https://heavenscollectibles.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6395,7 +6941,9 @@
     "reviewCount": 1091,
     "phone": "(519) 439-4955",
     "website": "https://heroescomics.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6415,7 +6963,9 @@
     "reviewCount": 269,
     "phone": "(519) 858-1533",
     "website": "http://hitimes.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 42.98229,
     "lng": -81.24865
@@ -6431,7 +6981,10 @@
     "reviewCount": 522,
     "phone": "(519) 432-3987",
     "website": "https://lamoodcomics.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6451,7 +7004,9 @@
     "reviewCount": 452,
     "phone": "(519) 642-7862",
     "website": "http://www.neotokyo.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6471,7 +7026,11 @@
     "reviewCount": 264,
     "phone": "(519) 601-7529",
     "website": "http://playerscandc.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -6492,7 +7051,9 @@
     "rating": 4.9,
     "reviewCount": 153,
     "website": "http://www.pokanada.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon"
     ],
@@ -6510,7 +7071,10 @@
     "reviewCount": 93,
     "phone": "(519) 203-2273",
     "website": "http://premiumsportscards.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -6531,8 +7095,18 @@
     "reviewCount": 32,
     "phone": "(519) 719-7294",
     "website": "https://realmhoppers.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 42.97208,
     "lng": -81.218
   },
@@ -6547,7 +7121,9 @@
     "reviewCount": 85,
     "phone": "(519) 672-9273",
     "website": "http://sevensisters.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 42.98323,
     "lng": -81.25089
@@ -6563,7 +7139,11 @@
     "reviewCount": 504,
     "phone": "(519) 601-4263",
     "website": "http://www.thegamechamber.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6583,8 +7163,16 @@
     "reviewCount": 246,
     "phone": "(519) 434-8822",
     "website": "http://www.manalounge.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Basketball",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 42.98489,
     "lng": -81.24619
   },
@@ -6615,7 +7203,9 @@
     "reviewCount": 258,
     "phone": "905-305-1479",
     "website": "http://www.hobbyprosdepot.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6635,7 +7225,9 @@
     "reviewCount": 129,
     "phone": "905-946-8088",
     "website": "https://advancerc.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6655,7 +7247,10 @@
     "reviewCount": 60,
     "phone": "(647) 216-9246",
     "website": "https://cardboardgaming.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6675,7 +7270,9 @@
     "reviewCount": 52,
     "phone": "647-829-1628",
     "website": "https://www.chigunhobbies.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6695,7 +7292,11 @@
     "reviewCount": 129,
     "phone": "(905) 597-8285",
     "website": "https://comfyhobbies.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6714,7 +7315,9 @@
     "rating": 4,
     "reviewCount": 4,
     "website": "https://cooldragonhobby.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6734,8 +7337,15 @@
     "reviewCount": 3,
     "phone": "437-427-2886",
     "website": "https://www.finetoys.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.85661,
     "lng": -79.30407
   },
@@ -6750,7 +7360,9 @@
     "reviewCount": 24,
     "phone": "416-800-3500",
     "website": "https://www.fivedragonshobby.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6758,22 +7370,6 @@
     ],
     "lat": 43.85727,
     "lng": -79.30337
-  },
-  {
-    "slug": "george-s-trains-markham",
-    "name": "George's Trains",
-    "city": "Markham",
-    "citySlug": "markham",
-    "address": "550 Alden Rd Unit 102, Markham, ON L3R 6A8, Canada",
-    "province": "ON",
-    "rating": 4.5,
-    "reviewCount": 211,
-    "phone": "905-470-6200",
-    "website": "http://www.georgestrains.com/",
-    "services": [],
-    "sports": [],
-    "lat": 43.83711,
-    "lng": -79.33261
   },
   {
     "slug": "hogtown-cards-markham",
@@ -6814,7 +7410,9 @@
     "rating": 4.9,
     "reviewCount": 195,
     "website": "https://horizondiecast.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.84649,
     "lng": -79.34925
@@ -6830,7 +7428,10 @@
     "reviewCount": 116,
     "phone": "(905) 944-9393",
     "website": "https://koscollectibles.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -6852,8 +7453,15 @@
     "reviewCount": 214,
     "phone": "(416) 999-5195",
     "website": "http://kadoone.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.84672,
     "lng": -79.34826
   },
@@ -6868,8 +7476,14 @@
     "reviewCount": 292,
     "phone": "(905) 475-9000",
     "website": "https://mantatrading.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
     "lat": 43.82671,
     "lng": -79.32723
   },
@@ -6884,30 +7498,18 @@
     "reviewCount": 322,
     "phone": "(905) 415-6888",
     "website": "https://masterset.ca/",
-    "services": [],
-    "sports": [],
-    "lat": 43.84963,
-    "lng": -79.34755
-  },
-  {
-    "slug": "much-hobby-online-shopping-markham",
-    "name": "Much Hobby Online Shopping",
-    "city": "Markham",
-    "citySlug": "markham",
-    "address": "8865 Woodbine Ave, Markham, ON L3R 5G1, Canada",
-    "province": "ON",
-    "rating": 5,
-    "reviewCount": 1,
-    "phone": "416-816-8038",
-    "website": "https://www.muchhobbyonline.com/aboutus.asp",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Grading Services",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
-      "Magic",
       "Other"
     ],
-    "lat": 43.85784,
-    "lng": -79.35969
+    "lat": 43.84963,
+    "lng": -79.34755
   },
   {
     "slug": "mypops-ca-markham-toys-funko-tcg-markham",
@@ -6920,7 +7522,10 @@
     "reviewCount": 523,
     "phone": "(905) 409-2882",
     "website": "http://mypops.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6940,7 +7545,11 @@
     "reviewCount": 108,
     "phone": "(289) 554-4142",
     "website": "https://www.nerdvanacardsandgames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -6960,7 +7569,10 @@
     "reviewCount": 191,
     "phone": "(905) 470-6035",
     "website": "https://www.npcollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -6982,7 +7594,9 @@
     "reviewCount": 44,
     "phone": "647-763-7684",
     "website": "https://www.notahobby.shop/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7002,7 +7616,10 @@
     "reviewCount": 563,
     "phone": "(855) 726-3280",
     "website": "http://www.pandahobby.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7022,7 +7639,9 @@
     "reviewCount": 282,
     "phone": "(647) 377-4771",
     "website": "https://playdexk.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.84994,
     "lng": -79.32334
@@ -7038,8 +7657,15 @@
     "reviewCount": 959,
     "phone": "(647) 339-1787",
     "website": "https://pvpshoppe.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.87195,
     "lng": -79.36472
   },
@@ -7054,7 +7680,9 @@
     "reviewCount": 125,
     "phone": "647-466-9913",
     "website": "http://sinohobby.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7074,7 +7702,10 @@
     "reviewCount": 41,
     "phone": "(905) 475-9919",
     "website": "https://springerhobbies.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7115,7 +7746,9 @@
     "reviewCount": 230,
     "phone": "905-943-7567",
     "website": "https://www.woodforsheep.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7197,7 +7830,12 @@
     "reviewCount": 7,
     "phone": "(647) 394-2273",
     "website": "https://cheesmoscards.ca/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7217,7 +7855,9 @@
     "reviewCount": 177,
     "phone": "(905) 566-7992",
     "website": "https://conspiracycomics.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7236,7 +7876,10 @@
     "rating": 4.7,
     "reviewCount": 14,
     "website": "http://duelcitygames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7256,7 +7899,9 @@
     "reviewCount": 233,
     "phone": "(905) 822-9609",
     "website": "http://itsgametime.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7276,7 +7921,9 @@
     "reviewCount": 1160,
     "phone": "(905) 212-9992",
     "website": "http://www.gothamcentralcomics.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7296,7 +7943,9 @@
     "reviewCount": 188,
     "phone": "(905) 542-8307",
     "website": "http://www.imagecollections.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.582,
     "lng": -79.71382
@@ -7312,7 +7961,10 @@
     "reviewCount": 596,
     "phone": "(905) 609-6062",
     "website": "http://kanzengames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -7336,8 +7988,20 @@
     "reviewCount": 102,
     "phone": "(905) 268-3363",
     "website": "https://legendarycollectables.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Grading Services"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.59654,
     "lng": -79.59671
   },
@@ -7352,7 +8016,9 @@
     "reviewCount": 605,
     "phone": "(289) 444-0147",
     "website": "http://www.lvlupgames.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7372,7 +8038,10 @@
     "reviewCount": 442,
     "phone": "(905) 609-6661",
     "website": "http://www.mypops.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7392,7 +8061,10 @@
     "reviewCount": 20,
     "phone": "(647) 992-7938",
     "website": "https://www.nakgaming.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7411,7 +8083,10 @@
     "rating": 4,
     "reviewCount": 4,
     "website": "https://www.psacard.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Grading Services"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -7432,7 +8107,9 @@
     "reviewCount": 346,
     "phone": "(647) 228-7468",
     "website": "http://redriotgames.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7452,7 +8129,10 @@
     "reviewCount": 227,
     "phone": "(800) 612-7522",
     "website": "https://www.slabsharks.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -7473,8 +8153,14 @@
     "reviewCount": 467,
     "phone": "(905) 607-1116",
     "website": "https://www.theupperhand.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.54361,
     "lng": -79.68319
   },
@@ -7516,7 +8202,10 @@
     "reviewCount": 149,
     "phone": "(416) 562-4948",
     "website": "https://www.vtrgaming.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7536,7 +8225,9 @@
     "reviewCount": 68,
     "phone": "(647) 468-6249",
     "website": "https://warpzonegaming.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7556,7 +8247,10 @@
     "reviewCount": 307,
     "phone": "(905) 949-4263",
     "website": "http://xplanetgames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7597,7 +8291,11 @@
     "reviewCount": 1,
     "phone": "(905) 356-7610",
     "website": "http://centreicecollectibles.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -7671,7 +8369,10 @@
     "reviewCount": 19,
     "phone": "705-477-9355",
     "website": "https://www.ebay.ca/str/acescoolcollectibles",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -7764,8 +8465,14 @@
     "reviewCount": 383,
     "phone": "(647) 490-2323",
     "website": "https://topshelfco.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.44056,
     "lng": -79.70841
   },
@@ -7800,8 +8507,17 @@
     "reviewCount": 314,
     "phone": "(705) 305-7077",
     "website": "https://cardsandcoasters.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 44.60903,
     "lng": -79.41834
   },
@@ -7816,7 +8532,9 @@
     "reviewCount": 115,
     "phone": "(905) 926-9309",
     "website": "https://addictivehobbies.wixsite.com/website",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7836,8 +8554,21 @@
     "reviewCount": 277,
     "phone": "(905) 579-7678",
     "website": "http://www.cardboardhero.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax",
+      "Grading Services"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 43.89992,
     "lng": -78.86486
   },
@@ -7852,7 +8583,10 @@
     "reviewCount": 364,
     "phone": "(905) 433-8697",
     "website": "https://linktr.ee/comicalleytoys?utm_source=linktree_profile_share&ltsid=f56cfd19-af61-4c35-9f99-4ebb1ad7093f",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7872,7 +8606,11 @@
     "reviewCount": 175,
     "phone": "(289) 928-1538",
     "website": "https://deckoutgaming.ca/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7880,22 +8618,6 @@
     ],
     "lat": 43.85766,
     "lng": -78.87602
-  },
-  {
-    "slug": "f-g-bradley-s-oshawa",
-    "name": "F.G.Bradley's",
-    "city": "Oshawa",
-    "citySlug": "oshawa",
-    "address": "Oshawa Centre, 419 King St W Unit #2015, Oshawa, ON L1J 2K5",
-    "province": "ON",
-    "rating": 4.6,
-    "reviewCount": 234,
-    "phone": "(905) 404-2233",
-    "website": "https://www.fgbradleys.com/",
-    "services": [],
-    "sports": [],
-    "lat": 43.89052,
-    "lng": -78.87919
   },
   {
     "slug": "fly-by-nite-movies-games-and-toys-oshawa",
@@ -7908,7 +8630,9 @@
     "reviewCount": 168,
     "phone": "(905) 433-3757",
     "website": "https://flybynitecollectibles.square.site/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -7944,8 +8668,17 @@
     "reviewCount": 338,
     "phone": "(905) 434-1463",
     "website": "http://www.gnubooks.net/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Pokemon",
+      "Magic"
+    ],
     "lat": 43.92707,
     "lng": -78.87692
   },
@@ -7960,28 +8693,14 @@
     "reviewCount": 235,
     "phone": "365-442-0232",
     "website": "http://www.greathobbies.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
       "Other"
     ],
-    "lat": 43.93986,
-    "lng": -78.84283
-  },
-  {
-    "slug": "hallmark-oshawa",
-    "name": "Hallmark",
-    "city": "Oshawa",
-    "citySlug": "oshawa",
-    "address": "991 Taunton Rd E Unit 6, Oshawa, ON L1K 0Z7",
-    "province": "ON",
-    "rating": 4.5,
-    "reviewCount": 90,
-    "phone": "(905) 720-3003",
-    "website": "https://stores.hallmark.com/on/oshawa/hallmark-oshawa-on-031267.html",
-    "services": [],
-    "sports": [],
     "lat": 43.93986,
     "lng": -78.84283
   },
@@ -7996,7 +8715,9 @@
     "reviewCount": 1,
     "phone": "(647) 646-5685",
     "website": "https://newrave.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8016,7 +8737,9 @@
     "reviewCount": 20,
     "phone": "(365) 633-0280",
     "website": "https://overthetopgaming.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8036,7 +8759,11 @@
     "reviewCount": 2434,
     "phone": "(905) 720-3377",
     "website": "http://www.skyfoxgames.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8056,8 +8783,16 @@
     "reviewCount": 78,
     "phone": "(365) 282-1467",
     "website": "http://the3dshoppe.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Other"
+    ],
     "lat": 43.8971,
     "lng": -78.86718
   },
@@ -8072,7 +8807,9 @@
     "reviewCount": 154,
     "phone": "(905) 449-5680",
     "website": "http://www.thecomicdoctor.com/",
-    "services": [],
+    "services": [
+      "Grading Services"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8108,8 +8845,13 @@
     "reviewCount": 422,
     "phone": "(905) 436-8999",
     "website": "http://www.worldscollide.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Magic"
+    ],
     "lat": 43.8979,
     "lng": -78.864
   },
@@ -8124,7 +8866,9 @@
     "reviewCount": 251,
     "phone": "905-239-5544",
     "website": "https://www.xtremerc.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.89603,
     "lng": -78.86254
@@ -8140,7 +8884,9 @@
     "reviewCount": 1,
     "phone": "(613) 823-1837",
     "website": "http://cardandcomicbuyer.com/",
-    "services": [],
+    "services": [
+      "Buys"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -8164,8 +8910,13 @@
     "reviewCount": 63,
     "phone": "(343) 777-1888",
     "website": "https://carsncards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 45.45602,
     "lng": -75.58466
   },
@@ -8180,7 +8931,12 @@
     "reviewCount": 420,
     "phone": "(613) 746-9099",
     "website": "http://www.cartamagicaottawa.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Magic"
     ],
@@ -8198,7 +8954,11 @@
     "reviewCount": 1678,
     "phone": "(613) 366-8211",
     "website": "https://www.danireon.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trades Singles"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8218,8 +8978,14 @@
     "reviewCount": 20,
     "phone": "(613) 600-3397",
     "website": "https://www.dxhers.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Buys",
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
     "lat": 45.37255,
     "lng": -75.61261
   },
@@ -8234,7 +9000,12 @@
     "reviewCount": 64,
     "phone": "(613) 745-3777",
     "website": "https://www.empiretradings.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8254,7 +9025,9 @@
     "reviewCount": 118,
     "phone": "(613) 841-5531",
     "website": "https://entertainmentink.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 45.47853,
     "lng": -75.51529
@@ -8299,7 +9072,11 @@
     "reviewCount": 334,
     "phone": "(613) 228-9554",
     "website": "http://gamebreakers.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -8323,7 +9100,12 @@
     "reviewCount": 118,
     "phone": "(888) 853-2057",
     "website": "https://hobbiesville.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax",
+      "Breaks"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8343,7 +9125,12 @@
     "reviewCount": 2229,
     "phone": "(888) 853-2057",
     "website": "https://hobbiesville.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax",
+      "Breaks"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8379,7 +9166,9 @@
     "reviewCount": 110,
     "phone": "(613) 823-7727",
     "website": "https://mintyfreshcollectible.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -8401,7 +9190,13 @@
     "reviewCount": 359,
     "phone": "(613) 404-9096",
     "website": "http://www.nabemacollectibles.com/",
-    "services": [],
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -8423,7 +9218,9 @@
     "reviewCount": 85,
     "phone": "(343) 573-7101",
     "website": "http://www.nefariouscomics.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8459,8 +9256,20 @@
     "reviewCount": 496,
     "phone": "(613) 695-6682",
     "website": "https://www.outoftheboxcards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax",
+      "Breaks"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 45.32735,
     "lng": -75.81812
   },
@@ -8494,7 +9303,11 @@
     "rating": 4.3,
     "reviewCount": 327,
     "website": "http://www.red-dragon.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8514,8 +9327,18 @@
     "reviewCount": 92,
     "phone": "(833) 787-8199",
     "website": "http://www.shikdartrading.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
     "lat": 45.38052,
     "lng": -75.74495
   },
@@ -8529,7 +9352,12 @@
     "rating": 4.2,
     "reviewCount": 5,
     "website": "https://www.soultcg.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Breaks"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8549,7 +9377,10 @@
     "reviewCount": 51,
     "phone": "(343) 644-1008",
     "website": "https://staja.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [],
     "lat": 45.43185,
     "lng": -75.67865
@@ -8565,7 +9396,11 @@
     "reviewCount": 658,
     "phone": "(613) 228-8386",
     "website": "http://thecomicbookshoppe.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8585,7 +9420,10 @@
     "reviewCount": 354,
     "phone": "(613) 288-1299",
     "website": "http://www.hobcen.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8605,8 +9443,17 @@
     "reviewCount": 469,
     "phone": "(613) 825-0688",
     "website": "http://www.toysonfire.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 45.30216,
     "lng": -75.8773
   },
@@ -8621,7 +9468,10 @@
     "reviewCount": 363,
     "phone": "(647) 398-9968",
     "website": "https://trinityhobby.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -8641,7 +9491,12 @@
     "reviewCount": 74,
     "phone": "(613) 695-4751",
     "website": "https://vulcancollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -8839,8 +9694,16 @@
     "reviewCount": 145,
     "phone": "(365) 550-6510",
     "website": "https://flaringlair.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.84616,
     "lng": -79.37941
   },
@@ -8889,22 +9752,6 @@
     "lng": -84.32636
   },
   {
-    "slug": "hallmark-cards-gifts-sault-ste-marie",
-    "name": "Hallmark Cards & Gifts",
-    "city": "Sault Ste. Marie",
-    "citySlug": "sault-ste-marie",
-    "address": "Station Mall, 293 Bay St Unit J8-9, Sault Ste. Marie, ON P6A 1X3",
-    "province": "ON",
-    "rating": 3.9,
-    "reviewCount": 29,
-    "phone": "(705) 256-6114",
-    "website": "https://stores.hallmark.com/on/saultstemarie/hallmark-cards-gifts-saultstemarie-on-031818.html",
-    "services": [],
-    "sports": [],
-    "lat": 46.51139,
-    "lng": -84.33759
-  },
-  {
     "slug": "hilltribe-ontario-sault-ste-marie",
     "name": "Hilltribe Ontario",
     "city": "Sault Ste. Marie",
@@ -8914,7 +9761,9 @@
     "rating": 4.8,
     "reviewCount": 150,
     "website": "http://www.hilltribeontario.com/?utm_source=gbp",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 46.51139,
     "lng": -84.33759
@@ -8930,8 +9779,15 @@
     "reviewCount": 36,
     "phone": "(705) 410-7331",
     "website": "https://kantokreations.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services"
+    ],
+    "sports": [
+      "Football",
+      "Pokemon"
+    ],
     "lat": 46.50944,
     "lng": -84.32907
   },
@@ -8945,7 +9801,9 @@
     "rating": 3.9,
     "reviewCount": 17,
     "website": "http://stores.ebay.com/marksautographsandcollectables",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 46.53652,
     "lng": -84.36373
@@ -8961,7 +9819,9 @@
     "reviewCount": 221,
     "phone": "(705) 945-0911",
     "website": "http://www.theradzone.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 46.50737,
     "lng": -84.32747
@@ -8977,7 +9837,9 @@
     "reviewCount": 357,
     "phone": "(705) 759-4518",
     "website": "http://trading-post.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 46.5683,
     "lng": -84.3205
@@ -9033,7 +9895,9 @@
     "reviewCount": 86,
     "phone": "(905) 984-4442",
     "website": "https://highscoregamez.crystalcommerce.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.15557,
     "lng": -79.2141
@@ -9073,7 +9937,10 @@
     "reviewCount": 187,
     "phone": "(519) 631-5063",
     "website": "https://fanofthesport.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9187,7 +10054,12 @@
     "reviewCount": 108,
     "phone": "(289) 897-9323",
     "website": "https://borealgaming.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9334,7 +10206,12 @@
     "reviewCount": 3998,
     "phone": "(416) 599-6446",
     "website": "https://store.401games.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9354,7 +10231,12 @@
     "reviewCount": 1944,
     "phone": "(416) 923-3066",
     "website": "http://www.acgamesonline.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trades Singles",
+      "Grading Services",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9374,7 +10256,10 @@
     "reviewCount": 319,
     "phone": "(647) 313-1200",
     "website": "https://www.ajsports.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9395,7 +10280,12 @@
     "reviewCount": 124,
     "phone": "(416) 591-7699",
     "website": "https://animealley.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9415,7 +10305,9 @@
     "reviewCount": 105,
     "phone": "(647) 561-1342",
     "website": "https://animeotakuhobby.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9435,7 +10327,11 @@
     "reviewCount": 1069,
     "phone": "(437) 448-9291",
     "website": "https://www.bananagames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9455,8 +10351,16 @@
     "reviewCount": 178,
     "phone": "(416) 461-9967",
     "website": "https://beardycards.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Football",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.67762,
     "lng": -79.35062
   },
@@ -9471,7 +10375,10 @@
     "reviewCount": 217,
     "phone": "(289) 224-2790",
     "website": "https://www.blackrosehobbies.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9491,7 +10398,9 @@
     "reviewCount": 30,
     "phone": "(647) 703-4181",
     "website": "http://www.cangeek.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9511,7 +10420,11 @@
     "reviewCount": 329,
     "phone": "(416) 364-3101",
     "website": "http://cardifyhobby.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9535,7 +10448,12 @@
     "reviewCount": 70,
     "phone": "(647) 336-3921",
     "website": "https://chonkycollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9584,7 +10502,9 @@
     "reviewCount": 508,
     "phone": "(416) 667-7592",
     "website": "http://cybercitycomix.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.79172,
     "lng": -79.44804
@@ -9600,7 +10520,9 @@
     "reviewCount": 38,
     "phone": "(416) 720-1814",
     "website": "http://www.dbsport.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9621,8 +10543,13 @@
     "reviewCount": 89,
     "phone": "(416) 546-1517",
     "website": "https://djkentertainment.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Football",
+      "Pokemon"
+    ],
     "lat": 43.67294,
     "lng": -79.32015
   },
@@ -9637,7 +10564,11 @@
     "reviewCount": 213,
     "phone": "(416) 200-6338",
     "website": "http://linktr.ee/dollysdowntown",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Breaks"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9658,7 +10589,13 @@
     "reviewCount": 713,
     "phone": "(416) 299-1522",
     "website": "http://www.dollys.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9678,7 +10615,10 @@
     "reviewCount": 145,
     "phone": "(416) 814-7742",
     "website": "http://duckduckgnc.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9698,7 +10638,11 @@
     "reviewCount": 153,
     "phone": "(416) 395-1633",
     "website": "https://www.emmettstoystop.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9718,7 +10662,11 @@
     "reviewCount": 73,
     "phone": "(416) 724-4668",
     "website": "https://espercardsandgames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9738,7 +10686,12 @@
     "reviewCount": 1155,
     "phone": "(866) 235-7002",
     "website": "http://facetofacegames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9778,7 +10731,11 @@
     "reviewCount": 389,
     "phone": "(416) 351-7065",
     "website": "http://gameshack.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9798,8 +10755,15 @@
     "reviewCount": 126,
     "phone": "(416) 598-0505",
     "website": "https://goforgame.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.65342,
     "lng": -79.39703
   },
@@ -9814,7 +10778,10 @@
     "reviewCount": 3,
     "phone": "(905) 808-4560",
     "website": "https://gpsportcards.com/pages/contact-us",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9835,8 +10802,15 @@
     "reviewCount": 1142,
     "phone": "(647) 430-1263",
     "website": "https://www.hairyt.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.73458,
     "lng": -79.40495
   },
@@ -9851,7 +10825,12 @@
     "reviewCount": 1353,
     "phone": "(888) 853-2057",
     "website": "https://www.hobbiesville.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Breaks"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9870,7 +10849,10 @@
     "rating": 4.9,
     "reviewCount": 58,
     "website": "http://hobbystoptcg.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -9890,7 +10872,11 @@
     "reviewCount": 577,
     "phone": "(647) 721-4673",
     "website": "http://hopeclubshop.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9914,7 +10900,9 @@
     "reviewCount": 26,
     "phone": "(416) 453-5636",
     "website": "http://www.illusionarycollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.65273,
     "lng": -79.43246
@@ -9930,8 +10918,12 @@
     "reviewCount": 1540,
     "phone": "(416) 583-2121",
     "website": "http://www.meeplemart.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 43.65166,
     "lng": -79.39714
   },
@@ -9971,7 +10963,12 @@
     "reviewCount": 343,
     "phone": "(289) 271-9189",
     "website": "http://www.relikks.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Grading Services",
+      "Sells Wax",
+      "Breaks"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -9993,7 +10990,11 @@
     "reviewCount": 152,
     "phone": "(416) 782-3456",
     "website": "https://www.royaltycardsandcollectibles.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10015,7 +11016,13 @@
     "reviewCount": 425,
     "phone": "(416) 297-7778",
     "website": "https://www.sunnyhobbies.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10035,8 +11042,17 @@
     "reviewCount": 504,
     "phone": "(647) 350-7529",
     "website": "http://www.theswordandboardtoronto.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.65887,
     "lng": -79.43925
   },
@@ -10051,7 +11067,9 @@
     "reviewCount": 82,
     "phone": "(647) 931-0803",
     "website": "http://xploregames.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10087,7 +11105,12 @@
     "reviewCount": 3292,
     "phone": "(905) 660-4464",
     "website": "https://store.401games.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10107,7 +11130,9 @@
     "reviewCount": 228,
     "phone": "905-738-4050",
     "website": "http://www.argamahobby.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10127,8 +11152,15 @@
     "reviewCount": 285,
     "phone": "(905) 597-7270",
     "website": "http://www.cardboardclassics.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 43.81177,
     "lng": -79.4537
   },
@@ -10143,7 +11175,9 @@
     "reviewCount": 17,
     "phone": "(437) 918-9051",
     "website": "http://certifiedsportsmemorabilia.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10164,7 +11198,10 @@
     "reviewCount": 20,
     "phone": "(416) 677-2132",
     "website": "https://ddsports.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10237,7 +11274,10 @@
     "reviewCount": 367,
     "phone": "(647) 494-2640",
     "website": "http://korekutagames.net/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Breaks"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10257,8 +11297,15 @@
     "reviewCount": 328,
     "phone": "(905) 264-8830",
     "website": "https://legendswarehouse.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.80767,
     "lng": -79.54472
   },
@@ -10273,7 +11320,11 @@
     "reviewCount": 176,
     "phone": "(905) 303-0656",
     "website": "http://www.levelupgames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10321,7 +11372,10 @@
     "reviewCount": 63,
     "phone": "(647) 444-4073",
     "website": "http://ndsportscards.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Grading Services"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10342,7 +11396,12 @@
     "reviewCount": 212,
     "phone": "(833) 955-4263",
     "website": "https://newrealmgames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10362,8 +11421,15 @@
     "reviewCount": 400,
     "phone": "(905) 532-0707",
     "website": "https://northernwartable.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 43.82753,
     "lng": -79.50721
   },
@@ -10378,7 +11444,9 @@
     "reviewCount": 52,
     "phone": "(905) 850-8808",
     "website": "https://www.longlivethehunt.com/?utm_source=google&utm_medium=wix_google_business_profile&utm_campaign=724417122958267698",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10399,7 +11467,9 @@
     "rating": 5,
     "reviewCount": 30,
     "website": "http://toyboxtradingco.square.site/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 43.77507,
     "lng": -79.60475
@@ -10415,8 +11485,14 @@
     "reviewCount": 69,
     "phone": "(905) 605-0919",
     "website": "http://www.wanderingadventures.ca/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Sells Wax",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 43.77633,
     "lng": -79.6106
   },
@@ -10431,8 +11507,12 @@
     "reviewCount": 77,
     "phone": "(647) 498-2056",
     "website": "http://waxboxclub.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Basketball"
+    ],
     "lat": 43.82811,
     "lng": -79.55193
   },
@@ -10472,7 +11552,13 @@
     "reviewCount": 36,
     "phone": "(519) 500-1815",
     "website": "https://www.dollys.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10575,7 +11661,14 @@
     "reviewCount": 553,
     "phone": "(519) 915-5556",
     "website": "http://brimstonegames.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles",
+      "Grading Services",
+      "Sells Wax",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10595,7 +11688,9 @@
     "reviewCount": 252,
     "phone": "(519) 972-0009",
     "website": "http://www.cartoonkingdom.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 42.26981,
     "lng": -83.01147
@@ -10611,7 +11706,9 @@
     "reviewCount": 88,
     "phone": "(519) 733-2619",
     "website": "http://www.cedarcreekhobbies.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10631,7 +11728,9 @@
     "reviewCount": 102,
     "phone": "(226) 674-1515",
     "website": "http://www.digitaloasis.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [],
     "lat": 42.30935,
     "lng": -82.95959
@@ -10673,8 +11772,14 @@
     "reviewCount": 388,
     "phone": "(519) 253-3832",
     "website": "https://vixeoo.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Football",
+      "Pokemon"
+    ],
     "lat": 42.29816,
     "lng": -83.01795
   },
@@ -10689,7 +11794,10 @@
     "reviewCount": 163,
     "phone": "(226) 773-3047",
     "website": "https://heloushobby.ca/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10736,7 +11844,11 @@
     "reviewCount": 90,
     "phone": "(226) 774-6429",
     "website": "https://kunaigames.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10756,7 +11868,9 @@
     "reviewCount": 21,
     "phone": "(226) 826-2922",
     "website": "https://localcomicshop.net/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10776,7 +11890,10 @@
     "reviewCount": 79,
     "phone": "(519) 919-0750",
     "website": "http://www.putalichowk.com/",
-    "services": [],
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10796,7 +11913,9 @@
     "reviewCount": 272,
     "phone": "(519) 254-9482",
     "website": "http://rgcomics.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10816,7 +11935,11 @@
     "reviewCount": 15,
     "phone": "(226) 975-0158",
     "website": "https://linktr.ee/rosecitysports",
-    "services": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Breaks"
+    ],
     "sports": [
       "Hockey",
       "Baseball",
@@ -10837,7 +11960,9 @@
     "reviewCount": 355,
     "phone": "(226) 783-9221",
     "website": "http://www.soarhobby.com/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10857,7 +11982,9 @@
     "reviewCount": 87,
     "phone": "(519) 915-6973",
     "website": "http://tabletoprenaissance.ca/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
@@ -10877,8 +12004,15 @@
     "reviewCount": 321,
     "phone": "(519) 915-6666",
     "website": "http://www.thecgrealm.com/",
-    "services": [],
-    "sports": [],
+    "services": [
+      "Sells",
+      "Buys",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 42.30982,
     "lng": -83.01325
   },
