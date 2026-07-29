@@ -110,6 +110,27 @@
     "lng": -115.57131
   },
   {
+    "slug": "dad-s-day-off-games-hobbies-ddogames-blackfalds",
+    "name": "Dad's Day Off Games & Hobbies (DDOGames)",
+    "city": "Blackfalds",
+    "citySlug": "blackfalds",
+    "address": "4825 Westbrooke Rd, Blackfalds, AB T4M 0K7",
+    "province": "AB",
+    "website": "https://ddogames.myshopify.com",
+    "social": "https://www.facebook.com/dadsdayoffgames/",
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 52.38856,
+    "lng": -113.80014
+  },
+  {
     "slug": "lakeland-sports-cards-bonnyville",
     "name": "Lakeland Sports Cards",
     "city": "Bonnyville",
@@ -391,6 +412,25 @@
     "sports": [],
     "lat": 51.0418963,
     "lng": -113.8367502
+  },
+  {
+    "slug": "chase-the-hits-inc-cochrane",
+    "name": "Chase The Hits Inc",
+    "city": "Cochrane",
+    "citySlug": "cochrane",
+    "address": "#15-118 1st Avenue SW, Cochrane, AB",
+    "province": "AB",
+    "social": "https://www.facebook.com/61581013060272/",
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Magic",
+      "Other"
+    ],
+    "lat": 51.19032,
+    "lng": -114.46777
   },
   {
     "slug": "arkane-angel-cold-lake",
@@ -1130,6 +1170,27 @@
     "lng": -110.66857
   },
   {
+    "slug": "brightside-hobbies-brightside-tcg-morinville",
+    "name": "Brightside Hobbies (Brightside TCG)",
+    "city": "Morinville",
+    "citySlug": "morinville",
+    "address": "10130 100 Ave, Morinville, AB T8R 1P8",
+    "province": "AB",
+    "phone": "(780) 939-4910",
+    "social": "https://www.facebook.com/brightsidecard/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 53.8021,
+    "lng": -113.6489
+  },
+  {
     "slug": "collectible-card-caddy-okotoks",
     "name": "Collectible Card Caddy",
     "city": "Okotoks",
@@ -1156,6 +1217,24 @@
     "sports": [],
     "lat": 50.7256763,
     "lng": -113.9784963
+  },
+  {
+    "slug": "pandora-s-boox-olds",
+    "name": "Pandora's Boox",
+    "city": "Olds",
+    "citySlug": "olds",
+    "address": "5009 51 St, Olds, AB T4H 1P6",
+    "province": "AB",
+    "social": "https://www.facebook.com/PandorasBooxTea/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Other"
+    ],
+    "lat": 51.79122,
+    "lng": -114.10621
   },
   {
     "slug": "bill-sr-s-sports-cards-red-deer",
@@ -1232,6 +1311,25 @@
     "lng": -113.818763
   },
   {
+    "slug": "rock-city-comics-rocky-mountain-house",
+    "name": "Rock City Comics",
+    "city": "Rocky Mountain House",
+    "citySlug": "rocky-mountain-house",
+    "address": "4918 50 Street, Rocky Mountain House, AB",
+    "province": "AB",
+    "phone": "(403) 846-1337",
+    "social": "https://www.facebook.com/Rockcitycomics97/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Other"
+    ],
+    "lat": 52.37359,
+    "lng": -114.9197
+  },
+  {
     "slug": "env-collectible-sherwood-park",
     "name": "ENV Collectible",
     "city": "Sherwood Park",
@@ -1293,6 +1391,26 @@
     "sports": [],
     "lat": 53.531001,
     "lng": -113.2933251
+  },
+  {
+    "slug": "hyper-games-chamber-slave-lake",
+    "name": "Hyper Games Chamber",
+    "city": "Slave Lake",
+    "citySlug": "slave-lake",
+    "address": "124 6 Avenue SE, Slave Lake, AB T0G 2A3",
+    "province": "AB",
+    "phone": "(780) 536-0909",
+    "website": "https://www.hypergameschamber.ca",
+    "social": "https://www.facebook.com/HyperGamesChamber/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Other"
+    ],
+    "lat": 55.27883,
+    "lng": -114.77066
   },
   {
     "slug": "hyperspace-comics-games-spruce-grove",
@@ -1385,6 +1503,28 @@
     "lng": -112.7055861
   },
   {
+    "slug": "hob-s-hobbies-strathmore",
+    "name": "HOB's Hobbies",
+    "city": "Strathmore",
+    "citySlug": "strathmore",
+    "address": "116 2 Ave, Strathmore, AB T1P 1A3",
+    "province": "AB",
+    "phone": "(403) 983-1115",
+    "website": "https://www.hobshobbies.com",
+    "services": [
+      "Sells",
+      "Trades Singles",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 51.04375,
+    "lng": -113.39498
+  },
+  {
     "slug": "hockey-central-sports-memorabilia-inc-sylvan-lake",
     "name": "Hockey Central Sports Memorabilia Inc",
     "city": "Sylvan Lake",
@@ -1398,6 +1538,67 @@
     "sports": [],
     "lat": 52.3038376,
     "lng": -114.0775995
+  },
+  {
+    "slug": "international-battle-hobby-card-collective-ibhcc-inc-vegreville",
+    "name": "International Battle & Hobby Card Collective (IBHCC Inc.)",
+    "city": "Vegreville",
+    "citySlug": "vegreville",
+    "address": "#101, 5105 49 Street, Vegreville, AB T9C 1L9",
+    "province": "AB",
+    "website": "https://www.ibhcc.store",
+    "social": "https://www.instagram.com/ibhccstore2025/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Grading Services"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 53.49451,
+    "lng": -112.04863
+  },
+  {
+    "slug": "orchard-city-games-wainwright-wainwright",
+    "name": "Orchard City Games - Wainwright",
+    "city": "Wainwright",
+    "citySlug": "wainwright",
+    "address": "215 10th Street, Wainwright, AB",
+    "province": "AB",
+    "social": "https://www.facebook.com/IWTSalberta/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Magic",
+      "Other"
+    ],
+    "lat": 52.11805,
+    "lng": -106.66653
+  },
+  {
+    "slug": "game-day-hobbies-and-collectables-wetaskiwin",
+    "name": "Game Day Hobbies and Collectables",
+    "city": "Wetaskiwin",
+    "citySlug": "wetaskiwin",
+    "address": "4802 56 Street, Wetaskiwin, AB T9A 1V1",
+    "province": "AB",
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Hockey",
+      "Magic",
+      "Other"
+    ],
+    "lat": 52.96925,
+    "lng": -113.39069
   },
   {
     "slug": "d-c-s-collectibles-whitecourt",
@@ -1843,6 +2044,26 @@
     "lng": -123.9917
   },
   {
+    "slug": "rain-city-games-new-westminster-new-westminster",
+    "name": "Rain City Games (New Westminster)",
+    "city": "New Westminster",
+    "citySlug": "new-westminster",
+    "address": "106-810 Quayside Dr, New West River Market, New Westminster, BC V3M 6B9",
+    "province": "BC",
+    "phone": "604-553-4425",
+    "website": "https://www.raincity.games/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 49.19915,
+    "lng": -122.92005
+  },
+  {
     "slug": "hobbybox604-north-vancouver",
     "name": "Hobbybox604",
     "city": "North Vancouver",
@@ -2274,6 +2495,26 @@
     "lng": -123.05056
   },
   {
+    "slug": "ebenezer-s-comics-collectibles-vernon",
+    "name": "Ebenezer's Comics & Collectibles",
+    "city": "Vernon",
+    "citySlug": "vernon",
+    "address": "3110 29 Ave, Vernon, BC V1T 1Z1",
+    "province": "BC",
+    "phone": "250-542-0980",
+    "website": "https://www.ebenezers.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 50.26287,
+    "lng": -119.27325
+  },
+  {
     "slug": "omar-s-collectibles-vernon",
     "name": "Omar's Collectibles",
     "city": "Vernon",
@@ -2413,6 +2654,46 @@
     ],
     "lat": 49.82785,
     "lng": -99.96428
+  },
+  {
+    "slug": "bam-cards-and-collectibles-carman",
+    "name": "BAM Cards and Collectibles",
+    "city": "Carman",
+    "citySlug": "carman",
+    "address": "69B Main St. South, Carman, MB R0G 0J0",
+    "province": "MB",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 49.50611,
+    "lng": -98.00119
+  },
+  {
+    "slug": "neko-s-game-store-car-wash-thompson",
+    "name": "Neko's (Game Store & Car Wash)",
+    "city": "Thompson",
+    "citySlug": "thompson",
+    "address": "5 Thompson Drive, Thompson, MB",
+    "province": "MB",
+    "website": "https://www.shopnekos.ca",
+    "social": "https://www.facebook.com/shopnekosca/",
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 55.74409,
+    "lng": -97.84203
   },
   {
     "slug": "cancentral-sports-cards-memorabilia-winnipeg",
@@ -3635,6 +3916,26 @@
     "lng": -77.38546
   },
   {
+    "slug": "stadium-sports-cards-blenheim-chatham-kent",
+    "name": "Stadium Sports Cards",
+    "city": "Blenheim (Chatham-Kent)",
+    "citySlug": "blenheim-chatham-kent",
+    "address": "170 Talbot St W Unit 1, Blenheim, ON N0P 1A0",
+    "province": "ON",
+    "phone": "(519) 676-0558",
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Other"
+    ],
+    "lat": 42.33144,
+    "lng": -82.00053
+  },
+  {
     "slug": "mint-sports-cards-collectibles-bolton",
     "name": "Mint Sports Cards & Collectibles",
     "city": "Bolton",
@@ -3654,6 +3955,24 @@
     ],
     "lat": 43.87998,
     "lng": -79.73717
+  },
+  {
+    "slug": "muskoka-cards-collectibles-bracebridge",
+    "name": "Muskoka Cards & Collectibles",
+    "city": "Bracebridge",
+    "citySlug": "bracebridge",
+    "address": "16A Manitoba St, Bracebridge, ON P1L 1R9",
+    "province": "ON",
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 45.0405,
+    "lng": -79.30929
   },
   {
     "slug": "cardboard-memories-inc-brampton",
@@ -3903,6 +4222,68 @@
     "lng": -80.30866
   },
   {
+    "slug": "rockets-sports-cards-chatham-chatham-kent",
+    "name": "Rockets Sports Cards",
+    "city": "Chatham (Chatham-Kent)",
+    "citySlug": "chatham-chatham-kent",
+    "address": "137 Queen Street, Chatham, ON",
+    "province": "ON",
+    "phone": "(519) 397-2608",
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 42.40293,
+    "lng": -82.18475
+  },
+  {
+    "slug": "dave-s-sportscard-shop-cornwall",
+    "name": "Dave's Sportscard Shop",
+    "city": "Cornwall",
+    "citySlug": "cornwall",
+    "address": "812 Pitt St Unit #44, Cornwall, ON K6J 3S2",
+    "province": "ON",
+    "phone": "(613) 363-1102",
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 45.02763,
+    "lng": -74.7343
+  },
+  {
+    "slug": "webber-s-balloons-cards-and-collectibles-dundas",
+    "name": "Webber's Balloons, Cards and Collectibles",
+    "city": "Dundas",
+    "citySlug": "dundas",
+    "address": "130 King St W, Dundas, ON L9H 1V2",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 43.26667,
+    "lng": -79.95932
+  },
+  {
     "slug": "total-sports-cards-collectibles-etobicoke",
     "name": "Total Sports Cards & Collectibles",
     "city": "Etobicoke",
@@ -3927,6 +4308,23 @@
     ],
     "lat": 43.5947,
     "lng": -79.53163
+  },
+  {
+    "slug": "prospects-antiques-sports-cards-gravenhurst",
+    "name": "Prospects Antiques & Sports Cards",
+    "city": "Gravenhurst",
+    "citySlug": "gravenhurst",
+    "address": "130 Muskoka Road South, Gravenhurst, ON P1P 1T5",
+    "province": "ON",
+    "phone": "(705) 687-6449",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 44.91946,
+    "lng": -79.37376
   },
   {
     "slug": "bfireballdragon-greater-sudbury",
@@ -5060,6 +5458,46 @@
     "lng": -80.47328
   },
   {
+    "slug": "northern-sports-cards-lindsay-kawartha-lakes",
+    "name": "Northern Sports Cards",
+    "city": "Lindsay (Kawartha Lakes)",
+    "citySlug": "lindsay-kawartha-lakes",
+    "address": "55 Mary Street West, Lindsay, ON",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 44.34563,
+    "lng": -78.73487
+  },
+  {
+    "slug": "the-trading-card-store-lindsay-lindsay-kawartha-lakes",
+    "name": "The Trading Card Store Lindsay",
+    "city": "Lindsay (Kawartha Lakes)",
+    "citySlug": "lindsay-kawartha-lakes",
+    "address": "370 Kent Street West, Lindsay, ON",
+    "province": "ON",
+    "services": [
+      "Buys",
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 44.35121,
+    "lng": -78.758
+  },
+  {
     "slug": "beyond-the-pond-sportcards-london",
     "name": "Beyond The Pond Sportcards",
     "city": "London",
@@ -6016,6 +6454,25 @@
     "lng": -79.32325
   },
   {
+    "slug": "event-horizon-hobbies-midland",
+    "name": "Event Horizon Hobbies",
+    "city": "Midland",
+    "citySlug": "midland",
+    "address": "845 King St Suite 7-9, Midland, ON L4R 0B7",
+    "province": "ON",
+    "phone": "705-245-0110",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 44.73465,
+    "lng": -79.87138
+  },
+  {
     "slug": "a-spec-cards-inc-milton",
     "name": "A-Spec Cards Inc.",
     "city": "Milton",
@@ -6640,6 +7097,26 @@
     "sports": [],
     "lat": 43.44056,
     "lng": -79.70841
+  },
+  {
+    "slug": "fantasy-forged-cards-and-collectibles-orangeville",
+    "name": "Fantasy Forged: Cards and Collectibles",
+    "city": "Orangeville",
+    "citySlug": "orangeville",
+    "address": "113 Broadway Ave, Orangeville, ON L9W 1K2",
+    "province": "ON",
+    "phone": "519-261-1993",
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 43.92021,
+    "lng": -80.0954
   },
   {
     "slug": "cards-and-coasters-orillia",
@@ -7505,6 +7982,24 @@
     "lng": -75.72416
   },
   {
+    "slug": "dark-crystal-cards-paris",
+    "name": "Dark Crystal Cards",
+    "city": "Paris",
+    "citySlug": "paris",
+    "address": "19 Broadway St West Unit 7, Paris, ON L3L 2S3",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 43.19354,
+    "lng": -80.38523
+  },
+  {
     "slug": "dueling-grounds-tabletop-games-peterborough",
     "name": "Dueling Grounds Tabletop Games",
     "city": "Peterborough",
@@ -7878,6 +8373,28 @@
     ],
     "lat": 42.7762,
     "lng": -81.15998
+  },
+  {
+    "slug": "the-den-hobby-gifts-stratford",
+    "name": "The Den Hobby & Gifts",
+    "city": "Stratford",
+    "citySlug": "stratford",
+    "address": "125 Downie St, Stratford, ON N5A 1X2",
+    "province": "ON",
+    "phone": "519-857-8155",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 43.36883,
+    "lng": -80.98087
   },
   {
     "slug": "boreal-gaming-cards-thorold",
@@ -9536,6 +10053,24 @@
     "lng": -83.01325
   },
   {
+    "slug": "nutts-collectables-woodstock",
+    "name": "Nutts Collectables",
+    "city": "Woodstock",
+    "citySlug": "woodstock",
+    "address": "563 Dundas Street, Woodstock, ON",
+    "province": "ON",
+    "phone": "(519) 537-3xxx (partial)",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Other"
+    ],
+    "lat": 43.13073,
+    "lng": -80.75368
+  },
+  {
     "slug": "backmandy-collectibles-charlottetown",
     "name": "Backmandy Collectibles",
     "city": "Charlottetown",
@@ -9653,6 +10188,33 @@
     ],
     "lat": 46.26472,
     "lng": -63.14691
+  },
+  {
+    "slug": "next-level-games-and-collectibles-summerside",
+    "name": "Next Level Games and Collectibles",
+    "city": "Summerside",
+    "citySlug": "summerside",
+    "address": "251 Water St Unit E, Summerside, PE C1N 1B5",
+    "province": "PE",
+    "phone": "(902) 436-4263",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Grading Services",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 46.39171,
+    "lng": -63.7905
   },
   {
     "slug": "galerie-du-jouet-alma-alma",
@@ -12314,6 +12876,31 @@
     "lng": -71.95211
   },
   {
+    "slug": "nova-s-sports-cards-lloydminster-sk-side",
+    "name": "Nova's Sports Cards",
+    "city": "Lloydminster (SK side)",
+    "citySlug": "lloydminster-sk-side",
+    "address": "4517 50 Ave Unit #4, Lloydminster, SK S9V 0Z9",
+    "province": "SK",
+    "website": "https://novassportscards.ca",
+    "social": "https://www.facebook.com/NovasSportsCards/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Other"
+    ],
+    "lat": 53.27956,
+    "lng": -110.00498
+  },
+  {
     "slug": "ultimate-fan-zone-moose-jaw",
     "name": "Ultimate Fan Zone",
     "city": "Moose Jaw",
@@ -12576,5 +13163,26 @@
     ],
     "lat": 49.6633,
     "lng": -103.85336
+  },
+  {
+    "slug": "skies-the-limit-fireworks-toys-yorkton",
+    "name": "Skies the Limit Fireworks & Toys",
+    "city": "Yorkton",
+    "citySlug": "yorkton",
+    "address": "32 Betts Ave, Yorkton, SK S3N 1L9",
+    "province": "SK",
+    "phone": "(306) 748-0070",
+    "website": "https://www.skiesthelimittoys.ca",
+    "social": "https://www.facebook.com/JorS3N/",
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Magic",
+      "Other"
+    ],
+    "lat": 51.21139,
+    "lng": -102.46422
   }
 ]
