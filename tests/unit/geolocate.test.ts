@@ -41,10 +41,31 @@ it('rejects rather than hanging when the API is missing', async () => {
   await expect(locate(undefined)).rejects.toThrow(/not supported/i);
 });
 
-it('maps position-unavailable to the OS location-services hint', () => {
-  // The macOS case: Chrome lacks system Location Services, so the site prompt
-  // never appears and the request would otherwise hang.
-  expect(geoErrorMessage(2)).toMatch(/location services/i);
+// The defect Nathan hit: on a phone he was told to open macOS "System
+// Settings". "System Settings" is the macOS-only wording, so that exact
+// string is what must not reach an iPhone.
+it('gives an iPhone-appropriate hint on iOS, not macOS instructions', () => {
+  const msg = geoErrorMessage(2, 'iPhone');
+  expect(msg).toMatch(/location services/i);
+  expect(msg).not.toMatch(/System Settings/);
+});
+
+it('gives the macOS hint on a Mac', () => {
+  expect(geoErrorMessage(2, 'MacIntel')).toMatch(/System Settings/);
+});
+
+it('gives a platform-neutral hint when the platform is unknown', () => {
+  const msg = geoErrorMessage(2, '');
+  expect(msg).toMatch(/location services/i);
+  expect(msg).not.toMatch(/System Settings/);
+});
+
+// The old code alerted exactly "Location unavailable — pick a city instead."
+// Reusing that string as the fallback made a cached old page indistinguishable
+// from a live failure and cost a diagnosis cycle. The fallback must differ.
+it('fallback text is distinguishable from the pre-fix message', () => {
+  expect(geoErrorMessage(99)).not.toBe('Location unavailable — pick a city instead.');
+  expect(geoErrorMessage(99)).toMatch(/couldn't get your location/i);
 });
 
 it('exposes a default timeout that is finite', () => {
