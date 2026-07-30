@@ -708,32 +708,6 @@
     "lng": -113.4694644
   },
   {
-    "slug": "froggers-house-of-cards-and-autograph-gallery-edmonton",
-    "name": "Froggers House of Cards and Autograph Gallery",
-    "city": "Edmonton",
-    "citySlug": "edmonton",
-    "address": "15521 118 Ave NW, Edmonton, AB T5V 1C5",
-    "province": "AB",
-    "rating": 4.9,
-    "reviewCount": 267,
-    "website": "https://froggerscards.com/",
-    "services": [
-      "Sells",
-      "Buys",
-      "Trade Nights"
-    ],
-    "sports": [
-      "Baseball",
-      "Basketball",
-      "Football",
-      "Hockey",
-      "Magic",
-      "Pokemon"
-    ],
-    "lat": 53.56984689999999,
-    "lng": -113.5894202
-  },
-  {
     "slug": "gamesland-canada-edmonton",
     "name": "Gamesland Canada",
     "city": "Edmonton",
@@ -895,21 +869,6 @@
     "lng": -113.481658
   },
   {
-    "slug": "wayne-s-sports-cards-and-collectibles-edmonton",
-    "name": "WAYNE'S SPORTS CARDS AND COLLECTIBLES",
-    "city": "Edmonton",
-    "citySlug": "edmonton",
-    "address": "17020 90 Ave NW, Edmonton, AB T5T 1L6",
-    "province": "AB",
-    "rating": 4.7,
-    "reviewCount": 340,
-    "social": "https://www.facebook.com/WaynesSportsCards/",
-    "services": [],
-    "sports": [],
-    "lat": 53.5248373,
-    "lng": -113.6179947
-  },
-  {
     "slug": "wayne-s-sports-cards-collectibles-edmonton",
     "name": "Wayne's Sports Cards & Collectibles",
     "city": "Edmonton",
@@ -917,8 +876,9 @@
     "address": "17020 90 Ave NW, Edmonton, AB T5T 1L6",
     "province": "AB",
     "rating": 4.7,
-    "reviewCount": 294,
+    "reviewCount": 340,
     "website": "http://www.waynessportscards.com/",
+    "social": "https://www.facebook.com/WaynesSportsCards/",
     "services": [
       "Sells",
       "Sells Wax"
@@ -934,21 +894,6 @@
     "lng": -113.6174699
   },
   {
-    "slug": "west-s-sports-cards-collectibles-edmonton",
-    "name": "West's Sports Cards & Collectibles",
-    "city": "Edmonton",
-    "citySlug": "edmonton",
-    "address": "7910 118 Ave NW, Edmonton, AB T5B 0R6",
-    "province": "AB",
-    "rating": 4.6,
-    "reviewCount": 326,
-    "social": "https://www.facebook.com/wscsportscards/",
-    "services": [],
-    "sports": [],
-    "lat": 53.5704956,
-    "lng": -113.4629965
-  },
-  {
     "slug": "west-s-sports-cards-edmonton",
     "name": "West's Sports Cards",
     "city": "Edmonton",
@@ -956,8 +901,9 @@
     "address": "7910 118 Ave NW, Edmonton, AB T5B 2L1",
     "province": "AB",
     "rating": 4.6,
-    "reviewCount": 283,
+    "reviewCount": 326,
     "website": "https://www.westssportscards.com/",
+    "social": "https://www.facebook.com/wscsportscards/",
     "services": [
       "Sells",
       "Sells Wax",
@@ -9033,35 +8979,6 @@
     "lng": -75.51529
   },
   {
-    "slug": "game-breakers-sports-cards-collectibles-ottawa",
-    "name": "Game Breakers Sports Cards & Collectibles",
-    "city": "Ottawa",
-    "citySlug": "ottawa",
-    "address": "780 Baseline Rd Unit 11, Ottawa, ON K2C 3V8",
-    "province": "ON",
-    "rating": 4.4,
-    "reviewCount": 334,
-    "phone": "613-228-9554",
-    "website": "https://gamebreakers.ca",
-    "social": "https://instagram.com/gamebreakerssc",
-    "services": [
-      "Buys",
-      "Sells",
-      "Sells Wax"
-    ],
-    "sports": [
-      "Hockey",
-      "Baseball",
-      "Basketball",
-      "Football",
-      "Other",
-      "Magic",
-      "Pokemon"
-    ],
-    "lat": 45.37071,
-    "lng": -75.71711
-  },
-  {
     "slug": "game-breakers-sports-cards-ottawa",
     "name": "Game Breakers Sports Cards",
     "city": "Ottawa",
@@ -9071,9 +8988,11 @@
     "rating": 4.4,
     "reviewCount": 334,
     "phone": "(613) 228-9554",
-    "website": "http://gamebreakers.ca/",
+    "website": "https://gamebreakers.ca",
+    "social": "https://instagram.com/gamebreakerssc",
     "services": [
       "Sells",
+      "Buys",
       "Sells Wax",
       "Trade Nights"
     ],
