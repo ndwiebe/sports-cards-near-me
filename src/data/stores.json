@@ -518,6 +518,8 @@
     "citySlug": "cochrane",
     "address": "#15-118 1st Avenue SW, Cochrane, AB",
     "province": "AB",
+    "rating": 5,
+    "reviewCount": 28,
     "social": "https://www.facebook.com/61581013060272/",
     "services": [
       "Sells",
@@ -1118,6 +1120,8 @@
     "citySlug": "hinton",
     "address": "145 Athabasca Ave, Hinton, AB T7V 2A4",
     "province": "AB",
+    "rating": 4.9,
+    "reviewCount": 92,
     "phone": "780-865-2645",
     "website": "https://kingdrug.ca",
     "services": [
@@ -1545,6 +1549,8 @@
     "citySlug": "rocky-mountain-house",
     "address": "4918 50 Street, Rocky Mountain House, AB",
     "province": "AB",
+    "rating": 4.7,
+    "reviewCount": 119,
     "phone": "(403) 846-1337",
     "social": "https://www.facebook.com/Rockcitycomics97/",
     "services": [
@@ -1641,6 +1647,8 @@
     "citySlug": "slave-lake",
     "address": "124 6 Avenue SE, Slave Lake, AB T0G 2A3",
     "province": "AB",
+    "rating": 5,
+    "reviewCount": 14,
     "phone": "(780) 536-0909",
     "website": "https://www.hypergameschamber.ca",
     "social": "https://www.facebook.com/HyperGamesChamber/",
@@ -1839,6 +1847,8 @@
     "citySlug": "vegreville",
     "address": "#101, 5105 49 Street, Vegreville, AB T9C 1L9",
     "province": "AB",
+    "rating": 5,
+    "reviewCount": 9,
     "website": "https://www.ibhcc.store",
     "social": "https://www.instagram.com/ibhccstore2025/",
     "services": [
@@ -1861,6 +1871,8 @@
     "citySlug": "wainwright",
     "address": "215 10th Street, Wainwright, AB",
     "province": "AB",
+    "rating": 3.8,
+    "reviewCount": 32,
     "social": "https://www.facebook.com/IWTSalberta/",
     "services": [
       "Buys",
@@ -1881,6 +1893,8 @@
     "citySlug": "wetaskiwin",
     "address": "4802 56 Street, Wetaskiwin, AB T9A 1V1",
     "province": "AB",
+    "rating": 3.1,
+    "reviewCount": 25,
     "services": [
       "Sells",
       "Trades Singles"
@@ -2081,6 +2095,8 @@
     "citySlug": "coquitlam",
     "address": "2124 Austin Ave, Coquitlam, BC V3K 3R8",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 144,
     "phone": "604-492-0303",
     "website": "http://www.gogohobbies.ca/",
     "social": "https://www.facebook.com/gogohobbies",
@@ -2151,6 +2167,8 @@
     "citySlug": "delta-ladner",
     "address": "4926 Delta St, Ladner, BC V4K 2V2",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 23,
     "phone": "604-273-0907",
     "website": "https://www.bluemooncollectables.com/",
     "services": [
@@ -2170,6 +2188,8 @@
     "citySlug": "delta-ladner",
     "address": "4962 Bridge St, Delta, BC V4K 2K1",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 211,
     "phone": "604-710-2739",
     "website": "http://nerdfeeder.ca/",
     "social": "https://www.facebook.com/nerdfeeder",
@@ -2401,6 +2421,8 @@
     "citySlug": "new-westminster",
     "address": "106-810 Quayside Dr, New West River Market, New Westminster, BC V3M 6B9",
     "province": "BC",
+    "rating": 4.6,
+    "reviewCount": 158,
     "phone": "604-553-4425",
     "website": "https://www.raincity.games/",
     "services": [
@@ -2421,6 +2443,8 @@
     "citySlug": "new-westminster",
     "address": "814 12th St, New Westminster, BC V3M 4K1",
     "province": "BC",
+    "rating": 4.4,
+    "reviewCount": 301,
     "phone": "778-397-1075",
     "website": "https://www.snhobbies.com/",
     "services": [
@@ -2439,6 +2463,8 @@
     "citySlug": "new-westminster",
     "address": "610 6th St Unit #118, New Westminster, BC V3L 3C2",
     "province": "BC",
+    "rating": 4.2,
+    "reviewCount": 129,
     "phone": "604-515-7411",
     "website": "http://www.tngames.ca/",
     "services": [
@@ -2927,6 +2953,8 @@
     "citySlug": "vernon",
     "address": "8106 Highland Pl, Vernon, BC V1B 3W6",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 76,
     "phone": "250-540-4163",
     "website": "https://www.kbhobbies.com/",
     "services": [
@@ -2945,6 +2973,8 @@
     "citySlug": "vernon",
     "address": "2520 53 Ave #302, Vernon, BC V1T 9W8",
     "province": "BC",
+    "rating": 4.9,
+    "reviewCount": 132,
     "phone": "250-503-0047",
     "website": "https://obsidiangames.ca/",
     "services": [
@@ -3128,6 +3158,8 @@
     "citySlug": "dauphin",
     "address": "223 Main St N, Dauphin, MB R7N 1C3",
     "province": "MB",
+    "rating": 4.7,
+    "reviewCount": 78,
     "services": [
       "Sells"
     ],
@@ -3145,6 +3177,8 @@
     "citySlug": "steinbach",
     "address": "363 Main St, Steinbach, MB R5G 1Z4",
     "province": "MB",
+    "rating": 4.9,
+    "reviewCount": 91,
     "services": [
       "Sells"
     ],
@@ -3703,6 +3737,8 @@
     "citySlug": "sackville",
     "address": "87 Main St, Sackville, NB",
     "province": "NB",
+    "rating": 4.8,
+    "reviewCount": 178,
     "services": [
       "Sells",
       "Trades Singles"
@@ -3857,6 +3893,8 @@
     "citySlug": "gander",
     "address": "92 Elizabeth Drive, Gander, NL",
     "province": "NL",
+    "rating": 4.3,
+    "reviewCount": 6,
     "services": [
       "Sells"
     ],
@@ -4027,6 +4065,8 @@
     "citySlug": "dartmouth",
     "address": "169 Main St, Dartmouth, NS B2X 1S1",
     "province": "NS",
+    "rating": 5,
+    "reviewCount": 12,
     "phone": "(902) 435-8154",
     "services": [
       "Buys",
@@ -4127,6 +4167,8 @@
     "citySlug": "new-minas",
     "address": "8785 Commercial St, New Minas, NS B4N 3C4",
     "province": "NS",
+    "rating": 4.8,
+    "reviewCount": 54,
     "phone": "(902) 365-6789",
     "services": [
       "Sells"
@@ -4311,6 +4353,8 @@
     "citySlug": "alliston-new-tecumseth",
     "address": "103 Victoria Street West Unit 2 (upstairs), Alliston, ON L9R 1T5",
     "province": "ON",
+    "rating": 5,
+    "reviewCount": 35,
     "phone": "(705) 530-9606",
     "services": [
       "Sells"
@@ -4605,6 +4649,8 @@
     "citySlug": "beamsville",
     "address": "Beamsville, ON (exact address not confirmed)",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 91,
     "services": [
       "Sells"
     ],
@@ -4964,6 +5010,8 @@
     "citySlug": "carleton-place",
     "address": "Carleton Place, ON (exact address not confirmed)",
     "province": "ON",
+    "rating": 4.6,
+    "reviewCount": 241,
     "services": [
       "Buys",
       "Sells"
@@ -4998,6 +5046,8 @@
     "citySlug": "chatham-chatham-kent",
     "address": "137 Queen Street, Chatham, ON",
     "province": "ON",
+    "rating": 4.4,
+    "reviewCount": 77,
     "phone": "(519) 397-2608",
     "services": [
       "Buys",
@@ -5138,6 +5188,8 @@
     "citySlug": "fort-erie",
     "address": "Fort Erie, ON (exact address not confirmed)",
     "province": "ON",
+    "rating": 5,
+    "reviewCount": 126,
     "services": [
       "Sells"
     ],
@@ -5156,6 +5208,8 @@
     "citySlug": "goderich",
     "address": "Goderich, ON (exact address not confirmed)",
     "province": "ON",
+    "rating": 4.6,
+    "reviewCount": 130,
     "services": [
       "Buys",
       "Sells",
@@ -5407,6 +5461,8 @@
     "citySlug": "grimsby",
     "address": "Grimsby, ON (downtown; exact address not confirmed)",
     "province": "ON",
+    "rating": 4.5,
+    "reviewCount": 124,
     "services": [
       "Sells"
     ],
@@ -6130,6 +6186,8 @@
     "citySlug": "hanover",
     "address": "318 10th Street, Hanover, ON",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 41,
     "services": [
       "Buys",
       "Sells"
@@ -6189,6 +6247,8 @@
     "citySlug": "kenora",
     "address": "Kenora, ON (exact address not confirmed)",
     "province": "ON",
+    "rating": 3.8,
+    "reviewCount": 12,
     "services": [
       "Sells"
     ],
@@ -6207,6 +6267,8 @@
     "citySlug": "kenora",
     "address": "Kenora, ON (exact address not confirmed)",
     "province": "ON",
+    "rating": 4.7,
+    "reviewCount": 9,
     "services": [
       "Sells"
     ],
@@ -6413,6 +6475,8 @@
     "citySlug": "kingston",
     "address": "19 Macpherson Ave #11, Kingston, ON K7M 6W4",
     "province": "ON",
+    "rating": 5,
+    "reviewCount": 1,
     "phone": "(514) 664-4271",
     "website": "https://mmlorcana.ca/",
     "services": [
@@ -6584,6 +6648,8 @@
     "citySlug": "lindsay-kawartha-lakes",
     "address": "370 Kent Street West, Lindsay, ON",
     "province": "ON",
+    "rating": 4.5,
+    "reviewCount": 60,
     "services": [
       "Buys",
       "Sells",
@@ -7687,6 +7753,8 @@
     "citySlug": "midland",
     "address": "845 King St Suite 7-9, Midland, ON L4R 0B7",
     "province": "ON",
+    "rating": 4.7,
+    "reviewCount": 166,
     "phone": "705-245-0110",
     "services": [
       "Sells"
@@ -8406,6 +8474,8 @@
     "citySlug": "orangeville",
     "address": "113 Broadway Ave, Orangeville, ON L9W 1K2",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 148,
     "phone": "519-261-1993",
     "services": [
       "Sells",
@@ -9410,6 +9480,8 @@
     "citySlug": "owen-sound",
     "address": "807 2nd Ave E, Owen Sound, ON N4K 2H2",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 106,
     "phone": "519-416-1230",
     "services": [
       "Sells"
@@ -9429,6 +9501,8 @@
     "citySlug": "paris",
     "address": "19 Broadway St West Unit 7, Paris, ON L3L 2S3",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 107,
     "services": [
       "Sells"
     ],
@@ -9517,6 +9591,8 @@
     "citySlug": "port-perry",
     "address": "1869 Scugog Street Unit 1, Port Perry, ON L9L 1J1",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 43,
     "phone": "905-982-7866",
     "services": [
       "Sells"
@@ -9853,6 +9929,8 @@
     "citySlug": "stoney-creek",
     "address": "570 Hwy 8 Unit 3, Stoney Creek, ON L8G 4M2",
     "province": "ON",
+    "rating": 4.5,
+    "reviewCount": 35,
     "phone": "289-656-1188",
     "services": [
       "Sells"
@@ -9889,6 +9967,8 @@
     "citySlug": "stratford",
     "address": "125 Downie St, Stratford, ON N5A 1X2",
     "province": "ON",
+    "rating": 4.6,
+    "reviewCount": 72,
     "phone": "519-857-8155",
     "services": [
       "Sells"
@@ -9911,6 +9991,8 @@
     "citySlug": "strathroy",
     "address": "89 Frank St, Strathroy, ON",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 14,
     "services": [
       "Sells"
     ],
@@ -9929,6 +10011,8 @@
     "citySlug": "strathroy",
     "address": "61 Queensway Dr, Strathroy, ON N7G 4M2",
     "province": "ON",
+    "rating": 4.9,
+    "reviewCount": 74,
     "phone": "519-318-3936",
     "services": [
       "Sells"
@@ -10981,6 +11065,8 @@
     "citySlug": "trenton-quinte-west",
     "address": "97 Dundas Street W, Trenton, ON K8V 3P4",
     "province": "ON",
+    "rating": 4.7,
+    "reviewCount": 379,
     "services": [
       "Sells"
     ],
@@ -11919,6 +12005,8 @@
     "citySlug": "woodstock",
     "address": "365 Dundas St N, Woodstock, ON N4S 1B6",
     "province": "ON",
+    "rating": 4.8,
+    "reviewCount": 150,
     "services": [
       "Sells",
       "Trade Nights"
@@ -11937,6 +12025,8 @@
     "citySlug": "woodstock",
     "address": "563 Dundas Street, Woodstock, ON",
     "province": "ON",
+    "rating": 3.3,
+    "reviewCount": 38,
     "phone": "(519) 537-3xxx (partial)",
     "services": [
       "Sells"
@@ -12091,6 +12181,8 @@
     "citySlug": "stratford",
     "address": "14 Kinlock Road Unit #4, Stratford, PE C1B 0G6",
     "province": "PE",
+    "rating": 4.8,
+    "reviewCount": 16,
     "phone": "(782) 377-6581",
     "services": [
       "Sells",
@@ -12110,6 +12202,8 @@
     "citySlug": "summerside",
     "address": "251 Water St Unit E, Summerside, PE C1N 1B5",
     "province": "PE",
+    "rating": 5,
+    "reviewCount": 13,
     "phone": "(902) 436-4263",
     "services": [
       "Buys",
@@ -13260,6 +13354,8 @@
     "citySlug": "mascouche",
     "address": "3079 Bd de Mascouche, Mascouche, QC J7K 3B7",
     "province": "QC",
+    "rating": 4.9,
+    "reviewCount": 128,
     "phone": "514-506-3277",
     "website": "https://jeux-mania.ca",
     "services": [
@@ -14252,6 +14348,8 @@
     "citySlug": "saint-jean-sur-richelieu",
     "address": "450 boulevard du Séminaire Nord, Saint-Jean-sur-Richelieu, QC J3B 5L3",
     "province": "QC",
+    "rating": 5,
+    "reviewCount": 19,
     "phone": "438-499-3992",
     "services": [
       "Sells"
@@ -14400,6 +14498,8 @@
     "citySlug": "sainte-therese",
     "address": "60 Rue Turgeon, Sainte-Thérèse, QC J7E 3H5",
     "province": "QC",
+    "rating": 4.9,
+    "reviewCount": 46,
     "website": "https://www.3dragons.ca",
     "services": [
       "Sells"
@@ -15148,6 +15248,8 @@
     "citySlug": "warman",
     "address": "825 Centennial Blvd, Bay 105, Warman, SK S0K 4S1",
     "province": "SK",
+    "rating": 4.9,
+    "reviewCount": 212,
     "services": [
       "Sells"
     ],
@@ -15192,6 +15294,8 @@
     "citySlug": "yorkton",
     "address": "32 Betts Ave, Yorkton, SK S3N 1L9",
     "province": "SK",
+    "rating": 5,
+    "reviewCount": 65,
     "phone": "(306) 748-0070",
     "website": "https://www.skiesthelimittoys.ca",
     "social": "https://www.facebook.com/JorS3N/",
