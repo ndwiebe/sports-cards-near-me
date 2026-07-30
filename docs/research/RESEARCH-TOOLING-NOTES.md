@@ -37,6 +37,24 @@ dead budget is a partial pass, not evidence of absence.
 | **`tcdb.com`** | 403s every request. |
 | **`cartesdehockey.ca`** | Real but last updated 2021; every entry already in the roster. |
 
+## Schedules are often images (added 2026-07-29)
+
+Organiser show schedules are frequently **JPEGs on a Wix/Canva/Elementor page**, not
+text. `defuddle`, WebFetch and Firecrawl return the surrounding page copy and miss the
+schedule entirely — a silent false negative that reads as "no dates published".
+
+**Download the image and read it visually.** Capital Trade Shows' entire 2027 schedule
+(20 shows) was a single JPEG. Bossa Productions' self-contradicting dates were only
+catchable the same way.
+
+Two corroborating checks that cost nothing and caught real errors:
+- **Verify day-of-week against the calendar.** GRADEx lists a show as "Sunday, Nov. 12,
+  2026" — that is a Thursday. A poster whose 22 dates all land on the right weekday is
+  a poster you can trust.
+- **Check whether ticket buttons resolve to real per-event URLs.** Bossa's future-dated
+  buttons all pointed at the generic organiser page, and its Showpass account had zero
+  bookable events — the dates were aspirational placeholders, not a schedule.
+
 ## Known bad data patterns to exclude
 
 - **"Canada Hobbies"** — appears under a dozen different town searches with a different address each time; its domain redirects to an eBay store. A fake local-landing-page network for an online-only reseller. Exclude on sight.
