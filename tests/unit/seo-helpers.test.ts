@@ -9,6 +9,7 @@ import {
   MIN_REVIEWS_FOR_TOP,
   provinceAnswerCapsule,
   topRatedStore,
+  byRecommendedRank,
   weightedRating,
   corpusMeanRating,
   byWeightedRankIn,
@@ -361,5 +362,48 @@ describe('topRatedStore with weighting', () => {
       store({ slug: 'ok', name: 'Qualified', rating: 4.2, reviewCount: MIN_REVIEWS_FOR_TOP }),
     ];
     expect(topRatedStore(stores)?.name).toBe('Qualified');
+  });
+});
+
+// Nathan's ranking call, 2026-07-30: "often the more reviews the better it
+// actually is regardless of rating number — weight number of reviews more
+// heavily". Chose the volume-dominant option (D) over the milder one.
+describe('volume-weighted ranking (Nathan 2026-07-30)', () => {
+  it('a well-reviewed 4.7 outranks a thin 5.0 — the Edmonton case', () => {
+    const stores = [
+      store({ slug: 'thin', name: 'Thin Five', rating: 5, reviewCount: 22 }),
+      store({ slug: 'deep', name: 'Deep Four Seven', rating: 4.7, reviewCount: 365 }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('Deep Four Seven');
+  });
+
+  it('still respects rating when review counts are comparable', () => {
+    const stores = [
+      store({ slug: 'a', name: 'Lower', rating: 4.2, reviewCount: 300 }),
+      store({ slug: 'b', name: 'Higher', rating: 4.9, reviewCount: 300 }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('Higher');
+  });
+
+  it('never crowns a shop under MIN_REVIEWS_FOR_TOP however high its rating', () => {
+    const stores = [
+      store({ slug: 'perfect', name: 'Perfect', rating: 5, reviewCount: MIN_REVIEWS_FOR_TOP - 1 }),
+      store({ slug: 'ok', name: 'Ok', rating: 4.3, reviewCount: 40 }),
+    ];
+    expect(topRatedStore(stores)?.name).toBe('Ok');
+  });
+
+  it('sub-threshold shops are listed but NOT rank-ordered by rating', () => {
+    // They sort after every eligible shop, and among themselves by review
+    // volume then name — deliberately not by rating, because ranking them
+    // is the thing Nathan asked to stop.
+    const stores = [
+      store({ slug: 'sub-low-rating', name: 'SubBusy', rating: 3.9, reviewCount: 19 }),
+      store({ slug: 'sub-high-rating', name: 'SubQuiet', rating: 5, reviewCount: 3 }),
+      store({ slug: 'eligible', name: 'Eligible', rating: 4.4, reviewCount: 50 }),
+    ];
+    const order = [...stores].sort(byRecommendedRank).map((s) => s.name);
+    expect(order[0]).toBe('Eligible');
+    expect(order.slice(1)).toEqual(['SubBusy', 'SubQuiet']);
   });
 });

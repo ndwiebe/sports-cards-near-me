@@ -127,6 +127,38 @@ export function weightedRating(
   return (v / (v + priorWeight)) * rating + (priorWeight / (v + priorWeight)) * corpusMean;
 }
 
+/**
+ * How much raw review VOLUME counts, on top of the Bayesian evidence discount.
+ *
+ * Nathan's call, 2026-07-30: "often the more reviews the better it actually is
+ * regardless of rating number — weight number of reviews more heavily." Bayesian
+ * shrinkage alone only stops a thin score being *overstated*; it never treats a
+ * big review count as positive evidence in its own right. This does.
+ *
+ * log10 so the effect is strong at the bottom and flattens at the top: 20 -> 300
+ * reviews matters far more than 300 -> 600. At 0.35, a 4.7 with 365 reviews beats
+ * a 5.0 with 22 — the Edmonton case that prompted the change — while two shops
+ * with similar volume are still separated by rating.
+ *
+ * Chosen over a milder 0.15 after modelling both on live data: 0.15 changed the
+ * crowned shop in 9 of 86 contested cities, 0.35 in 24, and Nathan picked the
+ * stronger reading of his own instruction.
+ */
+export const VOLUME_WEIGHT = 0.35;
+
+/** The score that orders shops: Bayesian rating plus a volume term.
+ * Only ever applied to shops clearing MIN_REVIEWS_FOR_TOP — below that a shop is
+ * listed but deliberately not ranked. */
+export function rankScore(
+  rating: number,
+  reviewCount: number,
+  corpusMean: number,
+  priorWeight: number = MIN_REVIEWS_FOR_TOP,
+): number {
+  const v = Math.max(0, reviewCount);
+  return weightedRating(rating, v, corpusMean, priorWeight) + VOLUME_WEIGHT * Math.log10(Math.max(v, 1));
+}
+
 /** Mean rating across every rated store — the prior that `weightedRating` shrinks toward.
  * Falls back to 0 when nothing is rated, which makes weightedRating a no-op rather than NaN. */
 export function corpusMeanRating(stores: Store[]): number {
@@ -157,7 +189,7 @@ export function topRatedStore(stores: Store[], corpusMean?: number): Store | und
   );
   if (eligible.length === 0) return undefined;
   const mean = corpusMean ?? DIRECTORY_MEAN_RATING;
-  const score = (s: Store): number => weightedRating(s.rating ?? 0, s.reviewCount ?? 0, mean);
+  const score = (s: Store): number => rankScore(s.rating ?? 0, s.reviewCount ?? 0, mean);
   const sorted = [...eligible].sort(
     (a, b) =>
       score(b) - score(a) ||
@@ -189,10 +221,17 @@ export function byWeightedRankIn(
   const tier = (s: Store): number =>
     s.rating === undefined ? 2 : (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP ? 0 : 1;
   const score = (s: Store): number =>
-    s.rating === undefined ? 0 : weightedRating(s.rating, s.reviewCount ?? 0, mean);
+    s.rating === undefined ? 0 : rankScore(s.rating, s.reviewCount ?? 0, mean);
   return (a, b) => {
     const tierDiff = tier(a) - tier(b);
     if (tierDiff !== 0) return tierDiff;
+    // Only shops clearing MIN_REVIEWS_FOR_TOP are RANKED. Below that a shop is
+    // still listed — removing it would delete a real business from its town page
+    // — but it is ordered by volume then name, never by rating, so a 5.0 from
+    // three reviews cannot present as better than a 3.9 from nineteen.
+    if (tier(a) !== 0) {
+      return (b.reviewCount ?? 0) - (a.reviewCount ?? 0) || a.name.localeCompare(b.name);
+    }
     return (
       score(b) - score(a) ||
       (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
