@@ -55,6 +55,21 @@ Two corroborating checks that cost nothing and caught real errors:
   buttons all pointed at the generic organiser page, and its Showpass account had zero
   bookable events — the dates were aspirational placeholders, not a schedule.
 
+## Import gotchas (added 2026-07-30, each cost a cycle)
+
+- **The stores tab is `alberta_card_store_directory_combined`** (gid `1588938698`), not
+  "Stores". A range of `Stores!A:L` fails with *Unable to parse range*. The shows tab
+  really is `Shows`.
+- **The Mapbox env var is `PUBLIC_MAPBOX_TOKEN`**, not `MAPBOX_TOKEN` — grepping the short
+  name matches the long one and hands you a confident false start. It lives only in the
+  stale `sports-cards-near-me` worktree.
+- **That Mapbox token now 403s** (2026-07-30) — it appears to have been rotated.
+  **OpenStreetMap Nominatim works fine** as a free replacement for small batches: no key,
+  just send a real `User-Agent` and stay near 1 request/second.
+- **Geocode before importing.** A store row missing lat/lng is dropped by the bake with no
+  error, and so is one whose address has no derivable province — `province` is parsed
+  *from the address string*, not a column.
+
 ## Known bad data patterns to exclude
 
 - **"Canada Hobbies"** — appears under a dozen different town searches with a different address each time; its domain redirects to an eBay store. A fake local-landing-page network for an online-only reseller. Exclude on sight.
