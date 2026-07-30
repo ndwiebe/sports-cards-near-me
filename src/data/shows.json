@@ -90,6 +90,18 @@
     "recurring": "monthly"
   },
   {
+    "slug": "collections-montreal-montreal-2026-08-23",
+    "name": "Collections Montréal",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "province": "QC",
+    "startDate": "2026-08-23",
+    "hours": "10am-2pm",
+    "website": "https://www.collectionsmontreal.ca/",
+    "sourceUrl": "https://www.collectionsmontreal.ca/",
+    "recurring": "monthly"
+  },
+  {
     "slug": "capital-trade-shows-card-comic-show-ottawa-2026-09-12",
     "name": "Capital Trade Shows: Card & Comic Show",
     "city": "Ottawa",
@@ -144,7 +156,7 @@
     "hours": "10am-2pm",
     "website": "https://www.collectionsmontreal.ca/",
     "sourceUrl": "https://www.collectionsmontreal.ca/",
-    "recurring": "monthly (also 2026-10-18, 2026-11-29, 2026-12-13)"
+    "recurring": "monthly"
   },
   {
     "slug": "sport-card-memorabilia-expo-montreal-laval-2026-09-25",
@@ -238,6 +250,18 @@
     "recurring": "annual"
   },
   {
+    "slug": "collections-montreal-montreal-2026-10-18",
+    "name": "Collections Montréal",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "province": "QC",
+    "startDate": "2026-10-18",
+    "hours": "10am-2pm",
+    "website": "https://www.collectionsmontreal.ca/",
+    "sourceUrl": "https://www.collectionsmontreal.ca/",
+    "recurring": "monthly"
+  },
+  {
     "slug": "capital-trade-shows-card-comic-show-ottawa-2026-11-01",
     "name": "Capital Trade Shows: Card & Comic Show",
     "city": "Ottawa",
@@ -284,6 +308,18 @@
     "recurring": "monthly"
   },
   {
+    "slug": "collections-montreal-montreal-2026-11-29",
+    "name": "Collections Montréal",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "province": "QC",
+    "startDate": "2026-11-29",
+    "hours": "10am-2pm",
+    "website": "https://www.collectionsmontreal.ca/",
+    "sourceUrl": "https://www.collectionsmontreal.ca/",
+    "recurring": "monthly"
+  },
+  {
     "slug": "capital-trade-shows-card-comic-show-ottawa-2026-12-06",
     "name": "Capital Trade Shows: Card & Comic Show",
     "city": "Ottawa",
@@ -311,6 +347,18 @@
     "admission": "Free",
     "website": "https://www.capitaltradeshows.ca/schedule",
     "sourceUrl": "https://gradexmedia.com/shows/",
+    "recurring": "monthly"
+  },
+  {
+    "slug": "collections-montreal-montreal-2026-12-13",
+    "name": "Collections Montréal",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "province": "QC",
+    "startDate": "2026-12-13",
+    "hours": "10am-2pm",
+    "website": "https://www.collectionsmontreal.ca/",
+    "sourceUrl": "https://www.collectionsmontreal.ca/",
     "recurring": "monthly"
   },
   {
