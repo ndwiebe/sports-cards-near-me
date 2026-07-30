@@ -21,3 +21,15 @@ it('callback fires immediately when already registered', () => {
   whenMapReady(shell, (h) => { got = h; });
   expect(got).toBe(fakeHandle);
 });
+
+// The "find shops near me" button used to be registered inside whenMapReady,
+// so a map that failed to mount left it with no click handler at all — a dead
+// button and no error. getMapHandle lets a caller work either way.
+it('getMapHandle returns undefined before a map registers, and never blocks', async () => {
+  const { getMapHandle, registerMap } = await import('../../src/scripts/map-registry');
+  const shell = document.createElement('div');
+  expect(getMapHandle(shell)).toBeUndefined();
+  const handle = { flyTo: () => {} } as unknown as Parameters<typeof registerMap>[1];
+  registerMap(shell, handle);
+  expect(getMapHandle(shell)).toBe(handle);
+});

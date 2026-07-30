@@ -73,7 +73,7 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
   </section>
   <script>
     import { locate } from '../scripts/geolocate';
-    import { whenMapReady } from '../scripts/map-registry';
+    import { getMapHandle, whenMapReady } from '../scripts/map-registry';
     import type { MapHandle } from '../scripts/map-core';
     import { distanceKm } from '../lib/map-data';
     import type { MapStore } from '../lib/map-data';
@@ -81,6 +81,7 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
     const slot = document.getElementById('map-slot');
     const shell = slot?.querySelector<HTMLElement>('.map-shell');
     if (slot && shell) {
+      // Fly-to buttons are meaningless without a map, so they stay gated on it.
       whenMapReady(shell, (handle: MapHandle) => {
         for (const btn of slot.querySelectorAll<HTMLButtonElement>('[data-fly]')) {
           btn.addEventListener('click', () => {
@@ -88,7 +89,13 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
             if (lng !== undefined && lat !== undefined) handle.flyTo(lng, lat, 12.5);
           });
         }
-        for (const geoBtn of document.querySelectorAll<HTMLButtonElement>('[data-geolocate]')) {
+      });
+
+      // Geolocation is NOT gated on the map. It used to be, which meant a map
+      // that failed to mount left the primary call-to-action with no click
+      // handler at all — a dead button and no error. The nearest-shops list is
+      // built from embedded data, so it works with or without a map.
+      for (const geoBtn of document.querySelectorAll<HTMLButtonElement>('[data-geolocate]')) {
           geoBtn.addEventListener('click', () => {
             slot.scrollIntoView({ behavior: 'smooth', block: 'start' });
             const label = geoBtn.textContent;
@@ -96,7 +103,8 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
             geoBtn.textContent = 'Locating…';
             locate(navigator.geolocation)
               .then(({ lat, lng }) => {
-                handle.flyTo(lng, lat, 11.5);
+                // Fly only if a map actually mounted; the list still renders.
+                getMapHandle(shell)?.flyTo(lng, lat, 11.5);
                 showNearest(lat, lng);
               })
               .catch((err: Error) => window.alert(err.message))
@@ -105,8 +113,7 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
                 geoBtn.textContent = label;
               });
           });
-        }
-      });
+      }
     }
 
     function showNearest(lat: number, lng: number): void {
