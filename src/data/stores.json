@@ -13358,6 +13358,26 @@
     "lng": -75.97971
   },
   {
+    "slug": "jeux-mania-mascouche",
+    "name": "Jeux Mania",
+    "city": "Mascouche",
+    "citySlug": "mascouche",
+    "address": "3079 Bd de Mascouche, Mascouche, QC J7K 3B7",
+    "province": "QC",
+    "phone": "514-506-3277",
+    "website": "https://jeux-mania.ca",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 45.742431,
+    "lng": -73.600232
+  },
+  {
     "slug": "cartes-sportives-rive-sud-mcmasterville-mcmasterville",
     "name": "Cartes Sportives Rive-Sud (McMasterville)",
     "city": "McMasterville",
@@ -14460,6 +14480,59 @@
     "lng": -73.58786
   },
   {
+    "slug": "hobby-champion-sainte-julie",
+    "name": "Hobby Champion",
+    "city": "Sainte-Julie",
+    "citySlug": "sainte-julie",
+    "address": "831D Montée Sainte-Julie, Sainte-Julie, QC J3E 1W9",
+    "province": "QC",
+    "website": "https://hobbychampion.com",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon"
+    ],
+    "lat": 45.597804,
+    "lng": -73.344848
+  },
+  {
+    "slug": "jeux-3-dragons-sainte-therese",
+    "name": "Jeux 3 Dragons",
+    "city": "Sainte-Thérèse",
+    "citySlug": "sainte-therese",
+    "address": "60 Rue Turgeon, Sainte-Thérèse, QC J7E 3H5",
+    "province": "QC",
+    "website": "https://www.3dragons.ca",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 45.637558,
+    "lng": -73.839357
+  },
+  {
+    "slug": "jeuxjubes-sainte-therese",
+    "name": "Jeuxjubes",
+    "city": "Sainte-Thérèse",
+    "citySlug": "sainte-therese",
+    "address": "238 Bd du Curé-Labelle, Sainte-Thérèse, QC J7E 2X7",
+    "province": "QC",
+    "website": "https://www.jeuxjubes.com",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 45.644951,
+    "lng": -73.835981
+  },
+  {
     "slug": "sport-collect-2010-salaberry-de-valleyfield",
     "name": "Sport Collect 2010",
     "city": "Salaberry-de-Valleyfield",
@@ -14484,6 +14557,23 @@
     ],
     "lat": 45.2638,
     "lng": -74.13256
+  },
+  {
+    "slug": "l-entre-jeux-shawinigan-shawinigan",
+    "name": "L'Entre-Jeux Shawinigan",
+    "city": "Shawinigan",
+    "citySlug": "shawinigan",
+    "address": "3103 Bd Royal Local R33, Shawinigan, QC G9N 7C1",
+    "province": "QC",
+    "website": "https://lentrejeux.com",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 46.561575,
+    "lng": -72.738647
   },
   {
     "slug": "l-imaginaire-sherbrooke-sherbrooke",
