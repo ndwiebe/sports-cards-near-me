@@ -941,6 +941,19 @@
     "lng": -113.494988
   },
   {
+    "slug": "jesse-johnston-edson-buy-sell-and-trade-edson",
+    "name": "Jesse Johnston · Edson Buy, Sell and Trade",
+    "city": "Edson",
+    "citySlug": "edson",
+    "address": "605 50 St, Edson, AB T7E 1N7",
+    "province": "AB",
+    "social": "https://www.facebook.com/groups/Edsonbuyselltrade/posts/10062460843791902/",
+    "services": [],
+    "sports": [],
+    "lat": 53.58548,
+    "lng": -116.433951
+  },
+  {
     "slug": "all-in-sports-den-fort-mcmurray",
     "name": "All In Sports Den",
     "city": "Fort McMurray",
@@ -1879,6 +1892,19 @@
     ],
     "lat": 52.96925,
     "lng": -113.39069
+  },
+  {
+    "slug": "al-s-sports-quest-whitecourt",
+    "name": "Al's Sports Quest",
+    "city": "Whitecourt",
+    "citySlug": "whitecourt",
+    "address": "4164 Kepler St, Whitecourt, AB T7S 0A3",
+    "province": "AB",
+    "social": "https://www.facebook.com/alssportsquest/",
+    "services": [],
+    "sports": [],
+    "lat": 54.129219,
+    "lng": -115.667282
   },
   {
     "slug": "d-c-s-collectibles-whitecourt",
