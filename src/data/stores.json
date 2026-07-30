@@ -770,6 +770,7 @@
     "social": "https://www.facebook.com/outposttradingcardsYEG/",
     "services": [
       "Sells",
+      "Buys",
       "Trades Singles",
       "Sells Wax"
     ],
@@ -902,6 +903,7 @@
     "province": "AB",
     "rating": 4.6,
     "reviewCount": 326,
+    "phone": "(780) 477-2102",
     "website": "https://www.westssportscards.com/",
     "social": "https://www.facebook.com/wscsportscards/",
     "services": [
@@ -1010,21 +1012,6 @@
     ],
     "lat": 53.71268,
     "lng": -113.21175
-  },
-  {
-    "slug": "the-fort-gaming-collectibles-board-games-card-fort-saskatchewan",
-    "name": "THE FORT Gaming & Collectibles (board games & card ...",
-    "city": "Fort Saskatchewan",
-    "citySlug": "fort-saskatchewan",
-    "address": "10303 100 Ave Unit 2, Fort Saskatchewan, AB T8L 1Y9",
-    "province": "AB",
-    "rating": 4.7,
-    "reviewCount": 119,
-    "social": "https://www.facebook.com/groups/1557953431166623/",
-    "services": [],
-    "sports": [],
-    "lat": 53.7126981,
-    "lng": -113.2119199
   },
   {
     "slug": "imperial-garden-sports-collectibles-grande-prairie",
@@ -1895,21 +1882,6 @@
   },
   {
     "slug": "d-c-s-collectibles-whitecourt",
-    "name": "D&C's Collectibles",
-    "city": "Whitecourt",
-    "citySlug": "whitecourt",
-    "address": "4439 52 Ave Unit 4, Whitecourt, AB T7S 1X6",
-    "province": "AB",
-    "rating": 4.9,
-    "reviewCount": 34,
-    "social": "https://www.facebook.com/p/DCs-Collectibles-100072433177013/",
-    "services": [],
-    "sports": [],
-    "lat": 54.1420771,
-    "lng": -115.6724257
-  },
-  {
-    "slug": "d-c-s-collectibles-whitecourt-2",
     "name": "D&C's Collectibles",
     "city": "Whitecourt",
     "citySlug": "whitecourt",
@@ -5274,40 +5246,19 @@
     "lng": -80.97885
   },
   {
-    "slug": "great-canadian-card-co-greater-sudbury",
-    "name": "Great Canadian Card Co",
-    "city": "Greater Sudbury",
-    "citySlug": "greater-sudbury",
-    "address": "Sudbury, ON P3A 1Z6",
-    "province": "ON",
-    "rating": 4.5,
-    "reviewCount": 322,
-    "phone": "705-566-5093",
-    "services": [
-      "Sells"
-    ],
-    "sports": [
-      "Hockey",
-      "Baseball",
-      "Basketball",
-      "Football",
-      "Other"
-    ],
-    "lat": 46.5243,
-    "lng": -80.90196
-  },
-  {
     "slug": "great-canadian-games-hobbies-greater-sudbury",
     "name": "Great Canadian Games & Hobbies",
     "city": "Greater Sudbury",
     "citySlug": "greater-sudbury",
-    "address": "1410 Lasalle Blvd, Greater Sudbury, ON P3A 1Z6",
+    "address": "1414 Lasalle Blvd, Greater Sudbury, ON P3A 1Z6",
     "province": "ON",
     "rating": 4.5,
     "reviewCount": 322,
     "phone": "(705) 566-5093",
     "website": "https://www.facebook.com/GreatCanadianGames/",
-    "services": [],
+    "services": [
+      "Sells"
+    ],
     "sports": [
       "Pokemon",
       "Magic",
