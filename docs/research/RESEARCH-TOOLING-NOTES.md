@@ -18,9 +18,9 @@ dead budget is a partial pass, not evidence of absence.
 
 | Source | Notes |
 |---|---|
-| **nearmetcg.com** | **Best first move for a province rerun.** `nearmetcg.com/search?province=<Name>` returns the whole province in one request (Quebec = 111 stores). Use the full province name — `?province=QC` silently returns 0. TCG-first, so sports-only shops may be missing. |
+| **nearmetcg.com** | **Best first move for a province rerun.** Carries NO ratings at all (verified 2026-07-30) — use it for existence and addresses, never for ratings. `nearmetcg.com/search?province=<Name>` returns the whole province in one request (Quebec = 111 stores). Use the full province name — `?province=QC` silently returns 0. TCG-first, so sports-only shops may be missing. |
 | **PagesJaunes.ca / YellowPages.ca** | Good for *confirming a known name*, weak for *discovering* unknown shops — revised 2026-07-30. Category search badly under-returns: "cartes de collection" in Drummondville gave 1 anonymous `confidentiel` listing where 3 known shops exist. Searching a shop by name does find it. Broad terms (`jeux`) work but return Canadian Tire and similar noise. |
-| **thecardshopfinder.com** | Google-Places-derived, works for Canada. |
+| ~~**thecardshopfinder.com**~~ | **US-ONLY — corrected 2026-07-30.** Every Canadian query (`/search?q=Toronto`, `/shops/ontario`, `/canada`) returns an empty 855-byte page. It does carry ratings, but not for Canada. Same trap as `cardshophub.com`. |
 | **Firecrawl `scrape`** | Reliable against a *known URL*. Bypasses some bot blocks that plain WebFetch hits. |
 | **`dev-browser --connect`** | The fallback that works when everything else is blocked — real Chrome, real session. Slower, but got through Google when scrapers could not. |
 | **OpenStreetMap Overpass API** | Free, unblocked, geocoded. Sparser than commercial directories but never rate-limits. Used successfully for a US region when all else failed. |

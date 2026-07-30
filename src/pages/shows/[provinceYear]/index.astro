@@ -4,10 +4,29 @@ import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear } from '../../../lib/shows';
 import { PROVINCES } from '../../../lib/types';
+import type { ProvinceCode } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../lib/seo';
 
-const PROVINCE_CODE = 'ON' as const;
-const YEAR = 2026;
+// One route replaces the per-province-per-year copies. They were identical
+// apart from two constants, and the missing fourth copy is why Ontario 2027
+// had no page despite carrying 20 shows. Now every province+year present in
+// the data gets a page automatically, at exactly the same URLs as before.
+export function getStaticPaths() {
+  const all = showsJson as ShowRecord[];
+  const combos = new Map<string, { code: ProvinceCode; year: number }>();
+  for (const s of all) {
+    const code = s.province as ProvinceCode;
+    if (PROVINCES[code] === undefined) continue;
+    const year = Number(s.startDate.slice(0, 4));
+    combos.set(`${PROVINCES[code].slug}-${year}`, { code, year });
+  }
+  return [...combos].map(([provinceYear, { code, year }]) => ({
+    params: { provinceYear },
+    props: { code, year },
+  }));
+}
+
+const { code: PROVINCE_CODE, year: YEAR } = Astro.props as { code: ProvinceCode; year: number };
 const province = PROVINCES[PROVINCE_CODE];
 const pagePath = `/shows/${province.slug}-${YEAR}/`;
 

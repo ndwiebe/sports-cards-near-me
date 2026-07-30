@@ -4,6 +4,7 @@ import showsJson from '../../data/shows.json';
 import type { ShowRecord } from '../../lib/shows';
 import { parseLocalDate, isUpcoming, groupShowsByMonth } from '../../lib/shows';
 import { PROVINCES } from '../../lib/types';
+import type { ProvinceCode } from '../../lib/types';
 
 const shows = showsJson as ShowRecord[];
 
@@ -21,6 +22,19 @@ const formatRange = (show: ShowRecord): string => {
   const end = dateFormat.format(parseLocalDate(show.endDate));
   return end === start ? start : `${start} – ${end}`;
 };
+
+// Derived, not hardcoded: three links were hardcoded here, so the province-year
+// pages generated from new show data (Ontario 2027, and five others) were live
+// and in the sitemap but linked from nowhere. Orphan pages don't earn rankings.
+const provinceYearLinks = [...new Map(
+  (showsJson as ShowRecord[])
+    .filter((s) => PROVINCES[s.province as ProvinceCode] !== undefined)
+    .map((s) => {
+      const p = PROVINCES[s.province as ProvinceCode];
+      const year = Number(s.startDate.slice(0, 4));
+      return [`${p.slug}-${year}`, { href: `/shows/${p.slug}-${year}/`, label: `${p.name} ${year}`, year }] as const;
+    }),
+).values()].sort((a, b) => a.year - b.year || a.label.localeCompare(b.label));
 ---
 <Base
   title="Card Shows in Canada | Sports Cards Near Me"
@@ -36,12 +50,7 @@ const formatRange = (show: ShowRecord): string => {
   </p>
 
   <ul role="list" class="mt-6 flex flex-wrap gap-3">
-    {[
-      { href: '/shows/this-weekend/', label: 'This weekend' },
-      { href: '/shows/ontario-2026/', label: 'Ontario 2026' },
-      { href: '/shows/alberta-2026/', label: 'Alberta 2026' },
-      { href: '/shows/quebec-2026/', label: 'Quebec 2026' },
-    ].map((l) => (
+    {[{ href: '/shows/this-weekend/', label: 'This weekend' }, ...provinceYearLinks].map((l) => (
       <li>
         <a href={l.href} class="rounded-full border border-bord px-4 py-1.5 text-sm text-muted transition-colors hover:border-prizm hover:text-paper">
           {l.label}
