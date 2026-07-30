@@ -72,6 +72,7 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
     </div>
   </section>
   <script>
+    import { locate } from '../scripts/geolocate';
     import { whenMapReady } from '../scripts/map-registry';
     import type { MapHandle } from '../scripts/map-core';
     import { distanceKm } from '../lib/map-data';
@@ -90,13 +91,19 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
         for (const geoBtn of document.querySelectorAll<HTMLButtonElement>('[data-geolocate]')) {
           geoBtn.addEventListener('click', () => {
             slot.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            navigator.geolocation.getCurrentPosition(
-              (pos) => {
-                handle.flyTo(pos.coords.longitude, pos.coords.latitude, 11.5);
-                showNearest(pos.coords.latitude, pos.coords.longitude);
-              },
-              () => window.alert('Location unavailable — pick a city instead.'),
-            );
+            const label = geoBtn.textContent;
+            geoBtn.disabled = true;
+            geoBtn.textContent = 'Locating…';
+            locate(navigator.geolocation)
+              .then(({ lat, lng }) => {
+                handle.flyTo(lng, lat, 11.5);
+                showNearest(lat, lng);
+              })
+              .catch((err: Error) => window.alert(err.message))
+              .finally(() => {
+                geoBtn.disabled = false;
+                geoBtn.textContent = label;
+              });
           });
         }
       });
