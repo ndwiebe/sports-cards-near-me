@@ -4,6 +4,7 @@ import MapIsland from '../../../components/MapIsland.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, storeAnswerCapsule, storeFaqs } from '../../../lib/seo';
 
 export function getStaticPaths() {
   return (storesJson as Store[]).map((s) => ({ params: { slug: s.slug }, props: { store: s } }));
@@ -14,6 +15,25 @@ const { store } = Astro.props;
 const provinceName = PROVINCES[store.province].name;
 const provinceSlug = PROVINCES[store.province].slug;
 const directions = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
+
+// Store pages earn the site's top impressions on shop-NAME queries, yet were
+// the only major page type with no answer capsule and no FAQ. Both added.
+const capsule = storeAnswerCapsule(store, provinceName);
+const faqs = storeFaqs(store, provinceName);
+const faqLd = faqPageLd(faqs);
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: provinceName, url: absoluteUrl(Astro.site, `/${provinceSlug}/`) },
+  { name: store.city, url: absoluteUrl(Astro.site, `/${provinceSlug}/${store.citySlug}/`) },
+  { name: store.name, url: absoluteUrl(Astro.site, `/store/${store.slug}/`) },
+]);
+
+// "<shop> reviews" is a live query, so the rating belongs in the description
+// where it shows in the result, not only on the page.
+const description =
+  store.rating !== undefined && store.reviewCount !== undefined
+    ? `${store.name} in ${store.city}, ${provinceName} — ${store.rating} stars from ${store.reviewCount} Google reviews. Address, hours, phone, and what they carry.`
+    : `${store.name} in ${store.city}, ${provinceName}: address, hours, phone, and what they carry.`;
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -31,9 +51,11 @@ const ld: Record<string, unknown> = {
 ---
 <Base
   title={`${store.name} — Sports Cards in ${store.city}, ${store.province} | Sports Cards Near Me`}
-  description={`${store.name} in ${store.city}, ${provinceName}: address, hours, phone, and what they carry.`}
+  description={description}
 >
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
   <nav class="mt-10 text-sm text-muted">
     <a href={`/${provinceSlug}/`} class="hover:text-paper">{provinceName}</a>{' / '}<a href={`/${provinceSlug}/${store.citySlug}/`} class="hover:text-paper">{store.city}</a>{' / '}{store.name}
   </nav>
@@ -44,6 +66,7 @@ const ld: Record<string, unknown> = {
       ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> · {store.reviewCount} Google reviews</span>}
     </p>
   )}
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
   <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
     <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{store.address}</dd></div>
     {store.hours !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt><dd class="mt-1">{store.hours}</dd></div>}
@@ -64,6 +87,23 @@ const ld: Record<string, unknown> = {
       ))}
     </ul>
   )}
+  <section class="mt-16 max-w-2xl">
+    <h2 class="text-3xl">Common questions</h2>
+    <dl class="mt-6 grid gap-6">
+      {faqs.map((faq) => (
+        <div>
+          <dt class="font-semibold">{faq.question}</dt>
+          <dd class="mt-1.5 text-muted">
+            {faq.answer}
+            {faq.link !== undefined && (
+              <>{' '}<a href={faq.link.href} class="text-prizm">{faq.link.label}</a>.</>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
   <p class="mt-12 text-sm text-muted">
     Own this shop? <a href="/suggest/" class="text-prizm">Claim or update your listing</a>.
   </p>

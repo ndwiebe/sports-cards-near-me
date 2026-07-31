@@ -1,5 +1,6 @@
 import storesJson from '../data/stores.json';
 import type { Store } from './types';
+import { PROVINCES } from './types';
 
 export interface BreadcrumbItem {
   name: string;
@@ -345,4 +346,82 @@ export function cityFaqs(
         };
 
   return [{ question: `How many sports card shops are in ${city}?`, answer: countAnswer }, buysFaq, pokemonFaq];
+}
+
+/**
+ * Answer capsule for a single shop page.
+ *
+ * Store pages were the only major page type without one, while Search Console
+ * showed them earning the site's top impressions — on shop-NAME queries
+ * ("the hobby spot leduc", "m&l sports cards reviews"), not city queries.
+ * Most listed shops have a thin website or none, so this page is often the
+ * best structured answer to "who are they" that exists anywhere.
+ *
+ * Every clause is derived. Nothing is asserted that the data doesn't hold.
+ */
+export function storeAnswerCapsule(store: Store, provinceName: string): string {
+  const parts: string[] = [
+    `${store.name} is a sports card shop in ${store.city}, ${provinceName}, listed on Sports Cards Near Me.`,
+  ];
+  if (store.address !== undefined) parts.push(`It's located at ${store.address}.`);
+  if (store.rating !== undefined) {
+    parts.push(
+      store.reviewCount !== undefined
+        ? `It holds a ${store.rating} star Google rating from ${store.reviewCount} reviews.`
+        : `It holds a ${store.rating} star Google rating.`,
+    );
+  }
+  const sports = store.sports.slice(0, 4);
+  if (sports.length > 0) parts.push(`Listings show ${joinWithAnd(sports)}.`);
+  const buys = store.services.some((s) => /^buys$/i.test(s));
+  if (buys) parts.push('It buys collections as well as selling.');
+  return parts.join(' ');
+}
+
+/**
+ * FAQ entries for a shop page, and the FAQPage JSON-LD behind it.
+ *
+ * The questions mirror what people actually search: the shop's name plus
+ * "reviews", plus the two things a collector rings ahead to ask — do you buy,
+ * and when are you open. A question is omitted entirely rather than answered
+ * with a shrug, except for "do you buy", where silence in our data must not
+ * read as "no" — a shop that buys but never told us is the common case.
+ */
+export function storeFaqs(store: Store, provinceName: string): FaqItem[] {
+  const faqs: FaqItem[] = [];
+
+  if (store.rating !== undefined && store.reviewCount !== undefined) {
+    faqs.push({
+      question: `Is ${store.name} any good — what do reviews say?`,
+      answer: `${store.name} holds a ${store.rating} star Google rating from ${store.reviewCount} reviews${
+        store.reviewCount >= MIN_REVIEWS_FOR_TOP
+          ? ', enough to clear our 20-review bar for being ranked among a city\'s best'
+          : ', which is below our 20-review bar, so we don\'t rank it among a city\'s best yet'
+      }. We publish the rating as Google reports it and never accept payment to change it.`,
+    });
+  }
+
+  const buys = store.services.some((s) => /^buys$/i.test(s));
+  faqs.push({
+    question: `Does ${store.name} buy sports card collections?`,
+    answer: buys
+      ? `Yes — ${store.name} does buy collections as well as selling. Call ahead with what you have; most shops price on condition and what they're short of that week.`
+      : `We don't have buying listed for ${store.name}. That often means we haven't confirmed it rather than that they won't — it's worth asking. Shops we've confirmed as buyers are on our sell page for ${store.city}.`,
+    link: { href: `/sell/${store.citySlug}/`, label: `Shops that buy in ${store.city}` },
+  });
+
+  if (store.hours !== undefined) {
+    faqs.push({
+      question: `What are ${store.name}'s hours?`,
+      answer: `${store.hours}. Hours change, especially around card shows and holidays — phone ahead if you're travelling for a specific card.`,
+    });
+  }
+
+  faqs.push({
+    question: `Where is ${store.name}?`,
+    answer: `${store.address}, in ${store.city}, ${provinceName}. The map on this page will give you directions from where you are.`,
+    link: { href: `/${PROVINCES[store.province].slug}/${store.citySlug}/`, label: `All card shops in ${store.city}` },
+  });
+
+  return faqs;
 }
