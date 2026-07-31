@@ -22,13 +22,26 @@ export interface ResellerRecord {
   verifiedSince?: string | undefined;
 }
 
-// Resellers tab column order (0-based). Columns 12 (Evidence) and 13 (Notes)
-// are Nathan-private review material: they are deliberately never read, so
-// they can never leak into the baked JSON or the public site.
+// Resellers tab column order (0-based).
+//
+// Evidence and Notes USED to sit at 12 and 13, guarded only by "we never read
+// them". That guard was at the wrong layer: the sheet is fetched with no
+// authentication (see sheet.ts) and is shared anyone-with-link, while the link
+// itself is committed to a public repo — so not reading a column never made it
+// private. Anyone could request those columns directly.
+//
+// Both columns were removed from this sheet on 2026-07-31 and now live in a
+// separate, genuinely private spreadsheet (owner-only; anonymous fetch returns
+// 401). Verified Date consequently moved from index 14 to 12.
+//
+// RULE: this sheet is world-readable. Only publishable fields belong in it.
+// Anything private goes in the private spreadsheet, never here. The header
+// assertion in tests/unit/resellers.test.ts fails loudly if a column is
+// inserted, because a silent shift would repoint every field below it.
 const COL = {
   name: 0, city: 1, province: 2, bio: 3, photo: 4, specialties: 5,
   ebay: 6, facebook: 7, instagram: 8, website: 9, contact: 10,
-  status: 11, verifiedDate: 14,
+  status: 11, verifiedDate: 12,
 } as const;
 
 const provinceCode = (raw: unknown): ProvinceCode | null => {
