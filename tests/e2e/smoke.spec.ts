@@ -21,8 +21,15 @@ test('city page lists store cards linking to detail pages', async ({ page }) => 
 test('store page has structured data, directions, and tel link when present', async ({ page }) => {
   await page.goto(`/store/${first.slug}/`);
   await expect(page.locator('h1')).toContainText(first.name.split(' ')[0] ?? '');
-  const ld = await page.locator('script[type="application/ld+json"]').textContent();
-  expect(ld).toContain('"@type":"Store"');
+  // Store pages now carry three JSON-LD blocks (Store, BreadcrumbList,
+  // FAQPage), so a bare locator matches all three and Playwright's strict mode
+  // rightly refuses. Assert on the combined set instead of assuming one block.
+  const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const types = blocks.map((b) => JSON.parse(b)['@type']);
+  expect(types).toContain('Store');
+  expect(types).toContain('BreadcrumbList');
+  expect(types).toContain('FAQPage');
+  await expect(page.locator('[data-answer-capsule]')).toBeVisible();
   await expect(page.locator('a', { hasText: 'Directions' })).toBeVisible();
 });
 
