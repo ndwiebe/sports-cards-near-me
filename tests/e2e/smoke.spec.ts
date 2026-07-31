@@ -106,3 +106,28 @@ test.describe('nearest shops', () => {
     await expect(page.locator('[data-nearest-list]')).toContainText('km');
   });
 });
+
+// The city H1 was literally just the city name ("Toronto") on 248 pages that
+// target "card shops in <city>" — Search Console's #2 query is "card shop near
+// me". Pin the fix so it can't silently regress to a bare place name.
+test('city page H1 names what the page is, not just the city', async ({ page }) => {
+  await page.goto(`/alberta/${first.citySlug}/`);
+  const h1 = await page.locator('h1').textContent();
+  expect(h1).toMatch(/sports card shops in/i);
+  expect(h1).toContain(first.city);
+});
+
+// "Highest rated" is only shown where a shop actually clears the 20-review bar.
+// Where it appears it must name a real shop and link to it; where it doesn't,
+// the page must make no ranking claim at all rather than a hedged one.
+test('city top-rated module is either a real linked claim or absent', async ({ page }) => {
+  await page.goto(`/alberta/${first.citySlug}/`);
+  const mod = page.locator('[data-top-rated]');
+  if (await mod.count() > 0) {
+    await expect(mod.locator('a[href^="/store/"]')).toBeVisible();
+    await expect(mod).toContainText('20+ reviews');
+    await expect(mod).toContainText('nobody pays');
+  } else {
+    await expect(page.locator('body')).not.toContainText('Highest rated:');
+  }
+});
