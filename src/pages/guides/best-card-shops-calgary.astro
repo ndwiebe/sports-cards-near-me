@@ -8,6 +8,7 @@ import { isBuyer } from '../../lib/sell';
 import { isPokemonShop } from '../../lib/tcg';
 import {
   MIN_REVIEWS_FOR_TOP,
+  byRecommendedRank,
   topRatedStore,
   absoluteUrl,
   breadcrumbListLd,
@@ -28,9 +29,10 @@ const cityRated = cityStores.filter((s) => s.rating !== undefined);
 // MIN_REVIEWS_FOR_TOP reviews behind it, computed fresh from stores.json every build so this
 // page can't go stale-wrong. Sub-threshold shops are still listed below, just not ranked here.
 const topEligible = cityRated.filter((s) => (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
-const topShops = [...topEligible].sort(
-  (a, b) => (b.rating ?? 0) - (a.rating ?? 0) || (b.reviewCount ?? 0) - (a.reviewCount ?? 0) || a.name.localeCompare(b.name),
-);
+// Ordered by the SAME weighted score that crowns `top` below. These were sorted by
+// raw rating until 2026-08-01, which meant the prose named one shop as ranking first
+// while the list beneath it led with another — the page argued with itself.
+const topShops = [...topEligible].sort(byRecommendedRank);
 const top = topRatedStore(cityStores);
 const otherShops = cityStores.filter((s) => !topEligible.includes(s));
 const unratedCount = cityStores.length - cityRated.length;
@@ -54,12 +56,12 @@ function namesList(shops: Store[]): string {
 }
 
 const title = `Best Card Shops in ${CITY}, Alberta`;
-const description = `${topShops.length} of Calgary's ${cityStores.length} sports card shops meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking — ranked by Google rating and review count, straight from our directory.`;
+const description = `${topShops.length} of Calgary's ${cityStores.length} sports card shops meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking — ranked by a weighted score that counts review volume, straight from our directory.`;
 const pagePath = `/guides/best-card-shops-${CITY_SLUG}/`;
 
 const capsule =
   top !== undefined
-    ? `${CITY} has ${cityStores.length} sports card shops listed on Sports Cards Near Me, and ${topShops.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar to be ranked here. ${top.name} currently ranks first, at ${top.rating} stars from ${top.reviewCount} Google reviews — ahead of the field on both rating and review count.`
+    ? `${CITY} has ${cityStores.length} sports card shops listed on Sports Cards Near Me, and ${topShops.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar to be ranked here. ${top.name} currently ranks first, at ${top.rating} stars from ${top.reviewCount} Google reviews — top of our weighted ranking, which counts how many people rated a shop alongside the score they gave it.`
     : `${CITY} has ${cityStores.length} sports card shops listed on Sports Cards Near Me. None currently carry enough Google reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking, so this page lists what we have and explains why.`;
 
 const faqs: FaqItem[] = [
@@ -177,7 +179,7 @@ const faqLd = faqPageLd(faqs);
     </p>
 
     <h2 class="text-3xl">The Best Card Shops in Calgary</h2>
-    <p>Ranked by Google rating, then review count as a tiebreaker — all {topShops.length} shops that clear our {MIN_REVIEWS_FOR_TOP}-review bar:</p>
+    <p>Ranked by a weighted score that counts review volume as evidence, not just the star average — all {topShops.length} shops that clear our {MIN_REVIEWS_FOR_TOP}-review bar:</p>
     <ol role="list" class="space-y-3">
       {topShops.map((s, i) => (
         <li class="rounded-xl border border-bord bg-panel p-4">
