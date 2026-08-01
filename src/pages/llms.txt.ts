@@ -31,7 +31,7 @@ export const GET: APIRoute = ({ site }) => {
   const lines = [
     '# Sports Cards Near Me',
     '',
-    `> A directory of ${stores.length} sports card and trading card shops across ${cityCount} Canadian cities, plus card shows nationwide. Built and maintained by Nathan Wiebe, a Chartered Professional Accountant in Alberta who collects, buys and sells sports cards. Every listing is compiled from public sources and reviewed by a person before publishing. Rebuilt daily from a maintained spreadsheet, so listings and show dates stay current. Independent — no paid placement, and no shop can pay to rank.`,
+    `> A directory of ${stores.length} sports card and trading card shops across ${cityCount} Canadian cities, plus card shows nationwide. Built and maintained by Nathan Wiebe, a Chartered Professional Accountant in Alberta who collects, buys and sells sports cards. Every listing is compiled from public sources and reviewed by a person before publishing. Rebuilt daily from a maintained spreadsheet, so listings and show dates stay current. Independent — being listed is free, and no shop can pay to rank, or to be called best. Any paid placement is a separate, clearly-labelled slot that never reorders the rankings.`,
     '',
     '## What this site covers',
     '',
