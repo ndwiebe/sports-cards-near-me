@@ -70,6 +70,26 @@ Two corroborating checks that cost nothing and caught real errors:
   error, and so is one whose address has no derivable province — `province` is parsed
   *from the address string*, not a column.
 
+## Category scanning (added 2026-08-01)
+
+- **`graded cards` and `PSA` are NOT sports evidence.** PSA grades Pokémon
+  constantly, so both phrases appear on pure TCG sites. Scoring them as sports
+  put 15 shops in the wrong bucket before two spot-checks caught it. Only
+  `sports cards`, `panini`, `rookie card`, `fanatics`, `sports memorabilia` and
+  named-sport phrases count.
+- **Bare `memorabilia` is worthless.** It matched a shop selling oil-and-gas
+  memorabilia, knives and war medals. Use `sports memorabilia`.
+- **A Facebook URL in the website column returns `http-400`, not a block page.**
+  Ten of them looked like site failures in a scan summary. They are the
+  documented Facebook login wall — unverifiable, never "no evidence".
+- **Always calibrate against records whose answer is already known**, in both
+  directions, before trusting a scan. Doing that here found that the *ground
+  truth was wrong* — 4 shops tagged TCG-only sell sports cards, verified by hand.
+  A scan disagreeing with your data is not automatically the scan being wrong.
+- **An empty category field can mean "not a card shop", not "we didn't look."**
+  24 of 82 uncategorised shops had a working site with zero card terms. Still a
+  review list, never a delete list.
+
 ## Known bad data patterns to exclude
 
 - **"Canada Hobbies"** — appears under a dozen different town searches with a different address each time; its domain redirects to an eBay store. A fake local-landing-page network for an online-only reseller. Exclude on sight.
