@@ -13,6 +13,7 @@ import {
   weightedRating,
   corpusMeanRating,
   byWeightedRankIn,
+  carriesSportsCards,
 } from '../../src/lib/seo';
 import type { Store } from '../../src/lib/types';
 
@@ -405,5 +406,32 @@ describe('volume-weighted ranking (Nathan 2026-07-30)', () => {
     const order = [...stores].sort(byRecommendedRank).map((s) => s.name);
     expect(order[0]).toBe('Eligible');
     expect(order.slice(1)).toEqual(['SubBusy', 'SubQuiet']);
+  });
+});
+
+describe('carriesSportsCards', () => {
+  it('is true for a named sport', () => {
+    expect(carriesSportsCards(store({ sports: ['Hockey', 'Pokemon'] }))).toBe(true);
+  });
+
+  it('is true for the Sports catch-all, which exists for shops whose site proves sports cards without naming a sport', () => {
+    expect(carriesSportsCards(store({ sports: ['Pokemon', 'Magic', 'Other', 'Sports'] }))).toBe(true);
+  });
+
+  it('is false for a genuinely TCG-only shop', () => {
+    expect(carriesSportsCards(store({ sports: ['Pokemon', 'Magic', 'Other'] }))).toBe(false);
+  });
+
+  it('is false when there is no category data — a gap is never a claim the shop sells nothing', () => {
+    expect(carriesSportsCards(store({ sports: [] }))).toBe(false);
+  });
+
+  it('ignores case and surrounding whitespace, since the values come from a hand-edited sheet', () => {
+    expect(carriesSportsCards(store({ sports: [' sports '] }))).toBe(true);
+    expect(carriesSportsCards(store({ sports: ['HOCKEY'] }))).toBe(true);
+  });
+
+  it('does not treat "Other" as sports', () => {
+    expect(carriesSportsCards(store({ sports: ['Other'] }))).toBe(false);
   });
 });

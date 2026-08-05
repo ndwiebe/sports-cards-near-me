@@ -3358,7 +3358,8 @@
       "Sells Wax"
     ],
     "sports": [
-      "Pokemon"
+      "Pokemon",
+      "Sports"
     ],
     "lat": 49.89487,
     "lng": -97.00146
@@ -5969,7 +5970,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.2307,
     "lng": -79.76393
@@ -6938,7 +6940,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 42.98415,
     "lng": -81.24885
@@ -6979,7 +6982,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 42.99208,
     "lng": -81.21389
@@ -7451,7 +7455,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.84672,
     "lng": -79.34826
@@ -7520,7 +7525,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.83413,
     "lng": -79.33243
@@ -7655,7 +7661,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.87195,
     "lng": -79.36472
@@ -7832,7 +7839,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.56601,
     "lng": -79.63871
@@ -8038,7 +8046,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.55824,
     "lng": -79.71195
@@ -8268,7 +8277,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 44.07224,
     "lng": -79.43389
@@ -8464,7 +8474,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.44056,
     "lng": -79.70841
@@ -8609,7 +8620,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.85766,
     "lng": -78.87602
@@ -9331,7 +9343,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 45.42572,
     "lng": -75.692
@@ -10200,7 +10213,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.66065,
     "lng": -79.38251
@@ -10584,7 +10598,8 @@
     "sports": [
       "Pokemon",
       "Magic",
-      "Other"
+      "Other",
+      "Sports"
     ],
     "lat": 43.81076,
     "lng": -79.27998

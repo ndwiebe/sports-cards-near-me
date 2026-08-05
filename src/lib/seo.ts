@@ -96,6 +96,38 @@ function hasTag(stores: Store[], predicate: (tag: string) => boolean): Store[] {
   return stores.filter((s) => [...s.services, ...s.sports].some((t) => predicate(t.trim().toLowerCase())));
 }
 
+/** The named sports a shop can carry, plus the catch-all.
+ *
+ * `Sports` was added to the sheet's vocabulary 2026-08-05 for a specific reason:
+ * a shop's own website can prove it sells sports cards without ever naming a
+ * sport, and until this existed there was nowhere to record that. 15 shops were
+ * in exactly that position — known sports-card sellers filed as TCG-only,
+ * because "we know they sell sports cards but not which" had no representation.
+ *
+ * Do NOT infer a specific sport from a brand name to avoid using this. Two spot
+ * checks found "Topps" on a page selling *Pokémon* Topps sets, and Upper Deck
+ * also prints Marvel — the brand evidences sports cards, not which sport. The
+ * catch-all is the honest answer in those cases.
+ */
+export const SPORT_CATEGORIES = [
+  'hockey',
+  'baseball',
+  'basketball',
+  'football',
+  'soccer',
+  'golf',
+  'sports',
+] as const;
+
+/** Whether a shop evidences sports-card retail at all — a named sport or the
+ * `Sports` catch-all. This is the sports/TCG question, deliberately separate
+ * from *which* sport, and it is what any ranking tier should read. */
+export function carriesSportsCards(store: Store): boolean {
+  return store.sports.some((t) =>
+    (SPORT_CATEGORIES as readonly string[]).includes(t.trim().toLowerCase()),
+  );
+}
+
 /** A shop needs at least this many Google reviews to be crowned "best"/"top-rated"/
  * "highest-rated" or named as a top pick. Shops below this still get listed, just not crowned —
  * it keeps a single 5-star review from one relative from outranking a shop with hundreds. */
