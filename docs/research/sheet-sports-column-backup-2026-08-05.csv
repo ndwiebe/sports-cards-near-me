@@ -1,0 +1,699 @@
+sheet_row,Store Name,City,Sports/TCG Available
+2,203 Collectibles LTD.,Edmonton,Pokemon
+3,Al's Sports Quest,Whitecourt,
+4,All In Sports Den,Fort McMurray,
+5,Andys Sports Cards and Collectibles,Calgary,
+6,Anime Hypercubed,Camrose,
+7,Arkane Angel,Cold Lake,
+8,Avalon Hobbies,Medicine Hat,Basketball;Football
+9,Babs Gaming And Sports Cards Inc,Lloydminster,
+10,Battle River Sports Excellence,Camrose,Baseball;Hockey
+11,Bill Sr's Sports Cards,Red Deer,
+12,Bingham's Sports Cards,Lethbridge,
+13,Border City Games,Lloydminster,Football;Magic;Pokemon
+14,Calgary Sports Cards,Calgary,
+15,CamroseNextGen Gaming,Camrose,
+16,Capital City Cards & Collectibles,Edmonton,
+17,Capital City Sports Cards,Edmonton,"Hockey, Football, Basketball, Baseball, Pokemon"
+18,Celly Sports & Games,Calgary,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+19,Cold Lake Sports Cards,Cold Lake,
+20,Collectible Card Caddy,Okotoks,
+21,Collectors Books & Cards,Calgary,Baseball;Hockey
+22,Comic Readers,Medicine Hat,
+23,Common Box Games,Edmonton,Pokemon
+24,Cool Pool Cards,Cold Lake,
+25,D J's Sports Cards Comics,Red Deer,Football;Hockey;Magic;Pokemon
+26,Dave's Card Shop,Edmonton,
+27,"DJS Sportscards, Comics & Collectibles",Red Deer,
+28,Eastridge Sports Cards & Games,Calgary,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+29,Eclipse Games,Edmonton,Magic;Pokemon
+30,ENV Collectible,Sherwood Park,Basketball;Magic;Pokemon
+31,Evolution Sports Excellence,Leduc,Baseball;Hockey
+32,Galactic Trading Post,Fort McMurray,Hockey;Magic;Pokemon
+33,Games Galore & The Billiard Store,Medicine Hat,Hockey
+34,Georges II,Sherwood Park,
+35,Hockey Central Sports Memorabilia Inc,Sylvan Lake,
+36,Holler Collectibles,Camrose,
+37,Holmestead Sports Cards & Collectibles,Red Deer,
+38,Hyperspace Comics & Games,Spruce Grove,Magic;Pokemon
+39,Icons and Heroes,Edmonton,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+40,"Jesse Johnston · Edson Buy, Sell and Trade",Edson,
+41,King Arthur's Collectibles,Lethbridge,
+42,Lakeland Sports Cards,Bonnyville,
+43,Level X Cards and Collectibles,Grande Prairie,
+44,Maple Leaf Sports,Calgary,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+45,Mission: Fun & Games,St. Albert,Basketball;Football;Magic;Pokemon
+46,Morrison Trading Post,Airdrie,Baseball;Basketball;Football;Hockey;Pokemon
+47,Olympic Sports Cards and Games,Calgary,
+48,One Man's Treasure,Westlock,
+49,One Piece TCG Edson AB,Edson,
+50,Overtime Sports Cards & Grading,Balzac,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+51,Paradise Games and Customs,Spruce Grove,
+52,Personalized Sportcards,Lethbridge,
+53,Pirates Cove Collectibles Ltd,Lethbridge,
+54,Prisma Games,Edmonton,
+55,Quantum Comics & Collectibles,Camrose,Pokemon
+56,Retro,Camrose,
+57,Sentry Box Cards,Calgary,Magic;Pokemon
+58,"Showcase Comics & Hobbies Ltd., Comics, Collectibles, RC, Boardgames",Lethbridge,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+59,Slab Savvy CPA,Sherwood Park,Hockey
+60,Snap! Collectables,Airdrie,
+61,Sports Closet,Sherwood Park,Baseball;Basketball;Football;Hockey
+62,Sports Closet,St. Albert,Baseball;Basketball;Football;Hockey
+63,Stettler Game Corner,Stettler,
+64,Strange Ideas Comics and Collectibles,Grande Prairie,
+65,Tactical Magic Games Inc,Fort McMurray,
+66,Tailgate Mercantile Co.,Okotoks,
+67,Taps Games,Edmonton,Magic;Pokemon
+68,The Card Goat,Edmonton,Hockey;Magic;Pokemon
+69,The Cardboard Casket,Medicine Hat,
+70,The Data Base Camrose,Camrose,
+71,The Hobby Spot Leduc & Quarantined Case Breaks,Leduc,Baseball;Hockey;Magic;Pokemon
+72,The Memorabilia Shop,Chestermere,
+73,"The Mill Store - Okotoks, AB",Okotoks,
+74,The Vault Sports Cards and Collectables,Lethbridge,
+75,ThunderGround Comics And Collectibles,St. Albert,Magic
+76,Toyz Game Emporium Inc,Grande Prairie,
+77,Treasure Cove Comics & Collectables,Airdrie,Magic;Pokemon
+78,Wayne's Sports Cards & Collectibles,Edmonton,Baseball;Basketball;Football;Hockey;Pokemon
+79,West's Sports Cards,Edmonton,Baseball;Basketball;Football;Hockey;Pokemon
+80,Whitecourt Collectors Corner,Whitecourt,
+81,Wizard's Loft,Red Deer,
+82,Wonderland Games,Grande Prairie,
+83,YEG NHLHockeyStickers.Com,Edmonton,Hockey
+84,Yellow Shirt Relics,Sylvan Lake,
+85,Mintink Ajax,Ajax,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+86,Rival Cards,Ajax,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+87,Box Of Cards (Sports Cards),Aurora,Hockey;Baseball;Basketball;Football
+88,Big B Comics,Barrie,Pokemon;Magic;Other
+89,Box Of Cards (Sports Cards),Barrie,Hockey;Baseball;Basketball;Football
+90,Doug Laurie Sports,Barrie,Hockey;Baseball;Basketball;Football
+91,Gamer's Lair Ltd.,Barrie,Pokemon;Magic;Other
+92,Ideal Hobbies,Barrie,Pokemon;Magic;Other
+93,Loot Kingdom,Barrie,Baseball;Basketball;Football;Hockey;Pokemon
+94,OMG Games,Barrie,Pokemon;Magic;Other
+95,Pokémon TCG Store,Barrie,Pokemon;Magic;Other
+96,Power Up Gaming,Barrie,Pokemon;Magic;Other
+97,Sell Your Pokemon Cards,Barrie,Pokemon
+98,Video Time,Barrie,
+99,Stephen Licence Bicycles & Hobbies,Belleville,Pokemon;Magic;Other
+100,Mint Sports Cards & Collectibles,Bolton,Hockey;Baseball;Basketball;Football
+101,Cardboard Memories Inc.,Brampton,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+102,Doe's Cards,Brampton,Hockey;Baseball;Basketball;Football;Pokemon;Other
+103,Dragon World Card Games & Collectibles,Brampton,Pokemon;Magic;Other
+104,FeARoCards,Brampton,Pokemon
+105,Gateway Cards & Sports,Brampton,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+106,Rolls and Realms Inc.,Brantford,
+107,Breakers Choice,Burlington,Hockey;Baseball;Basketball;Football;Other
+108,Hall Of Fame Collection,Burlington,
+109,Forbes Hobbies,Cambridge,Magic;Pokemon;Other
+110,MK Kards,Cambridge,Hockey;Other;Pokemon
+111,Total Sports Cards & Collectibles,Etobicoke,Hockey;Baseball;Basketball;Football;Pokemon;Other
+112,BFireBallDragon,Greater Sudbury,Pokemon;Magic;Other
+113,Comics North,Greater Sudbury,Pokemon;Magic;Other
+114,Diadem Cards & Hobbies,Greater Sudbury,Pokemon;Magic;Other
+115,Docs hobby shop,Greater Sudbury,Pokemon;Magic;Other
+116,Great Canadian Games & Hobbies,Greater Sudbury,Pokemon;Magic;Other
+117,Great White North Pottery Supplies,Greater Sudbury,Basketball
+118,Nepal Handicrafts,Greater Sudbury,
+119,Retro Relics,Greater Sudbury,
+120,Slab Labs TCG,Greater Sudbury,Pokemon;Magic;Other
+121,Valixya,Greater Sudbury,
+122,Brodie's Gaming,Guelph,Pokemon;Magic;Other
+123,Microplay Video Games & Collectibles,Guelph,Pokemon;Magic;Other
+124,Royal Cat Records,Guelph,
+125,SCAHub Marketplace,Guelph,
+126,Simply Wonderful Toys & Gizmos Inc,Guelph,Pokemon
+127,The Beat Goes On,Guelph,
+128,The Bookshelf,Guelph,
+129,The Dragon,Guelph,Pokemon;Magic;Other
+130,The Trading Post,Guelph,Football;Magic;Pokemon
+131,TKO Toy Co,Guelph,Pokemon;Magic;Other
+132,Wyndham Art Supplies,Guelph,Basketball;Football
+133,1UP Games,Hamilton,Pokemon;Magic;Other
+134,Big B Comics,Hamilton,Pokemon;Magic;Other
+135,Black Knight Games,Hamilton,Pokemon;Magic;Other
+136,Breakaway Sports Cards,Hamilton,Hockey;Baseball;Basketball;Football
+137,Burdin's Comics,Hamilton,Pokemon;Magic;Other
+138,Conspiracy Comics Games & Anime,Hamilton,Pokemon;Magic;Other
+139,Dark Fox TCG,Hamilton,Pokemon;Magic;Other
+140,Digital Grade Submissions,Hamilton,
+141,Heroes N' Legends,Hamilton,
+142,M4 Sports Cards and Collectibles,Hamilton,Hockey;Baseball;Basketball;Football
+143,Mancala Monk Board Game Cafe Hamilton,Hamilton,Pokemon;Magic;Other
+144,MyPops.ca Hamilton Toys & Funko & TCG,Hamilton,Pokemon;Magic;Other
+145,Never Board Games Lounge,Hamilton,Pokemon;Magic;Other
+146,ParadoxTCG,Hamilton,Pokemon;Magic;Other
+147,Retrosaurus,Hamilton,Pokemon
+148,Rookies Sports Cards & Collectibles,Hamilton,Hockey;Baseball;Basketball;Football;Pokemon;Other
+149,The Bard and Bear Games Cafe Hamilton,Hamilton,Pokemon;Magic;Other
+150,The Dragon's Lair Unleashed,Hamilton,Pokemon;Magic;Other
+151,Tistaminis,Hamilton,
+152,Waypoint Games,Hamilton,Pokemon;Magic;Other
+153,"Webber's Balloons, Cards and Collectibles",Hamilton,Hockey;Baseball;Basketball;Football;Other
+154,Up North Games,Huntsville,Pokemon;Magic;Other
+155,Action Packed Comics & Games,Kingston,Pokemon;Magic;Other
+156,Art Noise,Kingston,
+157,Booster House,Kingston,Magic;Pokemon
+158,Chumleighs,Kingston,
+159,Game Over,Kingston,Pokemon;Magic;Other
+160,Improbable Escapes: Board Game Lounge,Kingston,Pokemon;Magic;Other
+161,Kingston Card Den,Kingston,Hockey;Pokemon
+162,Kingston Gaming Nexus,Kingston,Pokemon;Magic;Other
+163,Minotaur Games and Gifts,Kingston,Pokemon;Magic;Other
+164,MMLorcana,Kingston,
+165,Novel Idea,Kingston,
+166,SBT Comics & Games,Kingston,Pokemon;Magic;Other
+167,The Rocking Horse Toys,Kingston,
+168,Tom Tech Repairs & Game Vault Kingston,Kingston,Pokemon;Magic;Other
+169,Chimera Gaming,Kitchener,Pokemon;Magic;Other
+170,CloutsnChara Sports Cards,Kitchener,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+171,Beyond The Pond Sportcards,London,Hockey;Other
+172,Beyond the Pond Sports Cards and Collectables,London,Hockey;Baseball;Basketball;Football
+173,Card Cycle,London,Pokemon
+174,Cellular Magician,London,Magic
+175,EA Collectibles,London,Hockey;Baseball;Basketball;Football;Other
+176,Forest City Coins & Stamps,London,Baseball;Hockey;Magic;Pokemon
+177,Game Cycle Hamilton Road,London,Pokemon;Magic;Other
+178,Game Cycle London Wharncliffe,London,Pokemon;Magic;Other
+179,Game Knight Leagues,London,Pokemon;Magic;Other
+180,Gamers Emporium,London,Pokemon;Magic;Other
+181,Heaven's Collectibles & TCG,London,Pokemon;Magic;Other
+182,Heroes Comics,London,Pokemon;Magic;Other
+183,Hi-Times (Head Shop + Indoor Growing Equipment +Indoor Grow Shop Hydroponics,London,
+184,L. A. Mood Comics & Games,London,Pokemon;Magic;Other
+185,Neo Tokyo The Anime Store,London,Pokemon;Magic;Other
+186,Players Cards and Collectibles,London,Hockey;Baseball;Basketball;Football;Other
+187,Pokanada (Sealed Pokemon section inside pharmacy),London,Pokemon
+188,Premium Sports Cards,London,Hockey;Baseball;Basketball;Football
+189,Realm Hoppers,London,Magic;Pokemon
+190,Seven Sisters Ritual Apothecary,London,
+191,The Game Chamber,London,Pokemon;Magic;Other
+192,The Mana Lounge,London,Basketball;Magic;Pokemon
+193,Warhammer,London,
+194,A&J Hobbies,Markham,Pokemon;Magic;Other
+195,Advance RC & Hobbies,Markham,Pokemon;Magic;Other
+196,Card Board Gaming - Appointment Only,Markham,Pokemon;Magic;Other
+197,Chigun Hobbies,Markham,Pokemon;Magic;Other
+198,Comfy Hobbies,Markham,Pokemon;Magic;Other
+199,Cool Dragon Hobby,Markham,Pokemon;Magic;Other
+200,Fine Toys Store,Markham,Pokemon;Magic;Other
+201,Five Dragons hobbies,Markham,Pokemon;Magic;Other
+202,Hogtown Cards,Markham,Hockey;Baseball;Basketball;Football;Other
+203,Horizon Diecast,Markham,
+204,K-OS Collectibles Inc,Markham,Hockey;Baseball;Basketball;Football;Other
+205,KadOone,Markham,Pokemon;Magic;Other
+206,Manta Trading,Markham,Pokemon;Other
+207,MasterSet Co.,Markham,Pokemon;Other
+208,MyPops.ca Markham Toys Funko TCG,Markham,Pokemon;Magic;Other
+209,Nerdvana Cards & Games,Markham,Pokemon;Magic;Other
+210,NexPack Collectibles - Trading Card Shop,Markham,Hockey;Baseball;Basketball;Football;Other
+211,Not A Hobby Shop & Goose Guzzu Mart,Markham,Pokemon;Magic;Other
+212,Panda Hobby - Canada's Largest Gundam Store,Markham,Pokemon;Magic;Other
+213,Playdexk,Markham,
+214,PvP Shoppe,Markham,Pokemon;Magic;Other
+215,Sino Hobby Markham,Markham,Pokemon;Magic;Other
+216,Springer Hobbies,Markham,Pokemon;Magic;Other
+217,True Gem Sports Collectibles,Markham,Hockey;Baseball;Basketball;Football
+218,WoodForSheep Hobbies Ltd.,Markham,Pokemon;Magic;Other
+219,A-Spec Cards Inc.,Milton,
+220,Untouchables Sports Cards & Gaming (Milton),Milton,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+221,Cheesmo's Cards Mobile Hobby Shop,Mississauga,Pokemon;Magic;Other
+222,Conspiracy Comics Games & Anime,Mississauga,Pokemon;Magic;Other
+223,Duel City Games,Mississauga,Pokemon;Magic;Other
+224,Game Time Collectibles,Mississauga,Pokemon;Magic;Other
+225,Gotham Central Comics,Mississauga,Pokemon;Magic;Other
+226,Image Collections,Mississauga,
+227,KanZen Games Sports & Collectibles,Mississauga,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+228,Legendary Collectables,Mississauga,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+229,LVLUP GAMES,Mississauga,Pokemon;Magic;Other
+230,MyPops.ca Erin Mills Town Centre Mississauga Toys Funko TCG,Mississauga,Pokemon;Magic;Other
+231,Nak Gaming - Online Order Pickup Only,Mississauga,Pokemon;Magic;Other
+232,Professional Sports Authenticator - PSA Canada,Mississauga,Hockey;Baseball;Basketball;Football
+233,Red Riot Games,Mississauga,Pokemon;Magic;Other
+234,Slab Sharks - Sports Cards & Collectibles Consignment,Mississauga,Hockey;Baseball;Basketball;Football
+235,The Upper Hand,Mississauga,Pokemon;Magic;Other
+236,Untouchables Sports Cards & Gaming,Mississauga,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+237,VTRGaming,Mississauga,Pokemon;Magic;Other
+238,Warp Zone Gaming,Mississauga,Pokemon;Magic;Other
+239,X Planet Games,Mississauga,Pokemon;Magic;Other
+240,Hobby Knight in Canada,Newmarket,Pokemon;Magic;Other
+241,Centre Ice Collectibles,Niagara Falls,Hockey;Baseball;Basketball;Football;Other
+242,M&L Sports Cards & Collectables,Niagara Falls,Hockey;Baseball;Basketball;Football;Other
+243,Niagara Sports Cards,Niagara Falls,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+244,Aces Cool Collectibles,North Bay,Hockey;Baseball;Basketball;Football;Other
+245,Ultimate Sportscards,North Bay,Hockey;Baseball;Basketball;Football;Other
+246,Game 3 TCG & Hobby,Oakville,Pokemon;Magic;Other
+247,Top Shelf Co.,Oakville,Pokemon;Magic;Other
+248,Cards and Coasters,Orillia,Pokemon;Magic;Other
+249,Addictive Hobbies & Games,Oshawa,Pokemon;Magic;Other
+250,Cardboard Hero,Oshawa,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+251,Comic Alley Toys,Oshawa,Pokemon;Magic;Other
+252,Deck Out Gaming,Oshawa,Pokemon;Magic;Other
+253,"Fly By Nite Movies, Games, and Toys",Oshawa,Pokemon;Magic;Other
+254,G A M E S,Oshawa,
+255,GNU Books,Oshawa,Hockey;Baseball;Pokemon;Magic
+256,Great Hobbies,Oshawa,Pokemon;Magic;Other
+257,New Rave TCG & Hobbies,Oshawa,Pokemon;Magic;Other
+258,Over The Top Gaming,Oshawa,Pokemon;Magic;Other
+259,Skyfox Games,Oshawa,Pokemon;Magic;Other
+260,The 3D Shoppe,Oshawa,Magic;Pokemon;Other
+261,The Comic Doctor Inc,Oshawa,Pokemon;Magic;Other
+262,The Entertainment Cube,Oshawa,
+263,Worlds Collide,Oshawa,Magic
+264,Xtreme R/C & Raceways,Oshawa,
+265,Buying Sports Cards & Comics,Ottawa,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+266,carsncards.com,Ottawa,Pokemon
+267,Carta Magica Ottawa,Ottawa,Magic
+268,Danireon Cards & Games,Ottawa,Pokemon;Magic;Other
+269,Dxhers,Ottawa,Pokemon;Other
+270,Empire Trading TCG,Ottawa,Pokemon;Magic;Other
+271,Entertainment Ink!,Ottawa,
+272,Game Breakers Sports Cards,Ottawa,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+273,Hobbiesville,Ottawa,Pokemon;Magic;Other
+274,Hobbiesville Ottawa,Ottawa,Pokemon;Magic;Other
+275,Imaginaire Store Ottawa,Ottawa,
+276,Minty Fresh Collectibles,Ottawa,Hockey;Baseball;Basketball;Football;Other
+277,Nabema Collectibles,Ottawa,Hockey;Baseball;Basketball;Football;Other
+278,Nefarious Comics,Ottawa,Pokemon;Magic;Other
+279,Nostalgia Warehouse,Ottawa,
+280,Out of the Box,Ottawa,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+281,Pokemon TCG Supply,Ottawa,Pokemon;Magic;Other
+282,"Red Dragon Comics, Cards, Games",Ottawa,Pokemon;Magic;Other
+283,Shikdar Trading Inc.,Ottawa,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+284,Soul TCG,Ottawa,Pokemon;Magic;Other
+285,Studio Staja,Ottawa,
+286,The Comic Book Shoppe,Ottawa,Pokemon;Magic;Other
+287,The Hobby Centre,Ottawa,Pokemon;Magic;Other
+288,Toys on Fire,Ottawa,Baseball;Basketball;Football;Hockey;Magic;Pokemon
+289,Trinity Hobby,Ottawa,Pokemon;Magic;Other
+290,Vulcan Collectibles,Ottawa,Hockey;Baseball;Basketball;Football;Other
+291,Rawscoe's Sport Collectibles,Peterborough,Hockey;Other
+292,Board Game Bliss,Richmond Hill,Magic;Pokemon;Other
+293,Collectors Dreams,Richmond Hill,Hockey;Baseball;Basketball;Football;Pokemon;Other
+294,Flaring Lair,Richmond Hill,Magic;Pokemon
+295,HeavyJs Card House,Sarnia,Magic;Pokemon;Other
+296,Games Nook II,Sault Ste. Marie,Pokemon;Magic;Other
+297,Hilltribe Ontario,Sault Ste. Marie,
+298,Kanto Kreations,Sault Ste. Marie,Football;Pokemon
+299,Mark's Autographs and Collectables,Sault Ste. Marie,
+300,The Rad Zone,Sault Ste. Marie,
+301,The Trading Post,Sault Ste. Marie,
+302,Vintage Games 'n Junque,Sault Ste. Marie,Pokemon;Magic;Other
+303,Xcite Toys Games & Collectibles,Sault Ste. Marie,Pokemon;Magic;Other
+304,Fan of the Sport,St Thomas,Hockey;Baseball;Basketball;Football
+305,High Score Gamez,St. Catharines,
+306,The Toy Trove,St. Catharines,Pokemon;Magic;Other
+307,Boreal Gaming & Cards,Thorold,Pokemon;Magic;Other
+308,807 Cards & Collectibles,Thunder Bay,Hockey;Other;Pokemon
+309,Sports Cards Plus & Collectibles,Thunder Bay,Hockey;Baseball;Basketball;Football;Other
+310,401 Games,Toronto,Pokemon;Magic;Other
+311,A & C Games,Toronto,Pokemon;Magic;Other
+312,AJ Sports / Autographed Memorabilia,Toronto,Hockey;Baseball;Basketball;Football
+313,Anime Alley,Toronto,Pokemon;Magic;Other
+314,Anime Otaku Hobby,Toronto,Pokemon;Magic;Other
+315,Banana Games & Hobby,Toronto,Pokemon;Magic;Other
+316,BeardyCards,Toronto,Football;Magic;Pokemon
+317,Black Rose Hobbies,Toronto,Pokemon;Magic;Other
+318,CanGeek Games and Collectibles,Toronto,Pokemon;Magic;Other
+319,Cardify Hobby Cards & Collectibles Sports/TCGs,Toronto,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+320,Chonky Collectibles,Toronto,Hockey;Baseball;Basketball;Football;Other
+321,Clutch Games,Toronto,Hockey;Baseball;Basketball;Football;Pokemon;Other
+322,Cyber City Comix,Toronto,
+323,Dbsport Collectibles,Toronto,Hockey;Baseball;Basketball;Football
+324,DJK Entertainment,Toronto,Football;Pokemon
+325,Dolly's Toys & Games Toronto,Toronto,Pokemon;Magic;Other
+326,Dolly’s Sports Cards,Toronto,Hockey;Baseball;Basketball;Football
+327,Duck Duck Games & Collectibles,Toronto,Pokemon;Magic;Other
+328,Emmett's ToyStop & Hobby Shop,Toronto,Pokemon;Magic;Other
+329,Esper Cards & Games,Toronto,Pokemon;Magic;Other
+330,Face to Face Games,Toronto,Pokemon;Magic;Other
+331,Game Nation Hobbies & Games,Toronto,Pokemon;Magic;Other
+332,Game Shack,Toronto,Pokemon;Magic;Other
+333,Go For Game,Toronto,Magic;Pokemon
+334,GP Sports Cards,Toronto,Hockey;Baseball;Basketball;Football
+335,Hairy Tarantula,Toronto,Magic;Pokemon
+336,Hobbiesville Toronto,Toronto,Pokemon;Magic;Other
+337,Hobby Stop TCG & Collectibles,Toronto,Pokemon;Magic;Other
+338,Hope Club Collectibles - Sports Cards and Trading Card Games,Toronto,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+339,Illusionary,Toronto,
+340,Meeplemart,Toronto,Pokemon
+341,Rednails II,Toronto,Hockey;Baseball;Basketball;Football;Magic;Pokemon;Other
+342,Relikks Cards & Collectibles,Toronto,Hockey;Baseball;Basketball;Football;Other
+343,Royalty Cards and Collectibles,Toronto,Hockey;Baseball;Basketball;Football;Other
+344,Sunny Hobbies,Toronto,Pokemon;Magic;Other
+345,The Sword & Board,Toronto,Magic;Pokemon
+346,Xplore Games,Toronto,Pokemon;Magic;Other
+347,401 Games Vaughan,Vaughan,Pokemon;Magic;Other
+348,Argama Hobby,Vaughan,Pokemon;Magic;Other
+349,Cardboard Classics,Vaughan,Pokemon
+350,Certified Sports Memorabilia,Vaughan,Hockey;Baseball;Basketball;Football
+351,DD Sports Vaughan,Vaughan,Hockey;Baseball;Basketball;Football
+352,Elite Cards Toronto,Vaughan,Hockey;Baseball;Basketball;Football;Pokemon;Other
+353,FLIP Collectibles Shop,Vaughan,Hockey;Baseball;Basketball;Football;Other
+354,Korekuta Games,Vaughan,Pokemon;Magic;Other
+355,Legends Warehouse,Vaughan,Magic;Pokemon
+356,Level Up Games Canada,Vaughan,Pokemon;Magic;Other
+357,Mintink Trading Cards & Live Experience,Vaughan,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+358,ND Sports Cards LTD - PSA AUTHORIZED PLATINUM DEALER,Vaughan,Hockey;Baseball;Basketball;Football
+359,New Realm Games,Vaughan,Pokemon;Magic;Other
+360,Northern War Table,Vaughan,Magic;Pokemon
+361,Retro Boyz Collectibles,Vaughan,Hockey;Baseball;Basketball;Football;Other
+362,Toybox Trading Co.,Vaughan,
+363,Wandering Adventures,Vaughan,Pokemon
+364,Wax Box Club,Vaughan,Basketball
+365,Atlas Collectables,Waterloo,Pokemon;Magic;Other
+366,Dolly's Cards & Collectibles Waterloo,Waterloo,Hockey;Baseball;Basketball;Football;Other
+367,Crackerjack Stadium,Welland,Hockey;Baseball;Basketball;Football;Magic;Pokemon;Other
+368,Maximum Cards & Collectibles,Whitby,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+369,We Got Gamez,Whitby,Pokemon;Magic;Other
+370,Brimstone Games,Windsor,Pokemon;Magic;Other
+371,Cartoon Kingdom,Windsor,
+372,Cedar Creek Hobbies,Windsor,Pokemon;Magic;Other
+373,Digital Oasis,Windsor,
+374,F & C House of Cards,Windsor,Hockey;Baseball;Basketball;Football;Pokemon;Other
+375,GameCycle,Windsor,Football;Pokemon
+376,Helou's Sports Cards and Collectibles,Windsor,Hockey;Baseball;Basketball;Football
+377,Kaboom Hobby,Windsor,Hockey;Baseball;Basketball;Football;Pokemon
+378,KunaiGames,Windsor,Pokemon;Magic;Other
+379,Local Comic Shop,Windsor,Pokemon;Magic;Other
+380,Putali Chowk Board Games & Bar,Windsor,Pokemon;Magic;Other
+381,Rogues Gallery Comics,Windsor,Pokemon;Magic;Other
+382,Rose City Sports N Collectables,Windsor,Hockey;Baseball;Basketball;Football
+383,SOAR Hobby & More,Windsor,Pokemon;Magic;Other
+384,Tabletop Renaissance Games & Hobbies,Windsor,Pokemon;Magic;Other
+385,The CG Realm,Windsor,Magic;Pokemon
+386,Collector's Avenue Montréal,Montréal,Hockey;Baseball;Basketball;Football
+387,Collector's Avenue West Island,Dollard-des-Ormeaux,Hockey;Baseball;Basketball;Football
+388,Miraj Trading,Montréal,Hockey;Baseball;Football;Soccer;Pokemon
+389,Cartes Champions,Anjou (Montréal),Hockey;Baseball;Basketball;Football
+390,Game Keeper Verdun,Verdun (Montréal),Hockey;Pokemon;Magic
+391,Geek Factory MTL,Montréal,Hockey;Pokemon
+392,TW Sportcards,Montréal,Hockey;Baseball;Basketball;Football
+393,The Card Palace,Montréal,Hockey
+394,The Cards Vault,Lachine (Montréal),Hockey
+395,Capitaine Québec,Montréal,Hockey;Pokemon;Other
+396,Librairie Crossover Comics,Montréal,Hockey;Pokemon;Other
+397,Cosmix,Saint-Laurent (Montréal),Hockey;Pokemon;Other
+398,Chez Geeks,Montréal,Pokemon;Magic;Hockey
+399,1000000 Comix,Montréal,Hockey;Pokemon;Other
+400,Ontario Bric à Brac,Montréal,Hockey
+401,CardChasers (Les Collectionneurs CardChasers),Laval,Hockey;Baseball;Basketball;Football;Soccer;Pokemon;Magic
+402,Ultime Sports Collection,Laval,Hockey;Baseball;Basketball;Football
+403,Cartes sportives Jumbo Bear,Laval,Hockey
+404,La Boîte à BD de Laval,Laval,Hockey;Pokemon;Other
+405,TopDeck Hero Laval,Laval,Pokemon;Magic;Hockey
+406,BD Cosmos,Laval,Hockey;Pokemon;Other
+407,L'Imaginaire Laval,Laval,Hockey;Pokemon;Magic
+408,Les Entreprises Bluenose,Pointe-Claire,Hockey;Baseball;Basketball;Football
+409,L'Imaginaire Pointe-Claire,Pointe-Claire,Hockey;Pokemon;Magic
+410,Zone Collection Rive-Sud,Longueuil,Hockey;Pokemon;Magic
+411,Cartes de Sport Check-Swing,Brossard,Hockey;Baseball;Basketball;Football
+412,All-In Hobby Sports,Brossard,Hockey
+413,Rémi Card Trader,Saint-Hubert (Longueuil),Hockey;Baseball;Basketball;Football;Pokemon;Magic
+414,La madame des cartes,Saint-Hubert (Longueuil),Hockey
+415,3 Mana,Saint-Hubert (Longueuil),Pokemon;Magic;Hockey
+416,Poke Jeux,Boucherville,Pokemon;Hockey
+417,TopDeck Hero Boucherville,Boucherville,Pokemon;Magic;Hockey
+418,L'Imaginaire St-Bruno,Saint-Bruno-de-Montarville,Hockey;Pokemon;Magic
+419,Cartes Sportives Rive-Sud,Sainte-Catherine,Hockey;Pokemon;Magic;One Piece
+420,Cartes Sportives Rive-Sud (McMasterville),McMasterville,Hockey;Pokemon;Magic;One Piece
+421,Between 2 Games,Saint-Amable,Pokemon;Magic;Hockey
+422,DSM Sports Cards Collectors (Le roi des cartes),Beloeil,Hockey;Baseball;Basketball;Football
+423,Univers Fantastique,Beloeil,Pokemon;Magic;Hockey
+424,Collections Manlo,Saint-Jean-sur-Richelieu,Hockey
+425,LGC Collections,Saint-Jean-sur-Richelieu,Hockey
+426,Zone Collection St-Jean,Saint-Jean-sur-Richelieu,Hockey;Pokemon;Magic
+427,Librairie Moderne,Saint-Jean-sur-Richelieu,Hockey;Pokemon;Other
+428,La Carte Cachée,Saint-Jean-sur-Richelieu,Pokemon;Magic;Hockey
+429,450 Sports,Blainville,Hockey;Baseball;Basketball;Football
+430,Savage Cards,Piedmont / Saint-Sauveur,Hockey;Baseball;Basketball;Football
+431,Boutique La Coupe Stanley,Saint-Jérôme,Hockey
+432,Cartes Léo,Lachute,Hockey
+433,Collectionick,Mirabel,Hockey;Pokemon
+434,Le Coin du Jouet,Mont-Tremblant,Hockey
+435,La Place du Hobby,Terrebonne,Hockey;Pokemon;Magic;Other
+436,Carto-Puces,Terrebonne,Hockey
+437,Sports Collection 99,Terrebonne,Hockey;Baseball;Basketball;Football
+438,Le Coin du Jeu,Terrebonne,Pokemon;Magic;Hockey
+439,Cartes sur table,L'Assomption,Hockey
+440,TW Repentigny,Repentigny,Hockey;Baseball;Basketball;Football
+441,Les Mordus De La Carte (TopDeck Hero Joliette),Joliette,Hockey;Pokemon;Magic
+442,Sport Collect 2010,Salaberry-de-Valleyfield,Hockey;Baseball;Basketball;Football
+443,Village des Héros,Châteauguay,Hockey;Pokemon
+444,Collect-Édition,Candiac,Hockey;Baseball;Basketball;Football
+445,Sports La Tornade,Vaudreuil-Dorion,Hockey;Pokemon;Magic
+446,Universe Collectibles,Vaudreuil-Dorion,Hockey;Pokemon
+447,TPM Hobby et Collection,Québec,Hockey;Baseball;Basketball;Football
+448,Hobby et Collection (TPM),Québec,Hockey;Baseball;Basketball;Football
+449,L'Imaginaire Québec,Québec (Ste-Foy),Hockey;Pokemon;Magic
+450,418 Sports,Québec (Charlesbourg),Hockey;Baseball;Basketball;Football
+451,Free Game,Québec,Hockey;Pokemon;Magic
+452,L'Arène des Dieux,Québec,Pokemon;Magic;Hockey
+453,Stakk (Québec),Québec,Hockey;Pokemon;Baseball;Football
+454,L'Imaginaire Lévis,Lévis,Hockey;Pokemon;Magic
+455,Stakk (Saint-Eustache HQ),Saint-Eustache,Hockey;Pokemon;Baseball;Football
+456,Les Cartes Sportives M.C.,Saint-Eustache,Hockey
+457,L'Imaginaire Sherbrooke,Sherbrooke,Hockey;Pokemon;Magic
+458,Le Bla-Bla de la carte sportive,Sherbrooke,Hockey;Baseball;Basketball;Football
+459,Monnaie Sherbrooke,Sherbrooke,Hockey
+460,L'Armoire à Jeux,Magog,Pokemon;Magic;Hockey
+461,La Taverne du Gamer,Magog,Pokemon;Magic;Hockey
+462,Gamers Zone des Jogers,Cowansville,Pokemon;Magic;Hockey
+463,Centre du Hobby,Trois-Rivières,Hockey;Pokemon;Magic
+464,Hobby Nation 3R,Trois-Rivières,Hockey;Pokemon;Magic
+465,L'Imaginaire Trois-Rivières,Trois-Rivières,Hockey;Pokemon;Magic
+466,Hobby O Max,Trois-Rivières,Hockey;Pokemon
+467,Gamer's Spot,Trois-Rivières,Pokemon;Magic;Hockey
+468,Collecto-Sports,Drummondville,Hockey;Baseball;Basketball;Football
+469,La magie des cartes,Drummondville,Pokemon;Magic;Hockey
+470,Gamer's Spot,Drummondville,Pokemon;Magic;Hockey
+471,Boutique Sportive Alexcardz,Victoriaville,Hockey;Baseball;Basketball;Football
+472,Lobby Sport,Saint-Hyacinthe,Hockey
+473,Zone Collection Rive-Sud (Saint-Hyacinthe),Saint-Hyacinthe,Hockey;Pokemon;Magic
+474,Taverne du Collectionneur,Saint-Hyacinthe,Hockey;Pokemon
+475,Cartomanie,Jonquière (Saguenay),Hockey;Baseball;Basketball;Football
+476,Hobby O Max Chicoutimi,Chicoutimi (Saguenay),Hockey;Pokemon
+477,L'Imaginaire Chicoutimi,Chicoutimi (Saguenay),Hockey;Pokemon;Magic
+478,Kingdom of Titans,Chicoutimi (Saguenay),Pokemon;Magic;Hockey
+479,Galerie du Jouet Chicoutimi,Chicoutimi (Saguenay),Hockey
+480,TW Chicoutimi,Jonquière (Saguenay),Hockey;Baseball;Basketball;Football
+481,Hobby Saguenay,Jonquière (Saguenay),Hockey;Pokemon
+482,Galerie du Jouet Jonquière,Jonquière (Saguenay),Hockey
+483,Galerie du Jouet Alma,Alma,Hockey
+484,Galerie du Jouet Roberval,Roberval,Hockey
+485,Galerie du Jouet St-Félicien,Saint-Félicien,Hockey
+486,Galerie du Jouet Dolbeau,Dolbeau-Mistassini,Hockey
+487,Le Coin de la Carte Sportive,Gatineau,Hockey;Baseball;Basketball;Football
+488,Le Centre du Comic Carte Sportive,Gatineau,Hockey;Other
+489,Le Foyer du Vidéo,Maniwaki,Hockey
+490,La Zone Rétro,Val-d'Or,Hockey;Pokemon;Magic
+491,La Zone Rétro,Amos,Hockey;Pokemon;Magic
+492,La Zone Rétro,Rouyn-Noranda,Hockey;Pokemon;Magic
+493,Modern TCG,Rouyn-Noranda,Pokemon;Magic;Hockey
+494,Bocado,La Sarre,Hockey;Pokemon
+495,Spoutnik Gaspésie,Chandler,Hockey;Pokemon;Magic
+496,Librairie Alpha,Gaspé,Hockey
+497,Hobby Sport Îles-de-la-Madeleine,L'Étang-du-Nord,Hockey
+498,Achetons-Vendons,Rivière-du-Loup,Hockey
+499,Strictly Singles Sports Cards,Halifax,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+500,D&M Sports,Halifax,Hockey;Baseball;Basketball;Football;Pokemon
+501,AMG Collectibles,Bedford (Halifax),Hockey;Baseball;Basketball;Football
+502,Light the Lamp Sports Cards,Sydney,Hockey
+503,Henry's Hut Hobbies and Collectibles,New Glasgow,Hockey;Pokemon
+504,Rainbow's End Book and Discs,Wolfville,Hockey
+505,Books Galore,Coldbrook,Hockey
+506,Gator Byte Computers & Entertainment,Yarmouth,Hockey;Pokemon
+507,D&M Sports Cards,Moncton,Hockey;Baseball;Basketball;Football;Pokemon
+508,Trading Card Warehouse,Moncton,Pokemon;Magic;One Piece;Lorcana
+509,B&T Sportscards & Gaming,Bathurst,Hockey;Pokemon;Magic
+510,Vintage Pursuit Hobby Shop,Saint John,Hockey;Baseball;Basketball;Football;Other
+511,Heroes' Beacon,Saint John,Pokemon;Magic;Hockey
+512,Fundy Coins and Collectibles,Saint John,Hockey
+513,Cardboard Slingers Collectables,Oromocto,Hockey;Pokemon
+514,Card Rack,Fredericton,Hockey;Pokemon;Magic
+515,Cardboard Hero Fredericton,Fredericton,Pokemon;Magic;One Piece;Lorcana;Yu-Gi-Oh;Hockey;Baseball;Basketball;Football
+516,Endeavours ThinkPlay,Fredericton,Pokemon;Magic
+517,Boutique Nostalgies,Lamèque,Hockey
+518,Backmandy Collectibles,Charlottetown,Hockey;Baseball;Basketball;Football
+519,Exor Games,Charlottetown,Pokemon;Magic;Hockey
+520,EM Cards and Collectibles,Charlottetown,Hockey;Pokemon
+521,Gifted Rookies,Charlottetown,Hockey;Baseball;Basketball;Football;Soccer;Golf
+522,Downtown Cards,Charlottetown,Hockey;Pokemon;Other
+523,Maverick Sports & Collectables,St. John's,Hockey;Baseball;Basketball;Football;Other
+524,Nether World,St. John's,Pokemon;Magic;Hockey
+525,Entertainment Centre,St. John's,Hockey;Pokemon
+526,Entertainment Centre,Bay Roberts,Hockey;Pokemon
+527,CardBreakNL,Mount Pearl,Hockey
+528,Cards Coins and Collectibles,Corner Brook,Hockey
+529,Pastime Sports & Games (Langley),Langley,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+530,Pastime Sports & Games (Metrotown),Burnaby,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+531,Pastime Sports & Games (Capilano),North Vancouver,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+532,Pastime Sports & Games (Guildford),Surrey,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+533,Wally's Pro Sports Cards,Vancouver,Hockey;Football;Baseball;Pokemon;Magic;Other
+534,UBECard,Vancouver,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+535,Local Legends Cards & Collectibles,Vancouver,Hockey;Football;Baseball;Basketball;Pokemon;Magic;Other
+536,Hobbybox604,North Vancouver,Hockey;Baseball;Basketball;Football;Other
+537,Let's Collect Cards,Burnaby,Hockey;Baseball;Basketball;Football;Pokemon;Other
+538,Arcardia Collectibles & Exchange,Richmond,Other;Pokemon;Magic
+539,Vancity CJ Trading Cards,Richmond,Pokemon;Other
+540,Team Collectors,Richmond,Pokemon;Other
+541,Collectors Corner,Maple Ridge,Hockey;Baseball;Basketball;Football;Other
+542,Wiser's Wide World of Collectibles,Langley,Hockey;Baseball;Basketball;Football;Magic;Other
+543,Goalline Sports Cards,Chilliwack,Hockey;Baseball;Basketball;Football
+544,Kanto Poke Mart,Chilliwack,Pokemon
+545,Triple Play Sports Cards,Victoria,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+546,Gauntlet Games,Victoria,Pokemon;Magic;Other
+547,Epic Games & More,Victoria,Pokemon;Magic;Other
+548,Sports Card Alley,Nanaimo,Hockey;Pokemon;Magic;Other
+549,Colossal Cards and Collectables,Courtenay,Hockey;Pokemon;Magic;Other
+550,The Card Corner and Games,Port Alberni,Pokemon;Magic;Other
+551,Players Choice Sports,Kelowna,Hockey;Baseball;Basketball;Football;Other
+552,Okanagan Sportscards & Comics,Kelowna,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+553,Penticton Sports Cards & Collectables,Penticton,Pokemon;Magic;Other
+554,Omar's Collectibles,Vernon,Hockey;Baseball;Basketball;Football;Other
+555,Kootenay Sports Cards & Collectables,Cranbrook,Hockey;Baseball;Basketball;Football;Other
+556,The Game Hub,Kamloops,Pokemon;Magic;Other
+557,Desert City Games,Kamloops,Pokemon;Magic;Other
+558,Great White Toys · Comics · Games,Prince George,Hockey;Pokemon;Magic;Other
+559,A-Star Collectibles,Prince George,Hockey;Baseball;Basketball;Football;Other
+560,Mandalorian Emporium,Squamish,Pokemon;Magic;Other
+561,306 Sports Cards,Saskatoon,Hockey;Baseball;Basketball;Football;Pokemon;Other
+562,RAD Cards and Collectibles,Saskatoon,Hockey;Baseball;Basketball;Football;Other
+563,Collector's Lane,Saskatoon,Hockey;Pokemon;Magic;Other
+564,Mana Vault,Saskatoon,Pokemon;Magic;Other
+565,Big Time Sportscards,Regina,Hockey;Baseball;Basketball;Football;Other
+566,Man Cave Sports Cards,Regina,Hockey;Baseball;Basketball;Football;Other
+567,The Nut Man (Cards & Collectables),Regina,Hockey;Pokemon;Magic;Other
+568,Sportsworld Collectibles,Regina,Hockey;Other
+569,Flawless Victory,Prince Albert,Pokemon;Magic;Other
+570,Ultimate Fan Zone,Moose Jaw,Hockey;Pokemon;Magic;Other
+571,Superstars Sports Collectibles,Winnipeg,Hockey;Baseball;Basketball;Football;Other
+572,CanCentral Sports Cards & Memorabilia,Winnipeg,Hockey;Baseball;Basketball;Football;Other
+573,Lower Level Sports Cards & Collectibles,Winnipeg,Hockey;Baseball;Basketball;Football;Other
+574,First Row Collectibles,Winnipeg,Hockey;Baseball;Basketball;Football;Pokemon;Other
+575,Joe Daley's Sports & Framing,Winnipeg,Hockey;Baseball;Basketball;Football;Pokemon;Other
+576,Inner Hero Collectibles,Brandon,Pokemon;Other;Hockey
+577,I Want That Stuff,Brandon,Hockey;Pokemon;Magic;Other
+578,Ogre's Lair Family Game Shop,Yellowknife,Pokemon;Magic;Other
+579,The Tabletop Games & Collectibles,Yellowknife,Pokemon;Magic;Other
+580,Armadillo Games,Canmore,Pokemon;Magic;Other
+581,Outpost Sports Cards and Games,Edmonton,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+582,Gamesland Canada,Edmonton,Hockey;Pokemon;Magic;Other
+583,Swirl Café & Games,Edmonton,Pokemon
+584,ShoeBox Games & Cafe,Calgary,Pokemon;Magic;Other
+585,Cardera Collectibles,Balzac (Rocky View County),Pokemon;Other
+586,Premier Sportscards,Banff,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+587,TUGS Cards & Comics (Tugs Pop Culture & Sports),Drumheller,Hockey;Pokemon;Magic;Other
+588,Imperial Garden Sports Collectibles,Grande Prairie,Baseball;Pokemon;Other
+589,The Fort Board Games and Card Games (THE FORT Gaming & Collectibles),Fort Saskatchewan,Pokemon;Magic;Other
+590,D&C's Collectibles,Whitecourt,Other;Pokemon
+591,Merchant's Shop (La Shop du Marchand / Merchant's Inventory),Bathurst,Hockey;Pokemon;Magic;Other
+592,GameZilla Bathurst,Bathurst,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+593,GameZilla Saint John,Saint John,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+594,GameZilla Fredericton,Fredericton,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+595,House of Cards (Abbotsford),Abbotsford,Magic;Pokemon;Other
+596,House of Cards (Cloverdale),Surrey,Magic;Pokemon;Other
+597,Infinity Cards & Collectibles,Aldergrove,Pokemon;Magic;Other
+598,Draw For Turn Games,Richmond,Pokemon;Magic;Other
+599,Treasure Chest Games & Collectibles,Port Coquitlam,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+600,Kollect This Inc.,Peterborough,Pokemon;Magic;Other
+601,Dueling Grounds Tabletop Games,Peterborough,Pokemon;Magic;Other
+602,Sequence Comics and Gaming,Brockville,Pokemon;Magic;Other
+603,Skaf Express (Let's Play! Cards and Games!),Thunder Bay,Hockey;Pokemon;Magic;Other
+604,Collect 'em All - Cards and Games,Thunder Bay,Pokemon;Magic;Other
+605,Outpost Gaming,North Bay,Pokemon;Magic;Other
+606,PPAG Hockey Cards,Granby,Hockey;Pokemon
+607,Card Brawlers,Montréal,Pokemon;Other
+608,BOG Collectibles,Kahnawake,Hockey;Baseball;Basketball;Football;Pokemon;Other
+609,KSKS Sports Collectibles Inc.,Pointe-Claire,Hockey;Baseball;Other
+610,MB Cartes,Sherbrooke,Hockey;Other
+611,Prairie Canucks Cards & Collectibles,Weyburn,Hockey;Pokemon;Magic;Other
+612,Fusion Gaming,Winnipeg,Magic;Other
+613,ManitobaTCG,Winnipeg,Pokemon
+614,Next Level Games and Collectibles,Summerside,Hockey;Baseball;Basketball;Football;Pokemon;Magic;Other
+615,Rain City Games (New Westminster),New Westminster,Pokemon;Magic;Other
+616,Ebenezer's Comics & Collectibles,Vernon,Pokemon;Magic;Other
+617,Dave's Sportscard Shop,Cornwall,Hockey;Pokemon;Other
+618,Nutts Collectables,Woodstock,Hockey;Other
+619,Rockets Sports Cards,Chatham (Chatham-Kent),Hockey;Pokemon;Magic;Other
+620,Stadium Sports Cards,Blenheim (Chatham-Kent),Hockey;Other
+621,The Den Hobby & Gifts,Stratford,Hockey;Baseball;Basketball;Football;Pokemon;Magic
+622,Fantasy Forged: Cards and Collectibles,Orangeville,Magic;Pokemon;Other
+623,The Trading Card Store Lindsay,Lindsay (Kawartha Lakes),Hockey;Pokemon;Magic;Other
+624,Northern Sports Cards,Lindsay (Kawartha Lakes),Hockey;Pokemon;Magic;Other
+625,Muskoka Cards & Collectibles,Bracebridge,Pokemon;Magic
+626,Prospects Antiques & Sports Cards,Gravenhurst,Other
+627,Event Horizon Hobbies,Midland,Magic;Pokemon;Other
+628,Dark Crystal Cards,Paris,Magic;Pokemon;Other
+629,"Webber's Balloons, Cards and Collectibles",Dundas,Hockey;Pokemon;Magic;Other
+630,HOB's Hobbies,Strathmore,Magic;Pokemon;Other
+631,Rock City Comics,Rocky Mountain House,Hockey;Other
+632,International Battle & Hobby Card Collective (IBHCC Inc.),Vegreville,Pokemon;Magic
+633,Hyper Games Chamber,Slave Lake,Magic;Other
+634,Game Day Hobbies and Collectables,Wetaskiwin,Hockey;Magic;Other
+635,Chase The Hits Inc,Cochrane,Magic;Other
+636,Pandora's Boox,Olds,Magic;Other
+637,Dad's Day Off Games & Hobbies (DDOGames),Blackfalds,Magic;Pokemon;Other
+638,Brightside Hobbies (Brightside TCG),Morinville,Pokemon;Other
+639,Orchard City Games - Wainwright,Wainwright,Magic;Other
+640,Nova's Sports Cards,Lloydminster (SK side),Hockey;Baseball;Basketball;Football;Other
+641,Skies the Limit Fireworks & Toys,Yorkton,Magic;Other
+642,Neko's (Game Store & Car Wash),Thompson,Other
+643,BAM Cards and Collectibles,Carman,Hockey;Pokemon;Other
+644,Pabi's Collectibles (PABI's Hobbies & Collectibles),Miramichi,Other
+645,Onyx Cards & Games,Collingwood,Pokemon
+646,MK Ultra Cards,Strathroy,Other
+647,Lasting Memories Locker Room,Hanover,Hockey;Pokemon;Other
+648,Jason & Randy's Sports & Cards,Timmins,Other
+649,J&B Books-cards Comics Gaming Collectables,Trenton (Quinte West),Other
+650,RT Sports Cards (R/T Sport Cards & Collectibles),Dunnville,Other
+651,Studio 151,Fort Erie,Pokemon;Magic;Other
+652,Xtreme Collectables,Grimsby,Pokemon;Magic;Other
+653,TCM - The Card Mann Sports Cards Pokemon,Grimsby,Pokemon;Other
+654,Trade Em Stadium,Stoney Creek,Other
+655,GamesHQ (aka The Trading Card Store Port Perry),Port Perry,Pokemon;Magic;Other
+656,782 Sports Cards,Dartmouth,Hockey;Baseball;Basketball;Football;Pokemon;Other
+657,Elsewhere Gaming & Hobbies,New Minas,Pokemon;Other
+658,Castle Vania Sports Cards,Miramichi,Other
+659,Moncton Sports Cards,Moncton,Other
+660,Vortex Games,Sackville,Magic
+661,Boutique de cartes sportives L'as de coeur,Caraquet,Other
+662,Shock Spring,Stratford,Magic;Other
+663,Sherwood Sports Cards,Charlottetown,Other
+664,Goliath Cards and Collectibles,Gander,Magic;Pokemon;Other
+665,Bay Breakers,Happy Valley-Goose Bay,Other
+666,SN Hobbies,New Westminster,Pokemon
+667,T&N Games (Royal City Centre),New Westminster,Pokemon;Magic
+668,Go Go Hobbies,Coquitlam,Pokemon;Other
+669,Blue Moon Collectables,Delta (Ladner),Pokemon;Other
+670,Nerd Feeder,Delta (Ladner),Pokemon;Magic;Other
+671,Sonny's Collectables,Terrace,Pokemon
+672,K&B Hobbies and Games,Vernon,Pokemon
+673,Obsidian Games,Vernon,Pokemon;Magic;Other
+674,Nerdz Gaming Inc (Nerdz Cafe),Woodstock,Magic;Other
+675,Scenic City Game Emporium,Owen Sound,Pokemon;Magic;Other
+676,Bootown's Games And Hobbies,Stratford,Magic;Pokemon;Other
+677,Instant Replay SportsCards,Cobourg,Other
+678,Brackenberries PvP,Alliston (New Tecumseth),Magic;Pokemon;Other
+679,Tillsonburg's Hobby Central,Tillsonburg,Other
+680,Maelstrom,Strathroy,Pokemon;Magic;Other
+681,Tabletop Giant (MTG North),Goderich,Magic;Pokemon;Other
+682,Player X,Kapuskasing,Other
+683,Great Canadian Collectibles,Kenora,Pokemon;Magic;Other
+684,North-Western Games,Kenora,Other
+685,Treasures 'N' More,Carleton Place,Other
+686,GT Games,Carleton Place,Magic;Pokemon
+687,Mystic Dragon,Beamsville,Pokemon;Magic;Other
+688,Puck It Cards & Collectibles,Didsbury,Hockey
+689,Hobby North (KN Cards & Collectables Ltd),High Prairie,Other
+690,Ken's Sports Cards & Memorabilia,Taber,Hockey;Baseball;Other
+691,King Drug,Hinton,Magic
+692,Dice Hollow Games and Hobbies,Warman,Magic;Other
+693,Arctic Board Games,Steinbach,Magic;Pokemon
+694,Go Beyond Games,Dauphin,Magic;Other
+695,Jeux Mania,Mascouche,Hockey; Pokemon; Magic
+696,Hobby Champion,Sainte-Julie,Hockey; Pokemon
+697,Jeux 3 Dragons,Sainte-Thérèse,Pokemon; Other
+698,Jeuxjubes,Sainte-Thérèse,Other
+699,L'Entre-Jeux Shawinigan,Shawinigan,Other

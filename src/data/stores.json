@@ -6294,9 +6294,11 @@
       "Trade Nights"
     ],
     "sports": [
-      "Pokemon",
+      "Baseball",
+      "Hockey",
       "Magic",
-      "Other"
+      "Other",
+      "Pokemon"
     ],
     "lat": 44.23821,
     "lng": -76.50513
@@ -9073,9 +9075,10 @@
       "Breaks"
     ],
     "sports": [
-      "Pokemon",
+      "Hockey",
       "Magic",
-      "Other"
+      "Other",
+      "Pokemon"
     ],
     "lat": 45.40322,
     "lng": -75.60781
@@ -9098,9 +9101,10 @@
       "Breaks"
     ],
     "sports": [
-      "Pokemon",
+      "Hockey",
       "Magic",
-      "Other"
+      "Other",
+      "Pokemon"
     ],
     "lat": 45.41252,
     "lng": -75.70377
@@ -9891,9 +9895,10 @@
       "Trade Nights"
     ],
     "sports": [
-      "Pokemon",
+      "Hockey",
       "Magic",
-      "Other"
+      "Other",
+      "Pokemon"
     ],
     "lat": 43.17697,
     "lng": -79.24046
@@ -11516,9 +11521,13 @@
       "Sells Wax"
     ],
     "sports": [
-      "Pokemon",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Hockey",
       "Magic",
-      "Other"
+      "Other",
+      "Pokemon"
     ],
     "lat": 43.48143,
     "lng": -80.52544
@@ -11652,9 +11661,10 @@
       "Trade Nights"
     ],
     "sports": [
-      "Pokemon",
+      "Hockey",
       "Magic",
-      "Other"
+      "Other",
+      "Pokemon"
     ],
     "lat": 42.30018,
     "lng": -83.00429
