@@ -1,5 +1,99 @@
 # PRD — SCNM traffic & clicks: SEO + GEO to top-5
 
+> ## AMENDMENT 1 — 2026-08-07, after the full Search Console export
+>
+> The PRD below was written on **top-10-only data**. The full export (1,000
+> queries, 768 pages, daily chart) arrived hours after approval and corrects
+> three things. **Sections 1c and 3 are superseded by this amendment; everything
+> else stands.** Raw data: `docs/research/gsc-export-2026-08-07/`. Full reading:
+> `jarvis-memory/06-SportsCardsNearMe/2026-08-07-gsc-full-export-read.md`.
+>
+> ### 1. The baseline was wrong, and traffic fell 81%
+>
+> "~10,400 impressions/week" was a **nine-day total** (Jul 28 – Aug 5) misread as
+> a rate, and those nine days were a spike, not a plateau: 3,139 impressions on
+> Aug 1, then 626 / 550 / 587. **Settled rate: 588/day ≈ 4,114/week, 42 clicks/week,
+> CTR 1.02%.** Average position *improved* right through the fall (18.3 → 9.4),
+> which reads as new-site discovery narrowing rather than a demotion — but it is a
+> different starting line, and §1c's arithmetic assumed the phantom number.
+>
+> ### 2. Revised targets (replaces §1c)
+>
+> | Metric | Today | Sep 15 | **Nov 5** |
+> |---|---|---|---|
+> | Impressions/week | 4,114 | 5,500 | **8,000** |
+> | Blended CTR | 1.02% | 1.4% | **1.8%** |
+> | Clicks/week | 42 | 77 | **145** |
+> | Avg position | 9.4 | 8.5 | **≤ 7.5** |
+>
+> **Impressions is now the primary metric**, because clicks cannot be the goal
+> while the denominator is falling. **145 clicks/week replaces 300** — 300 needed
+> ~7% CTR at the real impression rate, which nobody achieves. **1.8% blended
+> replaces 2.5%**, for the structural reason in point 3.
+>
+> ### 3. The CTR ceiling is structural, and it reorders the workstreams
+>
+> Clicks per page, across all 768 pages — the number that actually matters:
+>
+> | Type | Pages | Impr/page | **Clicks/page** | CTR | Median position |
+> |---|---|---|---|---|---|
+> | **provinces** | 8 | 24.6 | **0.62** | 2.54% | 10.2 |
+> | **shows** | 21 | 17.3 | **0.48** | 2.75% | 11.8 |
+> | guides | 11 | **49.3** | 0.36 | 0.74% | **16.5** |
+> | cities | 112 | 14.7 | 0.16 | 1.09% | 9.7 |
+> | stores | 534 | 14.0 | 0.07 | 0.48% | 9.2 |
+> | pokemon | 32 | 7.1 | 0.06 | 0.88% | 9.7 |
+> | sell | 49 | 3.7 | 0.06 | 1.68% | 11.7 |
+>
+> *Caveat, stated loudly: 79 clicks site-wide over nine days. Every per-type
+> figure rests on single-digit click counts. Directional, not precise — and the
+> Sep 8 review re-tests all of it.*
+>
+> **a) Store pages are 76% of striking-distance impressions and convert at 0.34%.**
+> The biggest one takes 253 impressions at position 7.4 with **zero** clicks; its
+> query is "total sports cards" — the shop's own name, where the shop's own site
+> and Google listing outrank us and should. **A large share of the traffic §3
+> counted as recoverable is structurally unwinnable.** Store titles still get one
+> pass, aimed at the queries a directory *can* win (hours, reviews, still open),
+> but they are no longer the CTR story.
+>
+> **b) Guides need lifting, not multiplying.** Guides earn double the reach per
+> page of anything else — and sit at **median position 16.5, which is page two.**
+> Writing four more guides adds four more page-two pages. The corrected action is
+> to move the guides that already have reach from page 2 to page 1 (internal
+> linking, depth, schema), *then* expand. This refines rather than reverses
+> Fable's guides-over-shows call: guides remain the reach play and the whole GEO
+> bar, but "more guides" was the wrong first move.
+>
+> **c) Province pages are the cheapest win on the site and nobody has touched
+> them.** Eight pages, best clicks-per-page anywhere, already converting at 2.54%
+> at position 10.2. Promoted to its own early task.
+>
+> **d) Demote the sell-side guide** inside Workstream B — sell pages are the
+> worst-performing surface on the site (0.06 clicks/page across 49 pages). A guide
+> layered over a hub nobody finds inherits the problem.
+>
+> **e) Reframe Workstream C (shows)** as a differentiation/moat play — genuine, and
+> the second-best converter — but *not* justified by current demand volume (364
+> impressions across 21 pages).
+>
+> ### 4. Revised workstream order
+>
+> **A. Lift what already converts** — province pages (8), then city and show
+> titles. Plus the one store-page pass. *(~3–4 Nathan-hours)*
+> **B. Get the guides onto page one** — the existing 11, before writing new ones.
+> The tax guide still leads the new-guide queue afterward, on E-E-A-T grounds.
+> *(~6–8 h)*
+> **C. Shows** — unchanged work, honest reframing. *(~6 h)*
+> **D. TCG section + domain redirects** — unchanged. *(~4–6 h)*
+> **E. French** — unchanged, still gated on Sep 8. The export confirms the signal
+> is real but tiny: 22 queries, 95 impressions, 0 clicks. *(~5–7 h if gated in)*
+>
+> Everything below this line is the approved 2026-08-07 text, unrevised.
+
+---
+
+
 **Product:** sportscardsnearme.ca — the independent Canadian card-shop directory
 **Author:** Claude (directed by Nathan Wiebe) · **Date:** 2026-08-07
 **Inputs:** `docs/research/prd-input-brief-2026-08-07.md` (all numbers below trace to it), the 08-07 Search Console read, the 07-23 keyword research, the 07-29 publishing-standards decision, the 08-06 TCG-split decision.
