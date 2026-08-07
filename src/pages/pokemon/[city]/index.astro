@@ -4,7 +4,7 @@ import StoreCard from '../../../components/StoreCard.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { pokemonCityEntries, pokemonCityCapsule, pokemonCityFaqs, pokemonShopsInCity } from '../../../lib/tcg';
-import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson, topRatedStore } from '../../../lib/seo';
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -16,6 +16,19 @@ const entry = pokemonCityEntries(stores).find((c) => c.citySlug === Astro.params
 if (!entry) throw new Error(`unknown pokemon city slug: ${Astro.params.city}`);
 const shops = pokemonShopsInCity(stores, entry.provinceCode, entry.citySlug);
 if (shops.length === 0) throw new Error(`no pokemon shops for city slug: ${entry.citySlug}`);
+
+// Same 20-review bar as every other ranked surface — no "top" claim below it.
+const topRated = topRatedStore(shops);
+
+// Same honesty rule as the general city pages: "Ranked" is a promise the page
+// has to keep. One shop cannot be ranked, and a city with no rated shop has
+// nothing to rank by.
+const anyRated = shops.some((s) => s.rating !== undefined);
+const titleSuffix = shops.length === 1
+  ? 'Hours, Map & Directions'
+  : anyRated
+    ? 'Ranked, Updated Daily'
+    : 'Hours, Map & Directions, Updated Daily';
 
 const generalCityUrl = `/${entry.provinceSlug}/${entry.citySlug}/`;
 const breadcrumbLd = breadcrumbListLd([
@@ -32,8 +45,10 @@ const faqs = pokemonCityFaqs(entry.city, entry.provinceName, shops, absoluteUrl(
 const faqLd = faqPageLd(faqs);
 ---
 <Base
-  title={`Pokémon Card Shops in ${entry.city}, ${entry.provinceCode} (${shops.length}) | Sports Cards Near Me`}
-  description={`Find Pokémon card shops in ${entry.city}, ${entry.provinceName}: ${shops.length} ranked ${shops.length === 1 ? 'shop' : 'shops'} with ratings and directions.`}
+  title={`${shops.length} Pokémon Card Shop${shops.length === 1 ? '' : 's'} in ${entry.city}, ${entry.provinceCode} — ${titleSuffix}`}
+  description={topRated !== undefined && topRated.rating !== undefined
+    ? `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName}. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    : `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName} — compare ratings where they exist, addresses, and hours. Rebuilt daily.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(shopListLd)} />

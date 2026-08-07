@@ -25,8 +25,8 @@ const upcomingShows = (showsJson as ShowRecord[]).filter((s) => isUpcoming(s, bu
 const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
 ---
 <Base
-  title="Sports Cards Near Me — Every Card Shop in Canada, One Map"
-  description={`Canada's sports card shop directory: ${stores.length} verified stores with hours, ratings, and directions. Hockey, baseball, basketball, football, Pokémon.`}
+  title={`Card Shops Near Me — ${stores.length} Verified Shops | Sports Cards Near Me`}
+  description={`${stores.length} sports card shops across Canada, mapped with ratings, hours, and directions. Hockey, baseball, basketball, football, and Pokémon — updated daily.`}
 >
   <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord">
     <img

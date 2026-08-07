@@ -48,12 +48,27 @@ const capsule = cityAnswerCapsule(cityGroup.city, province.name, cityGroup.store
 // (54 of 248 cities), and those cities get no claim at all rather than a
 // weaker one — same rule as the shop pages: no empty scaffolding.
 const topRated = topRatedStore(cityGroup.stores);
+
+// The title must not promise something the page can't show. 57 city pages were
+// titled "Rated & Mapped" while carrying no rated shop at all — a claim the
+// page fails to deliver, and the click-then-bounce that follows is the opposite
+// of the CTR work this title exists for. "Rated" only when a rating is visible;
+// no "Rated"/"Ranked" language for a lone shop, which cannot be ranked.
+const anyRated = cityGroup.stores.some((s) => s.rating !== undefined);
+const titleSuffix = cityGroup.stores.length === 1
+  ? 'Hours, Map & Directions'
+  : anyRated
+    ? 'Rated & Mapped, Updated Daily'
+    : 'Hours, Map & Directions, Updated Daily';
+
 const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stores, cityGroup.citySlug);
 const faqLd = faqPageLd(faqs);
 ---
 <Base
-  title={`Sports Card Shops in ${cityGroup.city}, ${province.code} (${cityGroup.stores.length}) | Sports Cards Near Me`}
-  description={`Find sports card shops in ${cityGroup.city}, ${province.name}: ${cityGroup.stores.length} verified ${cityGroup.stores.length === 1 ? 'store' : 'stores'} with ratings, hours, and directions.`}
+  title={`${cityGroup.stores.length} Card Shop${cityGroup.stores.length === 1 ? '' : 's'} in ${cityGroup.city}, ${province.code} — ${titleSuffix}`}
+  description={topRated !== undefined && topRated.rating !== undefined
+    ? `Every sports card shop in ${cityGroup.city}, ${province.name} with Google ratings, hours, map and directions. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, hours, map and directions. Rebuilt daily so listings stay current.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(storeListLd)} />

@@ -52,8 +52,8 @@ const cityListLd = itemListLd(
 const capsule = `Sports Cards Near Me tracks ${totalShops} Pokémon card ${totalShops === 1 ? 'shop' : 'shops'} across ${totalCities} ${totalCities === 1 ? 'city' : 'cities'} in Canada, ranked by Google rating and review count. Browse a city below, or see the full sports card shop directory for every category.`;
 ---
 <Base
-  title={`Pokémon Card Shops in Canada (${totalShops}) | Sports Cards Near Me`}
-  description={`Find Pokémon card shops across Canada: ${totalShops} ranked shops in ${totalCities} cities, with ratings and directions.`}
+  title={`${totalShops} Pokémon Card Shops in Canada — Ranked by Rating, Updated Daily`}
+  description={`${totalShops} Pokémon card shops across ${totalCities} Canadian cities, ranked by Google rating and review count separately from sports cards. Browse by city for addresses and hours.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(cityListLd)} />

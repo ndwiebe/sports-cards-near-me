@@ -51,8 +51,8 @@ const faqs = sellCityFaqs(city, provinceName, buyers, cityPageUrl, guideUrl);
 const faqLd = faqPageLd(faqs);
 ---
 <Base
-  title={`Sell Sports Cards in ${city}, ${province} (${buyers.length}) | Sports Cards Near Me`}
-  description={`Where to sell sports cards in ${city}, ${provinceName}: ${buyers.length} ${buyers.length === 1 ? 'shop that lists' : 'shops that list'} buying collections, ranked by rating.`}
+  title={`Where to Sell Sports Cards in ${city}, ${province} — ${buyers.length} ${buyers.length === 1 ? 'Buyer' : 'Buyers'}`}
+  description={`${buyers.length} ${buyers.length === 1 ? 'shop in' : 'shops in'} ${city}, ${provinceName} ${buyers.length === 1 ? 'lists' : 'list'} buying sports card collections, ranked by rating. Addresses and what to expect before you sell.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(buyerListLd)} />

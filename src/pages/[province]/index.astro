@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
-import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson, provinceAnswerCapsule } from '../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson, provinceAnswerCapsule, topRatedStore } from '../../lib/seo';
 
 export function getStaticPaths() {
   return provincesWithStores(storesJson as Store[]).map((p) => ({ params: { province: p.slug } }));
@@ -15,6 +15,10 @@ if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`
 const cities = citiesIn(stores, province.code);
 const total = cities.reduce((n, c) => n + c.stores.length, 0);
 
+// Same rule as the city page: no "top rated" claim for a province where no
+// shop clears the 20-review bar. topRatedStore already handles that (undefined).
+const topRated = topRatedStore(cities.flatMap((c) => c.stores));
+
 const breadcrumbLd = breadcrumbListLd([
   { name: 'Home', url: absoluteUrl(Astro.site, '/') },
   { name: province.name, url: absoluteUrl(Astro.site, `/${province.slug}/`) },
@@ -25,8 +29,10 @@ const cityListLd = itemListLd(
 const capsule = provinceAnswerCapsule(province.name, cities);
 ---
 <Base
-  title={`Sports Card Shops in ${province.name} (${total}) | Sports Cards Near Me`}
-  description={`Every sports card shop in ${province.name} — ${total} verified stores across ${cities.length} cities, with hours, ratings, and directions.`}
+  title={`${total} Card Shops in ${province.name} — Rated by City, Updated Daily`}
+  description={topRated !== undefined && topRated.rating !== undefined
+    ? `${total} sports card shops across ${cities.length} cities in ${province.name}. Top rated: ${topRated.name} in ${topRated.city} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    : `${total} sports card shops across ${cities.length} cities in ${province.name} — browse by city to compare ratings, hours, and directions. Rebuilt daily.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(cityListLd)} />

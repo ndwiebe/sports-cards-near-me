@@ -50,7 +50,9 @@ const ld: Record<string, unknown> = {
 };
 ---
 <Base
-  title={`${store.name} — Sports Cards in ${store.city}, ${store.province} | Sports Cards Near Me`}
+  title={store.rating !== undefined
+    ? `${store.name} — ${store.rating}★ Card Shop in ${store.city}, ${store.province}`
+    : `${store.name} — Card Shop in ${store.city}, ${store.province}`}
   description={description}
 >
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />

@@ -140,6 +140,24 @@ export function showsThisWeekend(shows: ShowRecord[], buildDate: Date): ShowReco
     .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
 }
 
+/**
+ * Short time-urgency label for a show's title/meta copy: "Today", "Tomorrow",
+ * "This Weekend", or a short dated fallback ("Aug 22, 2026"). The 07-23 keyword
+ * research found every show query carries a time modifier, so show page titles
+ * lead with one instead of the show name. Returns undefined for a show that has
+ * already finished — none of the urgency framings would be true then, and
+ * isUpcoming is already the one place that boundary is decided.
+ */
+export function showTimingLabel(show: ShowRecord, buildDate: Date): string | undefined {
+  if (!isUpcoming(show, buildDate)) return undefined;
+  const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
+  const daysUntilStart = Math.round((parseLocalDate(show.startDate).getTime() - today.getTime()) / 86_400_000);
+  if (daysUntilStart <= 0) return 'Today';
+  if (daysUntilStart === 1) return 'Tomorrow';
+  if (isInWeekend(show, weekendWindow(buildDate))) return 'This Weekend';
+  return new Intl.DateTimeFormat('en-CA', { month: 'short', day: 'numeric', year: 'numeric' }).format(parseLocalDate(show.startDate));
+}
+
 export function rowToShow(cells: GvizRow): ShowRecord | null {
   const name = sanitizeText(cells[0]?.v);
   const city = sanitizeText(cells[1]?.v);
