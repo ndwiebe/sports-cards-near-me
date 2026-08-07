@@ -20,6 +20,11 @@ const directions = `https://www.google.com/maps/dir/?api=1&destination=${store.l
 // the only major page type with no answer capsule and no FAQ. Both added.
 const capsule = storeAnswerCapsule(store, provinceName);
 const faqs = storeFaqs(store, provinceName);
+
+// One of the inbound-link sources the guides amendment calls for: a shop that
+// lists grading services links straight to the grading comparison guide,
+// which sits on page two despite earning the most reach of any page type.
+const offersGrading = store.services.some((s) => s.toLowerCase() === 'grading services');
 const faqLd = faqPageLd(faqs);
 const breadcrumbLd = breadcrumbListLd([
   { name: 'Home', url: absoluteUrl(Astro.site, '/') },
@@ -88,6 +93,13 @@ const ld: Record<string, unknown> = {
         <li class="rounded-full border border-bord px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted">{t}</li>
       ))}
     </ul>
+  )}
+  {offersGrading && (
+    <p class="mt-4 max-w-2xl text-sm text-muted">
+      {store.name} lists card grading as a service — see our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">guide to Canada's grading companies</a> for
+      how the major graders compare on cost and turnaround.
+    </p>
   )}
   <section class="mt-16 max-w-2xl">
     <h2 class="text-3xl">Common questions</h2>

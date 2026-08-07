@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { parseLocalDate, weekendWindow, showsThisWeekend } from '../../../lib/shows';
+import { parseLocalDate, weekendWindow, showsThisWeekend, showTimingLabel } from '../../../lib/shows';
 import { PROVINCES } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../lib/seo';
 
@@ -35,11 +35,25 @@ const formatRange = (show: ShowRecord): string => {
   return end === start ? start : `${start} – ${end}`;
 };
 
-const title = 'Card Shows This Weekend';
+// Every show query in the 07-23 keyword research carried a time modifier, and
+// this whole page IS "this weekend" — so the title leads with that phrase and
+// the live count rather than a static label, the same time-urgency-first
+// pattern shows/[slug] uses via showTimingLabel(). No false urgency when
+// nothing's actually on: the title says so plainly instead of implying a show
+// that doesn't exist.
+const title =
+  weekendShows.length > 0
+    ? `This Weekend — ${weekendShows.length} Card Show${weekendShows.length === 1 ? '' : 's'} Across Canada`
+    : 'Card Shows This Weekend — See What\'s Coming Up';
 const description =
   weekendShows.length > 0
     ? `${weekendShows.length} sports card ${weekendShows.length === 1 ? 'show is' : 'shows are'} on across Canada this weekend (${weekendLabel}) — dates, venues, and admission.`
     : `No sports card shows are confirmed across Canada for this weekend (${weekendLabel}) yet — see what's coming up next on our show calendar.`;
+
+// Nearest upcoming show's timing label, used to head the "Coming Up Soon"
+// fallback with the same urgency word shows/[slug] would put in its own
+// title, instead of a plain, undated heading.
+const nextTimingLabel = comingSoon[0] !== undefined ? showTimingLabel(comingSoon[0], buildDate) : undefined;
 
 const capsule =
   weekendShows.length > 0
@@ -98,7 +112,7 @@ const showListLd = itemListLd(
       </p>
       {comingSoon.length > 0 && (
         <section class="mt-10">
-          <h2 class="text-3xl">Coming Up Soon</h2>
+          <h2 class="text-3xl">Coming Up Soon{nextTimingLabel !== undefined ? ` — Next: ${nextTimingLabel}` : ''}</h2>
           <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
             {comingSoon.map((show) => (
               <li>

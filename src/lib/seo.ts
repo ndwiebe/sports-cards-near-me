@@ -211,25 +211,43 @@ export function corpusMeanRating(stores: Store[]): number {
  */
 export const DIRECTORY_MEAN_RATING = corpusMeanRating(storesJson as Store[]);
 
+/** Every store eligible to be crowned "top-rated" (a rating plus at least
+ * MIN_REVIEWS_FOR_TOP reviews behind it), ordered by the same Bayesian-weighted
+ * score `topRatedStore` uses, best first. Shared by `topRatedStore` (takes the
+ * first) and `topRatedStores` (takes several) so both read the identical
+ * ranking rather than two implementations that could drift apart. */
+function rankedEligibleStores(stores: Store[], corpusMean?: number): Store[] {
+  const eligible = stores.filter(
+    (s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP,
+  );
+  if (eligible.length === 0) return [];
+  const mean = corpusMean ?? DIRECTORY_MEAN_RATING;
+  const score = (s: Store): number => rankScore(s.rating ?? 0, s.reviewCount ?? 0, mean);
+  return [...eligible].sort(
+    (a, b) =>
+      score(b) - score(a) ||
+      (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
+      a.name.localeCompare(b.name),
+  );
+}
+
 /** The store most deserving of being crowned "top-rated": highest Bayesian-weighted
  * score among shops carrying a rating and at least MIN_REVIEWS_FOR_TOP reviews.
  * Shrinks toward DIRECTORY_MEAN_RATING by default so every city is judged against the
  * same national baseline; pass `corpusMean` only to score against a different corpus.
  * Returns undefined when no store qualifies. */
 export function topRatedStore(stores: Store[], corpusMean?: number): Store | undefined {
-  const eligible = stores.filter(
-    (s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP,
-  );
-  if (eligible.length === 0) return undefined;
-  const mean = corpusMean ?? DIRECTORY_MEAN_RATING;
-  const score = (s: Store): number => rankScore(s.rating ?? 0, s.reviewCount ?? 0, mean);
-  const sorted = [...eligible].sort(
-    (a, b) =>
-      score(b) - score(a) ||
-      (b.reviewCount ?? 0) - (a.reviewCount ?? 0) ||
-      a.name.localeCompare(b.name),
-  );
-  return sorted[0]!;
+  return rankedEligibleStores(stores, corpusMean)[0];
+}
+
+/** Up to `n` stores worth crowning "top-rated", same eligibility and ordering as
+ * `topRatedStore` (a rating plus MIN_REVIEWS_FOR_TOP+ reviews, Bayesian-weighted
+ * score). Used where a page surfaces a short list rather than a single pick —
+ * e.g. a province page naming its handful of best-reviewed shops rather than
+ * just one. Returns an empty array, never undefined entries, when nothing
+ * qualifies — same "no claim at all" rule as topRatedStore's undefined. */
+export function topRatedStores(stores: Store[], n: number, corpusMean?: number): Store[] {
+  return rankedEligibleStores(stores, corpusMean).slice(0, n);
 }
 
 /** Sort comparator for rating-ordered shop lists that must still show everyone.
@@ -310,22 +328,32 @@ export function cityAnswerCapsule(city: string, provinceName: string, stores: St
   return parts.join(' ');
 }
 
-/** Computed answer capsule for a province page: shop total, city count, and the biggest city. */
+/** Computed answer capsule for a province page: shop total, city count, the biggest
+ * city, and — when one exists — the province's top-rated shop. That last clause
+ * only appears once a shop actually clears MIN_REVIEWS_FOR_TOP; provinces where
+ * nothing does simply don't get the sentence, never a weaker or hedged claim. */
 export function provinceAnswerCapsule(provinceName: string, cities: CityGroup[]): string {
-  const total = cities.reduce((n, c) => n + c.stores.length, 0);
+  const stores = cities.flatMap((c) => c.stores);
+  const total = stores.length;
   const shopWord = total === 1 ? 'shop' : 'shops';
   const cityWord = cities.length === 1 ? 'city' : 'cities';
   const base = `${provinceName} has ${total} sports card ${shopWord} listed across ${cities.length} ${cityWord} on Sports Cards Near Me.`;
 
   const max = cities.reduce((m, c) => Math.max(m, c.stores.length), 0);
-  if (max === 0 || cities.length === 1) return base;
   const leaders = cities.filter((c) => c.stores.length === max);
   const shopWordMax = max === 1 ? 'shop' : 'shops';
   const leaderClause =
-    leaders.length === 1
-      ? `${leaders[0]!.city} has the most with ${max} ${shopWordMax}.`
-      : `${leaders.length} cities tie for the most, each with ${max} ${shopWordMax}.`;
-  return `${base} ${leaderClause}`;
+    max === 0 || cities.length === 1
+      ? undefined
+      : leaders.length === 1
+        ? `${leaders[0]!.city} has the most with ${max} ${shopWordMax}.`
+        : `${leaders.length} cities tie for the most, each with ${max} ${shopWordMax}.`;
+
+  const top = topRatedStore(stores);
+  const topClause =
+    top !== undefined ? `${top.name} in ${top.city} is currently the top-rated shop in the province, at ${top.rating} stars.` : undefined;
+
+  return [base, leaderClause, topClause].filter((s): s is string => s !== undefined).join(' ');
 }
 
 /**
@@ -378,6 +406,63 @@ export function cityFaqs(
         };
 
   return [{ question: `How many sports card shops are in ${city}?`, answer: countAnswer }, buysFaq, pokemonFaq];
+}
+
+/**
+ * Four computed FAQ entries for a province page — same shape as `cityFaqs`, one
+ * level up. Every answer is derived from `cities`; a province with no shop
+ * clearing MIN_REVIEWS_FOR_TOP gets an honest "our data gap" answer for the
+ * "rated highest" question rather than naming a shop that hasn't earned it.
+ */
+export function provinceFaqs(provinceName: string, cities: CityGroup[]): FaqItem[] {
+  const stores = cities.flatMap((c) => c.stores);
+  const total = stores.length;
+  const shopWord = total === 1 ? 'shop' : 'shops';
+  const cityWord = cities.length === 1 ? 'city' : 'cities';
+  const countAnswer = `${provinceName} has ${total} sports card ${shopWord} listed on Sports Cards Near Me, across ${cities.length} ${cityWord}.`;
+
+  const top = topRatedStore(stores);
+  const ratedFaq: FaqItem =
+    top !== undefined
+      ? {
+          question: `Which ${provinceName} card shop is rated highest?`,
+          answer: `${top.name} in ${top.city} is currently the highest-rated shop in ${provinceName} that clears our ${MIN_REVIEWS_FOR_TOP}-review bar, at ${top.rating} stars from ${top.reviewCount} Google reviews.`,
+          link: { href: `/store/${top.slug}/`, label: `See ${top.name}'s listing` },
+        }
+      : {
+          question: `Which ${provinceName} card shop is rated highest?`,
+          answer: `No shop in ${provinceName} has yet crossed our ${MIN_REVIEWS_FOR_TOP}-review bar for a "top-rated" crown — that's our data gap, not a judgment on any shop here. Browse every listing by city below instead.`,
+        };
+
+  const buyers = hasTag(stores, (t) => t === 'buys');
+  const buysFaq: FaqItem =
+    buyers.length > 0
+      ? {
+          question: `Do any ${provinceName} card shops buy collections?`,
+          answer: `Yes — ${namesList(buyers)} ${buyers.length === 1 ? 'lists' : 'list'} buying collections as a service in ${provinceName}.`,
+          link: { href: '/sell/', label: 'Browse shops that buy collections' },
+        }
+      : {
+          question: `Do any ${provinceName} card shops buy collections?`,
+          answer: `None of the ${provinceName} shops listed here currently advertise buying collections. Check our national sell hub for shops that do buy in other provinces.`,
+          link: { href: '/sell/', label: 'Browse shops that buy collections' },
+        };
+
+  const pokemonShops = hasTag(stores, (t) => t === 'pokemon');
+  const pokemonFaq: FaqItem =
+    pokemonShops.length > 0
+      ? {
+          question: `Do ${provinceName} shops sell Pokémon cards?`,
+          answer: `Yes — ${namesList(pokemonShops)} ${pokemonShops.length === 1 ? 'carries' : 'carry'} Pokémon cards in ${provinceName}.`,
+          link: { href: '/pokemon/', label: 'Browse Pokémon shops' },
+        }
+      : {
+          question: `Do ${provinceName} shops sell Pokémon cards?`,
+          answer: `None of the ${provinceName} shops listed here currently tag Pokémon in their catalog. Check our national Pokémon hub for other provinces that do.`,
+          link: { href: '/pokemon/', label: 'Browse Pokémon shops' },
+        };
+
+  return [{ question: `How many sports card shops are in ${provinceName}?`, answer: countAnswer }, ratedFaq, buysFaq, pokemonFaq];
 }
 
 /**

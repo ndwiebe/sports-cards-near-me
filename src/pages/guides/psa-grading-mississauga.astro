@@ -25,6 +25,8 @@ const title = 'PSA Grading Drop-Off in Mississauga, Ontario';
 const description =
   "What PSA Canada's Mississauga receiving centre actually is: address, hours, and how in-person drop-off works — verified against psacard.com, not guessed at.";
 
+const capsule = `PSA's Canadian receiving centre is at ${psaLocation.address}, open Monday to Thursday 10am–6pm and Friday 10am–7pm. Collectors build their submission online first, then bring their cards in person with the digital confirmation — it routes through a bundled customs arrangement instead of taxing each shipment individually.`;
+
 const faqs: FaqItem[] = [
   {
     question: 'Where is PSA Canada’s office in Mississauga?',
@@ -88,6 +90,7 @@ const ld: Record<string, unknown> = {
   <h1 class="mt-3 text-5xl md:text-7xl">PSA Grading Drop-Off in Mississauga</h1>
   <div class="refractor-rule mt-4 w-28"></div>
   <Byline published="2026-07-28" modified="2026-07-28" />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
 
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p>
@@ -187,7 +190,10 @@ const ld: Record<string, unknown> = {
       <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> walks through
       all three, including which one tends to fit which kind of collector. And if you're still deciding whether a
       specific card is worth grading at all before you submit anything, our{' '}
-      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers that decision.
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers that decision. If PSA
+      isn't the only grader you're weighing, our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">comparison of PSA, SGC, CGC, and Beckett</a>{' '}
+      covers cost and turnaround across all four, plus the Canadian graders that skip the border entirely.
     </p>
 
     <p class="text-sm text-muted">

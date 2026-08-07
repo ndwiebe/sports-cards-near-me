@@ -4,13 +4,37 @@ import Byline from '../../components/Byline.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
-import { MIN_REVIEWS_FOR_TOP, byRecommendedRank } from '../../lib/seo';
+import { isBuyer } from '../../lib/sell';
+import { isPokemonShop } from '../../lib/tcg';
+import {
+  MIN_REVIEWS_FOR_TOP,
+  byRecommendedRank,
+  absoluteUrl,
+  breadcrumbListLd,
+  faqPageLd,
+  ldJson,
+  type FaqItem,
+} from '../../lib/seo';
 
 const stores = storesJson as Store[];
 const abStores = stores.filter((s) => s.province === 'AB');
 const abRated = abStores.filter((s) => s.rating !== undefined);
 const cityCount = new Set(abStores.map((s) => s.citySlug)).size;
 const provinceSlug = PROVINCES.AB.slug;
+const gradingStoreCount = abStores.filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services')).length;
+
+function joinWithAnd(items: string[]): string {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0]!;
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+function namesList(shops: Store[]): string {
+  const names = shops.map((s) => s.name);
+  if (names.length <= 3) return joinWithAnd(names);
+  const shown = names.slice(0, 3);
+  return `${shown.join(', ')}, and ${names.length - shown.length} more`;
+}
 
 // Top Alberta shops by the directory-wide weighted score — computed at build time
 // from stores.json, never hand-typed, so this list can't go stale-wrong: it simply
@@ -24,9 +48,73 @@ const topShops = [...topEligible].sort(byRecommendedRank).slice(0, 8);
 const topCityCount = new Set(topShops.map((s) => s.citySlug)).size;
 const mostReviewed = [...topShops].sort((a, b) => (b.reviewCount ?? 0) - (a.reviewCount ?? 0))[0];
 
+const buyers = abStores.filter(isBuyer);
+const pokemonShops = abStores.filter(isPokemonShop);
+const topFirst = topShops[0];
+
 const title = 'Best Card Shops in Alberta';
 const description =
   "Alberta's top-rated sports card shops, ranked straight from our directory by Google rating and review count.";
+const pagePath = '/guides/best-card-shops-alberta/';
+
+const capsule =
+  mostReviewed !== undefined
+    ? `Alberta has ${abStores.length} sports card shops listed on Sports Cards Near Me across ${cityCount} cities, and ${topShops.length} of them clear our ${MIN_REVIEWS_FOR_TOP}-review bar to be ranked here. ${mostReviewed.name} in ${mostReviewed.city} leads on review volume, at ${mostReviewed.reviewCount} Google reviews.`
+    : `Alberta has ${abStores.length} sports card shops listed on Sports Cards Near Me across ${cityCount} cities. None currently carry enough Google reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar for a ranked "best" list, so this page lists what we have and explains why.`;
+
+const faqs: FaqItem[] = [
+  {
+    question: 'How many card shops are in Alberta?',
+    answer: `${abStores.length} sports card shops are listed across ${cityCount} Alberta cities on Sports Cards Near Me, and ${topShops.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking.`,
+    link: { href: `/${provinceSlug}/`, label: 'Full Alberta directory' },
+  },
+  topFirst !== undefined
+    ? {
+        question: 'Which Alberta card shop ranks first?',
+        answer: `${topFirst.name} in ${topFirst.city} currently ranks first among Alberta shops that clear our review bar, at ${topFirst.rating} stars from ${topFirst.reviewCount} Google reviews.`,
+        link: { href: `/store/${topFirst.slug}/`, label: `See ${topFirst.name}'s listing` },
+      }
+    : {
+        question: 'Which Alberta card shop ranks first?',
+        answer: `No Alberta shop currently has ${MIN_REVIEWS_FOR_TOP} or more reviews behind its rating, so we aren't naming a top pick yet.`,
+      },
+  buyers.length > 0
+    ? {
+        question: 'Do Alberta card shops buy collections?',
+        answer: `Yes — ${namesList(buyers)} ${buyers.length === 1 ? 'lists' : 'list'} buying collections as a service across the province.`,
+        link: { href: '/sell/', label: 'Shops that buy collections' },
+      }
+    : {
+        question: 'Do Alberta card shops buy collections?',
+        answer: 'None of the Alberta shops listed here currently advertise buying collections as a service. Check our sell hub for shops that do buy in other provinces.',
+        link: { href: '/sell/', label: 'Browse shops that buy collections' },
+      },
+  pokemonShops.length > 0
+    ? {
+        question: 'Do Alberta card shops sell Pokémon cards?',
+        answer: `Yes — ${namesList(pokemonShops)} ${pokemonShops.length === 1 ? 'carries' : 'carry'} Pokémon cards in Alberta.`,
+        link: { href: '/pokemon/', label: 'Browse Pokémon shops' },
+      }
+    : {
+        question: 'Do Alberta card shops sell Pokémon cards?',
+        answer: 'None of the Alberta shops listed here currently tag Pokémon in their catalog.',
+      },
+  {
+    question: 'Do any Alberta card shops offer grading services?',
+    answer:
+      gradingStoreCount > 0
+        ? `${gradingStoreCount} Alberta ${gradingStoreCount === 1 ? 'shop lists' : 'shops list'} grading services among what they offer.`
+        : "None of the Alberta shops listed here currently advertise grading services as a confirmed offering. That's a gap in what we've verified, not proof no shop does it.",
+    link: { href: '/guides/card-grading-companies-canada/', label: "Compare Canada's grading companies" },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const faqLd = faqPageLd(faqs);
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -47,6 +135,8 @@ const ld: Record<string, unknown> = {
 ---
 <Base title={`${title} | Sports Cards Near Me`} description={description}>
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
 
   <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
     <img
@@ -66,6 +156,8 @@ const ld: Record<string, unknown> = {
   <Byline published="2026-07-11" modified="2026-07-11" />
     </div>
   </section>
+
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
 
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p>
@@ -171,8 +263,34 @@ const ld: Record<string, unknown> = {
       far from the only ones worth a visit. Alberta has card shops spread across {cityCount} different cities in our
       listings, and that list keeps growing as we verify more of the country. Browse the{' '}
       <a href={`/${provinceSlug}/`} class="text-prizm">full Alberta directory</a> to see every shop we've mapped near
-      you.
+      you, or see how Calgary and Edmonton specifically stack up in our{' '}
+      <a href="/guides/best-card-shops-calgary/" class="text-prizm">Calgary</a> and{' '}
+      <a href="/guides/best-card-shops-edmonton/" class="text-prizm">Edmonton</a> guides. If you're weighing whether a
+      card is worth grading before you sell or trade it at one of these shops, our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers that decision, and
+      Alberta's <a href="/shows/alberta-2026/" class="text-prizm">upcoming card show calendar</a> is another way to
+      see a lot of dealers in one place.
     </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
 
     <p class="text-sm text-muted">
       Ratings and review counts shift as new collectors leave feedback, and shops open, close, or change hands over

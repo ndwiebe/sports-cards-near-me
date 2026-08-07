@@ -56,8 +56,10 @@ test('PSA grading guide has an h1 and internal store links', async ({ page }) =>
   await expect(page.locator('h1')).toBeVisible();
   const storeLinks = page.locator('a[href^="/store/"]');
   expect(await storeLinks.count()).toBeGreaterThanOrEqual(3);
-  const ld = await page.locator('script[type="application/ld+json"]').textContent();
-  expect(ld).toContain('"@type":"Article"');
+  const scripts = page.locator('script[type="application/ld+json"]');
+  const bodies = await scripts.allTextContents();
+  expect(bodies.some((b) => b.includes('"@type":"Article"'))).toBe(true);
+  expect(bodies.some((b) => b.includes('"@type":"FAQPage"'))).toBe(true);
 });
 
 test('Alberta guide has an h1 and internal store/city links', async ({ page }) => {

@@ -6,21 +6,26 @@ function parseLd(json: string | null): Record<string, unknown> {
 }
 
 test.describe('province page structured data', () => {
-  test('has exactly a BreadcrumbList and an ItemList, both valid JSON', async ({ page }) => {
+  test('has a BreadcrumbList, a city ItemList, a top-shops ItemList, and an FAQPage, all valid JSON', async ({ page }) => {
     await page.goto('/alberta/');
     const scripts = page.locator('script[type="application/ld+json"]');
-    await expect(scripts).toHaveCount(2);
+    await expect(scripts).toHaveCount(4);
 
     const bodies = await scripts.allTextContents();
     const parsed = bodies.map((b) => parseLd(b));
     const breadcrumb = parsed.find((p) => p['@type'] === 'BreadcrumbList');
-    const itemList = parsed.find((p) => p['@type'] === 'ItemList');
+    const itemLists = parsed.filter((p) => p['@type'] === 'ItemList');
+    const faqPage = parsed.find((p) => p['@type'] === 'FAQPage');
     expect(breadcrumb).toBeTruthy();
-    expect(itemList).toBeTruthy();
+    expect(itemLists).toHaveLength(2);
+    expect(faqPage).toBeTruthy();
 
     const items = breadcrumb?.['itemListElement'] as Array<Record<string, unknown>>;
     expect(items).toHaveLength(2);
     expect(items[1]?.['name']).toBe('Alberta');
+
+    const questions = faqPage?.['mainEntity'] as Array<Record<string, unknown>>;
+    expect(questions).toHaveLength(4);
   });
 
   test('renders a computed answer capsule', async ({ page }) => {
@@ -28,6 +33,18 @@ test.describe('province page structured data', () => {
     const capsule = page.locator('[data-answer-capsule]');
     await expect(capsule).toBeVisible();
     await expect(capsule).toContainText('Alberta');
+  });
+
+  test('surfaces the province\'s top-rated shops, not just a city list', async ({ page }) => {
+    await page.goto('/alberta/');
+    await expect(page.getByRole('heading', { name: 'Top-Rated Shops in Alberta', level: 2 })).toBeVisible();
+  });
+
+  test('renders a server-rendered FAQ section matching the JSON-LD question count', async ({ page }) => {
+    await page.goto('/alberta/');
+    await expect(page.getByRole('heading', { name: 'FAQ', level: 2 })).toBeVisible();
+    const questions = page.locator('dl dt');
+    await expect(questions).toHaveCount(4);
   });
 });
 

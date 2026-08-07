@@ -106,6 +106,25 @@ export function showsInProvinceYear(shows: ShowRecord[], province: ProvinceCode,
     .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
 }
 
+/**
+ * The one show-calendar year worth linking to for a province — e.g. from the
+ * province page — when several years of data exist. Prefers the earliest year
+ * that still has an upcoming show (so the link lands somewhere with something
+ * to see); falls back to the most recent year on record if every show for
+ * that province has already happened. Returns undefined when the province has
+ * no shows at all, so callers never construct a link to an empty page.
+ */
+export function primaryShowCalendarYear(shows: ShowRecord[], province: ProvinceCode, buildDate: Date): number | undefined {
+  const years = [...new Set(shows.filter((s) => s.province === province).map((s) => parseLocalDate(s.startDate).getFullYear()))].sort(
+    (a, b) => a - b,
+  );
+  if (years.length === 0) return undefined;
+  for (const year of years) {
+    if (showsInProvinceYear(shows, province, year).some((s) => isUpcoming(s, buildDate))) return year;
+  }
+  return years[years.length - 1];
+}
+
 export interface WeekendWindow {
   start: Date;
   end: Date;

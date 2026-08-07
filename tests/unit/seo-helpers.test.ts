@@ -8,7 +8,9 @@ import {
   ldJson,
   MIN_REVIEWS_FOR_TOP,
   provinceAnswerCapsule,
+  provinceFaqs,
   topRatedStore,
+  topRatedStores,
   byRecommendedRank,
   weightedRating,
   corpusMeanRating,
@@ -145,6 +147,70 @@ describe('provinceAnswerCapsule', () => {
     const capsule = provinceAnswerCapsule('Nunavut', [{ city: 'Iqaluit', citySlug: 'iqaluit', stores: [] }]);
     expect(capsule).toContain('0 sports card shops');
     expect(capsule).not.toContain('has the most');
+  });
+
+  it('names the top-rated shop once one clears MIN_REVIEWS_FOR_TOP', () => {
+    const capsule = provinceAnswerCapsule('Alberta', [
+      { city: 'Calgary', citySlug: 'calgary', stores: [store({ name: 'Ace Cards', rating: 4.9, reviewCount: 120 })] },
+    ]);
+    expect(capsule).toContain('Ace Cards in Calgary is currently the top-rated shop in the province');
+  });
+
+  it('never names a top shop for a province where nothing clears the review bar', () => {
+    const capsule = provinceAnswerCapsule('Nunavut', [
+      { city: 'Iqaluit', citySlug: 'iqaluit', stores: [store({ name: 'Thin Shop', rating: 5, reviewCount: 3 })] },
+    ]);
+    expect(capsule).not.toContain('top-rated shop');
+  });
+});
+
+describe('topRatedStores', () => {
+  it('returns up to n eligible stores, best first, same ordering as topRatedStore', () => {
+    const stores = [
+      store({ slug: 'a', name: 'A', rating: 4.5, reviewCount: 40 }),
+      store({ slug: 'b', name: 'B', rating: 4.9, reviewCount: 200 }),
+      store({ slug: 'c', name: 'C', rating: 4.2, reviewCount: 25 }),
+    ];
+    const top2 = topRatedStores(stores, 2);
+    expect(top2).toHaveLength(2);
+    expect(top2[0]?.slug).toBe(topRatedStore(stores)?.slug);
+    expect(top2.map((s) => s.slug)).toEqual(['b', 'a']);
+  });
+
+  it('returns an empty array, not a partially-filled or padded one, when nothing clears the review bar', () => {
+    const stores = [store({ rating: 5, reviewCount: 2 }), store({ rating: 3, reviewCount: 1 })];
+    expect(topRatedStores(stores, 5)).toEqual([]);
+  });
+});
+
+describe('provinceFaqs', () => {
+  it('answers honestly with a data-gap line, never a top-shop claim, when nothing clears the review bar', () => {
+    const faqs = provinceFaqs('Nunavut', [
+      { city: 'Iqaluit', citySlug: 'iqaluit', stores: [store({ name: 'Thin Shop', rating: 5, reviewCount: 3 })] },
+    ]);
+    const ratedFaq = faqs.find((f) => f.question === 'Which Nunavut card shop is rated highest?');
+    expect(ratedFaq).toBeDefined();
+    expect(ratedFaq?.answer).toContain('data gap');
+    expect(ratedFaq?.answer).not.toContain('Thin Shop');
+    expect(ratedFaq?.link).toBeUndefined();
+  });
+
+  it('names the top shop and links its page once one clears the review bar', () => {
+    const faqs = provinceFaqs('Alberta', [
+      { city: 'Calgary', citySlug: 'calgary', stores: [store({ slug: 'ace', name: 'Ace Cards', rating: 4.9, reviewCount: 120 })] },
+    ]);
+    const ratedFaq = faqs.find((f) => f.question === 'Which Alberta card shop is rated highest?');
+    expect(ratedFaq?.answer).toContain('Ace Cards');
+    expect(ratedFaq?.link).toEqual({ href: '/store/ace/', label: "See Ace Cards's listing" });
+  });
+
+  it('answers the buys/Pokémon questions honestly, without asserting a negative about a named shop', () => {
+    const faqs = provinceFaqs('Alberta', [
+      { city: 'Calgary', citySlug: 'calgary', stores: [store({ name: 'Plain Shop' })] },
+    ]);
+    const buysFaq = faqs.find((f) => f.question === 'Do any Alberta card shops buy collections?');
+    expect(buysFaq?.answer).not.toContain('Plain Shop');
+    expect(buysFaq?.answer).toContain('None of the Alberta shops');
   });
 });
 

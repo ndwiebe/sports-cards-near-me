@@ -29,6 +29,9 @@ const title = 'PSA vs SGC vs BGS vs CGC: Card Grading Companies in Canada';
 const description =
   'An honest comparison of the card grading companies Canadians can actually use — turnaround, cost structure, cross-border shipping, and which grader fits which situation.';
 
+const capsule =
+  "Canadians grading sports cards can use four major US graders — PSA, SGC, CGC, and Beckett (BGS) — plus four Canadian graders that skip the border entirely: Overtime Grading, TGA, KSA, and HOF Grading. PSA carries the strongest resale premium and now has a Mississauga receiving centre; the Canadian graders suit lower-value or bulk submissions where cost and turnaround matter more than resale brand.";
+
 const faqs: FaqItem[] = [
   {
     question: 'Which card grading company should a Canadian collector use?',
@@ -95,6 +98,7 @@ const ld: Record<string, unknown> = {
   <h1 class="mt-3 text-5xl md:text-7xl">Card Grading Companies in Canada, Compared</h1>
   <div class="refractor-rule mt-4 w-28"></div>
   <Byline published="2026-07-28" modified="2026-07-28" />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
 
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p class="text-lg">

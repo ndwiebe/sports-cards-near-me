@@ -1,9 +1,22 @@
 ---
 import Base from '../../layouts/Base.astro';
 import storesJson from '../../data/stores.json';
+import showsJson from '../../data/shows.json';
 import type { Store } from '../../lib/types';
+import type { ShowRecord } from '../../lib/shows';
+import { primaryShowCalendarYear } from '../../lib/shows';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
-import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson, provinceAnswerCapsule, topRatedStore } from '../../lib/seo';
+import {
+  absoluteUrl,
+  breadcrumbListLd,
+  faqPageLd,
+  itemListLd,
+  ldJson,
+  MIN_REVIEWS_FOR_TOP,
+  provinceAnswerCapsule,
+  provinceFaqs,
+  topRatedStores,
+} from '../../lib/seo';
 
 export function getStaticPaths() {
   return provincesWithStores(storesJson as Store[]).map((p) => ({ params: { province: p.slug } }));
@@ -14,19 +27,51 @@ const province = provinceBySlug(Astro.params.province);
 if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`);
 const cities = citiesIn(stores, province.code);
 const total = cities.reduce((n, c) => n + c.stores.length, 0);
+const allStores = cities.flatMap((c) => c.stores);
 
 // Same rule as the city page: no "top rated" claim for a province where no
-// shop clears the 20-review bar. topRatedStore already handles that (undefined).
-const topRated = topRatedStore(cities.flatMap((c) => c.stores));
+// shop clears the 20-review bar. topRatedStores returns [] rather than
+// undefined when nothing qualifies, so the section below renders an honest
+// data-gap line instead of an empty scaffold.
+const topStores = topRatedStores(allStores, 5);
+const topRated = topStores[0];
 
+// Cities worth calling out above the full alphabetical grid: the ones that
+// actually carry the province's shops, computed from live store counts
+// rather than hand-picked. Only surfaced once the grid is big enough that a
+// shortlist adds something — below 4 cities the grid already is the shortlist.
+const popularCities = [...cities]
+  .sort((a, b) => b.stores.length - a.stores.length || a.city.localeCompare(b.city))
+  .slice(0, 3)
+  .filter((c) => c.stores.length > 0);
+const showPopularCities = cities.length > 3 && popularCities.length > 0;
+
+// Shops in the province that list grading services — the grading guides are
+// the highest-reach content on the site and currently sit on page two; this
+// is one of the inbound-link sources the amendment calls for.
+const gradingStores = allStores.filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services'));
+
+// This province's show calendar, if the data supports one — prefers a year
+// with something still upcoming, falls back to the most recent year on
+// record, and is simply absent for a province with no shows tracked yet.
+const buildDate = new Date();
+const showYear = primaryShowCalendarYear(showsJson as ShowRecord[], province.code, buildDate);
+const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : undefined;
+
+const provinceUrl = absoluteUrl(Astro.site, `/${province.slug}/`);
 const breadcrumbLd = breadcrumbListLd([
   { name: 'Home', url: absoluteUrl(Astro.site, '/') },
-  { name: province.name, url: absoluteUrl(Astro.site, `/${province.slug}/`) },
+  { name: province.name, url: provinceUrl },
 ]);
 const cityListLd = itemListLd(
   cities.map((c) => ({ name: c.city, url: absoluteUrl(Astro.site, `/${province.slug}/${c.citySlug}/`) })),
 );
+const topStoreListLd = itemListLd(
+  topStores.map((s) => ({ name: s.name, url: absoluteUrl(Astro.site, `/store/${s.slug}/`) })),
+);
 const capsule = provinceAnswerCapsule(province.name, cities);
+const faqs = provinceFaqs(province.name, cities);
+const faqLd = faqPageLd(faqs);
 ---
 <Base
   title={`${total} Card Shops in ${province.name} — Rated by City, Updated Daily`}
@@ -36,11 +81,78 @@ const capsule = provinceAnswerCapsule(province.name, cities);
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(cityListLd)} />
+  {topStores.length > 0 && <script type="application/ld+json" set:html={ldJson(topStoreListLd)} />}
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
   <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Province</p>
   <h1 class="mt-2 text-5xl md:text-7xl">{province.name}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
   <p class="mt-4 max-w-prose text-muted" data-answer-capsule>{capsule}</p>
-  <ul class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3">
+
+  {showPopularCities && (
+    <p class="mt-4 text-sm text-muted">
+      Most shops are in{' '}
+      {popularCities.map((c, i) => (
+        <span>
+          <a href={`/${province.slug}/${c.citySlug}/`} class="font-semibold text-prizm">{c.city}</a>
+          {' '}({c.stores.length}){i < popularCities.length - 1 ? (i === popularCities.length - 2 ? ', and ' : ', ') : '.'}
+        </span>
+      ))}
+    </p>
+  )}
+
+  {topStores.length > 0 ? (
+    <section class="mt-10">
+      <h2 class="text-2xl">Top-Rated Shops in {province.name}</h2>
+      <p class="mt-1 text-sm text-muted">
+        Ranked by a weighted score that counts review volume as evidence, not just the star average — every shop
+        here clears our {MIN_REVIEWS_FOR_TOP}-review bar. Nobody pays for a place on this list.
+      </p>
+      <ol role="list" class="mt-4 grid gap-3 sm:grid-cols-2">
+        {topStores.map((s, i) => (
+          <li class="rounded-xl border border-bord bg-panel p-4">
+            <a href={`/store/${s.slug}/`} class="text-lg font-semibold hover:text-prizm">{i + 1}. {s.name}</a>
+            <p class="mt-1 text-sm text-muted">
+              <a href={`/${province.slug}/${s.citySlug}/`} class="hover:text-paper">{s.city}, {province.code}</a>
+              {s.rating !== undefined && (
+                <span class="text-gold">
+                  {' '}· ★ {s.rating}
+                  {s.reviewCount !== undefined && <span class="text-muted"> ({s.reviewCount} Google {s.reviewCount === 1 ? 'review' : 'reviews'})</span>}
+                </span>
+              )}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ) : (
+    <p class="mt-10 max-w-prose text-sm text-muted">
+      None of the {total} shops listed in {province.name} have crossed our {MIN_REVIEWS_FOR_TOP}-review bar yet —
+      that's a gap in how much Google review history has built up here, not a judgment on any shop. Every one of
+      them is still listed by city below.
+    </p>
+  )}
+
+  {(showsUrl !== undefined || gradingStores.length > 0) && (
+    <p class="mt-6 max-w-prose text-sm text-muted">
+      {showsUrl !== undefined && (
+        <>
+          Looking for a card show? See the <a href={showsUrl} class="text-prizm">{province.name} {showYear} show calendar</a>.{' '}
+        </>
+      )}
+      {gradingStores.length > 0 && (
+        <>
+          {gradingStores.length} {gradingStores.length === 1 ? 'shop' : 'shops'} in {province.name} list card grading
+          as a service — see our{' '}
+          <a href="/guides/card-grading-companies-canada/" class="text-prizm">guide to Canada's grading companies</a>{' '}
+          for how they compare on cost and turnaround.
+        </>
+      )}
+    </p>
+  )}
+
+  <h2 class="mt-12 text-2xl">Every City in {province.name}</h2>
+  <ul class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
     {cities.map((c) => (
       <li>
         <a href={`/${province.slug}/${c.citySlug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
@@ -50,4 +162,25 @@ const capsule = provinceAnswerCapsule(province.name, cities);
       </li>
     ))}
   </ul>
+
+  <section class="mt-14">
+    <h2 class="text-2xl">FAQ</h2>
+    <dl class="mt-4 space-y-6">
+      {faqs.map((faq) => (
+        <div>
+          <dt class="font-semibold">{faq.question}</dt>
+          <dd class="mt-1 max-w-prose text-muted">
+            {faq.answer}
+            {faq.link !== undefined && (
+              <>
+                {' '}
+                <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+              </>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+  </section>
 </Base>

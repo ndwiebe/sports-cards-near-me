@@ -5,6 +5,7 @@ import Byline from '../../components/Byline.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, type FaqItem } from '../../lib/seo';
 
 const stores = storesJson as Store[];
 const cityCount = new Set(stores.map((s) => s.citySlug)).size;
@@ -31,6 +32,41 @@ for (const s of [...tradeNightAll].sort(
 const title = 'Your First Card Show: What to Expect';
 const description =
   'A newcomer’s guide to attending a Canadian card show: what happens, how to handle cards politely, cash vs. card, spotting real deals, and trade-night culture.';
+const pagePath = '/guides/your-first-card-show/';
+
+const capsule =
+  "A card show is a room of dealer tables, usually with a small admission fee, where you browse binders, cases of graded cards, and boxes of commons — nobody expects you to buy anything. Bring cash (most dealers prefer or only take it), hold cards by the edges, and check real recent sold prices before assuming a marked price is a deal.";
+
+const faqs: FaqItem[] = [
+  {
+    question: 'What should I bring to my first card show?',
+    answer:
+      'Cash in small bills — most dealers prefer or only take it. A written want list if you\'re hunting something specific, a few penny sleeves and toploaders for anything you buy, and a small magnifying loupe if condition matters to what you collect.',
+  },
+  {
+    question: 'Do card shows accept debit or credit cards?',
+    answer:
+      "Some tables accept e-transfer or tap payment through a phone reader, but plenty only take cash — a card reader takes a processing cut out of a sale that's often already priced thin. Don't assume a table takes cards; ask before you're at the register mentally.",
+  },
+  {
+    question: 'Can I negotiate prices at a card show?',
+    answer:
+      "Usually, yes — marked prices are typically a starting point, and most dealers expect some back-and-forth. There's a real difference between negotiating and lowballing, though: offering noticeably less than a card is worth tends to end the conversation fast.",
+  },
+  {
+    question: 'How do I find a card show near me in Canada?',
+    answer:
+      'Our live show calendar lists upcoming Canadian card shows with dates, venues, and admission, updated as new ones get added.',
+    link: { href: '/shows/', label: 'Browse the show calendar' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const faqLd = faqPageLd(faqs);
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -51,6 +87,8 @@ const ld: Record<string, unknown> = {
 ---
 <Base title={`${title} | Sports Cards Near Me`} description={description}>
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
 
   <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
     <img
@@ -70,6 +108,8 @@ const ld: Record<string, unknown> = {
   <Byline published="2026-07-11" modified="2026-07-11" />
     </div>
   </section>
+
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
 
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p>
@@ -165,6 +205,26 @@ const ld: Record<string, unknown> = {
       of local shops offer the same browsing, buying, and trading experience a show does, just on a Tuesday afternoon
       instead of a weekend.
     </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
 
     <p class="text-sm text-muted">
       Know a show we're missing from the calendar? <a href="/suggest/" class="text-prizm">Suggest it</a>.

@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import Byline from '../../components/Byline.astro';
 import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, type FaqItem } from '../../lib/seo';
 
 const stores = storesJson as Store[];
 
@@ -19,6 +20,46 @@ const gradingStoreCount = stores.filter((s) =>
 const title = 'Card Grading 101: Should You Get a Card Graded?';
 const description =
   'A beginner’s guide to card grading: what the 1–10 scale means, raw vs. slabbed value, and how to work out whether a specific card is actually worth grading.';
+const pagePath = '/guides/card-grading-101/';
+
+const capsule =
+  "Grading means sending a card to a third-party company that examines it, assigns a 1–10 grade, and seals it in a tamper-evident slab. It's worth doing when the gap between a card's raw and graded value clearly covers the submission fee, shipping, and insurance — not for common veterans or low-value base cards, no matter how sharp they look.";
+
+const faqs: FaqItem[] = [
+  {
+    question: 'What does a 1–10 card grade actually mean?',
+    answer:
+      'Graders score centering, corner sharpness, edge condition, and surface quality on a 1–10 scale. A 10 is as close to perfect as the card gets; a 9 usually has one small flaw. The scale is not linear in value — the jump from a 9 to a 10 is often worth far more than the jump from a 7 to an 8, because a true 10 is much rarer.',
+  },
+  {
+    question: 'Is a graded (slabbed) card worth more than a raw one?',
+    answer:
+      "Usually, yes, for cards that clear the value bar — a slabbed grade removes the uncertainty in a raw card's condition, and buyers pay for that certainty. It costs money and takes time to get there, so it only makes sense once the value gap between raw and graded covers the real cost of grading.",
+  },
+  {
+    question: 'How do I know if my card is worth grading?',
+    answer:
+      "Weigh the card's estimated raw value against the full cost of grading — submission fee, shipping both ways, insurance, and your time — against the realistic upside if it grades well. The rule of thumb: there needs to be a meaningful gap between raw and graded value, with enough room left over that a lower-than-hoped grade still doesn't leave you worse off.",
+    link: { href: '/guides/card-grading-companies-canada/', label: 'Compare Canadian grading companies' },
+  },
+  {
+    question: 'Which cards are usually worth grading?',
+    answer:
+      "Rookie cards of star players, low-print-run inserts and parallels, genuinely vintage cards in strong shape for their age, and anything that already commands real money raw. Common veterans and recent base cards almost never clear the bar, regardless of how sharp the corners look.",
+  },
+  {
+    question: "Can a local shop grade my cards for me?",
+    answer: `Not directly — grading is done by the grading companies themselves — but ${gradingStoreCount} shops in our directory currently list grading services, which typically means they'll handle the submission on your behalf so you don't have to ship cards across the border yourself.`,
+    link: { href: '/guides/psa-grading-submissions-canada/', label: 'How Canadian submission routes work' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const faqLd = faqPageLd(faqs);
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -38,7 +79,9 @@ const ld: Record<string, unknown> = {
 };
 ---
 <Base title={`${title} | Sports Cards Near Me`} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <script type="application/ld+json" set:html={ldJson(ld)} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
 
   <section class="relative mt-6 overflow-hidden rounded-2xl border border-bord bg-panel">
     <img
@@ -58,6 +101,8 @@ const ld: Record<string, unknown> = {
   <Byline published="2026-07-11" modified="2026-07-11" />
     </div>
   </section>
+
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
 
   <div class="mt-10 max-w-prose space-y-6 text-paper/90">
     <p>
@@ -133,6 +178,14 @@ const ld: Record<string, unknown> = {
       value gap — not how nice the card looks sitting in your hand — is the number that actually matters.
     </p>
 
+    <h2 class="text-3xl">Once You've Decided to Grade, Which Grader?</h2>
+    <p>
+      Deciding a card clears the bar is only step one — PSA, SGC, CGC, and Beckett each price and turn cards around
+      differently, and four Canadian graders skip the cross-border shipment entirely. Our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">card grading companies comparison</a> walks
+      through cost, turnaround, and which grader tends to fit which situation.
+    </p>
+
     <h2 class="text-3xl">If You'd Rather Not Ship It Yourself</h2>
     <p>
       If the idea of packing and shipping cards across the border puts you off entirely, {gradingStoreCount} shops in
@@ -149,6 +202,26 @@ const ld: Record<string, unknown> = {
       our <a href="/guides/selling-your-collection/" class="text-prizm">collection triage guide</a> walks through
       both paths side by side.
     </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
 
     <p class="text-sm text-muted">
       Notice something here that doesn't line up with what you're seeing on an actual card? <a href="/suggest/" class="text-prizm">Let us know</a>.

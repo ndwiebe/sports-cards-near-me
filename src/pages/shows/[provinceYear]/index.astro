@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear } from '../../../lib/shows';
+import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear, showTimingLabel } from '../../../lib/shows';
 import { PROVINCES } from '../../../lib/types';
 import type { ProvinceCode } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../lib/seo';
@@ -50,11 +50,29 @@ const formatRange = (show: ShowRecord): string => {
   return end === start ? start : `${start} – ${end}`;
 };
 
-const title = `Card Shows in ${province.name} ${YEAR}`;
+// Every show query in the 07-23 keyword research carried a time modifier, so
+// this calendar's title leads with the nearest upcoming show's urgency word —
+// the same showTimingLabel() used on shows/[slug] — rather than a static
+// "Card Shows in X YEAR" with no time signal at all. upcoming is chronological
+// (showsInProvinceYear sorts ascending, filter preserves order), so upcoming[0]
+// is the soonest show; showTimingLabel is guaranteed defined for it since it's
+// already known upcoming. No false urgency once every show for the year has
+// already happened — the title says "recap", not "upcoming".
+const nextShow = upcoming[0];
+const nextTimingLabel = nextShow !== undefined ? showTimingLabel(nextShow, buildDate) : undefined;
+
+const title =
+  upcoming.length > 0 && nextTimingLabel !== undefined
+    ? `${nextTimingLabel} — ${upcoming.length} Upcoming Card Show${upcoming.length === 1 ? '' : 's'} in ${province.name} ${YEAR}`
+    : yearShows.length > 0
+      ? `Card Shows in ${province.name} ${YEAR} — Full Season Recap`
+      : `Card Shows in ${province.name} ${YEAR}`;
 const description =
-  yearShows.length > 0
-    ? `${yearShows.length} sports card ${yearShows.length === 1 ? 'show' : 'shows'} in ${province.name} in ${YEAR} — dates, venues, and admission, tracked from public sources.`
-    : `Sports card shows in ${province.name} in ${YEAR} — none confirmed yet on Sports Cards Near Me. Check back as our show calendar grows.`;
+  upcoming.length > 0 && nextTimingLabel !== undefined
+    ? `${nextTimingLabel}: the next of ${upcoming.length} upcoming sports card ${upcoming.length === 1 ? 'show' : 'shows'} in ${province.name} for ${YEAR} — dates, venues, and admission, tracked from public sources.`
+    : yearShows.length > 0
+      ? `${yearShows.length} sports card ${yearShows.length === 1 ? 'show' : 'shows'} in ${province.name} in ${YEAR}, all already held — dates, venues, and admission, tracked from public sources.`
+      : `Sports card shows in ${province.name} in ${YEAR} — none confirmed yet on Sports Cards Near Me. Check back as our show calendar grows.`;
 
 const capsule =
   yearShows.length > 0
