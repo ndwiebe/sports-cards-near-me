@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import { SHOW_FORM_URL } from '../../../lib/forms';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { parseLocalDate, weekendWindow, showsThisWeekend } from '../../../lib/shows';
@@ -93,7 +94,7 @@ const showListLd = itemListLd(
     <>
       <p class="mt-10 max-w-prose text-muted">
         Nothing on our calendar lands this weekend yet. Run a show, or know of one we're missing?{' '}
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
+        <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
       </p>
       {comingSoon.length > 0 && (
         <section class="mt-10">
@@ -118,7 +119,6 @@ const showListLd = itemListLd(
   )}
 
   <p class="mt-12 text-sm text-muted">
-    This page rebuilds daily, so "this weekend" always means the weekend closest to today. Know of a show we're
-    missing? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+    This page rebuilds daily, so "this weekend" always means the weekend closest to today.
   </p>
 </Base>

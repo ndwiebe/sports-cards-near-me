@@ -1,8 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { SHOW_FORM_URL } from '../../lib/forms';
 import showsJson from '../../data/shows.json';
 import type { ShowRecord } from '../../lib/shows';
-import { parseLocalDate, isUpcoming, groupShowsByMonth } from '../../lib/shows';
+import { parseLocalDate, isUpcoming, groupShowsByMonth, showTimingLabel } from '../../lib/shows';
 import { PROVINCES } from '../../lib/types';
 import type { ProvinceCode } from '../../lib/types';
 
@@ -14,6 +15,23 @@ const buildDate = new Date();
 const upcoming = shows.filter((s) => isUpcoming(s, buildDate));
 const past = shows.filter((s) => !isUpcoming(s, buildDate)).reverse();
 const monthGroups = groupShowsByMonth(upcoming);
+
+// The 07-23 keyword research found every show query carries a time modifier,
+// so the hub page names the very next show and, when it's imminent, leads
+// the title with the same urgency word its own page uses.
+const nextShow = [...upcoming].sort(
+  (a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime(),
+)[0];
+const nextShowTiming = nextShow !== undefined ? showTimingLabel(nextShow, buildDate) : undefined;
+const nextShowWhen =
+  nextShowTiming === 'This Weekend' ? 'this weekend'
+  : nextShowTiming === 'Today' ? 'today'
+  : nextShowTiming === 'Tomorrow' ? 'tomorrow'
+  : nextShowTiming !== undefined ? `on ${nextShowTiming}`
+  : undefined;
+const titleLead = nextShowTiming === 'This Weekend' || nextShowTiming === 'Today' || nextShowTiming === 'Tomorrow'
+  ? nextShowTiming
+  : undefined;
 
 const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
 const formatRange = (show: ShowRecord): string => {
@@ -37,8 +55,12 @@ const provinceYearLinks = [...new Map(
 ).values()].sort((a, b) => a.year - b.year || a.label.localeCompare(b.label));
 ---
 <Base
-  title="Card Shows in Canada | Sports Cards Near Me"
-  description={`Upcoming sports card shows across Canada — ${upcoming.length} listed with dates, venues, and admission.`}
+  title={titleLead !== undefined
+    ? `Card Shows ${titleLead} — ${upcoming.length} Listed Across Canada`
+    : `${upcoming.length} Upcoming Card Shows in Canada — Updated Daily`}
+  description={nextShow !== undefined
+    ? `${upcoming.length} upcoming card shows across Canada. Next up: ${nextShow.name} in ${nextShow.city}, ${PROVINCES[nextShow.province].name}${nextShowWhen !== undefined ? `, ${nextShowWhen}` : ''}. Dates, venues, and admission for every listing.`
+    : `Verified card shows across Canada — dates, venues, and admission for every listing. New shows added as they're confirmed.`}
 >
   <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Calendar</p>
   <h1 class="mt-2 text-5xl md:text-7xl">Card Shows</h1>
@@ -46,7 +68,7 @@ const provinceYearLinks = [...new Map(
   <p class="mt-5 max-w-prose text-muted">
     Verified card shows across Canada — every listing checked against a public source.
     Run a show, or know one we're missing?
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Add a show</a> — it's free, and a person reviews every submission.
+    <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add a show</a> — it's free, and a person reviews every submission.
   </p>
 
   <ul role="list" class="mt-6 flex flex-wrap gap-3">
@@ -61,7 +83,7 @@ const provinceYearLinks = [...new Map(
 
   {upcoming.length === 0 ? (
     <p class="mt-8 max-w-prose text-muted">
-      No upcoming shows listed yet — know one? <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Suggest it</a>.
+      No upcoming shows listed yet — know one? <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Suggest it</a>.
     </p>
   ) : (
     <div class="mt-10 space-y-10">

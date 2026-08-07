@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import { SHOW_FORM_URL } from '../../../lib/forms';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear } from '../../../lib/shows';
@@ -84,14 +85,14 @@ const showListLd = itemListLd(
   </p>
   <p class="mt-2 text-sm text-muted">
     Run a show in {province.name}, or know one we're missing?{' '}
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
+    <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
   </p>
 
   {yearShows.length === 0 ? (
     <p class="mt-10 max-w-prose text-muted">
       No {province.name} shows are confirmed for {YEAR} yet — our calendar is actively growing. Run a show, or know
       of one we're missing?{' '}
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSd01E8-9smZTn-frEx5S3ad8R89y7LmUThYXuEAi_8GffcViA/viewform" target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
+      <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
     </p>
   ) : (
     <>
@@ -149,7 +150,4 @@ const showListLd = itemListLd(
     </>
   )}
 
-  <p class="mt-12 text-sm text-muted">
-    Know of a {province.name} show we're missing? <a href="/suggest/" class="text-prizm">Suggest it</a>.
-  </p>
 </Base>

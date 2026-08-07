@@ -2,7 +2,8 @@
 import Base from '../../../layouts/Base.astro';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { parseLocalDate } from '../../../lib/shows';
+import { parseLocalDate, showTimingLabel } from '../../../lib/shows';
+import { SHOW_FORM_URL } from '../../../lib/forms';
 import { PROVINCES } from '../../../lib/types';
 
 export function getStaticPaths() {
@@ -17,6 +18,12 @@ const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
 const startFormatted = dateFormat.format(parseLocalDate(show.startDate));
 const endFormatted = show.endDate !== undefined ? dateFormat.format(parseLocalDate(show.endDate)) : undefined;
 const dateRange = endFormatted !== undefined && endFormatted !== startFormatted ? `${startFormatted} – ${endFormatted}` : startFormatted;
+
+// Every show query in the 07-23 keyword research carried a time modifier
+// ("this weekend", "today", "2026"), so the title leads with one rather than
+// the show name. undefined only for shows that already finished.
+const buildDate = new Date();
+const timingLabel = showTimingLabel(show, buildDate);
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -35,8 +42,14 @@ const ld: Record<string, unknown> = {
 };
 ---
 <Base
-  title={`${show.name} — ${show.city}, ${show.province} | Sports Cards Near Me`}
-  description={`${show.name} in ${show.city}, ${provinceName} on ${dateRange}. Venue, hours, and admission details.`}
+  title={timingLabel !== undefined
+    ? `${timingLabel} — ${show.name} in ${show.city}, ${show.province}`
+    : `${show.name} — ${show.city}, ${show.province} (Past Show)`}
+  description={timingLabel === 'Today' || timingLabel === 'Tomorrow' || timingLabel === 'This Weekend'
+    ? `${timingLabel}: ${show.name} in ${show.city}, ${provinceName} — ${dateRange}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
+    : timingLabel !== undefined
+      ? `${timingLabel} — ${show.name} in ${show.city}, ${provinceName}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
+      : `${show.name} took place in ${show.city}, ${provinceName} on ${dateRange}. Venue, hours, and admission details are on this page.`}
 >
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
   <nav class="mt-10 text-sm text-muted">
@@ -58,6 +71,7 @@ const ld: Record<string, unknown> = {
     {show.sourceUrl !== undefined && <a href={show.sourceUrl} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Source</a>}
   </div>
   <p class="mt-12 text-sm text-muted">
-    Know of a show we're missing? <a href="/suggest/" class="text-prizm">Suggest it</a>.
+    Run a show, or know one we're missing?{' '}
+    <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it to the calendar</a> — it's free, and a person reviews every submission.
   </p>
 </Base>

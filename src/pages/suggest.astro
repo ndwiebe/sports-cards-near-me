@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { STORE_FORM_URL } from '../lib/forms';
 ---
 <Base
   title="Suggest a Store | Sports Cards Near Me"
@@ -12,7 +13,7 @@ import Base from '../layouts/Base.astro';
     Every submission is reviewed before it goes live.
   </p>
   <a
-    href="https://docs.google.com/forms/d/e/1FAIpQLSeuDSpremAwIczTb4Leu1B4-5-niUrgYPCd2QKADmzmRnU4-A/viewform"
+    href={STORE_FORM_URL}
     target="_blank"
     rel="noopener"
     class="mt-8 inline-block rounded-lg px-6 py-3 font-semibold text-ink"
