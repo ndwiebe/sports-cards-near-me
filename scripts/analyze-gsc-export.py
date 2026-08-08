@@ -31,6 +31,17 @@ from collections import defaultdict
 SETTLED_DAYS = 3  # trailing days used for the run rate, to skip a discovery spike
 STRIKING = (5.0, 15.0)  # position band where a title rewrite can realistically move a page
 
+# Real province/territory slugs, so a one-segment path is only called a province
+# when it actually is one. A `\.ca/[a-z-]+/$` catch-all filed /about/, /privacy/,
+# /suggest/ and /resellers/ as provinces — and provinces is the row this report
+# uses to set priority, so junk landing there re-orders the recommendation.
+PROVINCE_SLUGS = frozenset({
+    'alberta', 'british-columbia', 'manitoba', 'new-brunswick',
+    'newfoundland-and-labrador', 'northwest-territories', 'nova-scotia',
+    'nunavut', 'ontario', 'prince-edward-island', 'quebec', 'saskatchewan',
+    'yukon',
+})
+
 
 def load_sheets(path):
     """Return {sheet_name_lower: [row dicts]} from an .xlsx or a directory of CSVs."""
@@ -38,7 +49,11 @@ def load_sheets(path):
         out = {}
         for name in os.listdir(path):
             if name.endswith('.csv'):
-                with open(os.path.join(path, name), encoding='utf-8') as f:
+                # utf-8-sig, not utf-8: re-saving a CSV from Excel adds a byte-order
+                # mark, which turns the first header into "﻿Top pages". Every
+                # lookup then misses, every page classifies as 'home', and the report
+                # comes out empty-but-plausible with exit code 0.
+                with open(os.path.join(path, name), encoding='utf-8-sig') as f:
                     out[name[:-4].lower()] = list(csv.DictReader(f))
         return out
     import openpyxl
@@ -49,8 +64,28 @@ def load_sheets(path):
         if not rows:
             continue
         header = [str(h) for h in rows[0]]
-        out[name.lower()] = [dict(zip(header, r)) for r in rows[1:]]
+        # Drop all-None rows: a read-only sheet yields every row inside its declared
+        # dimension, so one stray cell far down the sheet (what opening the export in
+        # Excel and saving does) manufactures hundreds of blank "pages".
+        out[name.lower()] = [
+            dict(zip(header, r)) for r in rows[1:] if any(v is not None for v in r)
+        ]
     return out
+
+
+def median(values):
+    """True median — averages the middle pair on even counts. Returns None when empty.
+
+    The old `sorted(v)[len(v)//2]` took the upper-middle element: for the guides
+    sample it printed 16.5 where the median is 14.19, and 16.5 is the number quoted
+    in the PRD to justify de-prioritising guides. The conclusion held; the figure
+    was an artifact.
+    """
+    if not values:
+        return None
+    ordered = sorted(values)
+    mid = len(ordered) // 2
+    return ordered[mid] if len(ordered) % 2 else (ordered[mid - 1] + ordered[mid]) / 2
 
 
 def num(value):
@@ -61,24 +96,41 @@ def num(value):
 
 
 def page_kind(url):
+    path = re.sub(r'[?#].*$', '', str(url or ''))  # strip query/fragment; /ontario/toronto/?utm=x is still a city
     for segment in ('shows', 'guides', 'store', 'sell', 'pokemon'):
-        if f'/{segment}/' in url:
+        if f'/{segment}/' in path:
             return 'stores' if segment == 'store' else segment
-    if re.search(r'\.ca/[a-z-]+/[a-z0-9-]+/$', url):
-        return 'cities'
-    if re.search(r'\.ca/[a-z-]+/$', url):
-        return 'provinces'
-    return 'home'
+    parts = [p for p in re.sub(r'^https?://[^/]+', '', path).split('/') if p]
+    if len(parts) == 1:
+        return 'provinces' if parts[0] in PROVINCE_SLUGS else 'other'
+    if len(parts) == 2:
+        return 'cities' if parts[0] in PROVINCE_SLUGS else 'other'
+    return 'home' if not parts else 'other'
 
 
 def report(sheets):
-    chart = sheets.get('chart', [])
-    pages = sheets.get('pages', [])
-    queries = sheets.get('queries', [])
+    # Fail loudly on an unexpected export shape. A soft .get() returning [] made a
+    # renamed sheet indistinguishable from "no data": empty report, exit 0, and the
+    # DAILY section this exists to produce silently absent.
+    missing = [name for name in ('chart', 'pages', 'queries') if not sheets.get(name)]
+    if missing:
+        raise SystemExit(
+            f'Export is missing or empty for: {", ".join(missing)}.\n'
+            f'Found sheets: {", ".join(sorted(sheets)) or "(none)"}.\n'
+            'Expected the sheets Search Console exports: Chart, Queries, Pages, Countries, Devices.'
+        )
+
+    chart = sheets['chart']
+    pages = sheets['pages']
+    queries = sheets['queries']
 
     if chart:
         rows = [(r.get('Date'), num(r.get('Clicks')), num(r.get('Impressions')), num(r.get('Position')))
                 for r in chart]
+        # Sort by date before taking a trailing slice. Taking the last three ROWS of a
+        # newest-first export (or one someone re-sorted in Excel) reported 2,595/week
+        # against a true 4,114 — a 37% understatement of the headline number, silently.
+        rows.sort(key=lambda r: str(r[0]))
         print('DAILY')
         peak = max(r[2] for r in rows) or 1
         for date, clicks, impr, pos in rows:
@@ -99,7 +151,13 @@ def report(sheets):
     if pages:
         agg = defaultdict(lambda: {'n': 0, 'i': 0.0, 'c': 0.0, 'pos': []})
         for r in pages:
-            url = str(r.get('Top pages') or '')
+            url = str(r.get('Top pages') or '').strip()
+            # A row with no URL is spreadsheet residue, not a page. Dropping only
+            # all-None rows at load isn't enough: one stray cell anywhere on the sheet
+            # leaves a row that has a value but no URL, which then counted as 'home'
+            # and diluted the real homepage's numbers.
+            if not url:
+                continue
             a = agg[page_kind(url)]
             a['n'] += 1
             a['i'] += num(r.get('Impressions'))
@@ -109,9 +167,11 @@ def report(sheets):
         print(f'\nPAGE TYPES  (ordered by clicks/page — the column that decides priority)')
         print(f'  {"type":<10}{"pages":>6}{"impr/pg":>9}{"clicks/pg":>11}{"CTR":>8}{"med pos":>9}')
         for kind, a in sorted(agg.items(), key=lambda kv: -(kv[1]['c'] / kv[1]['n'])):
-            med = sorted(a['pos'])[len(a['pos']) // 2] if a['pos'] else 0
             ctr = a['c'] / a['i'] * 100 if a['i'] else 0
-            print(f'  {kind:<10}{a["n"]:>6}{a["i"]/a["n"]:>9.1f}{a["c"]/a["n"]:>11.2f}{ctr:>7.2f}%{med:>9.1f}')
+            med = median(a['pos'])
+            # "0.0" would read as the best possible rank; no qualifying page means no answer.
+            med_txt = f'{med:>9.1f}' if med is not None else f'{"—":>9}'
+            print(f'  {kind:<10}{a["n"]:>6}{a["i"]/a["n"]:>9.1f}{a["c"]/a["n"]:>11.2f}{ctr:>7.2f}%{med_txt}')
         total_clicks = sum(a['c'] for a in agg.values())
         print(f'\n  {int(total_clicks)} clicks total across all pages. Below ~200, every per-type')
         print('  figure here rests on single digits — read it as direction, not measurement.')
