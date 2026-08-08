@@ -65,7 +65,7 @@ export function sellCityCapsule(city: string, provinceName: string, buyers: Stor
 
   const top = topRatedStore(buyers);
   if (top !== undefined) {
-    parts.push(`${top.name} is currently the highest-rated at ${top.rating} stars.`);
+    parts.push(`${top.name} ranks first on our weighted score, at ${top.rating} stars.`);
   }
 
   parts.push(

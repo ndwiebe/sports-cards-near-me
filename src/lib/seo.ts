@@ -349,9 +349,16 @@ export function provinceAnswerCapsule(provinceName: string, cities: CityGroup[])
         ? `${leaders[0]!.city} has the most with ${max} ${shopWordMax}.`
         : `${leaders.length} cities tie for the most, each with ${max} ${shopWordMax}.`;
 
+  // "Ranks first", never "is the top-rated". topRatedStore returns the highest
+  // WEIGHTED score (Bayesian + review volume), which is deliberately not the
+  // highest star rating — Alberta's first-ranked shop is a 4.7 while 5.0s clear
+  // the same bar. Calling that "top-rated" is a false claim about a named
+  // business, and it was going into FAQ structured data, i.e. to Google.
   const top = topRatedStore(stores);
   const topClause =
-    top !== undefined ? `${top.name} in ${top.city} is currently the top-rated shop in the province, at ${top.rating} stars.` : undefined;
+    top !== undefined
+      ? `${top.name} in ${top.city} ranks first on our weighted score, which counts review volume alongside the star average — ${top.rating} stars from ${top.reviewCount} reviews.`
+      : undefined;
 
   return [base, leaderClause, topClause].filter((s): s is string => s !== undefined).join(' ');
 }
@@ -372,7 +379,7 @@ export function cityFaqs(
   const top = topRatedStore(stores);
   const countAnswer =
     top !== undefined
-      ? `${city} has ${total} sports card ${shopWord} listed on Sports Cards Near Me, with ${top.name} currently the highest-rated at ${top.rating} stars.`
+      ? `${city} has ${total} sports card ${shopWord} listed on Sports Cards Near Me, with ${top.name} ranking first at ${top.rating} stars from ${top.reviewCount} reviews.`
       : `${city} has ${total} sports card ${shopWord} listed on Sports Cards Near Me.`;
 
   const buyers = hasTag(stores, (t) => t === 'buys');
@@ -425,12 +432,12 @@ export function provinceFaqs(provinceName: string, cities: CityGroup[]): FaqItem
   const ratedFaq: FaqItem =
     top !== undefined
       ? {
-          question: `Which ${provinceName} card shop is rated highest?`,
-          answer: `${top.name} in ${top.city} is currently the highest-rated shop in ${provinceName} that clears our ${MIN_REVIEWS_FOR_TOP}-review bar, at ${top.rating} stars from ${top.reviewCount} Google reviews.`,
+          question: `Which ${provinceName} card shop ranks first?`,
+          answer: `${top.name} in ${top.city} ranks first among ${provinceName} shops clearing our ${MIN_REVIEWS_FOR_TOP}-review bar, at ${top.rating} stars from ${top.reviewCount} Google reviews. We rank on a weighted score that counts how many people reviewed a shop, not the star average alone, so this is not always the highest star rating in the province.`,
           link: { href: `/store/${top.slug}/`, label: `See ${top.name}'s listing` },
         }
       : {
-          question: `Which ${provinceName} card shop is rated highest?`,
+          question: `Which ${provinceName} card shop ranks first?`,
           answer: `No shop in ${provinceName} has yet crossed our ${MIN_REVIEWS_FOR_TOP}-review bar for a "top-rated" crown — that's our data gap, not a judgment on any shop here. Browse every listing by city below instead.`,
         };
 

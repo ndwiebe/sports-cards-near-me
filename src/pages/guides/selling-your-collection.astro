@@ -46,7 +46,7 @@ const faqs: FaqItem[] = [
     question: 'What is the fastest way to sell a card collection?',
     answer:
       buyerCount > 0
-        ? `A local shop sale is the least effort by far — walk in, get an on-the-spot offer, walk out with cash the same day. It typically pays less than consignment or selling it yourself, since the shop still has to resell it. ${buyerCount} shops in our directory list buying collections as a service.`
+        ? `A local shop sale is the least effort by far — walk in, get an on-the-spot offer, walk out with cash the same day. It typically pays less than consignment or selling it yourself, since the shop still has to resell it. ${buyerCount} ${buyerCount === 1 ? 'shop' : 'shops'} in our directory ${buyerCount === 1 ? 'lists' : 'list'} buying collections as a service.`
         : 'A local shop sale is the least effort by far — walk in, get an on-the-spot offer, walk out with cash the same day. It typically pays less than consignment or selling it yourself, since the shop still has to resell it.',
     link: { href: '/sell/', label: 'Find a shop that buys near you' },
   },

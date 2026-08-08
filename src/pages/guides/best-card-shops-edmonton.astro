@@ -73,12 +73,12 @@ const faqs: FaqItem[] = [
   top !== undefined
     ? {
         question: `Which ${CITY} card shop is rated highest?`,
-        answer: `${top.name} is currently the highest-rated ${CITY} card shop that meets our review bar, at ${top.rating} stars from ${top.reviewCount} Google reviews.`,
+        answer: `${top.name} ranks first among ${CITY} card shops that meet our review bar, at ${top.rating} stars from ${top.reviewCount} Google reviews. We rank on a weighted score that counts review volume, not the star average alone.`,
         link: { href: `/store/${top.slug}/`, label: `See ${top.name}'s listing` },
       }
     : {
         question: `Which ${CITY} card shop is rated highest?`,
-        answer: `No ${CITY} shop currently has enough reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar, so we're not naming a highest-rated pick yet.`,
+        answer: `No ${CITY} shop currently has enough reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar, so we're not naming a top pick yet.`,
       },
   {
     question: `Do ${CITY} card shops buy collections?`,

@@ -67,6 +67,12 @@ const title =
     : yearShows.length > 0
       ? `Card Shows in ${province.name} ${YEAR} — Full Season Recap`
       : `Card Shows in ${province.name} ${YEAR}`;
+// The <h1> is deliberately NOT `title` above. This is a stable URL
+// (/shows/[provinceYear]/) that rebuilds daily, so a time-urgency lead like
+// "Tomorrow" or "This Weekend" would make the visible heading churn day to
+// day while the breadcrumb still reads "{province.name} {YEAR}" — the
+// urgency framing belongs in <title>/meta only, where it's meant to move.
+const h1 = `Card Shows in ${province.name} ${YEAR}`;
 const description =
   upcoming.length > 0 && nextTimingLabel !== undefined
     ? `${nextTimingLabel}: the next of ${upcoming.length} upcoming sports card ${upcoming.length === 1 ? 'show' : 'shows'} in ${province.name} for ${YEAR} — dates, venues, and admission, tracked from public sources.`
@@ -93,7 +99,7 @@ const showListLd = itemListLd(
   {yearShows.length > 0 && <script type="application/ld+json" set:html={ldJson(showListLd)} />}
 
   <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Show Calendar</p>
-  <h1 class="mt-2 text-5xl md:text-7xl">{title}</h1>
+  <h1 class="mt-2 text-5xl md:text-7xl">{h1}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
   <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
   <p class="mt-3 text-sm text-muted">

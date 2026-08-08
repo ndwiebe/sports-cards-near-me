@@ -149,11 +149,11 @@ describe('provinceAnswerCapsule', () => {
     expect(capsule).not.toContain('has the most');
   });
 
-  it('names the top-rated shop once one clears MIN_REVIEWS_FOR_TOP', () => {
+  it('names the first-ranked shop once one clears MIN_REVIEWS_FOR_TOP', () => {
     const capsule = provinceAnswerCapsule('Alberta', [
       { city: 'Calgary', citySlug: 'calgary', stores: [store({ name: 'Ace Cards', rating: 4.9, reviewCount: 120 })] },
     ]);
-    expect(capsule).toContain('Ace Cards in Calgary is currently the top-rated shop in the province');
+    expect(capsule).toContain('Ace Cards in Calgary ranks first on our weighted score');
   });
 
   it('never names a top shop for a province where nothing clears the review bar', () => {
@@ -188,7 +188,7 @@ describe('provinceFaqs', () => {
     const faqs = provinceFaqs('Nunavut', [
       { city: 'Iqaluit', citySlug: 'iqaluit', stores: [store({ name: 'Thin Shop', rating: 5, reviewCount: 3 })] },
     ]);
-    const ratedFaq = faqs.find((f) => f.question === 'Which Nunavut card shop is rated highest?');
+    const ratedFaq = faqs.find((f) => f.question === 'Which Nunavut card shop ranks first?');
     expect(ratedFaq).toBeDefined();
     expect(ratedFaq?.answer).toContain('data gap');
     expect(ratedFaq?.answer).not.toContain('Thin Shop');
@@ -199,7 +199,7 @@ describe('provinceFaqs', () => {
     const faqs = provinceFaqs('Alberta', [
       { city: 'Calgary', citySlug: 'calgary', stores: [store({ slug: 'ace', name: 'Ace Cards', rating: 4.9, reviewCount: 120 })] },
     ]);
-    const ratedFaq = faqs.find((f) => f.question === 'Which Alberta card shop is rated highest?');
+    const ratedFaq = faqs.find((f) => f.question === 'Which Alberta card shop ranks first?');
     expect(ratedFaq?.answer).toContain('Ace Cards');
     expect(ratedFaq?.link).toEqual({ href: '/store/ace/', label: "See Ace Cards's listing" });
   });

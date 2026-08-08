@@ -51,7 +51,7 @@ const faqs: FaqItem[] = [
     question: 'Do any Canadian shops handle PSA submissions for you?',
     answer:
       gradingStoreCount > 0
-        ? `Yes — ${gradingStoreCount} shops in our directory list grading services among what they offer, meaning they'll typically handle a PSA submission on your behalf.`
+        ? `Yes — ${gradingStoreCount} ${gradingStoreCount === 1 ? 'shop' : 'shops'} in our directory ${gradingStoreCount === 1 ? 'lists' : 'list'} grading services among what they offer, meaning they'll typically handle a PSA submission on your behalf.`
         : "None of the shops in our directory currently list grading services as a confirmed offering. That's a gap in what we've verified rather than proof no shop does it — it's worth asking your local shop directly.",
   },
 ];

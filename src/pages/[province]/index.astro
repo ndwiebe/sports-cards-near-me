@@ -4,7 +4,7 @@ import storesJson from '../../data/stores.json';
 import showsJson from '../../data/shows.json';
 import type { Store } from '../../lib/types';
 import type { ShowRecord } from '../../lib/shows';
-import { primaryShowCalendarYear } from '../../lib/shows';
+import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming } from '../../lib/shows';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
 import {
   absoluteUrl,
@@ -40,10 +40,11 @@ const topRated = topStores[0];
 // actually carry the province's shops, computed from live store counts
 // rather than hand-picked. Only surfaced once the grid is big enough that a
 // shortlist adds something — below 4 cities the grid already is the shortlist.
+// No zero-store filter here: citiesIn() only ever creates a city group by
+// pushing a store into it, so every group already has stores.length >= 1.
 const popularCities = [...cities]
   .sort((a, b) => b.stores.length - a.stores.length || a.city.localeCompare(b.city))
-  .slice(0, 3)
-  .filter((c) => c.stores.length > 0);
+  .slice(0, 3);
 const showPopularCities = cities.length > 3 && popularCities.length > 0;
 
 // Shops in the province that list grading services — the grading guides are
@@ -57,6 +58,13 @@ const gradingStores = allStores.filter((s) => s.services.some((v) => v.toLowerCa
 const buildDate = new Date();
 const showYear = primaryShowCalendarYear(showsJson as ShowRecord[], province.code, buildDate);
 const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : undefined;
+// primaryShowCalendarYear deliberately falls back to the most recent year on
+// record once every show for the province has already happened, so a page
+// can't link to nothing — but that means the invite below has to know which
+// case it's in: an all-past year reads as "no more shows on the calendar" if
+// we still call it out as something to look forward to.
+const showYearHasUpcoming =
+  showYear !== undefined && showsInProvinceYear(showsJson as ShowRecord[], province.code, showYear).some((s) => isUpcoming(s, buildDate));
 
 const provinceUrl = absoluteUrl(Astro.site, `/${province.slug}/`);
 const breadcrumbLd = breadcrumbListLd([
@@ -103,7 +111,7 @@ const faqLd = faqPageLd(faqs);
 
   {topStores.length > 0 ? (
     <section class="mt-10">
-      <h2 class="text-2xl">Top-Rated Shops in {province.name}</h2>
+      <h2 class="text-2xl">Highest-Ranked Shops in {province.name}</h2>
       <p class="mt-1 text-sm text-muted">
         Ranked by a weighted score that counts review volume as evidence, not just the star average — every shop
         here clears our {MIN_REVIEWS_FOR_TOP}-review bar. Nobody pays for a place on this list.
@@ -136,9 +144,17 @@ const faqLd = faqPageLd(faqs);
   {(showsUrl !== undefined || gradingStores.length > 0) && (
     <p class="mt-6 max-w-prose text-sm text-muted">
       {showsUrl !== undefined && (
-        <>
-          Looking for a card show? See the <a href={showsUrl} class="text-prizm">{province.name} {showYear} show calendar</a>.{' '}
-        </>
+        showYearHasUpcoming ? (
+          <>
+            Looking for a card show? See the <a href={showsUrl} class="text-prizm">{province.name} {showYear} show calendar</a>.{' '}
+          </>
+        ) : (
+          <>
+            Curious what's run in {province.name} before? Every show on the{' '}
+            <a href={showsUrl} class="text-prizm">{province.name} {showYear} show calendar</a> has already happened,
+            but it's worth a look for what typically comes through.{' '}
+          </>
+        )
       )}
       {gradingStores.length > 0 && (
         <>

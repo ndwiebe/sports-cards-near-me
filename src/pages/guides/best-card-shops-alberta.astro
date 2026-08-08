@@ -2,10 +2,13 @@
 import Base from '../../layouts/Base.astro';
 import Byline from '../../components/Byline.astro';
 import storesJson from '../../data/stores.json';
+import showsJson from '../../data/shows.json';
 import type { Store } from '../../lib/types';
 import { PROVINCES } from '../../lib/types';
 import { isBuyer } from '../../lib/sell';
 import { isPokemonShop } from '../../lib/tcg';
+import type { ShowRecord } from '../../lib/shows';
+import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming } from '../../lib/shows';
 import {
   MIN_REVIEWS_FOR_TOP,
   byRecommendedRank,
@@ -22,6 +25,18 @@ const abRated = abStores.filter((s) => s.rating !== undefined);
 const cityCount = new Set(abStores.map((s) => s.citySlug)).size;
 const provinceSlug = PROVINCES.AB.slug;
 const gradingStoreCount = abStores.filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services')).length;
+
+// Alberta's show-calendar link, computed the same way the province page does
+// (primaryShowCalendarYear): the /shows/[provinceYear]/ route is generated
+// purely from shows.json, so a hardcoded year 404s once that year's show
+// passes out of the data. Renders nothing if Alberta has no shows tracked at
+// all; the wording only says "upcoming" when that year actually has one.
+const shows = showsJson as ShowRecord[];
+const buildDate = new Date();
+const showYear = primaryShowCalendarYear(shows, 'AB', buildDate);
+const showsUrl = showYear !== undefined ? `/shows/${provinceSlug}-${showYear}/` : undefined;
+const showYearHasUpcoming =
+  showYear !== undefined && showsInProvinceYear(shows, 'AB', showYear).some((s) => isUpcoming(s, buildDate));
 
 function joinWithAnd(items: string[]): string {
   if (items.length === 0) return '';
@@ -54,18 +69,18 @@ const topFirst = topShops[0];
 
 const title = 'Best Card Shops in Alberta';
 const description =
-  "Alberta's top-rated sports card shops, ranked straight from our directory by Google rating and review count.";
+  "Alberta's highest-ranked sports card shops, ordered by a weighted score that counts review volume alongside the star average.";
 const pagePath = '/guides/best-card-shops-alberta/';
 
 const capsule =
   mostReviewed !== undefined
-    ? `Alberta has ${abStores.length} sports card shops listed on Sports Cards Near Me across ${cityCount} cities, and ${topShops.length} of them clear our ${MIN_REVIEWS_FOR_TOP}-review bar to be ranked here. ${mostReviewed.name} in ${mostReviewed.city} leads on review volume, at ${mostReviewed.reviewCount} Google reviews.`
+    ? `Alberta has ${abStores.length} sports card shops listed on Sports Cards Near Me across ${cityCount} cities, and ${topEligible.length} of them clear our ${MIN_REVIEWS_FOR_TOP}-review bar. The ${topShops.length} highest-ranked are listed here. ${mostReviewed.name} in ${mostReviewed.city} leads that group on review volume, at ${mostReviewed.reviewCount} Google reviews.`
     : `Alberta has ${abStores.length} sports card shops listed on Sports Cards Near Me across ${cityCount} cities. None currently carry enough Google reviews to clear our ${MIN_REVIEWS_FOR_TOP}-review bar for a ranked "best" list, so this page lists what we have and explains why.`;
 
 const faqs: FaqItem[] = [
   {
     question: 'How many card shops are in Alberta?',
-    answer: `${abStores.length} sports card shops are listed across ${cityCount} Alberta cities on Sports Cards Near Me, and ${topShops.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking.`,
+    answer: `${abStores.length} sports card shops are listed across ${cityCount} Alberta cities on Sports Cards Near Me, and ${topEligible.length} of them meet our ${MIN_REVIEWS_FOR_TOP}-review bar for a "best" ranking. The ${topShops.length} highest-ranked appear on this page.`,
     link: { href: `/${provinceSlug}/`, label: 'Full Alberta directory' },
   },
   topFirst !== undefined
@@ -194,7 +209,7 @@ const ld: Record<string, unknown> = {
       in a small town or a bigger operation in one of the bigger cities.
     </p>
 
-    <h2 class="text-3xl">The Top-Rated Card Shops in Alberta</h2>
+    <h2 class="text-3xl">The Highest-Ranked Card Shops in Alberta</h2>
     <ol role="list" class="space-y-3">
       {topShops.map((s, i) => (
         <li class="rounded-xl border border-bord bg-panel p-4">
@@ -259,7 +274,7 @@ const ld: Record<string, unknown> = {
 
     <h2 class="text-3xl">Beyond the Top {topShops.length}</h2>
     <p>
-      These {topShops.length} are the highest-rated shops in our Alberta directory as it stands today, but they're
+      These {topShops.length} rank highest in our Alberta directory as it stands today, but they're
       far from the only ones worth a visit. Alberta has card shops spread across {cityCount} different cities in our
       listings, and that list keeps growing as we verify more of the country. Browse the{' '}
       <a href={`/${provinceSlug}/`} class="text-prizm">full Alberta directory</a> to see every shop we've mapped near
@@ -267,9 +282,16 @@ const ld: Record<string, unknown> = {
       <a href="/guides/best-card-shops-calgary/" class="text-prizm">Calgary</a> and{' '}
       <a href="/guides/best-card-shops-edmonton/" class="text-prizm">Edmonton</a> guides. If you're weighing whether a
       card is worth grading before you sell or trade it at one of these shops, our{' '}
-      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers that decision, and
-      Alberta's <a href="/shows/alberta-2026/" class="text-prizm">upcoming card show calendar</a> is another way to
-      see a lot of dealers in one place.
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers that decision.
+      {showsUrl !== undefined && (
+        <>
+          {' '}Alberta's{' '}
+          <a href={showsUrl} class="text-prizm">
+            {showYearHasUpcoming ? `upcoming ${showYear} card show calendar` : `${showYear} card show calendar`}
+          </a>{' '}
+          is another way to see a lot of dealers in one place.
+        </>
+      )}
     </p>
 
     <section class="mt-12">

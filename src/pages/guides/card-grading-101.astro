@@ -49,7 +49,10 @@ const faqs: FaqItem[] = [
   },
   {
     question: "Can a local shop grade my cards for me?",
-    answer: `Not directly — grading is done by the grading companies themselves — but ${gradingStoreCount} shops in our directory currently list grading services, which typically means they'll handle the submission on your behalf so you don't have to ship cards across the border yourself.`,
+    answer:
+      gradingStoreCount > 0
+        ? `Not directly — grading is done by the grading companies themselves — but ${gradingStoreCount} ${gradingStoreCount === 1 ? 'shop' : 'shops'} in our directory currently ${gradingStoreCount === 1 ? 'lists' : 'list'} grading services, which typically means they'll handle the submission on your behalf so you don't have to ship cards across the border yourself.`
+        : "Not directly — grading is done by the grading companies themselves. None of the shops in our directory currently list grading services as a confirmed offering, so it's worth asking your local shop directly or submitting straight to the grader. That's a gap in what we've verified, not proof no shop offers it.",
     link: { href: '/guides/psa-grading-submissions-canada/', label: 'How Canadian submission routes work' },
   },
 ];
@@ -188,9 +191,21 @@ const ld: Record<string, unknown> = {
 
     <h2 class="text-3xl">If You'd Rather Not Ship It Yourself</h2>
     <p>
-      If the idea of packing and shipping cards across the border puts you off entirely, {gradingStoreCount} shops in
-      our directory currently list grading services — which typically means they'll handle the submission on your
-      behalf; call ahead to confirm their current process. Our{' '}
+      {gradingStoreCount > 0 ? (
+        <>
+          If the idea of packing and shipping cards across the border puts you off entirely, {gradingStoreCount}{' '}
+          {gradingStoreCount === 1 ? 'shop' : 'shops'} in our directory currently {gradingStoreCount === 1 ? 'lists' : 'list'}{' '}
+          grading services — which typically means they'll handle the submission on your behalf; call ahead to
+          confirm their current process.{' '}
+        </>
+      ) : (
+        <>
+          If the idea of packing and shipping cards across the border puts you off entirely, none of the shops in
+          our directory currently list grading services as a confirmed offering — that's a gap in what we've
+          verified, not proof no shop offers it, so it's worth calling around locally.{' '}
+        </>
+      )}
+      Our{' '}
       <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> covers that route
       alongside the other two Canadian collectors actually use.
     </p>
