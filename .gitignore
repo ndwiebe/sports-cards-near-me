@@ -10,3 +10,5 @@ genimg-out/
 # NOTE: ratings-refresh CSVs are deliberately NOT ignored. The monthly
 # ratings-refresh workflow opens a PR containing them, and reviewing those rows
 # in the diff is the point — an ignore here made that PR come out empty.
+
+__pycache__/
