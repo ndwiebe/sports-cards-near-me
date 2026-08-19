@@ -1,195 +1,44 @@
 import { describe, expect, it } from 'vitest';
-import { buyersInCity, isBuyer, sellCityCapsule, sellCityFaqs } from '../../src/lib/sell';
+import { sellPageExistsForCity } from '../../src/lib/sell';
 import type { Store } from '../../src/lib/types';
 
-function store(overrides: Partial<Store>): Store {
-  return {
-    slug: 'test-store',
-    name: 'Test Store',
-    city: 'Winnipeg',
-    citySlug: 'winnipeg',
-    address: '123 Main St',
-    province: 'MB',
-    services: [],
-    sports: [],
-    lat: 49.9,
-    lng: -97.14,
-    ...overrides,
-  };
-}
+const store = (over: Partial<Store> = {}): Store => ({
+  slug: 'a-edmonton', name: 'A', city: 'Edmonton', citySlug: 'edmonton',
+  address: '1 Main St, Edmonton, AB', province: 'AB', rating: 4.5, reviewCount: 50,
+  hours: undefined, phone: undefined, website: undefined, social: undefined,
+  services: [], sports: [], lat: 53.54, lng: -113.49, ...over,
+} as Store);
 
-const PRICE_PATTERN = /\$\s?\d|\d+\s?(dollars|usd|cad)\b/i;
-
-describe('isBuyer', () => {
-  it('matches the exact service "buys" case-insensitively and trimmed', () => {
-    expect(isBuyer(store({ services: ['Buys'] }))).toBe(true);
-    expect(isBuyer(store({ services: [' BUYS '] }))).toBe(true);
-    expect(isBuyer(store({ services: ['buys'] }))).toBe(true);
+/**
+ * Mirrors the exact gate `/sell/[city]/index.astro`'s getStaticPaths() uses:
+ * a page exists for a citySlug iff some store there passes isBuyer(). This
+ * helper exists so storeFaqs() can ask the same question without importing
+ * an Astro page file, which it cannot do.
+ */
+describe('sellPageExistsForCity', () => {
+  it('is true when a store in that city buys collections', () => {
+    expect(sellPageExistsForCity([store({ services: ['Buys'] })], 'edmonton')).toBe(true);
   });
 
-  it('does not match unrelated or partial services', () => {
-    expect(isBuyer(store({ services: ['Sells'] }))).toBe(false);
-    expect(isBuyer(store({ services: ['Buys and sells'] }))).toBe(false);
-    expect(isBuyer(store({ services: [] }))).toBe(false);
-  });
-});
-
-describe('buyersInCity', () => {
-  it('filters to only buyers in the given province and city', () => {
-    const stores = [
-      store({ slug: 'a', name: 'A', services: ['Buys'], province: 'MB', citySlug: 'winnipeg' }),
-      store({ slug: 'b', name: 'B', services: [], province: 'MB', citySlug: 'winnipeg' }),
-      store({ slug: 'c', name: 'C', services: ['Buys'], province: 'AB', citySlug: 'winnipeg' }),
-      store({ slug: 'd', name: 'D', services: ['Buys'], province: 'MB', citySlug: 'brandon' }),
-    ];
-    const result = buyersInCity(stores, 'MB', 'winnipeg');
-    expect(result.map((s) => s.slug)).toEqual(['a']);
+  it('is false when no store in that city buys collections', () => {
+    expect(sellPageExistsForCity([store({ services: ['Sells'] })], 'edmonton')).toBe(false);
   });
 
-  it('returns an empty array for a city with zero buyers, without throwing', () => {
-    const stores = [store({ slug: 'a', services: [] })];
-    expect(buyersInCity(stores, 'MB', 'winnipeg')).toEqual([]);
+  it('is false for a city with no stores at all', () => {
+    expect(sellPageExistsForCity([store({ services: ['Buys'] })], 'calgary')).toBe(false);
   });
 
-  // Updated 2026-07-29: this previously asserted raw-rating order, which put a
-  // 4.9-from-one-review shop at the top of a sell page. buyersInCity now shares
-  // the site-wide weighted ranking, so review volume counts as evidence: shops
-  // clearing the 20-review bar rank first (by shrunk score), sub-threshold shops
-  // next, unrated last. The old expectation encoded the distortion, not the intent.
-  it('ranks buyers by the site-wide weighted ranking, not raw rating', () => {
-    const stores = [
-      store({ slug: 'no-rating-b', name: 'Zeta', services: ['Buys'], rating: undefined }),
-      store({ slug: 'no-rating-a', name: 'Alpha', services: ['Buys'], rating: undefined }),
-      store({ slug: 'low-rating', name: 'Low', services: ['Buys'], rating: 4.0, reviewCount: 500 }),
-      store({ slug: 'tie-more-reviews', name: 'TieMore', services: ['Buys'], rating: 4.8, reviewCount: 300 }),
-      store({ slug: 'tie-fewer-reviews', name: 'TieFewer', services: ['Buys'], rating: 4.8, reviewCount: 10 }),
-      store({ slug: 'top', name: 'Top', services: ['Buys'], rating: 4.9, reviewCount: 1 }),
-    ];
-    const result = buyersInCity(stores, 'MB', 'winnipeg');
-    expect(result.map((s) => s.slug)).toEqual([
-      'tie-more-reviews', // 4.8 from 300 — best evidence-backed score
-      'low-rating', // 4.0 from 500 — weaker score but still over the bar
-      'tie-fewer-reviews', // 4.8 from 10 — under the bar, so ranks below
-      'top', // 4.9 from 1 — thin evidence no longer wins
-      'no-rating-a',
-      'no-rating-b',
-    ]);
+  it('matches case- and whitespace-insensitively, same as isBuyer', () => {
+    expect(sellPageExistsForCity([store({ services: [' buys ' as never] })], 'edmonton')).toBe(true);
   });
 
-  it('never lets a thin perfect score lead a sell page', () => {
-    const stores = [
-      store({ slug: 'thin', name: 'Thin', services: ['Buys'], rating: 5.0, reviewCount: 2 }),
-      store({ slug: 'proven', name: 'Proven', services: ['Buys'], rating: 4.7, reviewCount: 400 }),
-    ];
-    expect(buyersInCity(stores, 'MB', 'winnipeg')[0]?.slug).toBe('proven');
-  });
-});
-
-describe('sellCityCapsule', () => {
-  it('uses singular grammar for a single-buyer city', () => {
-    const capsule = sellCityCapsule('Brandon', 'Manitoba', [store({ name: 'Solo Shop', services: ['Buys'] })]);
-    expect(capsule).toContain('1 sports card shop in Brandon, Manitoba lists buying collections');
-    expect(capsule).not.toContain('shops');
-    expect(capsule).not.toContain('they list');
+  it('is true if ANY store in the city buys, even if others in the same city do not', () => {
+    const stores = [store({ slug: 'a', services: ['Sells'] }), store({ slug: 'b', services: ['Buys'] })];
+    expect(sellPageExistsForCity(stores, 'edmonton')).toBe(true);
   });
 
-  it('produces a 40-60 word capsule for a multi-buyer, rated city and names the top buyer', () => {
-    const buyers = [
-      store({ slug: 'a', name: 'CanCentral', services: ['Buys'], rating: 4.8, reviewCount: 200 }),
-      store({ slug: 'b', name: 'First Row', services: ['Buys'], rating: 4.5, reviewCount: 90 }),
-      store({ slug: 'c', name: 'Joe Daleys', services: ['Buys'], rating: 4.2, reviewCount: 40 }),
-    ];
-    const capsule = sellCityCapsule('Winnipeg', 'Manitoba', buyers);
-    const wordCount = capsule.trim().split(/\s+/).length;
-    expect(wordCount).toBeGreaterThanOrEqual(40);
-    expect(wordCount).toBeLessThanOrEqual(60);
-    expect(capsule).toContain('3 sports card shops');
-    expect(capsule).toContain('CanCentral');
-    expect(capsule).toContain('4.8 stars');
-  });
-
-  it('never fabricates a price and handles zero buyers without throwing', () => {
-    const capsule = sellCityCapsule('Nowhere', 'Alberta', []);
-    expect(capsule).not.toMatch(PRICE_PATTERN);
-    expect(capsule.length).toBeGreaterThan(0);
-  });
-
-  it('omits the top-rated claim when no buyer in the city has a rating', () => {
-    const capsule = sellCityCapsule('Brandon', 'Manitoba', [store({ name: 'Unrated', services: ['Buys'] })]);
-    expect(capsule).not.toContain('highest-rated');
-  });
-
-  it('does not crown a sub-threshold 5.0-from-1-review buyer when an eligible 4.9/200 buyer exists', () => {
-    const buyers = [
-      store({ slug: 'fluke', name: 'Fluke', services: ['Buys'], rating: 5.0, reviewCount: 1 }),
-      store({ slug: 'real', name: 'RealDeal', services: ['Buys'], rating: 4.9, reviewCount: 200 }),
-    ];
-    const capsule = sellCityCapsule('Winnipeg', 'Manitoba', buyers);
-    expect(capsule).toContain('RealDeal');
-    expect(capsule).toContain('4.9 stars');
-    expect(capsule).not.toContain('Fluke');
-  });
-
-  it('omits the highest-rated claim when every rated buyer is below the review threshold', () => {
-    const buyers = [
-      store({ slug: 'fluke-a', name: 'FlukeA', services: ['Buys'], rating: 5.0, reviewCount: 1 }),
-      store({ slug: 'fluke-b', name: 'FlukeB', services: ['Buys'], rating: 5.0, reviewCount: 2 }),
-    ];
-    const capsule = sellCityCapsule('Winnipeg', 'Manitoba', buyers);
-    expect(capsule).not.toContain('highest-rated');
-    expect(capsule).not.toContain('Fluke');
-  });
-});
-
-describe('sellCityFaqs', () => {
-  const cityUrl = 'https://x/manitoba/winnipeg/';
-  const guideUrl = 'https://x/guides/selling-your-collection/';
-
-  it('generates exactly 3 questions', () => {
-    const faqs = sellCityFaqs('Winnipeg', 'Manitoba', [store({ services: ['Buys'] })], cityUrl, guideUrl);
-    expect(faqs).toHaveLength(3);
-  });
-
-  it('names up to 3 top buyers in the first answer, in ranked order', () => {
-    const buyers = [
-      store({ slug: 'a', name: 'CanCentral', services: ['Buys'], rating: 4.9 }),
-      store({ slug: 'b', name: 'First Row', services: ['Buys'], rating: 4.7 }),
-      store({ slug: 'c', name: 'Joe Daleys', services: ['Buys'], rating: 4.5 }),
-      store({ slug: 'd', name: 'Lower Level', services: ['Buys'], rating: 4.3 }),
-      store({ slug: 'e', name: 'Superstars', services: ['Buys'], rating: 4.1 }),
-    ];
-    const faqs = sellCityFaqs('Winnipeg', 'Manitoba', buyers, cityUrl, guideUrl);
-    expect(faqs[0]?.question).toBe('Where can I sell sports cards in Winnipeg?');
-    expect(faqs[0]?.answer).toContain('CanCentral, First Row, Joe Daleys, and 2 more');
-    expect(faqs[0]?.link).toEqual({ href: cityUrl, label: 'Winnipeg shop directory' });
-  });
-
-  it('answers honestly when a city has zero buyers', () => {
-    const faqs = sellCityFaqs('Nowhere', 'Alberta', [], cityUrl, guideUrl);
-    expect(faqs[0]?.answer).toContain('No shops');
-  });
-
-  it('names an eligible >=10-review buyer before a sub-threshold 5.0-from-1-review buyer, even though the latter ranks first by rating', () => {
-    const buyers = [
-      store({ slug: 'fluke', name: 'Fluke', services: ['Buys'], rating: 5.0, reviewCount: 1 }),
-      store({ slug: 'real', name: 'RealDeal', services: ['Buys'], rating: 4.9, reviewCount: 200 }),
-    ];
-    const faqs = sellCityFaqs('Winnipeg', 'Manitoba', buyers, cityUrl, guideUrl);
-    expect(faqs[0]?.answer).toContain('RealDeal and Fluke');
-  });
-
-  it('never states a price and always links the selling guide for the value question', () => {
-    const faqs = sellCityFaqs('Winnipeg', 'Manitoba', [store({ services: ['Buys'] })], cityUrl, guideUrl);
-    expect(faqs[1]?.question).toBe('How much are my cards worth?');
-    expect(faqs[1]?.link).toEqual({ href: guideUrl, label: 'guide to selling a collection' });
-    for (const faq of faqs) {
-      expect(faq.answer).not.toMatch(PRICE_PATTERN);
-    }
-  });
-
-  it('gives general shop-vs-online guidance linking the guide for the third question', () => {
-    const faqs = sellCityFaqs('Winnipeg', 'Manitoba', [store({ services: ['Buys'] })], cityUrl, guideUrl);
-    expect(faqs[2]?.question).toBe('Is it better to sell to a shop or online?');
-    expect(faqs[2]?.link).toEqual({ href: guideUrl, label: 'guide to selling a collection' });
+  it('ignores buyers in a different city entirely', () => {
+    const stores = [store({ citySlug: 'calgary', services: ['Buys'] })];
+    expect(sellPageExistsForCity(stores, 'edmonton')).toBe(false);
   });
 });

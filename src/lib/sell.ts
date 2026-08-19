@@ -6,6 +6,18 @@ export function isBuyer(store: Store): boolean {
   return store.services.some((s) => s.trim().toLowerCase() === 'buys');
 }
 
+/**
+ * True iff `/sell/${citySlug}/` is a real page — i.e. some store with this
+ * exact citySlug passes isBuyer(). Deliberately citySlug-only, no province
+ * argument: it mirrors `/sell/[city]/index.astro`'s getStaticPaths(), which
+ * also keys by citySlug alone (the sell route has no province segment in its
+ * URL). Anything that links to a sell page must ask this question first —
+ * see storeFaqs() in seo.ts, which linked unconditionally before this existed.
+ */
+export function sellPageExistsForCity(stores: Store[], citySlug: string): boolean {
+  return stores.some((s) => s.citySlug === citySlug && isBuyer(s));
+}
+
 /** Buyers in one city, ranked the same way every other list on the site is.
  *
  * This deliberately delegates to byRecommendedRank rather than keeping its own
