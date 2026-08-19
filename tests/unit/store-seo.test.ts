@@ -75,5 +75,6 @@ describe('storeFaqs', () => {
     const buys = storeFaqs(store({ services: ['Sells'] }), 'Alberta', false).find((x) => /buy/i.test(x.question));
     expect(buys?.link).toBeUndefined();
     expect(buys?.answer).toMatch(/don't have|not listed|no information/i);
+    expect(buys?.answer).not.toMatch(/sell page/i);
   });
 });

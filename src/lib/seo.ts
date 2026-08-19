@@ -536,7 +536,7 @@ export function storeFaqs(store: Store, provinceName: string, sellPageExists: bo
     question: `Does ${store.name} buy sports card collections?`,
     answer: buys
       ? `Yes — ${store.name} does buy collections as well as selling. Call ahead with what you have; most shops price on condition and what they're short of that week.`
-      : `We don't have buying listed for ${store.name}. That often means we haven't confirmed it rather than that they won't — it's worth asking. Shops we've confirmed as buyers are on our sell page for ${store.city}.`,
+      : `We don't have buying listed for ${store.name}. That often means we haven't confirmed it rather than that they won't — it's worth asking.${sellPageExists ? ` Shops we've confirmed as buyers are on our sell page for ${store.city}.` : ''}`,
     ...(sellPageExists && { link: { href: `/sell/${store.citySlug}/`, label: `Shops that buy in ${store.city}` } }),
   });
 
