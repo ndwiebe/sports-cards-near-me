@@ -51,13 +51,22 @@ interface CityCentre {
   lng: number;
 }
 
-/** Mean position of a city's shops — good enough to rank neighbours by. */
+/** Mean position of a city's shops — good enough to rank neighbours by.
+ *
+ * Grouped by (province, citySlug), not citySlug alone. src/data/stores.json
+ * has "Stratford, ON" (2 shops) and "Stratford, PE" (1 shop) — different real
+ * places 3000+ km apart that happen to share a citySlug. citiesIn() in
+ * src/lib/stores.ts already scopes by province before grouping by slug; this
+ * used to group by slug alone and silently averaged both Stratfords into one
+ * fake centre near neither.
+ */
 function cityCentres(all: Store[]): CityCentre[] {
   const acc = new Map<string, { c: CityCentre; latSum: number; lngSum: number }>();
   for (const s of all) {
-    const entry = acc.get(s.citySlug);
+    const key = `${s.province}::${s.citySlug}`;
+    const entry = acc.get(key);
     if (entry === undefined) {
-      acc.set(s.citySlug, {
+      acc.set(key, {
         c: { city: s.city, citySlug: s.citySlug, province: s.province, count: 1, lat: 0, lng: 0 },
         latSum: s.lat,
         lngSum: s.lng,
@@ -77,16 +86,17 @@ function cityCentres(all: Store[]): CityCentre[] {
 
 export function nearestCities(
   all: Store[],
+  originProvince: ProvinceCode,
   citySlug: string,
   opts: { limit?: number; maxKm?: number } = {},
 ): NearbyCity[] {
   const limit = opts.limit ?? 6;
   const maxKm = opts.maxKm ?? 150;
   const centres = cityCentres(all);
-  const origin = centres.find((c) => c.citySlug === citySlug);
+  const origin = centres.find((c) => c.province === originProvince && c.citySlug === citySlug);
   if (origin === undefined) return [];
   return centres
-    .filter((c) => c.citySlug !== citySlug)
+    .filter((c) => !(c.province === originProvince && c.citySlug === citySlug))
     .map((c) => ({
       city: c.city,
       citySlug: c.citySlug,

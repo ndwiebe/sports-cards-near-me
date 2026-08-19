@@ -33,7 +33,7 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
 // Same-province filter is load-bearing: nearestCities ranks across the whole
 // country, so a border city can return a neighbour in another province — and
 // the link below is built with THIS page's province.slug, which would 404.
-const nearbyCities = nearestCities(stores, cityGroup.citySlug).filter((c) => c.province === province.code);
+const nearbyCities = nearestCities(stores, province.code, cityGroup.citySlug).filter((c) => c.province === province.code);
 const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGroup.citySlug);
 const showYear = primaryShowCalendarYear(showsJson as ShowRecord[], province.code, new Date());
 const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : '/shows/';
