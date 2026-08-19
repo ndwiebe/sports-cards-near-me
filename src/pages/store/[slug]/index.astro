@@ -5,6 +5,7 @@ import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, storeAnswerCapsule, storeFaqs } from '../../../lib/seo';
+import { sellPageExistsForCity } from '../../../lib/sell';
 import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
 
@@ -29,7 +30,7 @@ const tcgHere = lowerTags.includes('pokemon');
 // Store pages earn the site's top impressions on shop-NAME queries, yet were
 // the only major page type with no answer capsule and no FAQ. Both added.
 const capsule = storeAnswerCapsule(store, provinceName);
-const faqs = storeFaqs(store, provinceName);
+const faqs = storeFaqs(store, provinceName, sellPageExistsForCity(storesJson as Store[], store.citySlug));
 
 // One of the inbound-link sources the guides amendment calls for: a shop that
 // lists grading services links straight to the grading comparison guide,

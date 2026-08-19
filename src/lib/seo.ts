@@ -510,8 +510,14 @@ export function storeAnswerCapsule(store: Store, provinceName: string): string {
  * and when are you open. A question is omitted entirely rather than answered
  * with a shrug, except for "do you buy", where silence in our data must not
  * read as "no" — a shop that buys but never told us is the common case.
+ *
+ * `sellPageExists` gates the "shops that buy in {city}" link on the "do you
+ * buy" answer: `/sell/${citySlug}/` is only a real page for cities with at
+ * least one confirmed buyer (see sellPageExistsForCity in sell.ts). Linking
+ * to it unconditionally shipped 194 dead links across cities with none —
+ * this parameter is how that stays fixed.
  */
-export function storeFaqs(store: Store, provinceName: string): FaqItem[] {
+export function storeFaqs(store: Store, provinceName: string, sellPageExists: boolean): FaqItem[] {
   const faqs: FaqItem[] = [];
 
   if (store.rating !== undefined && store.reviewCount !== undefined) {
@@ -531,7 +537,7 @@ export function storeFaqs(store: Store, provinceName: string): FaqItem[] {
     answer: buys
       ? `Yes — ${store.name} does buy collections as well as selling. Call ahead with what you have; most shops price on condition and what they're short of that week.`
       : `We don't have buying listed for ${store.name}. That often means we haven't confirmed it rather than that they won't — it's worth asking. Shops we've confirmed as buyers are on our sell page for ${store.city}.`,
-    link: { href: `/sell/${store.citySlug}/`, label: `Shops that buy in ${store.city}` },
+    ...(sellPageExists && { link: { href: `/sell/${store.citySlug}/`, label: `Shops that buy in ${store.city}` } }),
   });
 
   if (store.hours !== undefined) {
