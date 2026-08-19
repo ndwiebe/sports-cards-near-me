@@ -37,8 +37,8 @@ const breadcrumbLd = breadcrumbListLd([
 // where it shows in the result, not only on the page.
 const description =
   store.rating !== undefined && store.reviewCount !== undefined
-    ? `${store.name} in ${store.city}, ${provinceName} — ${store.rating} stars from ${store.reviewCount} Google reviews. Address, hours, phone, and what they carry.`
-    : `${store.name} in ${store.city}, ${provinceName}: address, hours, phone, and what they carry.`;
+    ? `${store.name} in ${store.city}, ${provinceName} — ${store.rating} stars from ${store.reviewCount} Google reviews. Address, map, directions and what they carry.`
+    : `${store.name} in ${store.city}, ${provinceName}: address, map, directions and what they carry.`;
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',

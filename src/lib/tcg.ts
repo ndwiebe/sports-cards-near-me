@@ -96,7 +96,7 @@ export function pokemonCityCapsule(city: string, provinceName: string, shops: St
 
   parts.push(
     total === 1
-      ? 'See its address, hours, and map pin below.'
+      ? 'See its address, map pin and directions below.'
       : `Browse the ranked list and interactive map below to compare all ${total} locations near you.`,
   );
 
@@ -113,7 +113,7 @@ export function pokemonCityFaqs(city: string, provinceName: string, shops: Store
 
   const whereAnswer =
     total === 1
-      ? `${namesList(shops)} is the Pokémon card shop we track in ${city}, ${provinceName}. See its address, hours, and map pin below.`
+      ? `${namesList(shops)} is the Pokémon card shop we track in ${city}, ${provinceName}. See its address, map pin and directions below.`
       : `${city} has ${total} Pokémon card ${shopWord} tracked on Sports Cards Near Me, including ${namesList(shops)}. See the full ranked list and map below.`;
   const whereFaq: FaqItem = { question: `Where can I buy Pokémon cards in ${city}?`, answer: whereAnswer };
 

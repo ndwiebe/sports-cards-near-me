@@ -56,10 +56,10 @@ const topRated = topRatedStore(cityGroup.stores);
 // no "Rated"/"Ranked" language for a lone shop, which cannot be ranked.
 const anyRated = cityGroup.stores.some((s) => s.rating !== undefined);
 const titleSuffix = cityGroup.stores.length === 1
-  ? 'Hours, Map & Directions'
+  ? 'Address, Map & Directions'
   : anyRated
     ? 'Rated & Mapped, Updated Daily'
-    : 'Hours, Map & Directions, Updated Daily';
+    : 'Address, Map & Directions, Updated Daily';
 
 const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stores, cityGroup.citySlug);
 const faqLd = faqPageLd(faqs);
@@ -67,8 +67,8 @@ const faqLd = faqPageLd(faqs);
 <Base
   title={`${cityGroup.stores.length} Card Shop${cityGroup.stores.length === 1 ? '' : 's'} in ${cityGroup.city}, ${province.code} — ${titleSuffix}`}
   description={topRated !== undefined && topRated.rating !== undefined
-    ? `Every sports card shop in ${cityGroup.city}, ${province.name} with Google ratings, hours, map and directions. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
-    : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, hours, map and directions. Rebuilt daily so listings stay current.`}
+    ? `Every sports card shop in ${cityGroup.city}, ${province.name} with Google ratings, map and directions. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, map and directions. Rebuilt daily so listings stay current.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(storeListLd)} />
