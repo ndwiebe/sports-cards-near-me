@@ -24,7 +24,7 @@ const sellUrl = `/sell/${store.citySlug}/`;
 const pokemonUrl = `/pokemon/${store.citySlug}/`;
 const lowerTags = [...store.services, ...store.sports].map((t) => t.trim().toLowerCase());
 const buysHere = lowerTags.includes('buys');
-const tcgHere = ['pokemon', 'magic', 'one piece', 'lorcana', 'yu-gi-oh'].some((t) => lowerTags.includes(t));
+const tcgHere = lowerTags.includes('pokemon');
 
 // Store pages earn the site's top impressions on shop-NAME queries, yet were
 // the only major page type with no answer capsule and no FAQ. Both added.
