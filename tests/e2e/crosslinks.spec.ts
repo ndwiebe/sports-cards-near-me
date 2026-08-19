@@ -20,3 +20,12 @@ test('resellers page links to Slab Savvy CPA', async ({ page }) => {
   await page.goto('/resellers/');
   await expect(page.locator('a[href^="https://slabsavvycpa.com"]').first()).toBeVisible();
 });
+
+test('store page links to nearby shops and to guides', async ({ page }) => {
+  await page.goto('/store/dolly-s-cards-collectibles-waterloo-waterloo/');
+  await expect(page.getByRole('heading', { name: 'More card shops near here' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Guides for collectors' })).toBeVisible();
+  await expect(page.locator('a[href^="/guides/"]').first()).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  expect(overflow, 'no horizontal scroll').toBe(false);
+});

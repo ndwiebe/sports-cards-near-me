@@ -5,6 +5,8 @@ import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, storeAnswerCapsule, storeFaqs } from '../../../lib/seo';
+import { nearestStores } from '../../../lib/nearby';
+import { relatedGuidesForStore } from '../../../lib/related-guides';
 
 export function getStaticPaths() {
   return (storesJson as Store[]).map((s) => ({ params: { slug: s.slug }, props: { store: s } }));
@@ -15,6 +17,14 @@ const { store } = Astro.props;
 const provinceName = PROVINCES[store.province].name;
 const provinceSlug = PROVINCES[store.province].slug;
 const directions = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
+
+const nearby = nearestStores(storesJson as Store[], store);
+const guides = relatedGuidesForStore(store);
+const sellUrl = `/sell/${store.citySlug}/`;
+const pokemonUrl = `/pokemon/${store.citySlug}/`;
+const lowerTags = [...store.services, ...store.sports].map((t) => t.trim().toLowerCase());
+const buysHere = lowerTags.includes('buys');
+const tcgHere = ['pokemon', 'magic', 'one piece', 'lorcana', 'yu-gi-oh'].some((t) => lowerTags.includes(t));
 
 // Store pages earn the site's top impressions on shop-NAME queries, yet were
 // the only major page type with no answer capsule and no FAQ. Both added.
@@ -116,6 +126,54 @@ const ld: Record<string, unknown> = {
         </div>
       ))}
     </dl>
+  </section>
+
+  {nearby.length > 0 && (
+    <section class="mt-16 max-w-2xl">
+      <h2 class="text-3xl">More card shops near here</h2>
+      <ul role="list" class="mt-6 grid gap-3">
+        {nearby.map((s) => (
+          <li>
+            <a href={`/store/${s.slug}/`} class="font-semibold hover:text-prizm">{s.name}</a>
+            <span class="text-sm text-muted"> · {s.city}{s.rating !== undefined && <> · ★ {s.rating}</>}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-4 text-sm text-muted">
+        See every shop in{' '}
+        <a href={`/${provinceSlug}/${store.citySlug}/`} class="text-prizm">{store.city}</a>, or browse all of{' '}
+        <a href={`/${provinceSlug}/`} class="text-prizm">{provinceName}</a>.
+      </p>
+    </section>
+  )}
+
+  {(buysHere || tcgHere) && (
+    <p class="mt-8 max-w-2xl text-sm text-muted">
+      {buysHere && (
+        <>
+          {store.name} lists buying collections as a service — see{' '}
+          <a href={sellUrl} class="text-prizm">every shop that buys in {store.city}</a>.{' '}
+        </>
+      )}
+      {tcgHere && (
+        <>
+          It also carries trading card games — see{' '}
+          <a href={pokemonUrl} class="text-prizm">Pokémon and TCG shops in {store.city}</a>.
+        </>
+      )}
+    </p>
+  )}
+
+  <section class="mt-12 max-w-2xl">
+    <h2 class="text-3xl">Guides for collectors</h2>
+    <ul role="list" class="mt-6 grid gap-4">
+      {guides.map((g) => (
+        <li>
+          <a href={`/guides/${g.slug}/`} class="font-semibold hover:text-prizm">{g.title}</a>
+          <p class="mt-1 text-sm text-muted">{g.dek}</p>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <p class="mt-12 text-sm text-muted">
