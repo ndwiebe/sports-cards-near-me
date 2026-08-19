@@ -22,6 +22,13 @@ const PAGES_WHOSE_SNIPPET_DESCRIBES_A_SHOP = [
   '/store/dolly-s-cards-collectibles-waterloo-waterloo/',
   '/ontario/toronto/',
   '/pokemon/toronto/',
+  // /pokemon/[city]/index.astro has a titleSuffix ternary with a THIRD branch
+  // that only fires when a Pokemon city has exactly one shop (172 Pokemon
+  // cities exist; 109 are single-shop). Toronto's 28-shop page takes the
+  // 'Ranked, Updated Daily' branch and never exercises it — Banff (AB), a
+  // real single-shop Pokemon city verified against src/data/stores.json on
+  // 2026-08-19, does.
+  '/pokemon/banff/',
 ];
 
 const storesWithHours = (storesJson as { hours?: string }[]).filter(

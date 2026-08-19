@@ -25,10 +25,10 @@ const topRated = topRatedStore(shops);
 // nothing to rank by.
 const anyRated = shops.some((s) => s.rating !== undefined);
 const titleSuffix = shops.length === 1
-  ? 'Hours, Map & Directions'
+  ? 'Address, Map & Directions'
   : anyRated
     ? 'Ranked, Updated Daily'
-    : 'Hours, Map & Directions, Updated Daily';
+    : 'Address, Map & Directions, Updated Daily';
 
 const generalCityUrl = `/${entry.provinceSlug}/${entry.citySlug}/`;
 const breadcrumbLd = breadcrumbListLd([
@@ -48,7 +48,7 @@ const faqLd = faqPageLd(faqs);
   title={`${shops.length} Pokémon Card Shop${shops.length === 1 ? '' : 's'} in ${entry.city}, ${entry.provinceCode} — ${titleSuffix}`}
   description={topRated !== undefined && topRated.rating !== undefined
     ? `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName}. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
-    : `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName} — compare ratings where they exist, addresses, and hours. Rebuilt daily.`}
+    : `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName} — compare ratings where they exist, addresses, map and directions. Rebuilt daily.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(shopListLd)} />
