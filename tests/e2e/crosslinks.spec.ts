@@ -29,3 +29,13 @@ test('store page links to nearby shops and to guides', async ({ page }) => {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
   expect(overflow, 'no horizontal scroll').toBe(false);
 });
+
+test('city page links sideways to nearby cities, shows and guides', async ({ page }) => {
+  await page.goto('/ontario/toronto/');
+  await expect(page.getByRole('heading', { name: 'Nearby cities' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Keep looking' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Guides for collectors' })).toBeVisible();
+  await expect(page.locator('a[href^="/shows/"]').first()).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  expect(overflow, 'no horizontal scroll').toBe(false);
+});

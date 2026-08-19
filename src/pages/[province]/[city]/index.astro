@@ -9,6 +9,11 @@ import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
 import { toMapResellers } from '../../../lib/map-data';
 import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, faqPageLd, itemListLd, ldJson, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
+import showsJson from '../../../data/shows.json';
+import type { ShowRecord } from '../../../lib/shows';
+import { primaryShowCalendarYear } from '../../../lib/shows';
+import { nearestCities } from '../../../lib/nearby';
+import { relatedGuidesForCity } from '../../../lib/related-guides';
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -24,6 +29,18 @@ const cityGroup = citiesIn(stores, province.code).find((c) => c.citySlug === Ast
 if (!cityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
 const services = [...new Set(cityGroup.stores.flatMap((s) => s.services))].sort();
 const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
+
+// Same-province filter is load-bearing: nearestCities ranks across the whole
+// country, so a border city can return a neighbour in another province — and
+// the link below is built with THIS page's province.slug, which would 404.
+const nearbyCities = nearestCities(stores, cityGroup.citySlug).filter((c) => c.province === province.code);
+const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGroup.citySlug);
+const showYear = primaryShowCalendarYear(showsJson as ShowRecord[], province.code, new Date());
+const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : '/shows/';
+const cityLowerTags = [...services, ...sports].map((t) => t.trim().toLowerCase());
+const cityBuys = cityLowerTags.includes('buys');
+const cityTcg = cityLowerTags.includes('pokemon');
+
 const cityResellers = (resellersJson as ResellerRecord[]).filter(
   (r) => r.province === province.code && r.citySlug === cityGroup.citySlug,
 );
@@ -174,6 +191,64 @@ const faqLd = faqPageLd(faqs);
       ))}
     </dl>
     <p class="mt-6 text-sm text-muted">Directory data refreshed daily.</p>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="text-3xl">Keep looking</h2>
+    <ul role="list" class="mt-6 grid gap-2 sm:grid-cols-2">
+      {cityBuys && (
+        <li>
+          <a href={`/sell/${cityGroup.citySlug}/`} class="font-semibold hover:text-prizm">
+            Shops that buy collections in {cityGroup.city}
+          </a>
+        </li>
+      )}
+      {cityTcg && (
+        <li>
+          <a href={`/pokemon/${cityGroup.citySlug}/`} class="font-semibold hover:text-prizm">
+            Pokémon &amp; TCG shops in {cityGroup.city}
+          </a>
+        </li>
+      )}
+      <li>
+        <a href={showsUrl} class="font-semibold hover:text-prizm">
+          Card shows in {province.name}{showYear !== undefined ? ` ${showYear}` : ''}
+        </a>
+      </li>
+      <li>
+        <a href={`/${province.slug}/`} class="font-semibold hover:text-prizm">
+          Every card shop in {province.name}
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  {nearbyCities.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-3xl">Nearby cities</h2>
+      <ul role="list" class="mt-6 flex flex-wrap gap-2">
+        {nearbyCities.map((c) => (
+          <li>
+            <a
+              href={`/${province.slug}/${c.citySlug}/`}
+              class="inline-block rounded-full border border-bord px-3 py-1 text-sm hover:border-prizm"
+            >{c.city} <span class="text-muted">({c.count})</span></a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="mt-12 max-w-2xl">
+    <h2 class="text-3xl">Guides for collectors</h2>
+    <ul role="list" class="mt-6 grid gap-4">
+      {cityGuides.map((g) => (
+        <li>
+          <a href={`/guides/${g.slug}/`} class="font-semibold hover:text-prizm">{g.title}</a>
+          <p class="mt-1 text-sm text-muted">{g.dek}</p>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <script>
