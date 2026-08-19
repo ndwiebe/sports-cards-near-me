@@ -45,9 +45,15 @@ UNMATCHED = ROOT / 'docs/research/ratings-refresh-unmatched.csv'
 MAX_CALLS = 800
 
 SEARCH_URL = 'https://places.googleapis.com/v1/places:searchText'
-# Field mask keeps us on the cheapest SKU that still returns ratings, and avoids
-# paying for photos/reviews/opening hours we do not use.
-FIELD_MASK = 'places.id,places.displayName,places.formattedAddress,places.rating,places.userRatingCount'
+# Google bills a request at the highest SKU tier any requested field belongs to.
+# rating and userRatingCount are already Enterprise-tier, and regularOpeningHours
+# is Enterprise-tier too — so hours cost nothing extra on a call we are already
+# making. Photos and reviews are NOT free: they sit in Enterprise + Atmosphere,
+# a higher tier, which is why they stay out of this mask.
+FIELD_MASK = (
+    'places.id,places.displayName,places.formattedAddress,'
+    'places.rating,places.userRatingCount,places.regularOpeningHours'
+)
 
 
 def search_place(api_key: str, name: str, address: str, city: str, province: str) -> dict | None:
@@ -78,6 +84,21 @@ def search_place(api_key: str, name: str, address: str, city: str, province: str
         return None
     places = payload.get('places') or []
     return places[0] if places else None
+
+
+def format_hours(place: dict | None) -> str:
+    """Google's weekday lines collapsed to one sheet cell.
+
+    regularOpeningHours.weekdayDescriptions arrives as
+    ["Monday: 11:00 AM - 7:00 PM", ..., "Sunday: Closed"]. The sheet's Hours
+    column is free text, so join with "; " and let the page render it verbatim.
+    Returns '' when the place has no published hours, which is common for
+    appointment-only and home-based shops.
+    """
+    if not place:
+        return ''
+    lines = (place.get('regularOpeningHours') or {}).get('weekdayDescriptions') or []
+    return '; '.join(str(line).strip() for line in lines if str(line).strip())
 
 
 def main() -> None:
@@ -115,13 +136,17 @@ def main() -> None:
         calls += 1
         rating = place.get('rating') if place else None
         count = place.get('userRatingCount') if place else None
-        if rating is None:
+        hours = format_hours(place)
+        if rating is None and hours == '':
             misses.append([s['slug'], s['name'], s['city'], s['province'],
-                           'no match' if place is None else 'matched but unrated'])
+                           'no match' if place is None else 'matched but unrated, no hours'])
         else:
             # Sheet's own format, so this pastes straight into the Rating column.
+            rating_cell = ''
+            if rating is not None:
+                rating_cell = f'{rating} ({count})' if count is not None else str(rating)
             rows.append([s['slug'], s['name'], s['city'], s['province'],
-                         f'{rating} ({count})' if count is not None else str(rating),
+                         rating_cell, hours,
                          (place.get('formattedAddress') or '')])
         if i % 25 == 0:
             print(f'  {i}/{len(targets)}  ({len(rows)} rated, {len(misses)} unmatched)')
@@ -130,7 +155,8 @@ def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with OUT.open('w', newline='') as f:
         w = csv.writer(f)
-        w.writerow(['slug', 'Store Name', 'City', 'Province', 'Rating', 'Google address (verify match)'])
+        w.writerow(['slug', 'Store Name', 'City', 'Province', 'Rating', 'Hours',
+                    'Google address (verify match)'])
         w.writerows(rows)
     with UNMATCHED.open('w', newline='') as f:
         w = csv.writer(f)
@@ -142,6 +168,7 @@ def main() -> None:
     print(f'  {len(misses)} unmatched -> {UNMATCHED.relative_to(ROOT)}')
     print('\nNext: spot-check the "Google address" column against each store\'s own address')
     print('before importing — Text Search can match a nearby business of a similar name.')
+    print('Rating pastes into the sheet\'s Rating column; Hours pastes into the Hours column.')
 
 
 if __name__ == '__main__':
