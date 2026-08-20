@@ -1,0 +1,181 @@
+---
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const title = 'Record-Keeping for Canadian Card Sellers: What CRA Actually Wants';
+const description =
+  'What the CRA actually expects a card seller to keep, for how long, and the five fields that cover almost every situation — whether you sell a handful of cards a year or run a full card business.';
+const pagePath = '/guides/record-keeping-for-card-sellers/';
+const published = '2026-08-20';
+const modified = '2026-08-20';
+
+const capsule =
+  'CRA’s record-keeping rules are simpler than most sellers expect. Keep records for six years from the end of the tax year they relate to. Digital records count if they’re complete and readable — exported statements, PDFs, clear screenshots. For every sale, you want five things: the date, what the card was, what you paid, what you sold it for, and the fees involved. Fifteen minutes a month beats a full weekend of guessing in March, and it’s the difference between proving a cost and CRA deeming you to have paid nothing for it.';
+
+const faqs: FaqItem[] = [
+  {
+    question: 'How long do I need to keep records for card sales?',
+    answer:
+      'Six years from the end of the tax year they relate to. For a 2025 sale (the return filed in 2026), that means keeping records through the end of 2031. This is a general CRA rule, not specific to cards — the same period applies to any income or expense record.',
+  },
+  {
+    question: 'Do digital records count, or do I need paper receipts?',
+    answer:
+      'Digital records are fine if they’re complete and readable. Exported spreadsheets, PDFs of statements, and clear screenshots all count. If you sell online, most of your records are already digital. For paper receipts — from shows, your local shop, or cash deals — scan and save them properly rather than relying on the physical copy surviving six years in a drawer.',
+  },
+  {
+    question: 'I sold some cards for cash at a show with no receipt. What do I do?',
+    answer:
+      'CRA’s preference is always a receipt or invoice where one is realistically possible. When it isn’t, a same-day written record is the next best thing — a note in your phone with the date, the card, the price, and who you dealt with beats having nothing. Cash and no paper trail do not mean the sale is invisible to CRA or that it falls outside your reporting obligations; they just mean the burden of proof sits more heavily on your own notes.',
+    link: { href: '/guides/tax-on-selling-sports-cards-canada/', label: 'Why cash sales are still taxable' },
+  },
+  {
+    question: 'What’s the minimum I should actually track?',
+    answer:
+      'Five fields, per transaction: the date, a description of the card (player, set, year, parallel or serial number if relevant), what you paid including shipping to you, what you sold it for before fees, and the fees themselves. Every calculation in cost basis, capital gains, and business income math runs off exactly this information — track nothing else and you’re still covered for the numbers that matter.',
+  },
+  {
+    question: 'What happens if I have no records for past sales and CRA asks?',
+    answer:
+      'Start tracking today regardless — going forward is what you can control. If platform data or bank records show unreported income from a prior year, CRA can still ask you to explain it, and clean records from here forward are your best protection, though they don’t make a genuinely unreported past year disappear. The fix for that is talking to an accountant, not guessing at old numbers on your own.',
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: published,
+  dateModified: modified,
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+    sameAs: ['https://slabsavvycpa.com'],
+  },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / Record-Keeping
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published={published} modified={modified} />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">The Letter-Arrives Scenario</h2>
+    <p>
+      An envelope shows up from CRA. They're asking about your online sales and want to see your records —
+      purchase receipts, sales records, proof of what you paid for the cards you sold. The letter gives you a
+      deadline, often 30 days.
+    </p>
+    <p>
+      Could you pull that together right now? If the honest answer is "not even close," you're not alone —
+      that's not a character flaw, it's a systems problem. The fix isn't an elaborate setup that takes over your
+      weekends. It's a habit small enough to actually keep.
+    </p>
+
+    <h2 class="text-3xl">What CRA Actually Requires</h2>
+    <p>
+      The rules are simpler than most people expect. Keep records for at least six years from the end of the tax year
+      they relate to — for a 2025 sale, that means through the end of 2031.
+    </p>
+    <p>
+      Digital records work if they're complete and readable. Exported spreadsheets, PDFs of platform statements, and
+      clear screenshots all count. If you sell online, most of what you need is already digital by default. Paper
+      receipts — from shows, your local shop, cash deals — should be scanned and saved properly rather than
+      trusted to survive six years as a physical slip of paper.
+    </p>
+    <p>
+      What counts as adequate: receipts or invoices for what you bought, bank and platform statements showing
+      deposits, written records of cash and e-transfer transactions (date, what, how much, who), and proof of any
+      expense you're claiming. For cash deals at shows and Facebook sales specifically, a receipt is always the
+      preference; when that's genuinely not possible, a same-day note with the date, the card, the price, and who
+      you dealt with is the next best thing. A spreadsheet entry beats that. Either one beats "I don't remember."
+    </p>
+
+    <h2 class="text-3xl">The Five-Field Minimum</h2>
+    <p>If you track nothing else, track these five things. Every calculation in cost basis, capital gains, and business income runs off exactly this:</p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li><strong>Date.</strong> When the transaction happened.</li>
+      <li><strong>Card description.</strong> Player, set, year, and anything that identifies it — parallel, serial number, grade.</li>
+      <li><strong>What you paid.</strong> Your purchase price, including shipping to you.</li>
+      <li><strong>What you sold it for.</strong> The gross sale price, before fees.</li>
+      <li><strong>Fees.</strong> Platform fees, payment processing, and shipping you paid on the sale.</li>
+    </ul>
+    <p>
+      Log every transaction the day it happens if you can manage it. If that's unrealistic, a realistic minimum is
+      exporting your platform statements once a month and dropping them in a folder — even that gives you
+      something real to work from at tax time, instead of reconstructing a year from memory.
+    </p>
+
+    <h2 class="text-3xl">A Number CRA Sees That Isn't What You Owe Tax On</h2>
+    <p>
+      If you sell on a platform that reports to CRA, understand this distinction: what a platform reports is your
+      gross sales total — not the same number as what you actually owe tax on. Your real tax situation depends
+      on your seller profile, what you paid for the cards, and your expenses along the way. The gross number is just
+      the starting point, and it will not match your net income, which is exactly why your own records matter —
+      they're what explains the gap if CRA ever asks.
+    </p>
+    <p>
+      "Nobody actually reports this" is advice worth ignoring. Platforms increasingly do report seller activity to
+      CRA, so the real question isn't whether CRA can see your sales — it's whether the numbers you report match
+      what they already have.{' '}
+      <a href="/guides/tax-on-selling-sports-cards-canada/" class="text-prizm">Our main tax guide</a> covers exactly
+      which platforms and thresholds trigger that reporting.
+    </p>
+
+    <CrossLinkCallout
+      heading="Records are the whole game once you're past casual selling"
+      body="Fifteen minutes a month of consistent tracking is worth more at tax time than a perfect memory. If you'd rather have someone build the system for you than build it yourself, Slab Savvy CPA works specifically with card sellers and dealers."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <p class="text-sm text-muted">
+      This guide is educational, not personalized tax advice. If CRA has already contacted you about your records,
+      talk to an accountant before you respond rather than assembling everything alone under a deadline.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <p class="text-sm text-muted">
+      Spotted something out of date, or a situation this guide should cover? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>
