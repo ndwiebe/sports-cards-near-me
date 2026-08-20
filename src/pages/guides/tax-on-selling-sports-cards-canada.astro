@@ -1,0 +1,406 @@
+---
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import storesJson from '../../data/stores.json';
+import type { Store } from '../../lib/types';
+import { isBuyer } from '../../lib/sell';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const stores = storesJson as Store[];
+
+// Directory counts only — this page deliberately names no shop. Tax treatment
+// depends on the seller's own facts, so a named business sitting next to tax
+// wording could read as a claim about how that business is taxed, or about what
+// it does for its customers. Neither is something we can support, and it is the
+// same reasoning as the standing absence-of-data rule: if a shop could email
+// "that's wrong", it doesn't go on the page.
+const buyerStores = stores.filter(isBuyer);
+const buyerCityCount = new Set(buyerStores.map((s) => s.citySlug)).size;
+
+const title = 'Do I Have to Pay Tax When I Sell Sports Cards in Canada?';
+const description =
+  'A Canadian accountant’s plain-English answer: when selling cards is tax-free, when it’s a capital gain, and when the CRA treats it as a business. Covers the $1,000 rule, the collector-vs-dealer test, GST/HST, and why losses usually can’t be claimed.';
+const pagePath = '/guides/tax-on-selling-sports-cards-canada/';
+const published = '2026-08-10';
+const modified = '2026-08-10';
+
+const capsule =
+  'Often no. If you are a collector and the card sold for $1,000 or less, Canada’s personal-use property rules treat both what you paid and what you received as at least $1,000, so there is no gain to report. Tax starts in two situations: a single card or set sells for more than $1,000, which is a capital gain where half the profit above $1,000 is added to your income; or your buying and selling looks like a business rather than a hobby, in which case the full profit is taxable and GST/HST may apply once you pass $30,000 in sales.';
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Do I have to pay tax when I sell sports cards in Canada?',
+    answer:
+      'Often not. Cards you bought for your own enjoyment are "personal-use property", and the Income Tax Act treats both their cost and their sale price as being at least $1,000 each. A card sold for $1,000 or less therefore produces no reportable gain, no matter what you originally paid. You owe tax when a single card or set sells for more than $1,000, or when the CRA would consider your selling a business rather than a hobby.',
+  },
+  {
+    question: 'What is the $1,000 rule for selling collectibles in Canada?',
+    answer:
+      'Section 46 of the Income Tax Act deems the cost of a personal-use item to be the greater of $1,000 and what you actually paid, and the sale price to be the greater of $1,000 and what you actually received. A $40 card sold for $900 is treated as a $1,000 item sold for $1,000 — no gain. The same card sold for $2,600 produces a $1,600 capital gain, of which half is added to your income. The floor applies per item, but a set sold off piece by piece to the same buyer counts as one item.',
+  },
+  {
+    question: 'When does the CRA treat card selling as a business instead of a hobby?',
+    answer:
+      'There is no single line — the CRA weighs the whole picture: how often you buy and sell, how long you hold cards, whether you bought them intending to resell at a profit, how much specialist knowledge you have, how much time you put in, whether you advertise, and whether you borrowed to buy inventory. Ripping sealed product to resell singles, running a show table regularly, or flipping cards you never intended to keep all point strongly toward business income, which is fully taxable rather than half.',
+    link: { href: '/shows/', label: 'Canadian card shows calendar' },
+  },
+  {
+    question: 'Can I claim a loss if I sell a card for less than I paid?',
+    answer:
+      'Generally no. Losses on personal-use property are specifically denied by the Income Tax Act, so a card you bought for pleasure and sold at a loss gives you nothing to claim. This is the trade-off for the $1,000 rule working in your favour on small gains. If a card was genuinely business inventory, the loss is deductible — but the treatment follows what you were actually doing when you bought it, not what suits the outcome. You cannot buy cards as inventory, watch them fall, and reclassify them as investments to claim a capital loss.',
+  },
+  {
+    question: 'Do I have to charge GST or HST on sports cards I sell?',
+    answer:
+      'A collector selling personal cards is not making sales in the course of a business, so GST/HST does not normally apply. If you are in business, you can stay a "small supplier" — no registration, no collecting — while your taxable sales are $30,000 or less. Two tests can break that: more than $30,000 across any four consecutive calendar quarters, or $30,000 inside any single quarter, which ends small-supplier status immediately and gives you 29 days to register. The threshold measures sales, not profit.',
+  },
+  {
+    question: 'Does the CRA know about cards I sell online?',
+    answer:
+      'Increasingly, yes. Since 2024 Canada requires online marketplaces and auction platforms to report their sellers to the CRA each year, including names, addresses, and total amounts received. Small casual sellers are excluded, but the exclusion is narrow — roughly, fewer than 30 sales in the year and under about $2,800. Selling on a platform is no longer invisible, which is a reason to keep records rather than a reason to panic.',
+  },
+  {
+    question: 'What if I trade cards instead of selling them?',
+    answer:
+      'A trade is treated as a sale at fair market value on both sides — you are considered to have sold what you gave up for what it was worth that day, and bought what you received at the same value. The same $1,000 floor and the same collector-versus-business question then apply. In practice most collector-to-collector trades of ordinary cards fall under the floor and produce nothing to report.',
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: published,
+  dateModified: modified,
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+    sameAs: ['https://slabsavvycpa.com'],
+  },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / Tax on Selling Cards
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published={published} modified={modified} />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      This is the question that comes up every time somebody sells a card for real money for the first time, and the
+      honest answer is more reassuring than most people expect. Canada has a specific rule that exists precisely so
+      that ordinary people selling ordinary personal belongings don't have to file paperwork over a $200 profit. Most
+      collectors never leave the shelter of that rule. But it has edges, and the two places people get caught out —
+      a single card that sells big, and the slow drift from collecting into dealing — are both worth understanding
+      before they happen rather than after.
+    </p>
+    <p>
+      Everything below is about Canadian federal income tax and GST/HST. Provincial income tax follows the same
+      federal rules for what counts as income; only the rates differ.
+    </p>
+
+    <h2 class="text-3xl">Three Ways the CRA Can See a Card Sale</h2>
+    <p>
+      Every sale falls into one of three buckets, and which bucket you're in decides everything else. The CRA (Canada
+      Revenue Agency — the federal tax authority) doesn't have a special category for sports cards, so cards get
+      sorted by the same rules that apply to any other thing you own.
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>Nothing to report.</strong> You're a collector, and the card sold for $1,000 or less. This covers the
+        overwhelming majority of card sales in Canada. The mechanism is the $1,000 rule below.
+      </li>
+      <li>
+        <strong>A capital gain.</strong> You're still a collector, but a single card or set sold for more than
+        $1,000. A capital gain is the profit on selling something you owned as an investment or a possession rather
+        than as stock you deal in. <strong>Half</strong> of the gain above the $1,000 floor gets added to your income
+        for the year.
+      </li>
+      <li>
+        <strong>Business income.</strong> Your buying and selling has crossed from hobby into a business — whether or
+        not you ever registered anything or thought of it that way. Now <strong>all</strong> of the profit is taxable,
+        not half, and a different set of rules opens up: you can deduct your costs, and GST/HST may eventually apply.
+      </li>
+    </ul>
+
+    <h2 class="text-3xl">The $1,000 Rule — the One Most Collectors Need</h2>
+    <p>
+      Cards you bought because you wanted them are <strong>personal-use property</strong>: things you own for your own
+      enjoyment rather than to earn income, the same category as your furniture, your bike, or a guitar. Section 46 of
+      the Income Tax Act does something unusual with that category. For working out the gain, it treats:
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>your <strong>cost</strong> as the greater of $1,000 and what you actually paid, and</li>
+      <li>your <strong>sale price</strong> as the greater of $1,000 and what you actually received.</li>
+    </ul>
+    <p>
+      Both numbers get floored at $1,000, which quietly wipes out the gain on anything that sells for under a
+      thousand dollars. A card you pulled from a pack as a kid — cost, for tax purposes, $1,000 — sold at a show for
+      $900 is treated as a $1,000 item that sold for $1,000. No gain, nothing to report, nothing to file.
+    </p>
+    <p>
+      Push past the floor and only the amount above it counts. The same card sold for $2,600 is a $1,600 capital gain
+      ($2,600 minus the deemed $1,000 cost). Half of that — $800 — is added to your income for the year and taxed at
+      whatever rate applies to you. Not $800 of tax; $800 of extra income.
+    </p>
+    <p>
+      <strong>The floor applies per item, with one important exception.</strong> If you own a set and sell it off
+      piece by piece to the same buyer, or to a group of people acting together, the Act treats the whole set as a
+      single property. Splitting a $4,000 set into six $700 sales to the same person doesn't produce six tax-free
+      sales — it produces one $4,000 sale. Genuinely separate cards sold to genuinely separate buyers each get their
+      own $1,000 floor.
+    </p>
+    <p class="text-sm text-muted">
+      A technical footnote for anyone who goes looking: cards are ordinary personal-use property, not the narrower
+      category the Act calls <em>listed personal property</em> (art, jewellery, rare books, stamps and coins — a
+      closed list that doesn't include trading cards). The distinction matters only for losses, covered below.
+    </p>
+
+    <h2 class="text-3xl">Collector or Dealer? The Question That Decides the Most</h2>
+    <p>
+      This is where the real money is, and there's no bright line to point at. The CRA asks whether your activity is
+      an <em>adventure in the nature of trade</em> — plain English: does this look like someone running a small
+      business, even an informal one? Nobody factor settles it. The picture as a whole does, and these are the things
+      that go into it:
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>Why you bought it.</strong> The single heaviest factor. Cards bought because you wanted to own them
+        sit on the collector side. Cards bought because you expected to flip them at a profit sit on the business
+        side, even if only one of them ever sells.
+      </li>
+      <li>
+        <strong>How often you transact.</strong> A few sales a year reads very differently from a few sales a week.
+      </li>
+      <li><strong>How long you hold.</strong> Cards held for years look like a collection; cards turned over in weeks look like inventory.</li>
+      <li>
+        <strong>How much you know.</strong> Deep market knowledge cuts against you here — it's evidence you were
+        trading on it, which is exactly what a dealer does.
+      </li>
+      <li>
+        <strong>Time, effort and setup.</strong> Regular show tables, an online storefront, advertising, a business
+        name, borrowing money to buy inventory, or buying sealed product specifically to open and resell the singles
+        all point firmly toward business income.
+      </li>
+      <li>
+        <strong>Whether it actually makes money, year after year.</strong> A consistent profit points to a business.
+        Consistent losses with no realistic path to profit point back toward a hobby — which sounds like the softer
+        outcome until you remember a hobby can't deduct those losses at all.
+      </li>
+      <li>
+        <strong>Whether it's a real part of your income.</strong> If card sales are a meaningful share of what you
+        earn, even as a side hustle, that supports the business reading on its own.
+      </li>
+    </ul>
+    <p>
+      Two patterns land on the business side often enough to call out. <strong>Breaking</strong> — buying sealed boxes
+      to open and sell the cards individually — is buying goods to resell, which is what a business does; the fact
+      that it's fun doesn't change the analysis. And <strong>regular show selling</strong>, especially if you're
+      buying specifically to bring to the next{' '}
+      <a href="/shows/" class="text-prizm">card show</a>, is a recognisable small trading business, table fee and all.
+    </p>
+    <p>
+      One practical note for anyone buying into breaks: what a card from a break cost you is the price of the break
+      spot, spread across the cards you actually received. Pay $200 for a spot and pull eight cards, and each one
+      cost you $25. Sell one for $500 and the gain is $475 — not $500, and not $300. Whether that $475 is business
+      income or a capital gain still turns on the same intent-and-frequency question above.
+    </p>
+    <p>
+      If you are in business, the rules genuinely aren't all bad news. Your full profit is taxable, but you report it
+      on a T2125 (the "Statement of Business or Professional Activities" that attaches to a personal tax return) and
+      you get to deduct what it cost you to earn it: the cards themselves, shipping and supplies, grading fees,
+      platform and payment fees, table fees, and a reasonable share of mileage. Business losses can be applied
+      against your other income.
+    </p>
+
+    <h2 class="text-3xl">You Can Be Both — But You Can't Decide Afterwards</h2>
+    <p>
+      This is the part most people get wrong in both directions. Being a dealer in some of your cards does
+      <em>not</em> turn your whole collection into inventory. A card you bought for your personal collection years
+      ago and sell now can be a capital transaction at the same time as the fifty cards you bought last month to
+      grade and flip are business inventory. Most serious collectors are genuinely in both categories at once, and
+      that's a normal position to be in rather than a problem to solve.
+    </p>
+    <p>
+      What you can't do is decide after the fact. If you bought cards as inventory and they lost value, you don't get
+      to call them investments to claim a capital loss. The treatment follows what you were actually doing at the
+      time you bought — which is why the practical answer to almost all of this is the boring one: keep the
+      collection and the flip pile genuinely separate, in your records and in your head, and write down which is
+      which when you buy rather than when you sell.
+    </p>
+
+    <h2 class="text-3xl">The Loss Rule That Surprises People</h2>
+    <p>
+      Sell a personal-use card for less than you paid, and you get nothing. Losses on personal-use property are
+      specifically denied — you cannot use them to offset gains on other cards, or on anything else. That's the price
+      of the $1,000 rule working in your favour everywhere else, and it's why the collector treatment isn't
+      automatically the better one for someone whose collection has gone down in value.
+    </p>
+    <p>
+      This is the one place the listed-personal-property footnote above matters. Losses on that narrower category
+      (art, jewellery, rare books, stamps, coins) <em>can</em> at least be applied against gains of the same kind.
+      Trading cards aren't on that list, so the ordinary denial applies. If your card activity is a business, the
+      question disappears — business losses are deductible in the normal way.
+    </p>
+
+    <h2 class="text-3xl">GST/HST — Only If You're in Business</h2>
+    <p>
+      GST/HST (the federal Goods and Services Tax, combined in some provinces into a single Harmonized Sales Tax) is
+      charged on sales made in the course of a business. A collector selling their own cards isn't doing that, so it
+      doesn't arise.
+    </p>
+    <p>
+      Once you are in business, there's a threshold before anything changes. You're a <strong>small supplier</strong>
+      — no registration, no charging, no remitting — while your taxable sales stay at $30,000 or less. There are two
+      ways to cross it, and people usually only know about one:
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>Any four consecutive calendar quarters.</strong> Total more than $30,000 across them and you lose
+        small-supplier status at the start of the month after that period ends.
+      </li>
+      <li>
+        <strong>Any single calendar quarter.</strong> Hit $30,000 inside one quarter and you lose it immediately, on
+        the day you cross the line, with 29 days to register. A good run at one big show or one hot player can do
+        this on its own.
+      </li>
+    </ul>
+    <p>
+      From the moment you're registered you charge the tax on your sales, remit it, and can claim back the tax you
+      paid on business purchases. The $30,000 is measured on <em>sales, not profit</em>, which catches people out: a
+      business turning over $60,000 of cards to make $6,000 is well past the line.
+    </p>
+
+    <h2 class="text-3xl">Trades, and Getting Paid in Cards</h2>
+    <p>
+      Swapping cards is a sale on both sides. Tax-wise, you're treated as having sold what you handed over for its
+      fair market value that day, and having bought what you received at the same value — so the $1,000 floor and the
+      collector-versus-business question apply exactly as they would to a cash sale. For everyday collector trades
+      this changes nothing in practice, because both sides sit under the floor. It starts to matter when a trade
+      involves a card worth well over $1,000, or when you're trading as part of a business, where the value of what
+      you received is simply revenue.
+    </p>
+
+    <h2 class="text-3xl">"Can the CRA Even Know?"</h2>
+    <p>
+      For online sales, more than it used to. Since 2024 Canada has required digital marketplaces and auction
+      platforms to report their sellers to the CRA once a year — name, address, and the total the platform paid out.
+      There's an exclusion for genuinely casual sellers, but it's narrow: broadly, fewer than 30 sales in the
+      calendar year <em>and</em> under roughly $2,800 received. Someone who sells a few dozen cards online in a year
+      can be over it without feeling like a business at all.
+    </p>
+    <p>
+      This is a reason to keep records, not a reason to worry. Being reported isn't being assessed — if your sales
+      fall under the $1,000 rule there's still nothing to report. The problem it creates is a different one: if the
+      CRA has a number for what you received and you have no record of what you paid, the conversation starts from
+      their number.
+    </p>
+
+    <h2 class="text-3xl">What to Keep</h2>
+    <p>
+      Records are the whole game, and almost nobody has them for cards bought years ago. Going forward, keeping them
+      costs a few seconds per purchase and is the difference between proving a cost and being deemed to have paid
+      nothing:
+    </p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li><strong>What you paid and when</strong> — receipts, order confirmations, or a simple spreadsheet with dates.</li>
+      <li><strong>What you sold it for and when</strong>, and the platform, shop or show it went through.</li>
+      <li><strong>The costs attached to each sale</strong> — grading, shipping, platform and payment fees, table fees.</li>
+      <li><strong>Photos of anything significant</strong>, which also double as your condition record.</li>
+      <li>
+        <strong>Keep it for six years</strong> after the end of the tax year the records relate to — the CRA's
+        standard retention period.
+      </li>
+    </ul>
+    <p>
+      For older cards with no receipts, do the honest thing: reconstruct what you can, write down how you arrived at
+      it, and keep that note. A documented reasonable estimate is a far better position than a number you produced
+      later with nothing behind it.
+    </p>
+
+    <h2 class="text-3xl">When to Get Actual Advice</h2>
+    <p>
+      Most collectors reading this can stop at the $1,000 rule. Talk to an accountant when a sale is large enough to
+      matter, when you're not sure which side of the collector-dealer line you're on, when you're deciding whether to
+      register for GST/HST, or when an inherited collection is involved — inheritances bring in valuation at the date
+      of death and the deceased's final return, which is a different problem from the one this guide covers.
+    </p>
+    <p>
+      If you're at the point of selling, our{' '}
+      <a href="/guides/selling-your-collection/" class="text-prizm">guide to selling a collection</a> covers how to
+      sort and prepare what you have, and{' '}
+      <a href="/sell/" class="text-prizm">{buyerStores.length} shops across {buyerCityCount} Canadian cities</a>{' '}
+      list buying collections. Not sure what anything is worth yet? Start with{' '}
+      <a href="/guides/how-much-are-my-sports-cards-worth/" class="text-prizm">how to value a collection</a>.
+    </p>
+    <p>
+      Not sure which side of the collector-dealer line you're actually on? Our{' '}
+      <a href="/guides/are-you-running-a-card-business/" class="text-prizm">plain-English CRA business test</a>{' '}
+      walks through it. If the answer is "business," our{' '}
+      <a href="/guides/sports-card-tax-deductions-canada/" class="text-prizm">guide to what you can deduct</a>{' '}
+      and our{' '}
+      <a href="/guides/record-keeping-for-card-sellers/" class="text-prizm">record-keeping guide</a> cover the two
+      things that come next.
+    </p>
+
+    <CrossLinkCallout
+      heading="Need real tax help, not just a guide?"
+      body="If a sale is big enough to matter, you're not sure which side of the collector-dealer line you're on, or you're staring down a CRA letter, Slab Savvy CPA is built specifically for card sellers and dealers."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <div class="mt-10 rounded-2xl border border-bord bg-panel p-5">
+      <p class="text-sm text-muted">
+        <strong class="text-paper">General information, not tax advice.</strong> This guide is written by Nathan
+        Wiebe, a Chartered Professional Accountant, as general educational information for Canadian collectors. It
+        isn't advice for your situation, no professional relationship is created by reading it, and Sports Cards Near
+        Me does not provide tax or accounting services. Tax rules change and outcomes turn on facts this page can't
+        know. Before acting on anything here, check it against your own circumstances with your own accountant, or
+        against the CRA's published guidance.
+      </p>
+    </div>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <p class="text-sm text-muted">
+      Spotted something out of date, or a situation this guide should cover? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>
