@@ -1,0 +1,230 @@
+---
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const title = 'What Can You Deduct When You Sell Sports Cards in Canada?';
+const description =
+  'Every expense a Canadian card-selling business can actually claim against its income — shipping, grading, supplies, software, home workspace, show costs — and the ones that don’t count, with real numbers.';
+const pagePath = '/guides/sports-card-tax-deductions-canada/';
+const published = '2026-08-20';
+const modified = '2026-08-20';
+
+const capsule =
+  'If your card sales are business income, you can deduct any reasonable expense you incurred to earn that income — shipping, platform fees, supplies, software, grading, a share of your home workspace, and show costs, provided the trip was primarily for business. You do not need to incorporate to claim any of it: a sole proprietor claims every deduction in this guide. If you are a capital-gains seller instead of a business, your selling fees and shipping already come off your proceeds directly — this guide is for sellers reporting business income.';
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Do I need to incorporate a company to deduct business expenses?',
+    answer:
+      "No. You can claim every deduction in this guide as a sole proprietor — filing business income on your personal tax return without incorporating anything. Most card sellers never will, and for most, it's the right call.",
+  },
+  {
+    question: 'Are grading fees a separate deduction?',
+    answer:
+      "No, and this trips people up. Grading fees don't come off as their own line item — they get added to what you paid for the card. Buy a card for $225 and pay $55 to grade it, and your cost basis on that card becomes $280. When you sell the slab, your taxable profit is the sale price minus $280 minus any selling fees. Same result as a separate deduction, different path — but it means the cost follows that specific card through your records rather than sitting as a general business expense.",
+  },
+  {
+    question: 'Can I deduct the cost of cards I bought but haven’t sold yet?',
+    answer:
+      "Not yet. Cards you bought to resell but haven't sold by year-end are inventory, not an expense — they sit on your books as an asset until you actually sell them. Spending $5,000 on inventory in November doesn't create a $5,000 deduction in November if those cards are still sitting unsold on December 31. The cost becomes deductible in the year you sell each card.",
+    link: { href: '/guides/tax-on-selling-sports-cards-canada/', label: 'How inventory and cost basis work' },
+  },
+  {
+    question: 'Can I deduct my home office if I only pack and ship cards there sometimes?',
+    answer:
+      "Only the honest portion. CRA has two tests for a home workspace deduction: it needs to be your principal place of business, or you need to use it exclusively and regularly to earn income. If the space doubles as a guest bedroom or general living space, claiming its full square footage doesn't match either test — prorate based on your actual, honest business use.",
+  },
+  {
+    question: 'What can’t I deduct?',
+    answer:
+      "Cards you keep in your own personal collection — those are personal property, not a business expense, even if you run a card business on the side. Packs you ripped purely for enjoyment, not to resell the pulls, are personal spending. Display cases, binders, and storage for your own collection don't count either. When one purchase serves both purposes — a hobby box where you sold the hit and kept the rest — only the portion allocated to what you sold is deductible.",
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: published,
+  dateModified: modified,
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+    sameAs: ['https://slabsavvycpa.com'],
+  },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / Deductions
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published={published} modified={modified} />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      Not sure whether your card selling counts as a business in the first place? Start with our{' '}
+      <a href="/guides/are-you-running-a-card-business/" class="text-prizm">plain-English CRA test</a> — this
+      guide is for sellers reporting business income, and the deductions below only apply once you're there.
+    </p>
+
+    <h2 class="text-3xl">The Rule</h2>
+    <p>
+      If you're reporting business income from selling cards, you can deduct reasonable expenses you incurred to earn
+      that income. CRA asks two questions: was the expense incurred to earn business income, and was the amount
+      reasonable? If both answers are yes, it counts.
+    </p>
+    <p>
+      You do not need to form a company to claim any of this. Every deduction below is available to a sole
+      proprietor — which is how most card sellers operate, and it works fine.
+    </p>
+    <p>
+      If you're a capital-gains seller instead — not running a business — your selling fees and shipping
+      already reduce your proceeds directly, which lowers your taxable gain the same way. That math is covered in{' '}
+      <a href="/guides/tax-on-selling-sports-cards-canada/" class="text-prizm">our main tax guide</a>. This guide is
+      specifically for business sellers.
+    </p>
+
+    <h2 class="text-3xl">What Counts</h2>
+    <h3 class="text-xl">Shipping</h3>
+    <p>
+      Postage and packing costs tied to your sales are deductible — tracked shipping, bubble mailers, everything
+      you spent to get a sold card to a buyer. Keep receipts or a monthly summary from your shipping account.
+    </p>
+
+    <h3 class="text-xl">Grading fees</h3>
+    <p>
+      These work differently than most people expect. A grading fee doesn't come off as its own expense — it
+      gets added to what you paid for the card. Pay $225 for a card and $55 to grade it, and your cost basis becomes
+      $280. That's the number you subtract from your proceeds when you sell the slab. The grading cost still reduces
+      your taxable profit; it just travels with the specific card rather than sitting in a general expense category.
+    </p>
+
+    <h3 class="text-xl">Supplies</h3>
+    <p>
+      Penny sleeves, top loaders, team bags, magnetic holders, bubble mailers, tape, labels — anything you use to
+      pack and protect cards for sale is a business expense. Individually small, but a monthly supplies run adds up
+      across a year, and it's worth tracking.
+    </p>
+
+    <h3 class="text-xl">Software and subscriptions</h3>
+    <p>
+      Your online store subscription is deductible. So are card-scanning apps, inventory tools, and listing software.
+      A photo-enhancement subscription used for your listing photos is deductible too, on the same reasoning —
+      if it's a tool you use to earn card-selling income, it counts.
+    </p>
+
+    <h3 class="text-xl">Platform fees</h3>
+    <p>
+      Marketplace final-value fees, payment-processing fees — every fee a platform charges you to complete a
+      sale is deductible. For many sellers, this is one of the largest costs after inventory itself.
+    </p>
+
+    <h3 class="text-xl">Photography equipment</h3>
+    <p>
+      If you're taking listing photos — and you should be — the equipment counts. A phone tripod, a light
+      box, a backdrop, a ring light: if you bought it to photograph cards for sale, it's deductible. More expensive
+      gear may need to be depreciated over several years rather than deducted all at once; ask your accountant where
+      that line falls for a specific purchase.
+    </p>
+
+    <h3 class="text-xl">Convention and show costs</h3>
+    <p>
+      Table fees at card shows are deductible. So is travel and accommodation, if the trip was primarily for
+      business — the key word is <em>primarily</em>. Drive four hours, rent a table, and sell all weekend? That's
+      business. Drive four hours, buy one card, and spend the rest of the weekend at a resort with your family?
+      That's a vacation with one deductible table fee in it. Split the costs honestly and document your reasoning.
+    </p>
+
+    <h3 class="text-xl">Home workspace</h3>
+    <p>
+      If you have a dedicated space where you pack, ship, list, and manage your card business, part of your housing
+      costs may be deductible — provided the space is either your principal place of business, or you use it
+      exclusively and regularly to earn income. Most sellers running a business from home meet the first test.
+    </p>
+    <p>
+      Work out your share by dividing your workspace's square footage by your home's total size, then applying that
+      percentage to your rent or a reasonable share of ownership costs, plus utilities on the same basis. Internet
+      and phone are claimed differently — based on your actual business-use percentage, which may not match your
+      workspace ratio. If the space also doubles as a guest room or general living space, reduce the claim to reflect
+      real business use. Be honest with the split; it holds up better than an aggressive one.
+    </p>
+
+    <h3 class="text-xl">Cost of goods sold</h3>
+    <p>
+      What you paid for the cards you actually sold during the year is deductible — but only the cards you sold.
+      Cards still sitting in your inventory at year-end aren't an expense yet; they become one when you sell them.
+      Our{' '}
+      <a href="/guides/tax-on-selling-sports-cards-canada/" class="text-prizm">main tax guide</a> covers the timing
+      rules in full.
+    </p>
+
+    <h2 class="text-3xl">What Doesn't Count</h2>
+    <p>
+      Cards in your own personal collection are personal property — their cost doesn't reduce your business
+      income, even if you also run a card business. Packs you ripped for your own enjoyment, not to resell the
+      pulls, are personal spending. Display cases, binders, and storage for your personal collection are not business
+      expenses either.
+    </p>
+    <p>
+      The line gets blurry when one purchase serves both purposes. Buy a hobby box, sell the hit, keep the rest for
+      your own collection? The portion of the box's cost allocated to the card you sold is deductible; the portion
+      allocated to what you kept is not. Same logic applies to a show trip that doubles as a family vacation —
+      only the share genuinely tied to business activity counts.
+    </p>
+
+    <CrossLinkCallout
+      heading="Deductions add up fast once you're tracking them properly"
+      body="Between grading fees folded into cost basis, inventory timing, and a home workspace calculation, business-income sellers have real complexity most collectors never touch. Slab Savvy CPA works specifically with card sellers and dealers."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <p class="text-sm text-muted">
+      This guide is educational, not personalized tax advice. Your actual claim depends on your own records and
+      facts — before filing a significant deduction, check it against your situation with your own accountant.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <p class="text-sm text-muted">
+      Spotted something out of date, or a situation this guide should cover? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>
