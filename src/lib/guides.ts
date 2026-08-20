@@ -42,6 +42,26 @@ export const GUIDES: GuideMeta[] = [
     cover: 'guide-selling-your-collection',
   },
   {
+    slug: 'tax-on-selling-sports-cards-canada',
+    title: 'Do I Have to Pay Tax When I Sell Sports Cards in Canada?',
+    dek: 'When a card sale is tax-free, when it’s a capital gain, and when the CRA calls it a business — the $1,000 rule, GST/HST, and why losses usually can’t be claimed.',
+  },
+  {
+    slug: 'are-you-running-a-card-business',
+    title: 'Are You Running a Card Business, or Just Collecting?',
+    dek: 'The same ten questions the CRA effectively asks, answered honestly — whether you land as a casual seller or a business decides which tax rules and deductions actually apply to you.',
+  },
+  {
+    slug: 'sports-card-tax-deductions-canada',
+    title: 'What Can You Deduct When You Sell Sports Cards in Canada?',
+    dek: 'Every expense a card-selling business can actually claim — grading fees, shipping, supplies, home workspace — and the ones that don’t count, with real numbers.',
+  },
+  {
+    slug: 'record-keeping-for-card-sellers',
+    title: 'Record-Keeping for Canadian Card Sellers: What CRA Actually Wants',
+    dek: 'What CRA actually expects you to keep, for how long, and the five-field minimum that covers you without a weekend of guessing in March.',
+  },
+  {
     slug: 'card-grading-101',
     title: 'Card Grading 101: Should You Get a Card Graded?',
     dek: 'The 1–10 scale explained, raw vs. slabbed value, and the math behind deciding whether a specific card is worth grading.',
