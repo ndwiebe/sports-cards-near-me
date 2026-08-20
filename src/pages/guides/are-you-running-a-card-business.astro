@@ -1,0 +1,225 @@
+---
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import type { FaqItem } from '../../lib/seo';
+
+const title = 'Are You Running a Card Business, or Just Collecting?';
+const description =
+  'The same questions the CRA effectively asks, answered honestly: whether your card sales are a hobby the personal-use property rules cover, or a business where different tax rules — and different deductions — apply.';
+const pagePath = '/guides/are-you-running-a-card-business/';
+const published = '2026-08-20';
+const modified = '2026-08-20';
+
+const capsule =
+  'There is no single line the CRA draws. It looks at the whole picture: why you bought the cards, how often you sell, how long you hold them, how much market knowledge you bring to it, and whether you act like a business — separate accounts, advertising, regular activity. Answer the ten questions below honestly and you will land close to one of three categories: casual seller, grey-zone flipper, or card business. Which one you are decides whether the $1,000 personal-use rule applies to you, whether you can deduct expenses, and whether GST/HST ever enters the picture.';
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Is there an official CRA test for hobby versus business?',
+    answer:
+      'Not a checklist CRA publishes and grades you against — the current approach comes from two Supreme Court of Canada decisions, Stewart v. Canada and Walls v. Canada, both from 2002. They moved the test away from an older "reasonable expectation of profit" standard toward a broader question: is the activity sufficiently commercial in nature? CRA weighs frequency, intent, business-like conduct, and time invested, and looks at the whole picture rather than any single factor.',
+    link: { href: '/guides/tax-on-selling-sports-cards-canada/', label: 'How CRA taxes each outcome' },
+  },
+  {
+    question: 'Can I be a collector and a card business at the same time?',
+    answer:
+      'Yes, and it is the normal position for a serious collector to be in. Cards from your personal collection you eventually sell can be a capital transaction, while cards you buy specifically to flip are business inventory — at the same time, in the same year. CRA looks at each transaction on its own facts rather than classifying you as one type of seller across the board.',
+  },
+  {
+    question: "What's the single biggest factor CRA weighs?",
+    answer:
+      'Why you bought the card in the first place. Something bought because you wanted to own it sits on the collector side even if you later sell it for a profit. Something bought because you expected to flip it sits on the business side, even if only one of them ever actually sells. Everything else — frequency, time invested, advertising — is supporting evidence for that underlying intent.',
+  },
+  {
+    question: 'Does it matter if I never registered a business or called myself a dealer?',
+    answer:
+      "No. CRA looks at conduct, not paperwork or self-description. Running a card business without ever registering anything, incorporating, or thinking of yourself as a dealer doesn't change how the income is taxed — it just means the classification question gets asked and answered later than it should have been, often at audit.",
+  },
+  {
+    question: 'I sell a few cards a year from my own collection. Am I overthinking this?',
+    answer:
+      "For most casual sellers, yes. If you're clearing out a personal collection a handful of times a year, not buying to resell, and not checking comps before every purchase, you're almost certainly a personal-use seller and the $1,000 rule in our main tax guide covers you. This test matters most for the grey zone — the weekend flipper who isn't sure which side they've drifted to.",
+    link: { href: '/guides/tax-on-selling-sports-cards-canada/', label: 'The $1,000 rule, explained' },
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const articleLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: published,
+  dateModified: modified,
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+    sameAs: ['https://slabsavvycpa.com'],
+  },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+const faqLd = faqPageLd(faqs);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(articleLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted">
+    <a href="/guides/" class="hover:text-paper">Guides</a> / Business or Hobby
+  </nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">{title}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published={published} modified={modified} />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p>
+      You sold some cards this year. Maybe you cleared out part of your personal collection. Maybe you flipped a
+      couple of pulls you didn't need. Maybe you went a little harder than you planned and ended up shipping cards
+      three times a week by December. Somewhere in there, a question started nagging at you: is this still just a
+      hobby, as far as the CRA is concerned?
+    </p>
+    <p>
+      It's a fair question, and it matters more than most collectors realize. Our{' '}
+      <a href="/guides/tax-on-selling-sports-cards-canada/" class="text-prizm">main tax guide</a> covers what happens
+      once you know the answer. This one is about getting the answer.
+    </p>
+
+    <h2 class="text-3xl">Four Kinds of Seller</h2>
+    <p>Most people who sell cards land close to one of four spots on a spectrum. Almost nobody sits in exactly one box forever — you can move along it, and you can be in more than one at once.</p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>The closet cleanout.</strong> You found an old binder, listed a few cards, made some cash. You're not
+        buying new inventory and you're not planning to do this again next month. This was a one-time thing.
+      </li>
+      <li>
+        <strong>The occasional flipper.</strong> You spot a deal browsing Facebook groups or your local shop, grab
+        it, hold it a while, and sell it for a profit when the timing feels right — maybe a few times a month. You're
+        not tracking margins or managing inventory. You're a collector who occasionally cashes in when an opportunity
+        lands in your lap.
+      </li>
+      <li>
+        <strong>The regular seller.</strong> This feels like a side hustle. You're buying cards specifically to
+        resell, you have a rough shipping routine, and you have a general sense of what's moving and what you're
+        spending — without necessarily tracking every dollar. It's not your full-time job, but "just a hobby" doesn't
+        feel quite right anymore either.
+      </li>
+      <li>
+        <strong>The card business.</strong> This is a meaningful income source. You maintain an active storefront,
+        grade regularly, track inventory, and reinvest profits. You might have a separate bank account for card
+        transactions. If someone asked what you do on the side, you'd say "I sell cards."
+      </li>
+    </ul>
+    <p>You might have started the year in one spot and ended it in another. That's normal — these are points on a spectrum, not rigid boxes, and CRA looks at the overall pattern when it decides how to treat your activity.</p>
+
+    <h2 class="text-3xl">Ten Questions, Sixty Seconds, Honest Answers</h2>
+    <p>
+      This isn't a legal test CRA hands out — it's built from the same factors CRA actually weighs when deciding
+      whether card selling is a hobby or a business. Nobody's grading you but yourself.
+    </p>
+    <ol class="list-decimal space-y-3 pl-5">
+      <li><strong>Did you buy cards this year specifically to resell at a profit?</strong> Not cards you bought for your own collection that you later decided to sell — cards you grabbed because the numbers said you could flip them.</li>
+      <li><strong>Do you check comps before you buy, looking for underpriced cards?</strong> Scanning sold listings for deals before you purchase is sourcing behaviour.</li>
+      <li><strong>Do you sell cards most weeks?</strong> Not every single week without exception, but if shipping cards is a regular part of your routine, that counts.</li>
+      <li><strong>Do you source inventory from multiple channels?</strong> Facebook groups, card shows, your local shop, eBay, breaks. Pulling from three or more shows effort CRA notices.</li>
+      <li><strong>Did your gross card sales exceed $5,000 this year?</strong> Total revenue before any expenses, across every platform and cash sales combined.</li>
+      <li><strong>Do you spend meaningful time on card selling?</strong> Listing, photographing, packaging, shipping, managing inventory — if it adds up to several hours a week, that's time invested.</li>
+      <li><strong>Do you have a separate payment method or account for card transactions?</strong> A dedicated PayPal, a separate bank account, or even a distinct e-transfer address used only for card deals.</li>
+      <li><strong>Have you been selling regularly for more than one year?</strong> CRA looks at sustained activity, not one good month. If this is year two or beyond of regular selling, the pattern matters.</li>
+      <li><strong>Do you advertise your cards for sale?</strong> Posting listings in Facebook groups, running an eBay store, keeping a Whatnot channel — advertising is a business signal.</li>
+      <li><strong>If someone at a card show asked what you do, would "I sell cards" be part of your answer?</strong> Not "I collect." Not "I dabble." If you'd naturally describe yourself as someone who sells cards, CRA might agree.</li>
+    </ol>
+
+    <h2 class="text-3xl">Reading Your Answers</h2>
+    <p>
+      <strong>Mostly no (0 to 3 yes answers).</strong> You're likely a casual seller disposing of personal collection
+      items. The $1,000 personal-use property rule is your main concern, and it's likely doing all the work for you
+      already.
+    </p>
+    <p>
+      <strong>Mixed (4 to 6 yes answers).</strong> You're in the grey zone. CRA would look at the full picture before
+      deciding, and so should you — read both the capital-gains and business-income sections of{' '}
+      <a href="/guides/tax-on-selling-sports-cards-canada/" class="text-prizm">our main tax guide</a> and compare. If
+      you're genuinely on the fence, a short conversation with an accountant is worth more than guessing.
+    </p>
+    <p>
+      <strong>Mostly yes (7 to 10 yes answers).</strong> You're running a card business, whether or not you've been
+      calling it one. The good news: business status means real deductions. Our{' '}
+      <a href="/guides/sports-card-tax-deductions-canada/" class="text-prizm">deductions guide</a> covers what you can
+      claim, and our{' '}
+      <a href="/guides/record-keeping-for-card-sellers/" class="text-prizm">record-keeping guide</a> covers how to
+      stay ahead of it without losing a weekend every March.
+    </p>
+    <p>
+      One thing to keep in mind either way: different cards in the same year can land in different buckets. You might
+      sell three cards from your personal collection (personal-use property) and flip ten others you specifically
+      sourced to resell (business). CRA looks at each transaction on its own facts, not your year as a single lump.
+    </p>
+
+    <h2 class="text-3xl">What Actually Tips the Scales</h2>
+    <p>Two things move you out of casual-seller territory faster than anything else, and either one alone is enough:</p>
+    <ul role="list" class="list-disc space-y-3 pl-5">
+      <li>
+        <strong>Regular, repeated selling activity.</strong> Listing every week, shipping constantly, treating sales
+        as an ongoing routine rather than an occasional event.
+      </li>
+      <li>
+        <strong>Buying specifically to resell at a profit.</strong> Checking comps before you buy, grabbing
+        underpriced cards, flipping within days or weeks of acquiring them. That's not personal use — it's commercial
+        activity, whatever you call it.
+      </li>
+    </ul>
+    <p>
+      Two specific patterns land on the business side often enough to call out directly. <strong>Breaking</strong> —
+      buying sealed product specifically to open and resell the individual cards — is buying goods to resell, which
+      is what a business does, regardless of how fun it is. And <strong>regular show selling</strong>, especially
+      buying inventory specifically to bring to the next{' '}
+      <a href="/shows/" class="text-prizm">card show</a>, is a recognizable small trading business, table fee and
+      all.
+    </p>
+
+    <CrossLinkCallout
+      heading="Landed on 'business'? That changes what you should do next."
+      body="Once card selling crosses into business income, the deductions, the record-keeping, and eventually GST/HST all work differently — and getting the classification wrong in either direction costs you either deductions or a CRA letter. Slab Savvy CPA works specifically with card sellers and dealers."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <p class="text-sm text-muted">
+      This checklist gives you a starting direction, not a professional classification. If your situation is complex
+      — six figures in sales, cross-border inventory, multiple income sources — talk to a CPA who knows your file.
+    </p>
+
+    <section class="mt-12">
+      <h2 class="text-2xl">FAQ</h2>
+      <dl class="mt-4 space-y-6">
+        {faqs.map((faq) => (
+          <div>
+            <dt class="font-semibold">{faq.question}</dt>
+            <dd class="mt-1 max-w-prose text-muted">
+              {faq.answer}
+              {faq.link !== undefined && (
+                <>
+                  {' '}
+                  <a href={faq.link.href} class="text-prizm">{faq.link.label}</a>
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <p class="text-sm text-muted">
+      Spotted something out of date, or a situation this guide should cover? <a href="/suggest/" class="text-prizm">Let us know</a>.
+    </p>
+  </div>
+</Base>
