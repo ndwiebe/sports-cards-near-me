@@ -1,52 +1,25 @@
 /**
- * Freshness guard for the tax-cluster guides.
+ * The Canadian tax year the tax-cluster guides describe.
  *
- * The tax content states which Canadian tax year its rules describe. Every other
- * kind of drift on this site is loud — a dead URL 404s, a bad form link fails a
- * test, a wrong ranking shows up in a diff. Stale tax content is silent: the page
- * keeps building, keeps ranking, and keeps giving last year's thresholds to
- * someone who is about to file. It carries Nathan's CPA credential, so the cost
- * of that is higher here than anywhere else on the site.
+ * Lives here rather than typed into the guide's prose so the annual refresh is a
+ * one-line edit in a single place, and so nothing on the site can state one year
+ * while something else states another.
  *
- * `tests/unit/tax-content-year.test.ts` turns that silence into a build failure.
+ * Refreshing it is a January job and a manual one: re-check the figures the guides
+ * quote against current CRA guidance — the capital gains inclusion rate, the $1,000
+ * personal-use threshold, the $30,000 GST/HST small-supplier threshold, and the
+ * digital-platform reporting thresholds — then bump this. Changing the number
+ * without re-checking those is worse than leaving it alone, because the page then
+ * claims a currency it doesn't have.
+ *
+ * There is deliberately no automated guard on this. One was built and removed on
+ * 2026-08-25: it could only ever check the label, not the figures, and because
+ * site.yml rebuilds nightly a failure would have halted the bake and frozen shop
+ * and show data — trading a disclosed weakness for a silent outage.
  */
 
-/** The Canadian tax year the tax guides describe. Bump this when you refresh them. */
+/** The Canadian tax year the tax guides describe. */
 export const TAX_CONTENT_YEAR = 2025;
 
 /** The calendar year that tax year is filed in — always the year after. */
 export const TAX_FILING_YEAR = TAX_CONTENT_YEAR + 1;
-
-/**
- * How many years behind the current tax year the content has fallen.
- *
- * The "current" tax year is the previous calendar year, because you file in
- * arrears: through all of 2026 the most recent completed tax year is 2025. So
- * content stamped 2025 is current for the whole of 2026 and goes one year stale
- * on 1 January 2027.
- *
- * Returns 0 while the content is current, and a positive number once it isn't.
- */
-export function taxYearsBehind(now: Date, statedYear: number = TAX_CONTENT_YEAR): number {
-  const currentTaxYear = now.getUTCFullYear() - 1;
-  return Math.max(0, currentTaxYear - statedYear);
-}
-
-/**
- * How far behind the content is allowed to fall before the build fails.
- *
- * At 1, content stamped 2025 survives all of 2027 (one year behind) and fails from
- * 1 January 2028. Set this to 0 for the strict reading — fail as soon as the stated
- * year stops being the most recent completed tax year, i.e. from 1 January 2027.
- *
- * Worth knowing before changing it: site.yml also rebuilds on a daily schedule, so
- * when this trips it halts the nightly bake as well, and shop and show data stops
- * refreshing until the year is bumped. That is the forcing function working, but it
- * arrives on an ordinary morning with no warning.
- */
-export const STALE_AFTER_YEARS_BEHIND = 1;
-
-/** True once the content has fallen further behind than STALE_AFTER_YEARS_BEHIND allows. */
-export function taxContentIsStale(now: Date, statedYear: number = TAX_CONTENT_YEAR): boolean {
-  return taxYearsBehind(now, statedYear) > STALE_AFTER_YEARS_BEHIND;
-}
