@@ -6,6 +6,7 @@ import storesJson from '../../data/stores.json';
 import type { Store } from '../../lib/types';
 import { isBuyer } from '../../lib/sell';
 import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson } from '../../lib/seo';
+import { TAX_CONTENT_YEAR, TAX_FILING_YEAR } from '../../lib/tax-year';
 import type { FaqItem } from '../../lib/seo';
 
 const stores = storesJson as Store[];
@@ -421,7 +422,7 @@ const faqLd = faqPageLd(faqs);
       <p class="text-sm text-muted">
         <strong class="text-paper">General information, not tax advice.</strong> This guide is written by Nathan
         Wiebe, a Chartered Professional Accountant, as general educational information for Canadian collectors. It
-        reflects the rules for the 2025 Canadian tax year — the one filed in 2026.
+        reflects the rules for the {TAX_CONTENT_YEAR} Canadian tax year — the one filed in {TAX_FILING_YEAR}.
       </p>
       <p class="mt-3 text-sm text-muted">
         It does not replace advice based on your actual numbers, and reading it creates no professional, advisory or
