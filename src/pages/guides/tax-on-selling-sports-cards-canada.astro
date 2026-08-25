@@ -38,7 +38,7 @@ const faqs: FaqItem[] = [
   {
     question: 'What is the $1,000 rule for selling collectibles in Canada?',
     answer:
-      'Section 46 of the Income Tax Act deems the cost of a personal-use item to be the greater of $1,000 and what you actually paid, and the sale price to be the greater of $1,000 and what you actually received. A $40 card sold for $900 is treated as a $1,000 item sold for $1,000 — no gain. The same card sold for $2,600 produces a $1,600 capital gain, of which half is added to your income. The floor applies per item, but a set sold off piece by piece to the same buyer counts as one item.',
+      'Section 46 of the Income Tax Act deems the cost of a personal-use item to be the greater of $1,000 and what you actually paid, and the sale price to be the greater of $1,000 and what you actually received. A $40 card sold for $900 is treated as a $1,000 item sold for $1,000 — no gain. The same card sold for $2,600 produces a $1,600 capital gain, of which half is added to your income. The floor applies per card and not per year, so ten $500 cards are ten sales under the floor — but a bundle, box or set sold as one lot counts as a single item, and so does a set sold off piece by piece to the same buyer. Fees directly tied to a sale come off the gain even if you are not a business.',
   },
   {
     question: 'When does the CRA treat card selling as a business instead of a hobby?',
@@ -59,7 +59,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Does the CRA know about cards I sell online?',
     answer:
-      'Increasingly, yes. Since 2024 Canada requires online marketplaces and auction platforms to report their sellers to the CRA each year, including names, addresses, and total amounts received. Small casual sellers are excluded, but the exclusion is narrow — roughly, fewer than 30 sales in the year and under about $2,800. Selling on a platform is no longer invisible, which is a reason to keep records rather than a reason to panic.',
+      'Increasingly, yes. Since 2024, platforms must report a seller who hits either 30 or more sales in a calendar year or roughly $2,800 received — either one alone triggers it. They send your name, address, SIN, quarterly totals, transaction count and fees, and they will ask you for your SIN, with a $500 CRA penalty for not providing it. What they report is gross sales, not profit, so being reported is not the same as owing tax. Cash and e-transfer sales generate no report, but they are taxed identically — no paper trail is not the same as no tax obligation.',
   },
   {
     question: 'What if I trade cards instead of selling them?',
@@ -163,18 +163,48 @@ const faqLd = faqPageLd(faqs);
       whatever rate applies to you. Not $800 of tax; $800 of extra income.
     </p>
     <p>
-      <strong>The floor applies per item, with one important exception.</strong> If you own a set and sell it off
-      piece by piece to the same buyer, or to a group of people acting together, the Act treats the whole set as a
-      single property. Splitting a $4,000 set into six $700 sales to the same person doesn't produce six tax-free
-      sales — it produces one $4,000 sale. Genuinely separate cards sold to genuinely separate buyers each get their
-      own $1,000 floor.
+      <strong>And the costs of making that sale come off first — you don't need to be a business for this.</strong>
+      A lot of people assume deductions are a business-only thing. They aren't. Fees tied directly to the specific
+      sale reduce the gain: the platform's final value fee, the payment processing fee, and the shipping you paid to
+      send the card. If that $2,600 sale cost $190 in fees and postage, the gain is $1,410, not $1,600.
     </p>
-    <p class="text-sm text-muted">
-      A technical footnote for anyone who goes looking: cards are ordinary personal-use property, not the narrower
-      category the Act calls <em>listed personal property</em> (art, jewellery, rare books, stamps and coins — a
-      closed list that doesn't include trading cards). The distinction matters only for losses, covered below.
+    <p>
+      <strong>Grading fees are the exception.</strong> They aren't a cost of selling — they get added to what the
+      card cost you, so $225 for the card plus $55 to grade it makes your cost $280. It lowers the gain either way,
+      it just goes in a different column. Anything more general — supplies you keep in stock, a monthly store
+      subscription — is neither, and only matters if you're actually running a business; our{' '}
+      <a href="/guides/sports-card-tax-deductions-canada/" class="text-prizm">guide to what card sellers can deduct</a>{' '}
+      covers that side.
+    </p>
+    <p>
+      <strong>The floor applies per card, not per year.</strong> Selling ten cards at $500 each doesn't add up to a
+      $5,000 sale — it's ten separate sales, all under the floor, none of them reportable.
+    </p>
+    <p>
+      <strong>But a lot is one item.</strong> Sell a bundle, a box or a complete set as a single lot and the $1,000
+      floor applies to the whole bundle, not to each card inside it. The same is true if you own a set and sell it
+      off piece by piece to the same buyer, or to a group acting together — splitting a $4,000 set into six $700
+      sales to one person doesn't produce six tax-free sales, it produces one $4,000 sale. Genuinely separate cards
+      sold to genuinely separate buyers each keep their own floor.
     </p>
 
+    <h2 class="text-3xl">"I Have No Idea What I Paid for It"</h2>
+    <p>
+      This is the normal case, not the exception — a childhood collection, an inherited box, a card that came out of
+      a pack in 1991. There is no receipt and there never was one. The $1,000 rule handles it, and it handles it in
+      your favour: with no record of cost, the deemed $1,000 <em>is</em> your cost.
+    </p>
+    <p>
+      So an old card with no paperwork that sells for $1,400 produces a $400 gain, of which $200 is added to your
+      income. The same card sold for $800 produces nothing at all — both sides land on $1,000 and cancel out. You do
+      not need to reconstruct a 1991 receipt to be in the clear.
+    </p>
+    <p>
+      <strong>One caution on using it.</strong> The deemed $1,000 is for when your real cost was genuinely below
+      $1,000, or when the records are gone. If you actually paid more than $1,000 and can prove it, use your real
+      cost — it's higher, so it gives you a smaller gain. The rule is a floor, not a substitute for records you
+      actually have.
+    </p>
     <h2 class="text-3xl">Collector or Dealer? The Question That Decides the Most</h2>
     <p>
       This is where the real money is, and there's no bright line to point at. The CRA asks whether your activity is
@@ -217,6 +247,9 @@ const faqLd = faqPageLd(faqs);
       that it's fun doesn't change the analysis. And <strong>regular show selling</strong>, especially if you're
       buying specifically to bring to the next{' '}
       <a href="/shows/" class="text-prizm">card show</a>, is a recognisable small trading business, table fee and all.
+      If you want to work through this properly rather than eyeball it, our{' '}
+      <a href="/guides/are-you-running-a-card-business/" class="text-prizm">are-you-running-a-card-business guide</a>{' '}
+      walks the same questions the CRA effectively asks.
     </p>
     <p>
       One practical note for anyone buying into breaks: what a card from a break cost you is the price of the break
@@ -256,10 +289,8 @@ const faqLd = faqPageLd(faqs);
       automatically the better one for someone whose collection has gone down in value.
     </p>
     <p>
-      This is the one place the listed-personal-property footnote above matters. Losses on that narrower category
-      (art, jewellery, rare books, stamps, coins) <em>can</em> at least be applied against gains of the same kind.
-      Trading cards aren't on that list, so the ordinary denial applies. If your card activity is a business, the
-      question disappears — business losses are deductible in the normal way.
+      If your card activity is genuinely a business, the question disappears — business losses are deductible in the
+      normal way, against your other income.
     </p>
 
     <h2 class="text-3xl">GST/HST — Only If You're in Business</h2>
@@ -275,19 +306,23 @@ const faqLd = faqPageLd(faqs);
     </p>
     <ul role="list" class="list-disc space-y-3 pl-5">
       <li>
-        <strong>Any four consecutive calendar quarters.</strong> Total more than $30,000 across them and you lose
-        small-supplier status at the start of the month after that period ends.
+        <strong>Any four consecutive calendar quarters.</strong> Total more than $30,000 across them and your
+        small-supplier status ends on the last day of the month following that quarter. The CRA checks this at the
+        end of every quarter, looking back at the previous four — so it can catch you on a year that never had a big
+        quarter in it.
       </li>
       <li>
-        <strong>Any single calendar quarter.</strong> Hit $30,000 inside one quarter and you lose it immediately, on
-        the day you cross the line, with 29 days to register. A good run at one big show or one hot player can do
-        this on its own.
+        <strong>Any single calendar quarter.</strong> Hit $30,000 inside one quarter and it ends immediately —
+        right before the sale that pushes you over, so that sale itself needs to carry the tax. A good run at one
+        big show or one hot player can do this on its own.
       </li>
     </ul>
     <p>
-      From the moment you're registered you charge the tax on your sales, remit it, and can claim back the tax you
-      paid on business purchases. The $30,000 is measured on <em>sales, not profit</em>, which catches people out: a
-      business turning over $60,000 of cards to make $6,000 is well past the line.
+      Either way you get <strong>29 calendar days</strong> from that first taxable sale to register — calendar days,
+      not business days. From then on you charge the tax on your sales, remit it, and can claim back the tax you paid
+      on business purchases. The $30,000 is measured on <em>gross sales, worldwide, before expenses</em>, which
+      catches people out twice: a business turning over $60,000 of cards to make $6,000 is well past the line, and
+      cards shipped to US buyers still count toward it.
     </p>
 
     <h2 class="text-3xl">Trades, and Getting Paid in Cards</h2>
@@ -303,16 +338,30 @@ const faqLd = faqPageLd(faqs);
     <h2 class="text-3xl">"Can the CRA Even Know?"</h2>
     <p>
       For online sales, more than it used to. Since 2024 Canada has required digital marketplaces and auction
-      platforms to report their sellers to the CRA once a year — name, address, and the total the platform paid out.
-      There's an exclusion for genuinely casual sellers, but it's narrow: broadly, fewer than 30 sales in the
-      calendar year <em>and</em> under roughly $2,800 received. Someone who sells a few dozen cards online in a year
-      can be over it without feeling like a business at all.
+      platforms to report their sellers to the CRA once a year. A platform has to report you if you hit
+      <strong>either</strong> 30 or more sales in the calendar year <strong>or</strong> about $2,800 received —
+      either one on its own is enough, so thirty $50 sales gets you there just as surely as ten larger ones. What
+      gets sent is your name, address, SIN, quarterly sales totals, transaction count, and the fees the platform
+      charged you. The first reports went in by 31 January 2025, covering 2024.
     </p>
     <p>
-      This is a reason to keep records, not a reason to worry. Being reported isn't being assessed — if your sales
-      fall under the $1,000 rule there's still nothing to report. The problem it creates is a different one: if the
-      CRA has a number for what you received and you have no record of what you paid, the conversation starts from
-      their number.
+      If you cross the thresholds, the platform will ask for your <strong>Social Insurance Number</strong>. Give it
+      to them. Not providing it when asked carries a $500 penalty per failure, and that penalty is the CRA's, not the
+      platform's.
+    </p>
+    <p>
+      <strong>None of that means you owe tax.</strong> What gets reported is your <em>gross</em> sales — the total
+      that passed through the platform, before what you paid for the cards and before fees. It is a starting point,
+      not a bill. If your sales sit under the $1,000 rule there is still nothing to report. The real problem it
+      creates is narrower: if the CRA has a number for what you received and you have no record of what you paid,
+      the conversation starts from their number and you're arguing backwards from it. Our{' '}
+      <a href="/guides/record-keeping-for-card-sellers/" class="text-prizm">record-keeping guide</a> covers the five
+      fields that prevent exactly that.
+    </p>
+    <p>
+      And selling for cash at a show or by e-transfer doesn't put you outside any of this. It only means no platform
+      files a report about it. How you got paid has never changed what the sale is — a cash deal and an eBay sale are
+      the same transaction for tax purposes, and "no paper trail" is not the same thing as "no tax obligation."
     </p>
 
     <h2 class="text-3xl">What to Keep</h2>
@@ -372,10 +421,24 @@ const faqLd = faqPageLd(faqs);
       <p class="text-sm text-muted">
         <strong class="text-paper">General information, not tax advice.</strong> This guide is written by Nathan
         Wiebe, a Chartered Professional Accountant, as general educational information for Canadian collectors. It
-        isn't advice for your situation, no professional relationship is created by reading it, and Sports Cards Near
-        Me does not provide tax or accounting services. Tax rules change and outcomes turn on facts this page can't
-        know. Before acting on anything here, check it against your own circumstances with your own accountant, or
-        against the CRA's published guidance.
+        reflects the rules for the 2025 Canadian tax year — the one filed in 2026.
+      </p>
+      <p class="mt-3 text-sm text-muted">
+        It does not replace advice based on your actual numbers, and reading it creates no professional, advisory or
+        client relationship between you and the author. Every example here is hypothetical, with figures chosen to
+        show how a rule works; your situation has its own facts. Sports Cards Near Me does not provide tax or
+        accounting services.
+      </p>
+      <p class="mt-3 text-sm text-muted">
+        You are responsible for your own tax filings, and neither the author nor Sports Cards Near Me is liable for
+        any loss, penalty, interest or other consequence arising from something you do — or don't do — on the basis
+        of this page. It cannot be relied on for the purpose of avoiding penalties assessed by the CRA; if your
+        situation already involves penalties or a reassessment, get advice specific to your file.
+      </p>
+      <p class="mt-3 text-sm text-muted">
+        Tax rules change. Before you act or file, check your own circumstances with your own accountant, and verify
+        the current rules at{' '}
+        <a href="https://www.canada.ca/en/revenue-agency.html" target="_blank" rel="noopener" class="text-prizm">canada.ca/revenue-agency</a>.
       </p>
     </div>
 
