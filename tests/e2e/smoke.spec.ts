@@ -117,17 +117,23 @@ test('city page H1 names what the page is, not just the city', async ({ page }) 
   expect(h1).toContain(first.city);
 });
 
-// "Highest rated" is only shown where a shop actually clears the 20-review bar.
-// Where it appears it must name a real shop and link to it; where it doesn't,
-// the page must make no ranking claim at all rather than a hedged one.
-test('city top-rated module is either a real linked claim or absent', async ({ page }) => {
+// The ranking module is only shown where a shop actually clears the 20-review bar.
+// Where it appears it must name a real shop, link to it, and state the method;
+// where it doesn't, the page must make no ranking claim at all rather than a
+// hedged one. Renamed from "top-rated" on 2026-08-25: the module reports a
+// weighted RANK, and calling that a rating was a false claim about a named shop.
+test('city ranking module is either a real linked claim or absent', async ({ page }) => {
   await page.goto(`/alberta/${first.citySlug}/`);
-  const mod = page.locator('[data-top-rated]');
+  const mod = page.locator('[data-ranks-first]');
   if (await mod.count() > 0) {
     await expect(mod.locator('a[href^="/store/"]')).toBeVisible();
     await expect(mod).toContainText('20+ reviews');
-    await expect(mod).toContainText('nobody pays');
+    await expect(mod).toContainText(/nobody pays/i);
+    // The method has to travel with the claim, not just the number.
+    await expect(mod).toContainText(/weighted for review volume/i);
+    // And it must never call the weighted winner the highest-RATED shop.
+    await expect(mod).not.toContainText(/highest[\s-]rated|top[\s-]rated/i);
   } else {
-    await expect(page.locator('body')).not.toContainText('Highest rated:');
+    await expect(page.locator('body')).not.toContainText(/highest[\s-]rated|top[\s-]rated:/i);
   }
 });

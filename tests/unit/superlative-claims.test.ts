@@ -41,9 +41,14 @@ function claimText(body: string): string {
   return body
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/^\s*(\/\/|\*).*$/gm, '')
-    // "before we'll call it 'best' or 'top-rated'" is an explanation of the bar,
-    // not a claim about any particular shop.
-    .replace(/before we'll call it[^`]*/g, '')
+    // Mention, not use. Each of these frames DESCRIBES the bar a shop must clear
+    // before we would apply the word — none of them applies it to a named shop.
+    // Kept as three explicit frames rather than one clever rule: a "phrase is in
+    // quotes means it's a mention" shortcut would have wrongly exempted the guide
+    // deks in src/lib/guides.ts, which are quoted JS strings making a real claim.
+    .replace(/before we'll\s+call it[^.]*\./g, '')
+    .replace(/only\s+(?:called|described as)[^.]*\./g, '')
+    .replace(/bar for a "top-rated" crown/g, '')
     .replace(/does not qualify a shop\./g, '');
 }
 
@@ -52,7 +57,10 @@ describe('superlative claims about named businesses', () => {
     const offenders: string[] = [];
     for (const path of sourceFiles) {
       const text = claimText(readFileSync(path, 'utf8'));
-      if (/highest-rated|top-rated shop|Top-Rated Shops|Top-Rated Card/i.test(text)) {
+      // 2026-08-25: this pattern used to require the HYPHEN, so `Top rated: ${...}`
+      // walked straight past it and shipped to 351 built pages (city, province and
+      // Pokémon city meta descriptions). The separator is now optional.
+      if (/(?:highest|top|best)[\s-]rated/i.test(text)) {
         offenders.push(path);
       }
     }
@@ -70,7 +78,10 @@ describe('superlative claims about named businesses', () => {
     const offenders: string[] = [];
     for (const path of sourceFiles) {
       const text = claimText(readFileSync(path, 'utf8'));
-      if (/(?:best|top)[- ]rated[^.`]{0,60}\$\{[^}]*rating\}/i.test(text)) {
+      // 2026-08-25: the gap class used to exclude `.`, so any interpolation with a
+      // property access in it — `${topRated.name}` — broke the match. Only the
+      // backtick (the template literal's own boundary) needs excluding.
+      if (/(?:best|top)[\s-]rated[^`]{0,60}\$\{[^}]*rating\}/i.test(text)) {
         offenders.push(path);
       }
     }

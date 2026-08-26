@@ -8,7 +8,7 @@ import type { Store } from '../../../lib/types';
 import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
 import { toMapResellers } from '../../../lib/map-data';
-import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, faqPageLd, itemListLd, ldJson, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { primaryShowCalendarYear } from '../../../lib/shows';
@@ -84,7 +84,7 @@ const faqLd = faqPageLd(faqs);
 <Base
   title={`${cityGroup.stores.length} Card Shop${cityGroup.stores.length === 1 ? '' : 's'} in ${cityGroup.city}, ${province.code} — ${titleSuffix}`}
   description={topRated !== undefined && topRated.rating !== undefined
-    ? `Every sports card shop in ${cityGroup.city}, ${province.name} with Google ratings, map and directions. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    ? `All ${cityGroup.stores.length} card shops in ${cityGroup.city}, ${province.name} — Google ratings, map and directions, rebuilt daily. ${rankedFirstPhrase(topRated)}.`
     : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, map and directions. Rebuilt daily so listings stay current.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
@@ -107,12 +107,13 @@ const faqLd = faqPageLd(faqs);
       <div class="refractor-rule mt-4 w-28"></div>
       <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
       {topRated !== undefined && (
-        <p class="mt-4 text-sm text-muted" data-top-rated>
-          Highest rated:{' '}
+        <p class="mt-4 text-sm text-muted" data-ranks-first>
+          Ranks first:{' '}
           <a href={`/store/${topRated.slug}/`} class="font-semibold text-prizm">{topRated.name}</a>
           {topRated.rating !== undefined && (
             <span> — {topRated.rating} stars from {topRated.reviewCount} Google reviews</span>
-          )}. Ranked among shops with {MIN_REVIEWS_FOR_TOP}+ reviews; nobody pays for a place in this ranking.
+          )}. Ordered by rating weighted for review volume, among shops with {MIN_REVIEWS_FOR_TOP}+ reviews — so this is
+          not simply the highest star average. Nobody pays for a place in this ranking.
         </p>
       )}
     </div>

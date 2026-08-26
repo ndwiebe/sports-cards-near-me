@@ -16,18 +16,18 @@ export const GUIDES: GuideMeta[] = [
   {
     slug: 'best-card-shops-alberta',
     title: 'Best Card Shops in Alberta',
-    dek: "Alberta's top-rated sports card shops, ranked straight from our directory by Google rating and review count.",
+    dek: "Alberta's highest-ranked sports card shops, ordered straight from our directory by Google rating weighted for review volume.",
     cover: 'guide-best-alberta',
   },
   {
     slug: 'best-card-shops-edmonton',
     title: 'Best Card Shops in Edmonton',
-    dek: "Edmonton's top-rated sports card shops, ranked straight from our directory by Google rating and review count.",
+    dek: "Edmonton's highest-ranked sports card shops, ordered straight from our directory by Google rating weighted for review volume.",
   },
   {
     slug: 'best-card-shops-calgary',
     title: 'Best Card Shops in Calgary',
-    dek: "Calgary's top-rated sports card shops, ranked straight from our directory by Google rating and review count.",
+    dek: "Calgary's highest-ranked sports card shops, ordered straight from our directory by Google rating weighted for review volume.",
   },
   {
     slug: 'your-first-card-show',

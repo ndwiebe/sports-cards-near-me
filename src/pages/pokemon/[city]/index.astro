@@ -4,7 +4,7 @@ import StoreCard from '../../../components/StoreCard.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { pokemonCityEntries, pokemonCityCapsule, pokemonCityFaqs, pokemonShopsInCity } from '../../../lib/tcg';
-import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson, topRatedStore } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore } from '../../../lib/seo';
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -47,7 +47,7 @@ const faqLd = faqPageLd(faqs);
 <Base
   title={`${shops.length} Pokémon Card Shop${shops.length === 1 ? '' : 's'} in ${entry.city}, ${entry.provinceCode} — ${titleSuffix}`}
   description={topRated !== undefined && topRated.rating !== undefined
-    ? `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName}. Top rated: ${topRated.name} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    ? `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName}. ${rankedFirstPhrase(topRated)}. Rebuilt daily.`
     : `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName} — compare ratings where they exist, addresses, map and directions. Rebuilt daily.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />

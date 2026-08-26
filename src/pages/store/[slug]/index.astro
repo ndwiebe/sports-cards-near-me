@@ -4,7 +4,7 @@ import MapIsland from '../../../components/MapIsland.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
-import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, storeAnswerCapsule, storeFaqs } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, storeTitle, faqPageLd, ldJson, storeAnswerCapsule, storeFaqs } from '../../../lib/seo';
 import { sellPageExistsForCity } from '../../../lib/sell';
 import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
@@ -66,9 +66,7 @@ const ld: Record<string, unknown> = {
 };
 ---
 <Base
-  title={store.rating !== undefined
-    ? `${store.name} — ${store.rating}★ Card Shop in ${store.city}, ${store.province}`
-    : `${store.name} — Card Shop in ${store.city}, ${store.province}`}
+  title={storeTitle(store)}
   description={description}
 >
   <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />

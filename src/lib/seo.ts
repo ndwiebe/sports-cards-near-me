@@ -555,3 +555,59 @@ export function storeFaqs(store: Store, provinceName: string, sellPageExists: bo
 
   return faqs;
 }
+
+/* ------------------------------------------------------------------------- *
+ * Title and meta-description builders
+ *
+ * These were inline template literals on their pages until 2026-08-25. They
+ * moved here for two reasons: a literal inside an .astro file cannot be unit
+ * tested, and one of them had been shipping a false claim to 351 built pages
+ * (see rankedFirstPhrase below).
+ * ------------------------------------------------------------------------- */
+
+/** Google truncates a result title around here. Not a hard limit — a budget. */
+export const TITLE_BUDGET = 60;
+
+/**
+ * Store page title.
+ *
+ * Ordered name → rating → review count → city deliberately. "<shop> reviews" is
+ * the highest-volume shop query the directory can actually win (the shop's own
+ * site wins its bare name, and rightly), and in the 2026-08-25 Search Console
+ * read 76 such queries drew 807 impressions and one click while sitting at
+ * positions 6–11. The rating was already here; the words a searcher typed
+ * — the shop's name and "reviews" — were not, and the review count that makes
+ * a rating mean anything was only in the description.
+ *
+ * A long shop name can still blow the budget. That is accepted: the name is the
+ * business's own and is never abbreviated. Because city sits last, truncation
+ * eats the least important part first.
+ */
+export function storeTitle(store: Store): string {
+  if (store.rating === undefined || store.reviewCount === undefined) {
+    // Absence-of-data rule: say nothing at all about reviews we do not hold.
+    return `${store.name} — Card Shop in ${store.city}, ${store.province}`;
+  }
+  return `${store.name} — ${store.rating}★, ${store.reviewCount} Reviews · ${store.city}`;
+}
+
+/**
+ * How to describe the output of topRatedStore() in prose.
+ *
+ * topRatedStore() returns the highest WEIGHTED score — Bayesian mean plus
+ * VOLUME_WEIGHT × log10(reviews), Nathan's 2026-07-30 policy — which is
+ * deliberately NOT the highest star rating. Describing it as "top rated" is a
+ * false claim about a named business, and it was live in the meta description of
+ * 351 built pages (city, province and Pokémon city) until 2026-08-25, having
+ * slipped past tests/unit/superlative-claims.test.ts on two regex holes.
+ *
+ * "Ranks first" is a claim about our ordering, which is ours to make. The method
+ * is stated so the number is not left to imply a bare rating claim.
+ */
+export function rankedFirstPhrase(store: Store, includeCity = false): string {
+  const who = includeCity ? `${store.name} in ${store.city}` : store.name;
+  if (store.rating === undefined || store.reviewCount === undefined) {
+    return `${who} ranks first on our review-weighted score`;
+  }
+  return `${who} ranks first on our review-weighted score (${store.rating}★ from ${store.reviewCount} reviews)`;
+}

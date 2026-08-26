@@ -15,6 +15,7 @@ import {
   MIN_REVIEWS_FOR_TOP,
   provinceAnswerCapsule,
   provinceFaqs,
+  rankedFirstPhrase,
   topRatedStores,
 } from '../../lib/seo';
 
@@ -84,7 +85,7 @@ const faqLd = faqPageLd(faqs);
 <Base
   title={`${total} Card Shops in ${province.name} — Rated by City, Updated Daily`}
   description={topRated !== undefined && topRated.rating !== undefined
-    ? `${total} sports card shops across ${cities.length} cities in ${province.name}. Top rated: ${topRated.name} in ${topRated.city} (${topRated.rating}★, ${topRated.reviewCount} reviews). Rebuilt daily.`
+    ? `${total} sports card shops across ${cities.length} cities in ${province.name}. ${rankedFirstPhrase(topRated, true)}. Rebuilt daily.`
     : `${total} sports card shops across ${cities.length} cities in ${province.name} — browse by city to compare ratings, hours, and directions. Rebuilt daily.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
