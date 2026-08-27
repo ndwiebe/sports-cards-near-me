@@ -26,7 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-27 | Fable plans → Codex executes → Opus reviews | **pages** + **lib** | `src/lib/nearby.ts`, `src/pages/[province]/[city]/index.astro` | Plan 15 — thin-city enrichment. Read the plan before touching either file. |
 | 2026-08-27 | Fable plans → Codex executes → Opus reviews | **docs** (no repo code/data touched) | `~/jarvis-memory/06-SportsCardsNearMe/` only | Plan 16 — show vendor-list outreach research + drafts. Research and drafting only, nothing sent. |
 
 ## Queued — claimed but not started
@@ -86,6 +85,17 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-27** — *(Fable plans → Codex executes → Opus reviews)* **Plan 15 implemented,
+  verified, awaiting commits because the managed Codex sandbox cannot write this linked
+  worktree's Git metadata.** All 248 city pages now surface their province's upcoming shows;
+  136 of 146 one-shop cities also render up to 5 real nearby `StoreCard`s using the shared
+  city-centre distance logic. The 10 isolated one-shop cities render no empty nearby header,
+  and all 102 multi-shop cities remain without the thin-page-only block. Page count stayed
+  **1468 → 1468**. Verified with `npm run typecheck && npm test && npm run build`: TypeScript
+  clean, 274/274 tests, 1468 pages. Browser launch and localhost preview were both blocked by
+  the managed macOS sandbox, so the 375px rendered check could not run; exhaustive generated-
+  HTML checks covered all 248 city pages instead. No push.
 
 - **2026-08-27** — *(Opus plans → Codex gpt-5.6-sol executes → Opus reviews)* **Plan 13 done,
   live.** Street addresses on shows **39 → 200 of 207**; websites 45 → 127; show pages emitting
