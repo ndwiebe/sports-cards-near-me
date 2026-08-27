@@ -26,7 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-27 | Fable plans → Codex executes → Opus reviews | **docs** (no repo code/data touched) | `~/jarvis-memory/06-SportsCardsNearMe/` only | Plan 16 — show vendor-list outreach research + drafts. Research and drafting only, nothing sent. |
 
 ## Queued — claimed but not started
 
@@ -85,6 +84,22 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-27** — *(Fable plans → Codex executes, read-only)* **Plan 16 done — 8 verified
+  candidates across 4 promoter relationships, 4 drafts, nothing sent.** Checked all 204
+  show records (86 distinct names). Every candidate was actually loaded, not inferred —
+  and it shows: 14 shows with plausible-looking vendor pages were correctly rejected as
+  application forms or table-count marketing copy with no named roster (Vancity's "600+
+  tables" claim, West Van's three venue pages, Greater Toronto's "80+ table" page, etc.).
+  Report: `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-show-vendor-list-outreach-candidates.md`.
+  Spot-checked 2 of the 8 candidates independently (not just re-read the report): the
+  Saskatchewan vendors page really does name ~50 individual businesses matching the report
+  exactly (Uncle Jays Collector, Living Sky Collectibles, GP Sports Cards Trading among
+  them), and the Sport Card Expo Toronto dealer PDF link resolves exactly as cited. A
+  personal promoter contact on the Collections Montréal page was correctly kept out of
+  everything except the private vault note, per the plan's rule. Repo confirmed untouched
+  (`git status` clean) — Codex deliberately skipped writing a SESSIONS.md marker under its
+  read-only instruction; releasing the lane here instead.
 
 - **2026-08-27** — *(Opus review of `b85986fa`, then Fable fix)* **Plan 15 reviewed, one
   real defect found and fixed, shipped to production.** Opus independently re-derived every
