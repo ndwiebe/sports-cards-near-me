@@ -86,13 +86,13 @@ const ld: Record<string, unknown> = {
   <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
     <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{store.address}</dd></div>
     {store.hours !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt><dd class="mt-1">{store.hours}</dd></div>}
-    {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="text-prizm">{store.phone}</a></dd></div>}
+    {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="text-prizm" data-track-click="call" data-store-slug={store.slug}>{store.phone}</a></dd></div>}
   </dl>
   <div class="mt-8 max-w-2xl">
     <MapIsland stores={[store]} mode="store" height="300px" />
   </div>
   <div class="mt-8 flex flex-wrap gap-3">
-    <a href={directions} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Directions</a>
+    <a href={directions} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)" data-track-click="directions" data-store-slug={store.slug}>Directions</a>
     {store.website !== undefined && <a href={store.website} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Website</a>}
     {store.social !== undefined && <a href={store.social} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
   </div>
