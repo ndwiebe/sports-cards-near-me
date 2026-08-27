@@ -127,8 +127,8 @@
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=26211"
   },
   {
-    "slug": "monthly-card-show-leduc-2026-08-29",
-    "name": "Monthly Card Show",
+    "slug": "the-hobby-spot-monthly-card-show-leduc-2026-08-29",
+    "name": "The Hobby Spot Monthly Card Show",
     "city": "Leduc",
     "citySlug": "leduc",
     "province": "AB",
@@ -743,19 +743,6 @@
     "recurring": "monthly"
   },
   {
-    "slug": "monthly-sports-card-comic-book-show-ottawa-2026-09-13",
-    "name": "Monthly Sports Card & Comic Book Show",
-    "city": "Ottawa",
-    "citySlug": "ottawa",
-    "province": "ON",
-    "venue": "Nepean Sportsplex CURLING RINK",
-    "address": "1701 Woodroffe Ave. S",
-    "startDate": "2026-09-13",
-    "hours": "10:00 AM - 3:00 PM",
-    "website": "http://capitaltradeshows.com/",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=16940"
-  },
-  {
     "slug": "sports-cards-and-collectible-show-st-catharines-2026-09-13",
     "name": "Sports Cards and Collectible Show",
     "city": "St. Catharines",
@@ -809,19 +796,6 @@
     "website": "https://sportcardexpocalgary.com/",
     "sourceUrl": "https://sportcardexpocalgary.com/tickets/",
     "recurring": "annual"
-  },
-  {
-    "slug": "sports-card-expo-calgary-2026-09-19",
-    "name": "Sports Card Expo",
-    "city": "Calgary",
-    "citySlug": "calgary",
-    "province": "AB",
-    "venue": "Genesis Centre",
-    "address": "7555 Falconridge Blvd NE",
-    "startDate": "2026-09-19",
-    "hours": "10:00 AM - 5:00 PM",
-    "website": "https://sportcardexpocalgary.com/",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=24790"
   },
   {
     "slug": "big-kahuna-card-show-and-collectibles-st-albert-2026-09-19",
@@ -885,19 +859,6 @@
     "website": "https://www.collectionsmontreal.ca/",
     "sourceUrl": "https://www.collectionsmontreal.ca/",
     "recurring": "monthly"
-  },
-  {
-    "slug": "sports-card-expo-calgary-2026-09-20",
-    "name": "Sports Card Expo",
-    "city": "Calgary",
-    "citySlug": "calgary",
-    "province": "AB",
-    "venue": "Genesis Centre",
-    "address": "7555 Falconridge Blvd NE",
-    "startDate": "2026-09-20",
-    "hours": "10:00 AM - 4:00 PM",
-    "website": "https://sportcardexpocalgary.com/",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=24791"
   },
   {
     "slug": "cards-collectibles-show-fort-saskatchewan-2026-09-20",
@@ -1031,8 +992,8 @@
     "recurring": "annual"
   },
   {
-    "slug": "monthly-card-show-leduc-2026-09-26",
-    "name": "Monthly Card Show",
+    "slug": "the-hobby-spot-monthly-card-show-leduc-2026-09-26",
+    "name": "The Hobby Spot Monthly Card Show",
     "city": "Leduc",
     "citySlug": "leduc",
     "province": "AB",
