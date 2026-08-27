@@ -59,11 +59,22 @@ still thin afterwards get **consolidated or noindexed** rather than shipped.
 Full finding + Google's exact wording:
 `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-doorway-page-risk-city-pages.md`
 
-⚠️ **Notebooks are shared state too.** `notebooklm ask` currently fails with
-`RPCResponseTooLargeError` on most calls; clearing `conversation_id` from
-`~/.notebooklm/profiles/default/context.json` buys about one call. Do **not** run
-`ask --new` — it destroys the conversation, and another session was mid-research in the same
-notebook.
+⚠️ **Notebooks are shared state too.** Do **not** run `ask --new` — it destroys the
+conversation, and another session may be mid-research in the same notebook.
+
+✅ **`RPCResponseTooLargeError` is FIXED (2026-08-27).** Cause: the package caps an RPC body
+at 50 MiB and it was not adjustable; the 66-source GEO notebook returned 52,457,288 bytes —
+28 KB over, 0.05%. Clearing `conversation_id` does **not** reliably help (verified). Two
+routes now work:
+- `notebooklm ask -s <source-id> -s <source-id> "question"` — scoping to sources stays under
+  the cap unpatched, and is cheaper. Prefer it.
+- `NOTEBOOKLM_MAX_RPC_RESPONSE_MB` (now in `~/.zshrc` at 256) — a local patch makes the cap
+  configurable, so unscoped `ask` works too. **`pipx upgrade` silently reverts it.**
+- `notebooklm source fulltext <id>` bypasses the chat endpoint entirely and always worked —
+  best for reading a known document.
+
+Full cause, verification and a reappliable patch:
+`~/jarvis-memory/04-AI-Setup/2026-08-27-notebooklm-rpc-cap-patch.md`
 
 ---
 
