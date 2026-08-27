@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-27 | Codex (gpt-5.6-sol), driven by Opus, `scnm-plan4` | **data** | READS `src/data/shows.json`; WRITES only new files under `docs/research/` | Plan 13 — enrich the 162 TCDB shows from their detail pages. Produces a sheet payload for review; **does not write the sheet**. Opus reviews, then does the sheet write separately. |
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -79,6 +79,24 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-27** — *(Opus plans → Codex gpt-5.6-sol executes → Opus reviews)* **Plan 13 done,
+  live.** Street addresses on shows **39 → 200 of 207**; websites 45 → 127; show pages emitting
+  Event markup with a full `streetAddress` 39 → 200 (`70bedb36`). The unlock: the address and
+  web address were already on TCDB's **detail** pages — the list view scraped that morning just
+  omits them — so it was a bounded scrape of 162 known URLs, not research.
+  **Review found one thing worth keeping:** Codex excluded 5 rows as city conflicts; all 5 were
+  the *St. Catherines* / *Lloyminster* misspellings we had corrected in our own data hours
+  earlier. It compared city strings pairwise so it could not see that 4 of them scraped the
+  identical address 5 sibling rows at the same venue had already validated. Overridden with
+  corroboration required. Admission is still 0 of 207 — six Notes blocks mention a price and
+  the plan (rightly) forbade deriving it from prose.
+  **Codex traps that each cost a dead run — see
+  `~/jarvis-memory/04-AI-Setup/2026-08-27-codex-exec-sandbox-and-stdin-traps.md`:**
+  backgrounded `codex exec` hangs forever on stdin (`< /dev/null` fixes it, and no session file
+  under `~/.codex/sessions/` means it never started), and `-s workspace-write` blocks the
+  network **including localhost** — add `-c sandbox_workspace_write.network_access=true` rather
+  than falling back to `danger-full-access`.
 
 - **2026-08-27** — *(Opus, `scnm-plan4`)* **Task 4 done** — `/resellers/` and
   `/resellers/join/` now carry `noindex` and drop out of the sitemap while
