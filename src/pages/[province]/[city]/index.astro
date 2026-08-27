@@ -11,9 +11,13 @@ import { toMapResellers } from '../../../lib/map-data';
 import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { primaryShowCalendarYear } from '../../../lib/shows';
-import { nearestCities } from '../../../lib/nearby';
+import { isUpcoming, parseLocalDate, primaryShowCalendarYear } from '../../../lib/shows';
+import { nearestCities, nearestStoresToCity } from '../../../lib/nearby';
 import { relatedGuidesForCity } from '../../../lib/related-guides';
+
+const THIN_CITY_SHOP_COUNT = 1;
+const NEARBY_SHOP_LIMIT = 5;
+const UPCOMING_SHOW_LIMIT = 5;
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -34,8 +38,18 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
 // country, so a border city can return a neighbour in another province — and
 // the link below is built with THIS page's province.slug, which would 404.
 const nearbyCities = nearestCities(stores, province.code, cityGroup.citySlug).filter((c) => c.province === province.code);
+const nearbyStores = cityGroup.stores.length === THIN_CITY_SHOP_COUNT
+  ? nearestStoresToCity(stores, province.code, cityGroup.citySlug, { limit: NEARBY_SHOP_LIMIT })
+  : [];
 const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGroup.citySlug);
-const showYear = primaryShowCalendarYear(showsJson as ShowRecord[], province.code, new Date());
+const shows = showsJson as ShowRecord[];
+const buildDate = new Date();
+const upcomingProvinceShows = shows
+  .filter((show) => show.province === province.code && isUpcoming(show, buildDate))
+  .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime())
+  .slice(0, UPCOMING_SHOW_LIMIT);
+const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
+const showYear = primaryShowCalendarYear(shows, province.code, buildDate);
 const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : '/shows/';
 const cityLowerTags = [...services, ...sports].map((t) => t.trim().toLowerCase());
 const cityBuys = cityLowerTags.includes('buys');
@@ -155,6 +169,15 @@ const faqLd = faqPageLd(faqs);
     </div>
   </div>
 
+  {nearbyStores.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-3xl">Nearby shops</h2>
+      <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
+        {nearbyStores.map((store) => <StoreCard store={store} />)}
+      </ul>
+    </section>
+  )}
+
   {cityResellers.length > 0 && (
     <section class="mt-12">
       <h2 class="text-2xl">Verified resellers in {cityGroup.city}</h2>
@@ -172,6 +195,26 @@ const faqLd = faqPageLd(faqs);
       </ul>
     </section>
   )}
+
+  <section class="mt-12">
+    <h2 class="text-3xl">Upcoming card shows in {province.name}</h2>
+    {upcomingProvinceShows.length > 0 ? (
+      <ul role="list" class="mt-6 grid gap-3 sm:grid-cols-2">
+        {upcomingProvinceShows.map((show) => (
+          <li>
+            <a href={`/shows/${show.slug}/`} class="block rounded-xl border border-bord bg-panel p-4 hover:border-prizm">
+              <span class="font-semibold">{show.name}</span>
+              <span class="block text-sm text-muted">
+                {show.city}, {show.province} · {showDateFormat.format(parseLocalDate(show.startDate))}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="mt-4 text-muted">No upcoming shows are confirmed in {province.name} yet.</p>
+    )}
+  </section>
 
   <section class="mt-12">
     <h2 class="text-2xl">FAQ</h2>

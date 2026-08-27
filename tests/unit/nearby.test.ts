@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { nearestStores, nearestCities } from '../../src/lib/nearby';
+import { nearestCities, nearestStores, nearestStoresToCity } from '../../src/lib/nearby';
 import type { Store } from '../../src/lib/types';
 
 const store = (over: Partial<Store> = {}): Store => ({
@@ -56,6 +56,28 @@ describe('nearestCities', () => {
 
   it('returns an empty list for a city that is not in the data', () => {
     expect(nearestCities([EDM], 'AB', 'nowhere')).toEqual([]);
+  });
+});
+
+describe('nearestStoresToCity', () => {
+  it('returns distance-ranked shops outside the origin city', () => {
+    const out = nearestStoresToCity([EDM, EDM2, SHERWOOD, CALGARY], 'AB', 'edmonton', { maxKm: 500 });
+    expect(out.map((s) => s.slug)).toEqual(['c-sherwood-park', 'd-calgary']);
+  });
+
+  it('uses the 150km city radius by default', () => {
+    const out = nearestStoresToCity([EDM, SHERWOOD, CALGARY], 'AB', 'edmonton');
+    expect(out.map((s) => s.slug)).toEqual(['c-sherwood-park']);
+  });
+
+  it('respects the limit and breaks equal-distance ties by store slug', () => {
+    const TIE_Z = store({ slug: 'z-sherwood-park', city: 'Sherwood Park', citySlug: 'sherwood-park', lat: 53.52, lng: -113.31 });
+    const out = nearestStoresToCity([EDM, TIE_Z, SHERWOOD], 'AB', 'edmonton', { limit: 1 });
+    expect(out.map((s) => s.slug)).toEqual(['c-sherwood-park']);
+  });
+
+  it('returns an empty list for a city that is not in the data', () => {
+    expect(nearestStoresToCity([EDM], 'AB', 'nowhere')).toEqual([]);
   });
 });
 

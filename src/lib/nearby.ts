@@ -17,6 +17,7 @@ import type { ProvinceCode, Store } from './types';
  */
 const DEFAULT_LIMIT = 5;
 const DEFAULT_MAX_KM = 75;
+const DEFAULT_CITY_MAX_KM = 150;
 
 export function nearestStores(
   all: Store[],
@@ -91,7 +92,7 @@ export function nearestCities(
   opts: { limit?: number; maxKm?: number } = {},
 ): NearbyCity[] {
   const limit = opts.limit ?? 6;
-  const maxKm = opts.maxKm ?? 150;
+  const maxKm = opts.maxKm ?? DEFAULT_CITY_MAX_KM;
   const centres = cityCentres(all);
   const origin = centres.find((c) => c.province === originProvince && c.citySlug === citySlug);
   if (origin === undefined) return [];
@@ -107,4 +108,23 @@ export function nearestCities(
     .filter((c) => c.km <= maxKm)
     .sort((a, b) => a.km - b.km || a.citySlug.localeCompare(b.citySlug))
     .slice(0, limit);
+}
+
+export function nearestStoresToCity(
+  all: Store[],
+  originProvince: ProvinceCode,
+  citySlug: string,
+  opts: { limit?: number; maxKm?: number } = {},
+): Store[] {
+  const limit = opts.limit ?? DEFAULT_LIMIT;
+  const maxKm = opts.maxKm ?? DEFAULT_CITY_MAX_KM;
+  const origin = cityCentres(all).find((c) => c.province === originProvince && c.citySlug === citySlug);
+  if (origin === undefined) return [];
+  return all
+    .filter((s) => !(s.province === originProvince && s.citySlug === citySlug))
+    .map((s) => ({ store: s, km: distanceKm(origin.lat, origin.lng, s.lat, s.lng) }))
+    .filter((x) => x.km <= maxKm)
+    .sort((a, b) => a.km - b.km || a.store.slug.localeCompare(b.store.slug))
+    .slice(0, limit)
+    .map((x) => x.store);
 }
