@@ -11,6 +11,20 @@
 .map-fallback { display: block; }
 .map-shell[data-map-state='on'] .map-fallback { display: none; }
 .map-shell[data-map-state='loading'] .map-fallback { display: none; }
+
+/* While the deferred Mapbox chunk downloads: a faint street grid and city-core
+   glow so the panel reads as a map arriving, with one slow light sweep. */
+.map-shell[data-map-state='loading']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, transparent 38%, rgb(245 248 251 / 0.05) 50%, transparent 62%) no-repeat 0 0 / 250% 100%,
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgb(90 215 255 / 0.07), transparent 70%),
+    repeating-linear-gradient(0deg, rgb(90 215 255 / 0.045) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, rgb(90 215 255 / 0.045) 0 1px, transparent 1px 48px);
+  animation: map-sweep 2.4s linear infinite;
+}
 .map-shell[data-map-state='loading']::after {
   content: 'Loading map…';
   position: absolute;
@@ -19,6 +33,13 @@
   place-items: center;
   color: var(--color-muted);
   font: 500 13px/1.4 var(--font-body);
+}
+@keyframes map-sweep {
+  from { background-position: -150% 0, 0 0, 0 0, 0 0; }
+  to { background-position: 250% 0, 0 0, 0 0, 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-shell[data-map-state='loading']::before { animation: none; }
 }
 .map-shell[data-map-state='off'] { height: auto; border: 0; background: none; }
 .map-shell[data-map-state='off'] .map-fallback { display: block; }

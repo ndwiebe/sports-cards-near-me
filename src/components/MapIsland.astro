@@ -34,11 +34,20 @@ const payload = JSON.stringify([
     const raw = shell.querySelector('script[data-map-stores]')?.textContent ?? '[]';
     const stores = JSON.parse(raw) as MapStore[];
     const mode = shell.dataset['mapMode'];
-    const handle = await mountMap(
-      shell,
-      stores,
-      mode === 'store' ? { zoom: 14, pitch: 60 } : mode === 'home' ? { pitch: 34 } : {},
-    );
+    let handle;
+    try {
+      handle = await mountMap(
+        shell,
+        stores,
+        mode === 'store' ? { zoom: 14, pitch: 60 } : mode === 'home' ? { pitch: 34 } : {},
+      );
+    } catch {
+      // Deferred chunk failed to download — collapse to the fallback text
+      // rather than shimmering forever.
+      shell.dataset['mapState'] = 'off';
+      shell.style.removeProperty('height');
+      return;
+    }
     if (!handle) return;
     handle.onPinClick((slug) => {
       const entry = stores.find((s) => s.slug === slug);
