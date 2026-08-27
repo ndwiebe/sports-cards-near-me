@@ -2,7 +2,8 @@
 import Base from '../../../layouts/Base.astro';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { parseLocalDate, showTimingLabel } from '../../../lib/shows';
+import { parseLocalDate, showEventLd, showTimingLabel } from '../../../lib/shows';
+import { absoluteUrl, ldJson } from '../../../lib/seo';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import { PROVINCES } from '../../../lib/types';
 
@@ -25,21 +26,7 @@ const dateRange = endFormatted !== undefined && endFormatted !== startFormatted 
 const buildDate = new Date();
 const timingLabel = showTimingLabel(show, buildDate);
 
-const ld: Record<string, unknown> = {
-  '@context': 'https://schema.org',
-  '@type': 'Event',
-  name: show.name,
-  startDate: show.startDate,
-  ...(show.endDate !== undefined && { endDate: show.endDate }),
-  location: {
-    '@type': 'Place',
-    name: show.venue ?? show.name,
-    ...(show.address !== undefined && {
-      address: { '@type': 'PostalAddress', streetAddress: show.address, addressLocality: show.city, addressRegion: show.province, addressCountry: 'CA' },
-    }),
-  },
-  ...(show.admission !== undefined && { offers: { '@type': 'Offer', description: show.admission } }),
-};
+const ld = showEventLd(show, absoluteUrl(Astro.site, `/shows/${show.slug}/`));
 ---
 <Base
   title={timingLabel !== undefined
@@ -51,7 +38,7 @@ const ld: Record<string, unknown> = {
       ? `${timingLabel} — ${show.name} in ${show.city}, ${provinceName}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
       : `${show.name} took place in ${show.city}, ${provinceName} on ${dateRange}. Venue, hours, and admission details are on this page.`}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  <script type="application/ld+json" set:html={ldJson(ld)} />
   <nav class="mt-10 text-sm text-muted">
     <a href="/shows/" class="hover:text-paper">Shows</a> / {show.name}
   </nav>

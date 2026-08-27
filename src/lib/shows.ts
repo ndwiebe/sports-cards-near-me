@@ -201,3 +201,100 @@ export function rowToShow(cells: GvizRow): ShowRecord | null {
     recurring: sanitizeText(cells[11]?.v),
   };
 }
+
+/* ------------------------------------------------------------------------- *
+ * Event structured data
+ *
+ * Added 2026-08-27. Event markup already existed inline on the show page, but
+ * emitted `location.address` ONLY when a street address was known — and Google
+ * requires `location.address` for a physical event. 168 of 207 shows had no
+ * street address, so 81% of the calendar was shipping Event markup ineligible
+ * for the rich result. A city, province and country IS a valid PostalAddress;
+ * withholding it bought nothing.
+ *
+ * Lives here rather than inline in the .astro page so it can be tested at all —
+ * the same reason the store title moved into seo.ts.
+ * ------------------------------------------------------------------------- */
+
+/** `10:00 AM - 4:00 PM`, `9-3`, `10am-5pm` -> 24h start/end. */
+const HOURS_RE = /^\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*[-–—to]+\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*$/i;
+
+/**
+ * Start and end clock times parsed from a free-text hours string.
+ *
+ * Returns undefined for anything it does not fully understand — notably the
+ * multi-day forms ("Fri 4-8pm, Sat 10-5, Sun 10-4"), where a single start time
+ * would be a guess. A wrong time in structured data is worse than no time.
+ */
+export function parseShowHours(hours: string | undefined): { start: string; end: string } | undefined {
+  if (hours === undefined) return undefined;
+  const m = HOURS_RE.exec(hours);
+  if (m === null) return undefined;
+
+  const to24 = (h: string, mer: string | undefined, other: string | undefined): number | undefined => {
+    let n = Number(h);
+    if (n < 1 || n > 23) return undefined;
+    // "10-4" with no meridiem anywhere: a card show runs daytime, and an end
+    // hour lower than the start means the afternoon. Only ever applied to the
+    // END of a pair, never to invent an AM/PM the string did not carry.
+    const mm = (mer ?? other)?.toLowerCase();
+    if (mm === 'pm' && n < 12) n += 12;
+    else if (mm === 'am' && n === 12) n = 0;
+    return n;
+  };
+
+  const sh = to24(m[1]!, m[3], m[6]);
+  let eh = to24(m[4]!, m[6], m[3]);
+  if (sh === undefined || eh === undefined) return undefined;
+  if (eh < sh && eh + 12 <= 23) eh += 12; // 10-4 -> 10:00-16:00
+  if (eh <= sh) return undefined;
+
+  const pad = (n: number): string => String(n).padStart(2, '0');
+  return { start: `${pad(sh)}:${m[2] ?? '00'}`, end: `${pad(eh)}:${m[5] ?? '00'}` };
+}
+
+/**
+ * Event JSON-LD for a show page.
+ *
+ * Times are emitted WITHOUT a UTC offset (`2026-09-12T10:00`). That is valid
+ * ISO 8601 and schema.org reads it as the venue's local time, which is exactly
+ * what "doors at 10" means. Shows span five Canadian time zones — two of which
+ * handle daylight saving differently — so a computed offset would be wrong more
+ * often than absent one is.
+ */
+export function showEventLd(show: ShowRecord, canonicalUrl: string): Record<string, unknown> {
+  const t = parseShowHours(show.hours);
+  const start = t !== undefined ? `${show.startDate}T${t.start}` : show.startDate;
+  const endDay = show.endDate ?? show.startDate;
+  const end = t !== undefined ? `${endDay}T${t.end}` : show.endDate;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: show.name,
+    startDate: start,
+    ...(end !== undefined && { endDate: end }),
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    url: canonicalUrl,
+    description:
+      `${show.name} is a sports card and collectibles show in ${show.city}, ${show.province}` +
+      `${show.venue !== undefined ? ` at ${show.venue}` : ''}.`,
+    location: {
+      '@type': 'Place',
+      name: show.venue ?? show.name,
+      // Always present. Street address only when we actually hold one — the
+      // absence-of-data rule applies to structured data as much as to prose.
+      address: {
+        '@type': 'PostalAddress',
+        ...(show.address !== undefined && { streetAddress: show.address }),
+        addressLocality: show.city,
+        addressRegion: show.province,
+        addressCountry: 'CA',
+      },
+    },
+    ...(show.admission !== undefined && {
+      offers: { '@type': 'Offer', description: show.admission, url: canonicalUrl },
+    }),
+  };
+}
