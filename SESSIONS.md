@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-27 | Opus, `scnm-plan4` | **pages** | `src/pages/resellers/**`, sitemap config | Task 4 (noindex the empty resellers pages). Will also verify Task 2's Calgary merge against the official site before touching the sheet — will claim **data** separately if it goes ahead. |
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -68,6 +68,28 @@ notebook.
 ---
 
 ## Log
+
+- **2026-08-27** — *(Opus, `scnm-plan4`)* **Task 4 done** — `/resellers/` and
+  `/resellers/join/` now carry `noindex` and drop out of the sitemap while
+  `resellers.json` is empty, conditional on `MIN_RESELLERS_TO_INDEX = 5` so it reverses
+  itself once seeded (`ede35311`). Did not touch `Base.astro` — it is the **perf** lane and
+  was in use today; a bare `noindex` already implies `follow`. Verified on built output:
+  1468 sitemap URLs, 0 reseller URLs, both pages still reachable.
+  **Board correction:** the queued row *"Titles + meta descriptions on store/city pages"*
+  and the plan's follow-up of the same name were **already shipped 2026-08-25** as
+  `8bff32da` — store titles now carry the review count and the word "Reviews", and that
+  commit also removed a false `Top rated:` claim from 351 pages. Do not redo it.
+  **Read before more GEO work:** Google's official May-2026 generative-AI guidance
+  contradicts four things we had planned — `llms.txt` is inert *for Google*, structured
+  data is explicitly *not* a generative-AI lever, "chunking"/quotable-passage rewriting is
+  not required, and per-query-variation page generation is named as scaled content abuse
+  (which lands on the queued per-city show pages). Two new Nathan-only Search Console
+  actions found: a generative-AI **eligibility** setting, and a Generative AI performance
+  **report**. Full note:
+  `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-google-ai-optimization-guidance-vs-our-plan.md`
+  **Tooling:** `notebooklm ask` still fails with `RPCResponseTooLargeError` even after
+  clearing `conversation_id`, but **`notebooklm source fulltext <id>` works** and bypasses
+  the chat endpoint entirely — use that to read notebook sources.
 
 - **2026-08-27** — *(Fable, SST cwd)* Consolidated a two-session collision. Found
   `src/lib/shows.ts` modified and `tests/unit/show-event-ld.test.ts` untracked from a
