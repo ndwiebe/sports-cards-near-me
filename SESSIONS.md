@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-27 | Opus, `scnm-plan4` | **pages** | `src/pages/resellers/**`, sitemap config | Task 4 (noindex the empty resellers pages). Will also verify Task 2's Calgary merge against the official site before touching the sheet — will claim **data** separately if it goes ahead. |
 
 ## Queued — claimed but not started
 
