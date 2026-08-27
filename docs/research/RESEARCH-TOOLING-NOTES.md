@@ -34,7 +34,7 @@ dead budget is a partial pass, not evidence of absence.
 | **Facebook** | Fully login-walled for business pages. Any lead resting only on a Facebook link cannot be verified and must be excluded. |
 | **Google / Bing / DuckDuckGo via scraper** | Consent walls, bot challenges, CAPTCHAs after a few calls. DDG degrades to serving unrelated content rather than erroring — silently wrong, not obviously broken. |
 | **Firecrawl `search`** | The self-hosted proxy has no search provider configured — 404s outright. |
-| **`tcdb.com`** | 403s every request. |
+| ~~**`tcdb.com`**~~ | **CORRECTED 2026-08-27 — it works, via a browser.** The 403 is real but applies to *automated clients only*: `curl` and `defuddle` are both refused, and were the only things tried in July. `dev-browser --connect` against the signed-in AI Chrome loads it fine. Yielded **165 Canadian card-show dates (75 series, 52 cities)** on the first pass. Canadian shows live at `/CardShows.cfm?MODE=Location&State=<Province>&Country=Canada` (use the full name; `Québec` needs the accent, URL-encoded). The list view carries name, venue, city, date and hours — **never** a street address, admission price or organiser website. Only AB/BC/ON/SK have entries; MB/NS/QC are genuinely empty, not a parse failure. Horizon is ~4 months, and a province returning exactly 100 rows is coincidence, not a cap — verified by comparing date horizons across provinces. |
 | **`cartesdehockey.ca`** | Real but last updated 2021; every entry already in the roster. |
 
 ## Schedules are often images (added 2026-07-29)
@@ -104,3 +104,22 @@ Two corroborating checks that cost nothing and caught real errors:
 2. **Require a tooling statement** in every agent report — which sources worked, which failed.
 3. **Treat "no shop found" as provisional** unless the agent confirms it had working search.
 4. **Always require the source URL** per row, and for ratings work, the matched address for cross-checking.
+
+## Writing entries in this table (added 2026-08-27)
+
+The `tcdb.com` row above sat marked dead for a month and cost a source we needed. It
+said *"403s every request"* — true of `curl` and `defuddle`, which were the only two
+things tried, and false of a real browser, which nobody had tested.
+
+**Record what was tried, not just the verdict.** "Refuses `curl`/`defuddle`; browser
+untested" is the same length as "403s every request" and does not close a door that is
+actually open. A conclusion outlives the evidence under it and gets quoted long after
+the person who wrote it would have changed their mind.
+
+Before trusting any scrape from a source in this table:
+- **A round result count is a claim.** Exactly 100 or 500 rows usually means a hidden
+  cap. You can test for one without access to the source: compare the suspicious set's
+  date/alphabetical horizon against sets too small to be capped. If the big one stops
+  sooner, it is truncated.
+- **A zero is a claim too.** Confirm the page actually loaded and is genuinely empty
+  before recording an absence — that is the silent-false-negative trap this file opens with.
