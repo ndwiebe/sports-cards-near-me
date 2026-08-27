@@ -26,18 +26,21 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
+| 2026-08-27 | Fable plans → Codex executes → Opus reviews | **pages** + **lib** | `src/lib/nearby.ts`, `src/pages/[province]/[city]/index.astro` | Plan 15 — thin-city enrichment. Read the plan before touching either file. |
+| 2026-08-27 | Fable plans → Codex executes → Opus reviews | **docs** (no repo code/data touched) | `~/jarvis-memory/06-SportsCardsNearMe/` only | Plan 16 — show vendor-list outreach research + drafts. Research and drafting only, nothing sent. |
 
 ## Queued — claimed but not started
 
 | Work | Lane | Plan | Blocked on |
 |---|---|---|---|
-| Capital City closure + `status` field | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | groundwork done (Plan 14 Part A) — needs a `workflow_dispatch` run of `ratings-refresh.yml` before the `status` field itself is designed |
-| Calgary Genesis Centre triple → one 3-day show | **data** (sheet) | original data-fixes plan, Task 2 | not started — Plan 14 covered only Leduc/Ottawa (Task 3), not this |
-| **Paste the Leduc rename into the sheet** | **data** (Nathan) | `docs/research/2026-08-27-plan14-sheet-payload.csv` rows 1-2 | ready — Opus-reviewed, redirects go in the SAME change as the paste + rebake |
-| **Ottawa fold-in — Nathan's call needed first** | **data** (Nathan) | same CSV, row 3, marked HOLD | see the CSV's own note: likely a duplicate of the existing `...ottawa-2026-09-12` row (same venue/weekend, two sources), not a rename target. Delete-and-redirect vs. rename-in-place needs a decision before anything is pasted |
+| Capital City closure + `status` field design | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | ✅ unblocked — full closure scan ran 2026-08-27: **32 of 689 shops CLOSED_PERMANENTLY**, real enough to justify designing the field now. Data sits on branch `chore/ratings-refresh` (the monthly workflow's PR-creation step is blocked by a repo Actions permission, `default_workflow_permissions: read` — flagged to Nathan, not fixed unilaterally, it's repo-wide) |
+| ~~Calgary Genesis Centre triple~~ | — | — | ✅ shipped 2026-08-27 — deleted via direct sheet write (`gws`), not a CSV hand-off. See log. |
+| ~~Leduc rename~~ | — | — | ✅ shipped 2026-08-27, same sheet write |
+| ~~Ottawa fold-in~~ | — | — | ✅ resolved as a DELETE (confirmed duplicate, not a rename) — shipped same write |
 | ~~`noindex` the empty `/resellers/` pages~~ | — | — | ✅ shipped 2026-08-27, `ede35311` |
 | ~~Titles + meta descriptions on store/city pages~~ | — | — | ✅ shipped 2026-08-25, `8bff32da` — do not redo |
-| Per-city show pages · metro/"near you" grouping | **pages** + **lib** | not yet written | doorway-page question is answered (see below) — but read `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-google-ai-optimization-guidance-vs-our-plan.md` first, it flags per-city page generation as a named spam risk in Google's own words |
+| ~~Click tracking (Directions/Call)~~ | — | — | Built 2026-08-27 (`9159e9e0`) — inert until deployed. **Nathan-only:** `gh workflow run deploy-click-tracker.yml --ref redesign` (blocked by the permission classifier when a session tried it — provisions real billed infra, needs a human go) |
+| Per-city show pages as a NEW page type | — | — | ❌ **DECIDED AGAINST 2026-08-27** — see the decision record below. Enrichment (Plan 15, above) replaces this. |
 
 ⚠️ **All four data tasks are SHEET edits, not JSON edits.** See `CLAUDE.md` → the three
 things that will burn you. Renaming a show changes its slug, so every rename needs a
@@ -55,6 +58,10 @@ is the remedy for thin, near-identical pages. But only if: real computed distanc
 `nearestStores`/`cityCentres` in `src/lib/nearby.ts`, 75 km cap), nearby results clearly
 labelled with their real town and distance, show detail pages stay canonical, and pages
 still thin afterwards get **consolidated or noindexed** rather than shipped.
+
+✅ **Decided 2026-08-27, executing now (Plan 15, Active table above):** enrich, don't build
+new per-city pages. Decision record:
+`~/jarvis-memory/decisions/2026/2026-08-27-scnm-thin-city-pages-enrich-not-new-pages.md`.
 
 Full finding + Google's exact wording:
 `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-doorway-page-risk-city-pages.md`
