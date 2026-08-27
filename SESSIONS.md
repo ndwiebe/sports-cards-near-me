@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-27 | Codex (gpt-5.6-sol) via Opus, `scnm-plan4` | **lib** + **data** | `scripts/refresh-ratings.py`, `src/data/redirects.json`, new files in `docs/research/` | Plan 14 — Decisions A and B. Emits a sheet payload; **does not write the sheet or run the scan**. Opus reviews then writes. |
 
 ## Queued — claimed but not started
 
