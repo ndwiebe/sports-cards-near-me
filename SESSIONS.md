@@ -86,6 +86,23 @@ Full cause, verification and a reappliable patch:
 
 ## Log
 
+- **2026-08-27** — *(Opus review of `b85986fa`, then Fable fix)* **Plan 15 reviewed, one
+  real defect found and fixed, shipped to production.** Opus independently re-derived every
+  Definition-of-Done number (146/136/10, page count, gating on both directions) rather than
+  trusting the commit message — all held. It also measured the "does this create its own
+  thin-content problem" question rather than eyeballing it: 136 nearby-shop sets across 9,180
+  page-pairs, only 2 near-identical, 365 distinct shops surfaced — genuine local relevance,
+  not templated filler, no cap needed. **Real defect: 25 city pages (MB/NL/NS/NT/PE) rendered
+  an empty "Upcoming card shows in {province}" heading** when a province had none scheduled —
+  contradicting the plan's own no-empty-scaffolding rule and the pattern the two sibling
+  sections in the same file already use. 6 of those pages were net-negative (isolated + no
+  Nearby-shops content + this empty heading). Fixed by gating the section the same way its
+  neighbours already are (`c28fbe54`); confirmed on Sydney NS (the worst case) that the empty
+  section is gone and the "Card shows in Nova Scotia" link-out is untouched. Re-verified
+  site-wide: 0 pages now show the empty message. `npm run typecheck && npm test && npm run
+  build` clean throughout. Pushed and deployed to production (`gh workflow run site --ref
+  main`) — verified live.
+
 - **2026-08-27** — *(Fable plans → Codex executes → Opus reviews)* **Plan 15 implemented,
   verified, awaiting commits because the managed Codex sandbox cannot write this linked
   worktree's Git metadata.** All 248 city pages now surface their province's upcoming shows;
