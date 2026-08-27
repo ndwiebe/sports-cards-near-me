@@ -72,6 +72,17 @@ jobs:
             echo ""
             echo "Spot-check the \`Google address\` column against each shop's own address before importing —"
             echo "Text Search can match a nearby business of a similar name."
+            echo ""
+            echo "### Closure candidates"
+            echo ""
+            if [ -f docs/research/closure-review.csv ]; then
+              echo "- CLOSED_PERMANENTLY: $(($(wc -l < docs/research/closure-review.csv) - 1))"
+              echo ""
+              echo "Google's flag can be wrong (a moved or rebranded shop reads the same). Confirm each"
+              echo "one before touching its listing — never unlist on this alone."
+            else
+              echo "- none this run"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open a PR with the results
@@ -95,3 +106,4 @@ jobs:
           add-paths: |
             docs/research/ratings-refresh.csv
             docs/research/ratings-refresh-unmatched.csv
+            docs/research/closure-review.csv
