@@ -196,9 +196,9 @@ const faqLd = faqPageLd(faqs);
     </section>
   )}
 
-  <section class="mt-12">
-    <h2 class="text-3xl">Upcoming card shows in {province.name}</h2>
-    {upcomingProvinceShows.length > 0 ? (
+  {upcomingProvinceShows.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-3xl">Upcoming card shows in {province.name}</h2>
       <ul role="list" class="mt-6 grid gap-3 sm:grid-cols-2">
         {upcomingProvinceShows.map((show) => (
           <li>
@@ -211,10 +211,8 @@ const faqLd = faqPageLd(faqs);
           </li>
         ))}
       </ul>
-    ) : (
-      <p class="mt-4 text-muted">No upcoming shows are confirmed in {province.name} yet.</p>
-    )}
-  </section>
+    </section>
+  )}
 
   <section class="mt-12">
     <h2 class="text-2xl">FAQ</h2>
