@@ -1,4 +1,5 @@
 import type { Map as MapboxMap, Marker as MapboxMarker } from 'mapbox-gl';
+import mapboxCssUrl from 'mapbox-gl/dist/mapbox-gl.css?url';
 import Supercluster from 'supercluster';
 import type { MapStore } from '../lib/map-data';
 import { createPinEl, createClusterEl } from './pins';
@@ -19,6 +20,24 @@ interface MountOpts {
 
 const ALBERTA_CENTER: [number, number] = [-113.8, 52.3];
 
+// A plain CSS import gets hoisted into every page's <head> as a
+// render-blocking <link> at build time; attaching it here keeps the
+// stylesheet out of the critical path until the map actually mounts.
+function loadMapboxCss(): Promise<void> {
+  return new Promise((resolve) => {
+    if (document.querySelector(`link[href="${mapboxCssUrl}"]`)) {
+      resolve();
+      return;
+    }
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = mapboxCssUrl;
+    link.onload = () => resolve();
+    link.onerror = () => resolve();
+    document.head.append(link);
+  });
+}
+
 function centerOf(stores: MapStore[]): [number, number] {
   if (stores.length === 0) return ALBERTA_CENTER;
   const lng = stores.reduce((n, s) => n + s.lng, 0) / stores.length;
@@ -37,10 +56,7 @@ export async function mountMap(
     shell.style.removeProperty('height');
     return null;
   }
-  const [mapboxModule] = await Promise.all([
-    import('mapbox-gl'),
-    import('mapbox-gl/dist/mapbox-gl.css'),
-  ]);
+  const [mapboxModule] = await Promise.all([import('mapbox-gl'), loadMapboxCss()]);
   const mapboxgl = mapboxModule.default;
   shell.dataset['mapState'] = 'on';
 

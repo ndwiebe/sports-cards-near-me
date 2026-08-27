@@ -73,7 +73,7 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
   </section>
   <script>
     import { locate } from '../scripts/geolocate';
-    import { getMapHandle, whenMapReady } from '../scripts/map-registry';
+    import { whenMapReady } from '../scripts/map-registry';
     import type { MapHandle } from '../scripts/map-core';
     import { distanceKm } from '../lib/map-data';
     import type { MapStore } from '../lib/map-data';
@@ -103,8 +103,9 @@ const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
             geoBtn.textContent = 'Locating…';
             locate(navigator.geolocation)
               .then(({ lat, lng }) => {
-                // Fly only if a map actually mounted; the list still renders.
-                getMapHandle(shell)?.flyTo(lng, lat, 11.5);
+                // The map mounts lazily, so the fly-to queues until it's
+                // ready; if it never mounts, the list has already rendered.
+                whenMapReady(shell, (h) => h.flyTo(lng, lat, 11.5));
                 showNearest(lat, lng);
               })
               .catch((err: Error) => window.alert(err.message))

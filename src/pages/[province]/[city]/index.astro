@@ -272,6 +272,9 @@ const faqLd = faqPageLd(faqs);
       whenMapReady(mapShell, (h) => {
         handle = h;
         wireHover();
+        // The map mounts lazily — re-apply any filtering done before it was
+        // ready, or it would open showing the full unfiltered pin set.
+        apply();
       });
     }
 

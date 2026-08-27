@@ -28,7 +28,9 @@ const payload = JSON.stringify([
   import { registerMap } from '../scripts/map-registry';
   import type { MapStore } from '../lib/map-data';
 
-  for (const shell of document.querySelectorAll<HTMLElement>('.map-shell')) {
+  async function mountShell(shell: HTMLElement): Promise<void> {
+    if (shell.dataset['mapState'] !== undefined) return;
+    shell.dataset['mapState'] = 'loading';
     const raw = shell.querySelector('script[data-map-stores]')?.textContent ?? '[]';
     const stores = JSON.parse(raw) as MapStore[];
     const mode = shell.dataset['mapMode'];
@@ -37,7 +39,7 @@ const payload = JSON.stringify([
       stores,
       mode === 'store' ? { zoom: 14, pitch: 60 } : mode === 'home' ? { pitch: 34 } : {},
     );
-    if (!handle) continue;
+    if (!handle) return;
     handle.onPinClick((slug) => {
       const entry = stores.find((s) => s.slug === slug);
       const isReseller = entry?.kind === 'reseller';
@@ -53,5 +55,29 @@ const payload = JSON.stringify([
       }
     });
     registerMap(shell, handle);
+  }
+
+  // Mapbox is ~490 KB, so it mounts only as the shell nears the viewport —
+  // the initial paint never waits on it. A shell hidden behind the mobile
+  // List/Map toggle intersects the moment the toggle reveals it, so no extra
+  // wiring there. Without a token mountMap collapses the shell to the
+  // fallback text; do that immediately rather than as it scrolls into view.
+  const token = import.meta.env.PUBLIC_MAPBOX_TOKEN;
+  for (const shell of document.querySelectorAll<HTMLElement>('.map-shell')) {
+    if (token === undefined || token === '' || !('IntersectionObserver' in window)) {
+      void mountShell(shell);
+      continue;
+    }
+    const io = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          void mountShell(entry.target as HTMLElement);
+        }
+      },
+      { rootMargin: '200px' },
+    );
+    io.observe(shell);
   }
 </script>

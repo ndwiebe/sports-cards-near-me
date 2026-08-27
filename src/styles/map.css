@@ -10,6 +10,16 @@
 .map-shell .mapboxgl-map { position: absolute; inset: 0; }
 .map-fallback { display: block; }
 .map-shell[data-map-state='on'] .map-fallback { display: none; }
+.map-shell[data-map-state='loading'] .map-fallback { display: none; }
+.map-shell[data-map-state='loading']::after {
+  content: 'Loading map…';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--color-muted);
+  font: 500 13px/1.4 var(--font-body);
+}
 .map-shell[data-map-state='off'] { height: auto; border: 0; background: none; }
 .map-shell[data-map-state='off'] .map-fallback { display: block; }
 
