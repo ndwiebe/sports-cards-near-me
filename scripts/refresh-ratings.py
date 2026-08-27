@@ -38,6 +38,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 STORES = ROOT / 'src/data/stores.json'
 OUT = ROOT / 'docs/research/ratings-refresh.csv'
 UNMATCHED = ROOT / 'docs/research/ratings-refresh-unmatched.csv'
+CLOSURES = ROOT / 'docs/research/closure-review.csv'
 
 # Hard ceiling on billable calls per run. The directory is ~615 stores; anything
 # far above that means a bug, not a bigger directory. Deliberately not overridable
@@ -50,9 +51,15 @@ SEARCH_URL = 'https://places.googleapis.com/v1/places:searchText'
 # is Enterprise-tier too — so hours cost nothing extra on a call we are already
 # making. Photos and reviews are NOT free: they sit in Enterprise + Atmosphere,
 # a higher tier, which is why they stay out of this mask.
+# businessStatus sits in a cheaper tier than the Enterprise fields already
+# requested above (Essentials, not Enterprise), so it too rides free on this same
+# call — added 2026-08-27 for closure detection (see CLOSED_PERMANENTLY handling
+# below). "Free" is expected, not verified against a bill yet: confirm on the
+# first real run rather than trusting this comment.
 FIELD_MASK = (
     'places.id,places.displayName,places.formattedAddress,'
-    'places.rating,places.userRatingCount,places.regularOpeningHours'
+    'places.rating,places.userRatingCount,places.regularOpeningHours,'
+    'places.businessStatus'
 )
 
 
@@ -130,13 +137,24 @@ def main() -> None:
         print(f'  (only the first {limit} will be fetched this run)')
         targets = targets[:limit]
 
-    rows, misses, calls = [], [], 0
+    rows, misses, closures, calls = [], [], [], 0
     for i, s in enumerate(targets, 1):
         place = search_place(api_key, s['name'], s.get('address', ''), s['city'], s['province'])
         calls += 1
         rating = place.get('rating') if place else None
         count = place.get('userRatingCount') if place else None
         hours = format_hours(place)
+        # Closure detection, scan-only (Plan 14, Part A). CLOSED_PERMANENTLY goes
+        # to a review CSV for a human to check — never auto-unlisted, and never
+        # written as a `status` field anywhere. Google's flag is wrong often
+        # enough (a moved or rebranded shop reads the same) that treating it as
+        # ground truth would be the worst error this directory can make.
+        # OPERATIONAL and CLOSED_TEMPORARILY are both no-ops: temporary closures
+        # aren't actionable, and unlisting on one would be wrong too.
+        if place and place.get('businessStatus') == 'CLOSED_PERMANENTLY':
+            closures.append([s['slug'], s['name'], s['city'], s['province'], s.get('address', ''),
+                              rating if rating is not None else '', count if count is not None else '',
+                              place.get('formattedAddress') or '', place.get('id') or ''])
         if rating is None and hours == '':
             misses.append([s['slug'], s['name'], s['city'], s['province'],
                            'no match' if place is None else 'matched but unrated, no hours'])
@@ -162,10 +180,19 @@ def main() -> None:
         w = csv.writer(f)
         w.writerow(['slug', 'Store Name', 'City', 'Province', 'reason'])
         w.writerows(misses)
+    CLOSURES.parent.mkdir(parents=True, exist_ok=True)
+    with CLOSURES.open('w', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(['slug', 'Store Name', 'City', 'Province', 'Address', 'Rating', 'Review Count',
+                     'Google formattedAddress', 'Google Place ID'])
+        w.writerows(closures)
 
     print(f'\ncalls used: {calls} (cap {limit})')
     print(f'  {len(rows)} ratings  -> {OUT.relative_to(ROOT)}')
     print(f'  {len(misses)} unmatched -> {UNMATCHED.relative_to(ROOT)}')
+    if closures:
+        print(f'  {len(closures)} CLOSED_PERMANENTLY -> {CLOSURES.relative_to(ROOT)} — review before touching the sheet, do not unlist on this alone')
+    print('  billing: businessStatus is expected to ride free on this call (Essentials tier) — confirm against the actual bill on this first real run, don\'t just trust the comment')
     print('\nNext: spot-check the "Google address" column against each store\'s own address')
     print('before importing — Text Search can match a nearby business of a similar name.')
     print('Rating pastes into the sheet\'s Rating column; Hours pastes into the Hours column.')
