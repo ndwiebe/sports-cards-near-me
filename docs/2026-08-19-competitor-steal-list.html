@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCNM — What to Steal from Yelp, and What's Actually Missing</title>
+<style>
+  :root{
+    --bg:#fafaf9; --card:#fff; --ink:#1c1917; --mid:#57534e; --soft:#78716c;
+    --line:#e7e5e4; --line2:#d6d3d1;
+    --red:#b91c1c; --redbg:#fef2f2; --redln:#fecaca;
+    --amb:#a16207; --ambbg:#fefce8; --ambln:#fde68a;
+    --grn:#15803d; --grnbg:#f0fdf4; --grnln:#bbf7d0;
+    --blu:#1d4ed8; --blubg:#eff6ff; --bluln:#bfdbfe;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:48px 24px 96px}
+  h1{font-size:31px;line-height:1.22;margin:0 0 6px;letter-spacing:-.021em}
+  .sub{color:var(--soft);font-size:14px;margin:0 0 34px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--soft);
+    margin:52px 0 16px;font-weight:700}
+  h3{font-size:19px;margin:0 0 8px;letter-spacing:-.011em}
+  p{margin:0 0 13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+    padding:22px 24px;margin-bottom:15px}
+  .verdict{border-left:4px solid var(--red);background:var(--redbg);border-color:var(--redln)}
+  .verdict h3{color:var(--red)}
+  .win{border-left:4px solid var(--grn)}
+  .fix{border-left:4px solid var(--amb)}
+  .note{border-left:4px solid var(--blu);background:var(--blubg);border-color:var(--bluln)}
+  .gloss{color:var(--soft);font-style:italic}
+  .num{display:inline-flex;align-items:center;justify-content:center;
+    width:25px;height:25px;border-radius:6px;background:var(--ink);color:#fff;
+    font-size:12.5px;font-weight:700;margin-right:10px;flex:none}
+  .hd{display:flex;align-items:flex-start;margin-bottom:9px}
+  .hd h3{margin:1px 0 0}
+  table{width:100%;border-collapse:collapse;margin:14px 0 6px;font-size:14px}
+  th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--soft);border-bottom:1px solid var(--line2);padding:0 12px 7px 0;font-weight:700}
+  td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  code{background:#f5f5f4;border:1px solid var(--line);border-radius:4px;
+    padding:1.5px 5px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .snip{background:#f5f5f4;border:1px solid var(--line);border-radius:7px;
+    padding:11px 13px;margin:9px 0;font-size:13.5px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.5;
+    overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.06em;padding:3px 8px;border-radius:20px;margin-left:9px;vertical-align:2px}
+  .t-red{background:var(--redbg);color:var(--red);border:1px solid var(--redln)}
+  .t-grn{background:var(--grnbg);color:var(--grn);border:1px solid var(--grnln)}
+  .t-amb{background:var(--ambbg);color:var(--amb);border:1px solid var(--ambln)}
+  ul{margin:9px 0 13px;padding-left:20px}
+  li{margin-bottom:6px}
+  .lead{font-size:17px;line-height:1.6}
+  hr{border:none;border-top:1px solid var(--line);margin:40px 0}
+  .foot{color:var(--soft);font-size:13px;margin-top:44px}
+  strong{font-weight:640}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Sports Cards Near Me — what to steal from Yelp,<br>and what's actually keeping you off page one</h1>
+<p class="sub">2026-08-19 · Built against the real Search Console export (2026-08-07), the traffic PRD, and the live <code>scnm-plan4</code> code · Companion to <code>docs/PRD-traffic-growth-2026-08.md</code></p>
+
+<div class="card verdict">
+  <h3>Start here: "top 5 for card shops near me" is the wrong goal, and it's costing you the winnable queries</h3>
+  <p>Three things stand between you and the top 5 on that term, and only one is fixable:</p>
+  <ul>
+    <li><strong>The map pack owns the top of that page.</strong> <span class="gloss">(The map pack is the box of three local businesses with a map that Google puts above the normal blue links on any "near me" search.)</span> It's reserved for businesses with a physical address matching the search. A directory site structurally cannot appear in it — ever.</li>
+    <li><strong>The organic top 5 underneath is Yelp, Trading Card Database, and chamberofcommerce.com</strong> — sites with 15–25 years of accumulated authority.</li>
+    <li><strong>SCNM is roughly three weeks old in Google's eyes with almost no inbound links.</strong> No title rewrite moves a three-week-old site past Yelp.</li>
+  </ul>
+  <p><strong>The winnable version:</strong> the searches with <em>no</em> map pack, where a directory with real content genuinely beats Yelp — because on these Yelp is thin. <em>"best card shops in toronto" · "card shows ontario 2026" · "where to sell sports cards canada" · "card grading companies canada" · "what does psa grading cost in canada"</em>. Same buyers, winnable pages, and a higher share of the clicks because nothing is sitting above you stealing them.</p>
+</div>
+
+<h2>The bug I found on the way in — fix this first</h2>
+
+<div class="card fix">
+  <div class="hd"><span class="num">!</span><h3>Every page promises "hours" in the Google snippet. Not one of the 689 shops has hours data.<span class="tag t-red">Breaks trust</span></h3></div>
+  <p>The store-page description template reads <em>"Address, hours, phone, and what they carry."</em> The city-page title suffix is literally <code>Hours, Map &amp; Directions</code>. I counted the field across the live data file:</p>
+  <div class="snip">stores: 689
+  with an "hours" field:  0  (0%)
+  rating:               637  (92%)
+  phone:                515  (74%)
+  website:              508  (73%)</div>
+  <p>So a searcher looking for "is Rednails2 open today" sees a snippet promising hours, clicks, finds no hours, and leaves in four seconds. Google watches that pattern <span class="gloss">(a click that bounces straight back to the results page is a strong negative signal)</span> and it is happening across roughly 930 pages.</p>
+  <p><strong>Two ways out, and you should do both:</strong></p>
+  <ul>
+    <li><strong>Stop promising it today</strong> — pull the word "hours" from both templates until the data exists. Ten minutes of work, immediate stop-loss.</li>
+    <li><strong>Then actually get hours.</strong> Google Places returns <code>opening_hours</code> on the same API call that already fills your ratings — the refresh script exists and runs monthly for free. Store it as structured day-by-day data, not one text blob, and it unlocks three separate wins at once: proper <code>openingHoursSpecification</code> markup <span class="gloss">(machine-readable opening times Google reads directly)</span>, an <strong>"Open now"</strong> badge, and an <code>/open-sunday/</code> filter page. And "is X open" / "X hours" is <em>precisely</em> the shop-name query your own PRD correctly identified as the one a directory <em>can</em> win against the shop's own website.</li>
+  </ul>
+</div>
+
+<h2>What to steal from Yelp — six things, ranked</h2>
+
+<div class="card">
+  <div class="hd"><span class="num">1</span><h3>The title formula: a shortlist with a year, not a complete list<span class="tag t-grn">Cheap</span></h3></div>
+  <p>Here are the three titles competing on the same search, verbatim from the live results:</p>
+  <div class="snip">Yelp        TOP 10 BEST Sports Card Shops in Toronto, ON, Canada - Updated 2026
+TorontoBR   Top Card Shops in Toronto 2026 🏆 7 Options | 6924+ Reviews
+SCNM        37 Card Shops in Toronto, ON — Rated &amp; Mapped, Updated Daily</div>
+  <p>Yours promises <em>completeness</em>. Theirs promise <em>a shortlist somebody already vetted</em>. To a searcher, "37 shops" is homework; "top 8" is an answer. Both competitors also put the literal <strong>year</strong> in — "Updated Daily" is a claim, "2026" is a date a human instinctively trusts.</p>
+  <p>And you can out-credential both of them honestly. Toronto's 36 rated shops carry <strong>18,796 Google reviews between them</strong> — nearly three times the number Toronto Best Rated is bragging about, and it's real data you already hold:</p>
+  <div class="snip">Top 8 Card Shops in Toronto (2026) — Ranked Across 18,796 Google Reviews</div>
+  <p>Where a city has no shop clearing the 20-review bar, fall back to the current wording. The publishing standards already cover that case, so this doesn't break the no-fake-"best" rule.</p>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="num">2</span><h3>Turn your filters into real pages — this is Yelp's actual scale engine<span class="tag t-grn">Biggest structural miss</span></h3></div>
+  <p>Yelp turns every filter into its own web address that Google can find and rank. Your city-page filter chips (Pokémon, Buys Collections, Hockey) are <strong>JavaScript only</strong> — they hide and show cards on screen but never create a page, so they earn exactly zero search traffic. <span class="gloss">(Google only ranks things that live at their own address. A filter that just rearranges what's already on screen is invisible to it.)</span></p>
+  <p>You already own the tag data. Generating the filters as real pages:</p>
+  <table>
+    <tr><th>New page</th><th>The search it answers</th></tr>
+    <tr><td><code>/ontario/toronto/pokemon/</code></td><td>"pokemon card shop toronto" — <em>a named PRD target, currently unmeasured</em></td></tr>
+    <tr><td><code>/ontario/toronto/buys-collections/</code></td><td>"sell sports cards toronto", "who buys card collections toronto"</td></tr>
+    <tr><td><code>/ontario/toronto/hockey/</code></td><td>"hockey card shop toronto"</td></tr>
+    <tr><td><code>/ontario/toronto/open-sunday/</code></td><td>"card shops open sunday" <em>(needs the hours fix above)</em></td></tr>
+  </table>
+  <p>247 cities × the filters that clear a minimum bar ≈ <strong>300–400 new pages</strong>, every one matching a real search pattern, every one built from data you already have, <strong>zero writing</strong>. This is literally how Yelp got to millions of pages.</p>
+  <p><strong>One guard rail:</strong> only build the page when at least three shops match. Below that you're making thin pages, and a pile of thin pages drags the whole site down rather than lifting it.</p>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="num">3</span><h3>Words about each shop — the thing you have none of<span class="tag t-amb">Slow, highest ceiling</span></h3></div>
+  <p>Yelp's real moat was never the listings. It's the review text. Your 689 store pages are about 85% identical template — same headings, same field labels, only the name and address change. Google's helpful-content system reads near-duplicate templated pages as low value, and that is the most likely reason store pages sit at <strong>position 9 with a 0.48% click rate</strong> and don't improve. They rank; they just don't earn the click, and they give Google no reason to promote them.</p>
+  <p>You can't copy Google's review text — that's against their terms. Two routes that are yours to take:</p>
+  <ul>
+    <li><strong>One human paragraph per shop.</strong> Two or three honest sentences pulled from the shop's own site and Instagram: what they actually stock, how big the floor is, whether they run breaks on Friday nights, whether it's appointment-only. Claude researches and drafts in batches; you approve. <strong>Start with the ~150 shops in the top 20 cities</strong>, not all 689 — the tail can wait.</li>
+    <li><strong>Collect your own.</strong> A one-line "been here? what's it like?" box on each store page. Slow to fill, but it's the only user-written-content play in Canadian card retail, and once it exists nobody can copy it from a spreadsheet.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="num">4</span><h3>"People also searched for" — links sideways, not just up<span class="tag t-grn">Cheapest win here</span></h3></div>
+  <p>Yelp buries every page in links to sibling categories, nearby neighbourhoods, related searches. SCNM has breadcrumbs and essentially nothing else. That is very likely why your <strong>11 guides sit at median position 16.5 — page two — despite having double the reach per page of anything else on the site.</strong> Almost nothing on your own site links to them, so Google reads them as afterthoughts.</p>
+  <p>Add to <strong>every store page:</strong> the five nearest shops (you have latitude and longitude on all 689), other shops in the same city, upcoming shows within 100km, and the guides that match its tags. Add to <strong>every city page:</strong> nearest cities with shops, the province page, shows in that province, the sell page for that city.</p>
+  <p>No new writing. Pure plumbing. It is the standard fix for page-two pages that deserve page one, and it's the single best use of two hours on this whole list.</p>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="num">5</span><h3>Pictures<span class="tag t-grn">Cheap</span></h3></div>
+  <p>Every store page has zero images. Yelp pages are photo-dense. No images means no Google Images traffic, no eligibility for the image-carrying result formats, and a page that reads as thin to both a human and a crawler. You already ship <code>logos.json</code> with <strong>332 shop logos</strong>. Shop logo plus a static map thumbnail beats an empty page, and it's a build-time change, not a content project.</p>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="num">6</span><h3>Yelp runs two pages where you run one<span class="tag t-grn">Cheap</span></h3></div>
+  <p>Yelp ranks separately for "Trading Card Shops Toronto" <em>and</em> "Sports Card Shops Toronto" — same shops underneath, two pages, two head terms captured. Your Pokémon section is the beginning of this pattern; the filter pages in item 2 finish it.</p>
+</div>
+
+<h2>The thing the PRD never mentions once</h2>
+
+<div class="card verdict">
+  <h3>Backlinks. That's why you're at 9 instead of 3.</h3>
+  <p><span class="gloss">A backlink is simply another website linking to yours. It's the strongest single thing Google uses to decide who ranks 1–5 versus 9–10 — the web's version of a professional reference.</span></p>
+  <p>Your current 90-day plan is <strong>100% on-page work</strong> — titles, guides, structured markup, shows. All of it is good and all of it should ship. None of it touches the thing actually pinning you at position 9.</p>
+  <p>Read the evidence the other way round: you're at position 9–10 <em>because the on-page work is already decent</em>. Good titles, good markup, real data, and still page-one-bottom is the exact signature of an authority gap. Yelp is not beating you on page quality for "card shops in Toronto" — its Toronto page is worse than yours. It's beating you on twenty years of links.</p>
+  <p><strong>Sources you already have standing to ask:</strong></p>
+  <ul>
+    <li><strong>Show organizers.</strong> You list their shows free and send them buyers. Capital Trade Shows alone is 62% of your calendar. Ask for a link back on their site — highest-quality link available to you and it costs one email.</li>
+    <li><strong>The shops.</strong> A "Listed on Sports Cards Near Me" badge with copy-paste code, offered to the 560 shops clearing 20 reviews. A 5% take-up is 28 perfectly on-topic links.</li>
+    <li><strong>Your own properties.</strong> DisplayMyCard, Slab Savvy CPA, the Tax Playbook — link them to SCNM guides where it's genuinely relevant. Free, immediate, fully under your control.</li>
+    <li><strong>Canadian card communities.</strong> r/hockeycards, r/sportscards, the Canadian card Facebook groups. Not spam — a national shows calendar and a grading-cost guide are things those groups actively want, posted as a person.</li>
+    <li><strong>Local press and city event listings.</strong> A national card-show calendar is exactly what community papers and city what's-on pages link to without being asked twice.</li>
+  </ul>
+</div>
+
+<h2>Two corrections to the current plan</h2>
+
+<div class="card note">
+  <h3>FAQ markup will not produce anything visible in Google</h3>
+  <p>In August 2023 Google restricted FAQ rich results <span class="gloss">(the expandable question list that used to appear under a search result)</span> to well-known government and health sites only. Your <code>FAQPage</code> markup is still worth keeping — AI answer engines read it, and it's genuinely part of the GEO goal — but <strong>the PRD shouldn't count it toward the click-through target</strong>. It will not show as expandable questions.</p>
+</div>
+
+<div class="card note">
+  <h3>Worth a five-minute check: the star ratings in your store markup</h3>
+  <p>Store pages declare <code>aggregateRating</code> — the star score and review count in machine-readable form. Google's own policy says a business page shouldn't mark up ratings it collected from somewhere else, and yours come from Google Places. In practice this is usually just ignored rather than punished, but it can occasionally trigger a site-wide penalty. Low probability, bad downside, and it's free to check: open Search Console → <em>Enhancements</em> and confirm nothing is throwing errors there.</p>
+</div>
+
+<hr>
+
+<h2>If you only do three things</h2>
+
+<div class="card win">
+  <table>
+    <tr><th style="width:34px">#</th><th>Move</th><th style="width:78px">Your time</th><th>Why it's above everything else</th></tr>
+    <tr>
+      <td><strong>0</strong></td>
+      <td><strong>Drop the "hours" promise</strong> from the title and description templates</td>
+      <td>10 min</td>
+      <td>You are currently promising 930 pages' worth of data you don't have. Stop the bleeding before doing anything clever.</td>
+    </tr>
+    <tr>
+      <td><strong>1</strong></td>
+      <td><strong>Internal linking pass</strong> — nearby shops, nearby cities, related guides, related shows</td>
+      <td>~2 h</td>
+      <td>Lifts the 11 guides off page two, where they're stranded despite being your best-reach pages. Zero new content. Compounds with every other item.</td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td><strong>Indexable filter pages</strong> — Pokémon, buys-collections, hockey, per city</td>
+      <td>~3 h</td>
+      <td>Turns data you already own into ~350 pages against search patterns that demonstrably exist. The Yelp lever, and it needs no writing.</td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td>
+      <td><strong>Link outreach</strong> — show organizers first, then the shop badge</td>
+      <td>~4 h, ongoing</td>
+      <td>The only item on this page that addresses why you rank 9 instead of 3. Everything else optimises a ceiling this raises.</td>
+    </tr>
+  </table>
+</div>
+
+<p class="foot">Everything Yelp does that you don't is downstream of those four. The guides and shows workstreams in the PRD stay as they are — they're right — but they're being asked to do a job that only links can do.</p>
+
+</div>
+</body>
+</html>
