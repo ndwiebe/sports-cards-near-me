@@ -26,7 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-27 | Fable → Sonnet build → Opus review, SST cwd | **lib** + **data** | `scripts/refresh-ratings.py`, `src/data/redirects.json`, new files in `docs/research/` | **Taking over a stale claim** — the prior Codex-via-Opus row produced no payload and no process was running (Nathan's usage limit reset mid-run). Restarting Plan 14 fresh. |
 
 ## Queued — claimed but not started
 
@@ -132,3 +131,19 @@ Full cause, verification and a reappliable patch:
   `9c17594f`, `53239b57`, `69919ce3`.
 - **2026-08-27** — *(earlier)* TCDB show import 165→162 after fixing three data defects
   (`7af64570`).
+- **2026-08-27** — *(Sonnet build, took over a stale Plan 14 claim — the prior
+  Codex-via-Opus attempt only committed the plan doc itself, no process was running)*
+  **Plan 14 done** (`09a42c54`) — closure-detection groundwork + the two show corrections. Part A:
+  `places.businessStatus` added to `refresh-ratings.py`'s field mask, `CLOSED_PERMANENTLY`
+  now routes to a new `docs/research/closure-review.csv` for human review; no `status`
+  field anywhere, scan not run (key is a CI secret). Part B: emitted
+  `docs/research/2026-08-27-plan14-sheet-payload.csv` (3 rows — Leduc rename ×2, Ottawa
+  fold-in ×1) for Opus to write to the sheet; added 3 `redirects.json` entries for the
+  changed slugs (derived via the repo's own `slugify`, not hand-written). Two notes for
+  whoever reviews the payload: (1) the plan's checklist said "4 rows total" but the URL
+  fix (B4) turned out to be the *same physical row* as the Ottawa fold (B2) — capitaltradeshows.com
+  only appears on that one row — so it's merged into 3 rows rather than a 4th duplicate;
+  (2) the redirect targets are the shows' **city pages**, not the new show slugs, because
+  the sheet hasn't been written yet so the new slugs aren't live — pointing a redirect at
+  a URL that doesn't exist would be worse than the 404. `npm run typecheck && npm test`
+  (270/270, `redirects.test.ts` unmodified and green) and `npm run build` all pass.
