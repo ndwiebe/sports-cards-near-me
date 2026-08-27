@@ -66,27 +66,28 @@ const payload = JSON.stringify([
     registerMap(shell, handle);
   }
 
-  // Mapbox is ~490 KB, so it mounts only as the shell nears the viewport —
-  // the initial paint never waits on it. A shell hidden behind the mobile
-  // List/Map toggle intersects the moment the toggle reveals it, so no extra
-  // wiring there. Without a token mountMap collapses the shell to the
-  // fallback text; do that immediately rather than as it scrolls into view.
+  // Mapbox is ~490 KB, so it mounts only once the shell starts entering the
+  // viewport — the initial paint never waits on it. No lookahead margin: on a
+  // phone the home map sits 35px below the fold, and any margin that reaches
+  // it re-joins Mapbox to the load window and gives back the LCP win; the
+  // loading scenery covers the beat between scroll and mount. A shell hidden
+  // behind the mobile List/Map toggle intersects the moment the toggle
+  // reveals it, so no extra wiring there. Without a token mountMap collapses
+  // the shell to the fallback text; do that immediately rather than as it
+  // scrolls into view.
   const token = import.meta.env.PUBLIC_MAPBOX_TOKEN;
   for (const shell of document.querySelectorAll<HTMLElement>('.map-shell')) {
     if (token === undefined || token === '' || !('IntersectionObserver' in window)) {
       void mountShell(shell);
       continue;
     }
-    const io = new IntersectionObserver(
-      (entries, observer) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          observer.unobserve(entry.target);
-          void mountShell(entry.target as HTMLElement);
-        }
-      },
-      { rootMargin: '200px' },
-    );
+    const io = new IntersectionObserver((entries, observer) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        void mountShell(entry.target as HTMLElement);
+      }
+    });
     io.observe(shell);
   }
 </script>
