@@ -1,4 +1,20 @@
+# READY TO PASTE: rows 2-3 (Leduc). HOLD row 4 (Ottawa) — likely a duplicate, not a rename. See note below.
+# The `slug` column is reference only — it's the CURRENT slug to find the row by, not a sheet column.
+# Paste columns B onward (Show Name through Recurring) into the matching row; do not paste column A.
 slug,Show Name,City,Province,Venue,Address,StartDate,EndDate,Hours,Admission,Website,SourceUrl,Recurring
 monthly-card-show-leduc-2026-08-29,The Hobby Spot Monthly Card Show,Leduc,AB,The Hobby Spot,#4 6201 50 St,2026-08-29,,10:00 AM - 4:00 PM,,https://thehobbyspot.ca/rent-a-table/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=28958,
 monthly-card-show-leduc-2026-09-26,The Hobby Spot Monthly Card Show,Leduc,AB,The Hobby Spot,#4 6201 50 St,2026-09-26,,10:00 AM - 4:00 PM,,https://thehobbyspot.ca/rent-a-table/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=28959,
-monthly-sports-card-comic-book-show-ottawa-2026-09-13,Capital Trade Shows: Card & Comic Show,Ottawa,ON,Nepean Sportsplex CURLING RINK,1701 Woodroffe Ave. S,2026-09-13,,10:00 AM - 3:00 PM,,https://www.capitaltradeshows.ca/schedule,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=16940,
+monthly-sports-card-comic-book-show-ottawa-2026-09-13,HOLD — do not paste,Ottawa,ON,Nepean Sportsplex CURLING RINK,1701 Woodroffe Ave. S,2026-09-13,,10:00 AM - 3:00 PM,,https://www.capitaltradeshows.ca/schedule,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=16940,
+#
+# WHY ROW 4 IS ON HOLD (found by Opus review, verified independently 2026-08-27):
+# This TCDb row (single-day, Sep 13, venue "Nepean Sportsplex CURLING RINK") and the sheet's
+# own existing row "capital-trade-shows-card-comic-show-ottawa-2026-09-12" (Sep 12-13 range,
+# venue "Nepean Sportsplex (Curling Rink)") are almost certainly ONE real event, scraped twice
+# from two different sources (TCDb vs gradexmedia/events.com) with slightly different date
+# formatting. Plan 14 said "fold in" (rename this row to match the series) — but if it's a
+# duplicate, the correct sheet action is DELETE this row and redirect its old URL to
+# /shows/capital-trade-shows-card-comic-show-ottawa-2026-09-12/ instead. Renaming in place
+# would publish two "Capital Trade Shows: Card & Comic Show" listings for the same weekend at
+# the same curling rink — invisible today only because the titles currently differ.
+# This is Nathan's call, not a code decision. Once he confirms delete-vs-rename, redo this row
+# and add the matching src/data/redirects.json entry in the SAME change that writes the sheet.
