@@ -537,10 +537,10 @@
     "recurring": "monthly"
   },
   {
-    "slug": "sports-cards-and-collectible-show-st-catherines-2026-09-12",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-09-12",
     "name": "Sports Cards and Collectible Show",
-    "city": "St. Catherines",
-    "citySlug": "st-catherines",
+    "city": "St. Catharines",
+    "citySlug": "st-catharines",
     "province": "ON",
     "venue": "Holiday Inn & Suites",
     "startDate": "2026-09-12",
@@ -677,8 +677,8 @@
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=16940"
   },
   {
-    "slug": "holiday-inn-and-suites-st-catharines-2026-09-13",
-    "name": "Holiday Inn and Suites",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-09-13",
+    "name": "Sports Cards and Collectible Show",
     "city": "St. Catharines",
     "citySlug": "st-catharines",
     "province": "ON",
@@ -686,18 +686,6 @@
     "startDate": "2026-09-13",
     "hours": "9:00 AM - 2:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21192",
-    "recurring": "monthly"
-  },
-  {
-    "slug": "sports-cards-and-collectible-show-st-catharines-2026-09-13",
-    "name": "Sports Cards and Collectible Show",
-    "city": "St.Catharines",
-    "citySlug": "st-catharines",
-    "province": "ON",
-    "venue": "Holiday Inn & Suites",
-    "startDate": "2026-09-13",
-    "hours": "9:00 AM - 2:00 PM",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18751",
     "recurring": "monthly"
   },
   {
@@ -1224,10 +1212,10 @@
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=30643"
   },
   {
-    "slug": "sports-cards-and-collectible-show-st-catherines-2026-10-11",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-10-11",
     "name": "Sports Cards and Collectible Show",
-    "city": "St. Catherines",
-    "citySlug": "st-catherines",
+    "city": "St. Catharines",
+    "citySlug": "st-catharines",
     "province": "ON",
     "venue": "Holiday Inn & Suites",
     "startDate": "2026-10-11",
@@ -1419,8 +1407,8 @@
     "recurring": "monthly"
   },
   {
-    "slug": "holiday-inn-and-suites-st-catharines-2026-10-18",
-    "name": "Holiday Inn and Suites",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-10-18",
+    "name": "Sports Cards and Collectible Show",
     "city": "St. Catharines",
     "citySlug": "st-catharines",
     "province": "ON",
@@ -1428,18 +1416,6 @@
     "startDate": "2026-10-18",
     "hours": "9:00 AM - 2:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21193",
-    "recurring": "monthly"
-  },
-  {
-    "slug": "sports-cards-and-collectible-show-st-catharines-2026-10-18",
-    "name": "Sports Cards and Collectible Show",
-    "city": "St.Catharines",
-    "citySlug": "st-catharines",
-    "province": "ON",
-    "venue": "Holiday Inn & Suites",
-    "startDate": "2026-10-18",
-    "hours": "9:00 AM - 2:00 PM",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18752",
     "recurring": "monthly"
   },
   {
@@ -1820,10 +1796,10 @@
     "recurring": "monthly"
   },
   {
-    "slug": "sports-cards-and-collectible-show-st-catherines-2026-11-15",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-11-15",
     "name": "Sports Cards and Collectible Show",
-    "city": "St. Catherines",
-    "citySlug": "st-catherines",
+    "city": "St. Catharines",
+    "citySlug": "st-catharines",
     "province": "ON",
     "venue": "Holiday Inn & Suites",
     "startDate": "2026-11-15",
@@ -1908,7 +1884,7 @@
   {
     "slug": "sports-cards-and-collectible-show-st-catharines-2026-11-22",
     "name": "Sports Cards and Collectible Show",
-    "city": "St.Catharines",
+    "city": "St. Catharines",
     "citySlug": "st-catharines",
     "province": "ON",
     "venue": "Holiday Inn & Suites",
@@ -1966,8 +1942,8 @@
     "recurring": "monthly"
   },
   {
-    "slug": "holiday-inn-and-suites-st-catharines-2026-11-29",
-    "name": "Holiday Inn and Suites",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-11-29",
+    "name": "Sports Cards and Collectible Show",
     "city": "St. Catharines",
     "citySlug": "st-catharines",
     "province": "ON",
@@ -2188,8 +2164,8 @@
     "recurring": "monthly"
   },
   {
-    "slug": "holiday-inn-and-suites-st-catharines-2026-12-20",
-    "name": "Holiday Inn and Suites",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-12-20",
+    "name": "Sports Cards and Collectible Show",
     "city": "St. Catharines",
     "citySlug": "st-catharines",
     "province": "ON",
@@ -2197,18 +2173,6 @@
     "startDate": "2026-12-20",
     "hours": "9:00 AM - 2:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21195",
-    "recurring": "monthly"
-  },
-  {
-    "slug": "sports-cards-and-collectible-show-st-catharines-2026-12-20",
-    "name": "Sports Cards and Collectible Show",
-    "city": "St.Catharines",
-    "citySlug": "st-catharines",
-    "province": "ON",
-    "venue": "Holiday Inn & Suites",
-    "startDate": "2026-12-20",
-    "hours": "9:00 AM - 2:00 PM",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18754",
     "recurring": "monthly"
   },
   {
@@ -2236,10 +2200,10 @@
     "recurring": "monthly"
   },
   {
-    "slug": "sports-cards-and-collectible-show-st-catherines-2026-12-27",
+    "slug": "sports-cards-and-collectible-show-st-catharines-2026-12-27",
     "name": "Sports Cards and Collectible Show",
-    "city": "St. Catherines",
-    "citySlug": "st-catherines",
+    "city": "St. Catharines",
+    "citySlug": "st-catharines",
     "province": "ON",
     "venue": "Holiday Inn & Suites",
     "startDate": "2026-12-27",
