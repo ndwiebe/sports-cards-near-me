@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-27 | Codex (gpt-5.6-sol), driven by Opus, `scnm-plan4` | **data** | READS `src/data/shows.json`; WRITES only new files under `docs/research/` | Plan 13 — enrich the 162 TCDB shows from their detail pages. Produces a sheet payload for review; **does not write the sheet**. Opus reviews, then does the sheet write separately. |
 
 ## Queued — claimed but not started
 
