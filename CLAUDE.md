@@ -31,13 +31,35 @@ you intended.
 ⚠️ `bake:shows` and `bake:resellers` carry **no row-count guard** (only stores does). A
 malformed sheet silently deploys an empty calendar. Check counts after any bake.
 
-### 2. Pushing to `redesign` deploys to production.
+### 2. Pushing `redesign` does NOT publish. Production needs a second, manual step.
 
-`.github/workflows/site.yml` triggers on push to `redesign`, always checks out `redesign`,
-and publishes to GitHub Pages. There is also a **daily 09:00 UTC rebuild** — so a bad sheet
-edit ships even with no push at all. `main` is not the deploy branch.
+The deploy is split, and it is genuinely confusing — verified 2026-08-27 after a push that
+looked successful and changed nothing on the live site:
 
-CI runs `npm test` before building, so a red test blocks the deploy rather than shipping.
+- `.github/workflows/site.yml` triggers on push to `redesign` and **always builds from
+  `redesign`** (`ref: redesign`), whatever the trigger.
+- The Cloudflare step deploys with `--branch=${{ github.ref_name }}`, so a push from
+  `redesign` produces a **preview** deployment, not production.
+- The `deploy-github-pages` job is gated `if: github.ref == 'refs/heads/main'` — it is
+  **skipped entirely** on a `redesign` push.
+
+So `sportscardsnearme.ca` (GitHub Pages, see `CNAME`) only updates when the workflow runs
+with `github.ref == main` — while still building `redesign`'s code. **To actually ship:**
+
+```bash
+git push origin redesign                      # builds + previews, does NOT publish
+gh workflow run site --ref main               # publishes redesign's build to production
+gh run watch <id> --exit-status
+```
+
+Then **verify against the live URL**, not the build log. A green run on a `redesign` push
+means "built fine", not "shipped".
+
+There is also a **daily 09:00 UTC rebuild**, so a bad sheet edit reaches production with no
+push at all. CI runs `npm test` before building, so a red test blocks the build.
+
+⚠️ This split (build from one branch, publish gated on another) is fragile and worth fixing
+properly rather than remembering.
 
 ### 3. Never `git add -A` / `git add .` — stage explicit paths.
 
