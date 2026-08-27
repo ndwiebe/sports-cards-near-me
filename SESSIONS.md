@@ -31,12 +31,13 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Work | Lane | Plan | Blocked on |
 |---|---|---|---|
-| Capital City closure + `status` field | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | — (the closure scan runs in CI; the Places key is already a repo secret) |
-| Calgary Genesis Centre triple → one 3-day show | **data** (sheet) | same plan, Task 2 | — |
-| Rename Hobby Spot show · fold Ottawa orphan into Capital Trade Shows | **data** (sheet) | same plan, Task 3 | — |
-| `noindex` the empty `/resellers/` pages | **pages** | same plan, Task 4 | — |
-| Titles + meta descriptions on store/city pages | **pages** | not yet written | — |
-| Per-city show pages · metro/"near you" grouping | **pages** + **lib** | not yet written | doorway-page question (see below) |
+| Capital City closure + `status` field | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | groundwork done (Plan 14 Part A) — needs a `workflow_dispatch` run of `ratings-refresh.yml` before the `status` field itself is designed |
+| Calgary Genesis Centre triple → one 3-day show | **data** (sheet) | original data-fixes plan, Task 2 | not started — Plan 14 covered only Leduc/Ottawa (Task 3), not this |
+| **Paste the Leduc rename into the sheet** | **data** (Nathan) | `docs/research/2026-08-27-plan14-sheet-payload.csv` rows 1-2 | ready — Opus-reviewed, redirects go in the SAME change as the paste + rebake |
+| **Ottawa fold-in — Nathan's call needed first** | **data** (Nathan) | same CSV, row 3, marked HOLD | see the CSV's own note: likely a duplicate of the existing `...ottawa-2026-09-12` row (same venue/weekend, two sources), not a rename target. Delete-and-redirect vs. rename-in-place needs a decision before anything is pasted |
+| ~~`noindex` the empty `/resellers/` pages~~ | — | — | ✅ shipped 2026-08-27, `ede35311` |
+| ~~Titles + meta descriptions on store/city pages~~ | — | — | ✅ shipped 2026-08-25, `8bff32da` — do not redo |
+| Per-city show pages · metro/"near you" grouping | **pages** + **lib** | not yet written | doorway-page question is answered (see below) — but read `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-google-ai-optimization-guidance-vs-our-plan.md` first, it flags per-city page generation as a named spam risk in Google's own words |
 
 ⚠️ **All four data tasks are SHEET edits, not JSON edits.** See `CLAUDE.md` → the three
 things that will burn you. Renaming a show changes its slug, so every rename needs a
@@ -139,11 +140,31 @@ Full cause, verification and a reappliable patch:
   field anywhere, scan not run (key is a CI secret). Part B: emitted
   `docs/research/2026-08-27-plan14-sheet-payload.csv` (3 rows — Leduc rename ×2, Ottawa
   fold-in ×1) for Opus to write to the sheet; added 3 `redirects.json` entries for the
-  changed slugs (derived via the repo's own `slugify`, not hand-written). Two notes for
-  whoever reviews the payload: (1) the plan's checklist said "4 rows total" but the URL
-  fix (B4) turned out to be the *same physical row* as the Ottawa fold (B2) — capitaltradeshows.com
-  only appears on that one row — so it's merged into 3 rows rather than a 4th duplicate;
-  (2) the redirect targets are the shows' **city pages**, not the new show slugs, because
-  the sheet hasn't been written yet so the new slugs aren't live — pointing a redirect at
-  a URL that doesn't exist would be worse than the 404. `npm run typecheck && npm test`
-  (270/270, `redirects.test.ts` unmodified and green) and `npm run build` all pass.
+  changed slugs (derived via the repo's own `slugify`, not hand-written).
+
+- **2026-08-27** — *(Opus review of `09a42c54`)* **Caught a real defect before push: the 3
+  redirects shadowed live show pages.** They keyed on the shows' *current* slugs, which are
+  still live (the sheet hasn't been written), and Astro's redirects config wins over the
+  generated page — so the build silently swapped all three real show pages for redirect
+  stubs. One was Leduc's Aug 29 show, which was **that coming weekend**. Page count
+  1471 → 1468, all three dropped from the sitemap, the Event markup shipped earlier that
+  same day went with them. `redirects.test.ts` stayed green because its shadow-check only
+  matches `/store/...` paths. Also confirmed the "3 rows not 4" merge was correct (verified
+  `capitaltradeshows.com` appears exactly once in `shows.json`, on the same row as the
+  fold-in) and flagged a second, smaller gap: `closure-review.csv` was written every run but
+  never reached the monthly PR. **Full review, including a likely-duplicate finding on the
+  Ottawa row (see below), in the task transcript — not filed as a separate note.**
+
+- **2026-08-27** — *(Fable, fix + verify)* Removed the 3 shadowing redirects (`0615115f`) and
+  proved it with a build: page count 1471 → 1468 → 1471, all three URLs confirmed serving
+  real content again and back in the sitemap — not just re-counted. Added
+  `closure-review.csv` to `ratings-refresh.yml`'s summary and `add-paths` (same commit).
+  **Independently re-verified the Ottawa duplicate finding** by reading both show records
+  directly: `...ottawa-2026-09-12` (Sep 12–13, "Nepean Sportsplex (Curling Rink)") and the
+  TCDb row being folded in (Sep 13, "Nepean Sportsplex CURLING RINK") are almost certainly
+  one real event from two scrapes. Marked that row `HOLD` in the payload CSV with the
+  reasoning inline (`3c09f41a`) rather than deciding it — delete-and-redirect vs.
+  rename-in-place changes what gets pasted, and that's Nathan's call. Leduc rows marked
+  ready. `npm run typecheck && npm test` (270/270) and `npm run build` (1471 pages) all pass
+  on both fix commits. **Nothing sheet-side has been written — the CSV is guidance, not an
+  action taken.**
