@@ -78,3 +78,21 @@ export function rowToReseller(cells: GvizRow): ResellerRecord | null {
     verifiedSince: isoDate(cells[COL.verifiedDate]),
   };
 }
+
+/**
+ * How many published resellers the network needs before its pages ask to be indexed.
+ *
+ * `/resellers/` and `/resellers/join/` returned HTTP 200, sat in the sitemap, and read
+ * "Verified reseller profiles are coming" — a coming-soon page submitted for indexing,
+ * which Google's helpful-content guidance calls out directly. The pages stay reachable
+ * for people; they just stop asking to be ranked until there is something on them.
+ *
+ * Conditional rather than hardcoded so this reverses itself the moment the network is
+ * seeded — nobody has to remember to come back and delete a flag.
+ */
+export const MIN_RESELLERS_TO_INDEX = 5;
+
+/** True while the reseller pages have too little on them to be worth indexing. */
+export function resellersTooThinToIndex(count: number): boolean {
+  return count < MIN_RESELLERS_TO_INDEX;
+}

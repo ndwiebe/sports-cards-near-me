@@ -6,6 +6,10 @@ import type { ResellerRecord } from '../../lib/resellers';
 import { PROVINCES } from '../../lib/types';
 import type { ProvinceCode } from '../../lib/types';
 import { initialsOf } from '../../lib/map-data';
+import { resellersTooThinToIndex } from '../../lib/resellers';
+
+// Coming-soon pages should not ask to be indexed. Reverses itself once seeded.
+const thin = resellersTooThinToIndex((resellersJson as unknown[]).length);
 
 const resellers = resellersJson as ResellerRecord[];
 const provinceOrder = Object.keys(PROVINCES) as ProvinceCode[];
@@ -14,6 +18,7 @@ const groups = provinceOrder
   .filter((g) => g.resellers.length > 0);
 ---
 <Base
+  noindex={thin}
   title="Verified Resellers | Sports Cards Near Me"
   description="Canada's verified card resellers — trusted sellers without a storefront, checked by a human before listing."
 >

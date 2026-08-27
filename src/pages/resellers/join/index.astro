@@ -2,6 +2,11 @@
 import Base from '../../../layouts/Base.astro';
 import { RESELLER_FORM_URL } from '../../../lib/forms';
 import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
+import resellersJson from '../../../data/resellers.json';
+import { resellersTooThinToIndex } from '../../../lib/resellers';
+
+// Coming-soon pages should not ask to be indexed. Reverses itself once seeded.
+const thin = resellersTooThinToIndex((resellersJson as unknown[]).length);
 
 // Set by the controller once the Google Form exists (see plan §0 pre-work).
 // While it is null the page renders the email fallback — ship either way.
@@ -17,6 +22,7 @@ const CHECKLIST = [
 ];
 ---
 <Base
+  noindex={thin}
   title="Become a Verified Reseller | Sports Cards Near Me"
   description="Apply for the SCNM Verified badge — for card sellers with an established track record and no storefront."
 >
