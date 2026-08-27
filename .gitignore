@@ -12,3 +12,6 @@ genimg-out/
 # in the diff is the point — an ignore here made that PR come out empty.
 
 __pycache__/
+
+# Claude Code local settings (machine-specific, never committed)
+.claude/settings.local.json
