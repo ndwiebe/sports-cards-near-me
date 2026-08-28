@@ -484,6 +484,18 @@ export function provinceFaqs(provinceName: string, cities: CityGroup[]): FaqItem
  * Every clause is derived. Nothing is asserted that the data doesn't hold.
  */
 export function storeAnswerCapsule(store: Store, provinceName: string): string {
+  // A closed shop gets past tense and nothing else. Every sentence below is a
+  // present-tense claim — "is a sports card shop", "It holds a 4.7 star rating",
+  // "Listings show hockey" — and asserting any of them about a shop that has shut
+  // is the same class of error as the weighted-rank-called-a-rating bug that reached
+  // 351 pages. The rating in particular is a live-business signal; it stays off.
+  if (store.status === 'closed') {
+    const where = store.address !== undefined ? ` It was located at ${store.address}.` : '';
+    return (
+      `${store.name} was a sports card shop in ${store.city}, ${provinceName}. ` +
+      `It has permanently closed and no longer appears in our listings.${where}`
+    );
+  }
   const parts: string[] = [
     `${store.name} is a sports card shop in ${store.city}, ${provinceName}, listed on Sports Cards Near Me.`,
   ];

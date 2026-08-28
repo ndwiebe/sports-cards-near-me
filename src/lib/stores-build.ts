@@ -37,6 +37,24 @@ export function rowToStore(cells: GvizRow): Store | null {
     sports: splitList(cells[9]?.v),
     lat,
     lng,
+    ...(isClosed(cells[12]?.v) ? { status: 'closed' as const } : {}),
+  };
+}
+
+// Column 12 (`Status`) — optional and additive. A sheet without the column yields
+// undefined here, which reads as open, so this is safe to ship before the column
+// exists. Only an explicit "closed" counts: anything else (blank, "open", a typo,
+// a stray note) leaves the shop listed, because the failure that matters is
+// unlisting a live business, not listing a dead one for another month.
+export function isClosed(raw: unknown): boolean {
+  return typeof raw === 'string' && raw.trim().toLowerCase() === 'closed';
+}
+
+/** Split baked stores into the listed set and the closed set, preserving order. */
+export function splitStores(stores: Store[]): { open: Store[]; closed: Store[] } {
+  return {
+    open: stores.filter((s) => s.status !== 'closed'),
+    closed: stores.filter((s) => s.status === 'closed'),
   };
 }
 

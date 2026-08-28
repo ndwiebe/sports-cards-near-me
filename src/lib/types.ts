@@ -32,4 +32,10 @@ export interface Store {
   sports: string[];
   lat: number;
   lng: number;
+  // Absent means open. Only ever set to 'closed' from the sheet, by a human who
+  // checked — never written from Google's businessStatus, which reports moved and
+  // rebranded shops as permanently closed too. Closed shops keep their page (with a
+  // banner and noindex) but are split out of stores.json entirely, so no listing,
+  // count, map or guide can show one. See scripts/bake-stores.ts.
+  status?: 'closed' | undefined;
 }

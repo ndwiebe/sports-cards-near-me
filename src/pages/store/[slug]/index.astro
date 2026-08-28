@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import MapIsland from '../../../components/MapIsland.astro';
 import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
 import storesJson from '../../../data/stores.json';
+import closedStoresJson from '../../../data/stores-closed.json';
 import type { Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, storeTitle, faqPageLd, ldJson, storeAnswerCapsule, storeFaqs } from '../../../lib/seo';
@@ -10,12 +11,19 @@ import { sellPageExistsForCity } from '../../../lib/sell';
 import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
 
+// Closed shops keep their page. Someone who searches the shop by name deserves to be
+// told it has closed, rather than hitting a 404 that tells them nothing — and if the
+// closure turns out to be wrong (Google reports moved and rebranded shops as closed
+// too) nothing has to be un-deleted. They are absent from stores.json, so they appear
+// in no listing, count, map or guide; this is the only route that reads them back in.
 export function getStaticPaths() {
-  return (storesJson as Store[]).map((s) => ({ params: { slug: s.slug }, props: { store: s } }));
+  const all = [...(storesJson as Store[]), ...(closedStoresJson as Store[])];
+  return all.map((s) => ({ params: { slug: s.slug }, props: { store: s } }));
 }
 
 interface Props { store: Store }
 const { store } = Astro.props;
+const isClosed = store.status === 'closed';
 const provinceName = PROVINCES[store.province].name;
 const provinceSlug = PROVINCES[store.province].slug;
 const directions = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
@@ -69,8 +77,12 @@ const ld: Record<string, unknown> = {
 <Base
   title={storeTitle(store)}
   description={description}
+  noindex={isClosed}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />
+  {/* No Store schema for a closed shop. It carries an aggregateRating and a
+      telephone, which are live-business signals — emitting them for a shop that
+      has shut tells Google the opposite of what the page says. */}
+  {!isClosed && <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')} />}
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(faqLd)} />
   <nav class="mt-10 text-sm text-muted">
@@ -78,7 +90,22 @@ const ld: Record<string, unknown> = {
   </nav>
   <h1 class="mt-3 text-5xl md:text-7xl">{store.name}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
-  {store.rating !== undefined && (
+  {isClosed && (
+    <aside class="mt-6 max-w-2xl rounded-xl border border-bord bg-panel p-5" data-testid="closed-notice">
+      <p class="font-display text-base uppercase tracking-wide text-gold">Permanently closed</p>
+      <p class="mt-2 max-w-prose text-sm text-paper/85">
+        This shop has closed. Its page is kept so the address and contact details stay findable,
+        but it no longer appears in our listings for {store.city}.
+      </p>
+      <p class="mt-3 text-sm">
+        <a href={`/${provinceSlug}/${store.citySlug}/`} class="text-prizm hover:underline">See card shops still open in {store.city} &rarr;</a>
+      </p>
+      <p class="mt-3 text-xs text-muted">
+        Still trading, or did we get this wrong? <a href="/suggest/" class="text-prizm hover:underline">Tell us and we'll put it back</a>.
+      </p>
+    </aside>
+  )}
+  {!isClosed && store.rating !== undefined && (
     <p class="mt-4 text-gold" data-testid="rating">
       ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> · {store.reviewCount} Google reviews</span>}
     </p>
