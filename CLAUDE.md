@@ -61,6 +61,19 @@ push at all. CI runs `npm test` before building, so a red test blocks the build.
 ⚠️ This split (build from one branch, publish gated on another) is fragile and worth fixing
 properly rather than remembering.
 
+**Corollary, hit twice now (`deploy-click-tracker.yml` 2026-08-28, then `site.yml` the same
+day): a workflow file's own DEFINITION — job steps, env vars — is resolved from whichever ref
+a run is dispatched against, not from wherever `checkout` later pulls code from.**
+`PUBLIC_CLICK_TRACKER_URL` was added to `site.yml` on `redesign` and worked there, but
+production dispatches against `main`, and `main`'s copy of `site.yml` predated that line — so
+the live build silently never asked for it. The build didn't fail; it just quietly built
+without a variable that existed and was set correctly, with a fully green run. **Any change to
+a workflow FILE itself (new env var, new job, new step) needs pushing to `main` separately,
+the same as a brand-new workflow does for visibility.** Content changes inside `src/`, `docs/`,
+etc. don't have this problem — `checkout: ref: redesign` handles those correctly regardless of
+which branch triggered the run. It's specifically edits to the `.github/workflows/*.yml` files
+themselves that need the second push.
+
 ### 3. Never `git add -A` / `git add .` — stage explicit paths.
 
 Another session is very likely live in this repo right now and you **cannot detect it**.
