@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-28 | Opus 5 / `scnm-plan4` | **docs** | `docs/research/2026-08-27-enrichment-payload.csv` | Resolving the Ottawa Sep-13 HOLD (Nathan delegated the call) — annotation was lost when `70bedb36` regenerated the payload |
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -35,7 +35,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | Capital City closure + `status` field design | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | ✅ unblocked — full closure scan ran 2026-08-27: **32 of 689 shops CLOSED_PERMANENTLY**, real enough to justify designing the field now. Data sits on branch `chore/ratings-refresh` (the monthly workflow's PR-creation step is blocked by a repo Actions permission, `default_workflow_permissions: read` — flagged to Nathan, not fixed unilaterally, it's repo-wide) |
 | ~~Calgary Genesis Centre triple~~ | — | — | ✅ shipped 2026-08-27 — deleted via direct sheet write (`gws`), not a CSV hand-off. See log. |
 | ~~Leduc rename~~ | — | — | ✅ shipped 2026-08-27, same sheet write |
-| ~~Ottawa fold-in~~ | — | — | ✅ resolved as a DELETE (confirmed duplicate, not a rename) — shipped same write |
+| ~~Ottawa fold-in~~ | — | — | ✅ **CLOSED 2026-08-28** (`a547ddfb`) — Nathan delegated the call. Confirmed DELETE, not rename: the TCDb Sep-13 row is day 2 of `...ottawa-2026-09-12` (Sep 12→13, same curling rink/address/hours/promoter). Settled by a pattern in our own data — all 3 Curling Rink bookings are 2-day with an EndDate, all Hall A&B are 1-day. Row removed from the payload. No site data changed; the existing redirect is safe (source isn't a real show, target is, nothing shadowed). ⚠️ The earlier HOLD marker was **destroyed** by `70bedb36` regenerating the payload — annotations in generated files don't survive. Reasoning now lives in the vault decisions log. |
 | ~~`noindex` the empty `/resellers/` pages~~ | — | — | ✅ shipped 2026-08-27, `ede35311` |
 | ~~Titles + meta descriptions on store/city pages~~ | — | — | ✅ shipped 2026-08-25, `8bff32da` — do not redo |
 | ~~Click tracking (Directions/Call)~~ | — | — | ✅ **LIVE, verified 2026-08-28.** Two sessions converged on the same diagnosis independently (this row's earlier note re: local unpushed `main` commit `22bab42f` is now superseded, not lost — same root cause, different fix commit landed first). Nathan ran `deploy-click-tracker` from the app; it failed on 3 real bugs (checkout ref, a regex that never matched wrangler's real output, a namespace-title mismatch — see the log entry below), fixed in `ea0d7e55` + synced to `main`. Re-run succeeded, Worker live at `https://scnm-click-tracker.dominathan.workers.dev` (spot-checked: OPTIONS→204, malformed POST→400). Repo var `PUBLIC_CLICK_TRACKER_URL` set. First site redeploy still shipped nothing — `main`'s `site.yml` predated the env var line (same "workflow file needs its own sync" bug as the visibility fix, one level up — see `CLAUDE.md` §2 corollary). Fixed in `de192904`, synced to `main`. **Confirmed live** by curling a real store page: both the Worker URL and the `sendBeacon` call are present in the served HTML. Nothing further needed on this item. |
@@ -85,6 +85,27 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Ottawa Sep-13 duplicate closed (`a547ddfb`), and
+  outreach is now formally gated on product readiness.** Nathan delegated the Ottawa call; it was
+  a DELETE, not a rename. The TCDb row is day 2 of a show already listed — decided on a pattern in
+  our own data (all 3 Curling Rink bookings are 2-day with an `EndDate`; all Hall A&B are 1-day)
+  rather than on argument. Chose delete over rename specifically because it needs no slug change,
+  hence no redirect — this repo removed three redirects that were *shadowing live show pages* on
+  2026-08-27 (`0615115f`). Verified the pre-existing TCDb-slug redirect is safe. No site data
+  changed; `shows.json` was already correct.
+  - ⚠️ **Process finding worth more than the fix:** the original `HOLD` marker (`3c09f41a`) was
+    silently destroyed when `70bedb36` regenerated the payload from TCDb. The row returned looking
+    like any other ready-to-paste row. A re-run would have created the duplicate and thrown away
+    the earlier session's work. **An annotation inside a generated file is not a durable decision.**
+    Row is now deleted rather than re-marked, and the reasoning lives outside the repo.
+  - **Outreach: parked, not cancelled.** Nathan's call — hold the 4 drafts and 8 promoter
+    candidates until SCNM is "ready to show off as a legit directory and useful tool". This
+    overrides the monetization analysis's "start now, no traffic bar", which will keep saying
+    otherwise every time it's re-read. Decision note:
+    `~/jarvis-memory/decisions/2026/2026-08-28-scnm-outreach-gated-on-product-readiness.md`.
+    Does **not** block directory-quality work — the 32 closed-but-listed shops are now the most
+    valuable thing on the board, since that's what closes the gate.
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Analyzer now reports position by device
   (`44ec7309`).** Follow-through on today's diagnosis: the monthly read was steering by blended
