@@ -29,6 +29,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | 2026-08-28 | Sonnet A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — own worktree only | Plan 17 quarterly show refresh. Emits a payload; never writes the sheet. |
 | 2026-08-28 | Sonnet B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — own worktree only | Plan 18 monthly Search Console pull. Read-only against GSC. |
 | 2026-08-28 | Opus 5 / `scnm-plan4` | **lib + data + pages** | `types.ts`, `stores-build.ts`, `bake-stores.ts`, `store/[slug]`, `astro.config.mjs` | Closed-shop handling (Nathan approved: keep page + label + drop from counts + noindex). Splitting stores.json so 30 listing consumers need no change |
+| 2026-08-28 | Opus 5 / `scnm-plan4` (Nathan session) | **data + lib** | stores sheet Hours column, NEW `src/lib/store-hours.ts`, NEW `tests/unit/store-hours.test.ts`, `shows.ts` + `shows/[slug]` next | Hours import (632 stores) + opening-hours structured data. ⚠️ Wiring the spec into the `Store` JSON-LD needs `store/[slug]/index.astro`, which the closed-shop session holds — parser is committed and unused until that frees up. Moving to show vendor/table-booking fields next. |
 
 ## Queued — claimed but not started
 
