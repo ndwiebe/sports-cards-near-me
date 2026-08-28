@@ -108,6 +108,14 @@ def format_hours(place: dict | None) -> str:
     return '; '.join(str(line).strip() for line in lines if str(line).strip())
 
 
+def read_closures() -> list[list[str]]:
+    """Existing closure rows, minus the header. Empty when the file isn't there yet."""
+    if not CLOSURES.exists():
+        return []
+    with CLOSURES.open(newline='') as f:
+        return [r for r in list(csv.reader(f))[1:] if r]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--all', action='store_true', help='refresh every store, not just unrated ones')
@@ -181,17 +189,38 @@ def main() -> None:
         w.writerow(['slug', 'Store Name', 'City', 'Province', 'reason'])
         w.writerows(misses)
     CLOSURES.parent.mkdir(parents=True, exist_ok=True)
+    # Merge, never overwrite. The closure file is a CENSUS of the whole directory, but
+    # this script usually runs incrementally (`targets` defaults to unrated stores only),
+    # so most runs look at a small slice. Writing that slice with 'w' silently replaced a
+    # 689-store scan's 32 findings with a 52-store scan's 5 on 2026-08-28 — and because the
+    # workflow force-pushes its branch, git didn't preserve them either. Nothing failed;
+    # the file just quietly got smaller.
+    #
+    # Semantics: a row is a finding awaiting human review, so it survives until a scan that
+    # actually re-checked that store says otherwise. For stores checked THIS run, this run's
+    # verdict wins (added if now closed, dropped if Google no longer says so). Stores this
+    # run didn't look at keep whatever was already recorded.
+    scanned = {s['slug'] for s in targets}
+    kept = [r for r in read_closures() if r and r[0] not in scanned]
+    merged = kept + closures
+    merged.sort(key=lambda r: (r[3], r[2], r[1]))  # province, city, name — stable for review diffs
     with CLOSURES.open('w', newline='') as f:
         w = csv.writer(f)
         w.writerow(['slug', 'Store Name', 'City', 'Province', 'Address', 'Rating', 'Review Count',
                      'Google formattedAddress', 'Google Place ID'])
-        w.writerows(closures)
+        w.writerows(merged)
+    carried = len(kept)
 
     print(f'\ncalls used: {calls} (cap {limit})')
     print(f'  {len(rows)} ratings  -> {OUT.relative_to(ROOT)}')
     print(f'  {len(misses)} unmatched -> {UNMATCHED.relative_to(ROOT)}')
-    if closures:
-        print(f'  {len(closures)} CLOSED_PERMANENTLY -> {CLOSURES.relative_to(ROOT)} — review before touching the sheet, do not unlist on this alone')
+    if merged:
+        scope = 'full directory' if args.all else f'{len(targets)} of {len(stores)} stores'
+        print(f'  {len(merged)} CLOSED_PERMANENTLY -> {CLOSURES.relative_to(ROOT)} — review before touching the sheet, do not unlist on this alone')
+        print(f'    ({len(closures)} found in this run\'s scope: {scope}; {carried} carried over from stores this run did not re-check)')
+        if not args.all:
+            print('    NOTE: this was a partial scan, so the file is a merge, not a fresh census.')
+            print('    Run with --all for a directory-wide closure count.')
     print('  billing: businessStatus is expected to ride free on this call (Essentials tier) — confirm against the actual bill on this first real run, don\'t just trust the comment')
     print('\nNext: spot-check the "Google address" column against each store\'s own address')
     print('before importing — Text Search can match a nearby business of a similar name.')
