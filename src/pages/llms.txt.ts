@@ -13,7 +13,7 @@ import { GUIDES } from '../lib/guides';
 
 export const GET: APIRoute = ({ site }) => {
   const stores = storesJson as Store[];
-  const closedCount = (closedStoresJson as Store[]).length;
+  const closedCount = (closedStoresJson as Store[]).filter((s) => s.status === 'closed').length;
   const shows = showsJson as ShowRecord[];
   const base = (site ?? new URL('https://sportscardsnearme.ca')).origin;
 

@@ -9,7 +9,12 @@ import { isUpcoming } from '../lib/shows';
 import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, MIN_REVIEWS_FOR_TOP, type FaqItem } from '../lib/seo';
 
 const stores = storesJson as Store[];
-const closedCount = (closedStoresJson as Store[]).length;
+// Counted by status, not by file length. stores-closed.json holds every UNLISTED
+// shop, which now includes shops that moved online rather than closing — calling
+// all of them "closures" would be the same overclaim this section exists to avoid.
+const unlisted = closedStoresJson as Store[];
+const closedCount = unlisted.filter((s) => s.status === 'closed').length;
+const onlineOnlyCount = unlisted.filter((s) => s.status === 'online-only').length;
 const shows = showsJson as ShowRecord[];
 
 // Every number on this page is computed, for the same reason the rest of the
@@ -156,8 +161,12 @@ const aboutLd = {
     </p>
     <p>
       Shops don't just quietly vanish when they close. Each one is confirmed individually before it's marked, and{' '}
-      {closedCount} have been so far: pulled out of every listing, ranking and map, with their page kept online and
-      relabelled "permanently closed" instead of deleted, so a search for the shop by name still finds something true.
+      {closedCount} are marked closed today: pulled out of every listing, ranking and map, with their page kept online and
+      relabelled instead of deleted, so a search for the shop by name still finds something true.
+      {onlineOnlyCount > 0 && (
+        <> A further {onlineOnlyCount} {onlineOnlyCount === 1 ? 'has' : 'have'} kept trading online after losing the
+        storefront — those are labelled online-only rather than closed, because the two aren't the same thing.</>
+      )}
     </p>
     <p>
       What we don't yet publish is a "last verified" date on each individual listing — that data doesn't exist yet.

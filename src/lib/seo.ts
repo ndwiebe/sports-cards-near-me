@@ -305,9 +305,14 @@ export function cityAnswerCapsule(city: string, provinceName: string, stores: St
   // "card shops in X" is still a real question. Answering it with "X has 0 sports card
   // shops listed" is technically true and useless; say what happened and hand them on.
   if (stores.length === 0) {
+    // Says neither how many shops there were nor why they went. The first version
+    // asserted "the one we listed has permanently closed", which breaks twice: a
+    // city can have had more than one, and a shop can leave the listings by moving
+    // online rather than closing. Both are wrong in the same direction — stating a
+    // specific fate we haven't checked.
     return (
-      `${city}, ${provinceName} has no card shop currently open — the one we listed has ` +
-      `permanently closed. The nearest open shops are listed below.`
+      `${city}, ${provinceName} has no card shop open for walk-in visits right now. ` +
+      `The nearest open shops are listed below.`
     );
   }
   const total = stores.length;

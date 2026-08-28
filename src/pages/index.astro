@@ -13,7 +13,8 @@ import { toMapResellers } from '../lib/map-data';
 import MapIsland from '../components/MapIsland.astro';
 
 const stores = storesJson as Store[];
-const closedCount = (closedStoresJson as Store[]).length;
+// Only genuine closures — stores-closed.json also holds shops that moved online.
+const closedCount = (closedStoresJson as Store[]).filter((s) => s.status === 'closed').length;
 const resellerPins = toMapResellers(resellersJson as ResellerRecord[], stores);
 const provinces = provincesWithStores(stores);
 const featuredCities = provinces.flatMap((p) =>

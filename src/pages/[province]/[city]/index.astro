@@ -44,7 +44,6 @@ const allCityGroup = citiesIn([...stores, ...(closedStoresJson as Store[])], pro
   .find((c) => c.citySlug === Astro.params.city);
 if (!allCityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
 const cityGroup = { ...allCityGroup, stores: allCityGroup.stores.filter((s) => s.status === undefined) };
-const closedHere = allCityGroup.stores.filter((s) => s.status === 'closed');
 const noneOpen = cityGroup.stores.length === 0;
 // Case-insensitively deduped and A-Z sorted — a sheet typo like "Grading services" vs
 // "Grading Services" must collapse to one chip, not render both. See commit 73e41802.
