@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-28 | Opus 5 / `scnm-plan4` | **lib + data + pages** | `types.ts`, `stores-build.ts`, `bake-stores.ts`, `store/[slug]`, `astro.config.mjs` | Closed-shop handling (Nathan approved: keep page + label + drop from counts + noindex). Splitting stores.json so 30 listing consumers need no change |
 
 ## Queued — claimed but not started
 
