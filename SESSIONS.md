@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-28 | Opus 5 / `scnm-plan4` | **docs/scripts** | `scripts/analyze-gsc-export.py` | Adding the device split so the monthly read stops steering by blended position (per today's diagnosis) |
 
 ## Queued — claimed but not started
 
