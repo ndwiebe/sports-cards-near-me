@@ -46,7 +46,6 @@ durham-card-show-ajax-2026-09-13,Durham Card Show,Ajax,ON,Ajax Convention Centre
 steeltown-sports-card-collectibles-show-copetown-2026-09-13,Steeltown Sports Card & Collectibles Show,Copetown,ON,Copetown Community Centre,1950 Governors Rd,2026-09-13,,9:30 AM - 2:00 PM,,,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21074,monthly
 hanover-card-toy-collectible-show-hanover-2026-09-13,"Hanover Card, Toy & Collectible Show",Hanover,ON,"Hanover, Ontario Canada",265 5th Street,2026-09-13,,10:00 AM - 3:00 PM,,,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=26625,
 card-yard-collectibles-trade-show-mississauga-2026-09-13,Card Yard Collectibles Trade Show,Mississauga,ON,Erin Mills Town Centre,5100 Erin Mills Pkwy,2026-09-13,,11:00 AM - 7:00 PM,,https://www.ontreasure.com/events/card-yard-erin-mills-mall-09122026,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=26618,monthly
-monthly-sports-card-comic-book-show-ottawa-2026-09-13,Monthly Sports Card & Comic Book Show,Ottawa,ON,Nepean Sportsplex CURLING RINK,1701 Woodroffe Ave. S,2026-09-13,,10:00 AM - 3:00 PM,,http://capitaltradeshows.com/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=16940,
 sports-cards-and-collectible-show-st-catharines-2026-09-13,Sports Cards and Collectible Show,St. Catharines,ON,Holiday Inn & Suites,327 Ontario Street,2026-09-13,,9:00 AM - 2:00 PM,,,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21192,monthly
 stratford-toys-games-collectibles-show-stratford-2026-09-13,"Stratford Toys, Games &Collectibles Show",Stratford,ON,The Arden Park Best Western Hotel,552 Ontario Street,2026-09-13,,9:30 AM - 3:00 PM,,https://www.facebook.com/events/1409281397866411,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=19206,
 greater-toronto-sports-card-show-toronto-2026-09-13,Greater Toronto Sports Card Show,Toronto,ON,Montecassino Hotel and Event Centre,"3710 Chesswood Drive, Suite 220",2026-09-13,,10:00 AM - 4:00 PM,,https://gtcardshow.com/location-%26-show-dates,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18247,
@@ -161,3 +160,25 @@ casino-card-show-burnaby-2026-12-27,Casino Card Show,Burnaby,BC,Delta Marriott G
 sports-cards-and-collectible-show-st-catharines-2026-12-27,Sports Cards and Collectible Show,St. Catharines,ON,Holiday Inn & Suites,327 Ontario Street,2026-12-27,,9:00 AM - 2:00 PM,,,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21086,monthly
 greater-toronto-sports-card-show-toronto-2026-12-27,Greater Toronto Sports Card Show,Toronto,ON,Montecassino Hotel and Event Centre,"3710 Chesswood Drive, #Suite 220",2026-12-27,,10:00 AM - 4:00 PM,,https://gtcardshow.com/location-%26-show-dates,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18248,
 casino-card-show-burnaby-2026-12-28,Casino Card Show,Burnaby,BC,Delta Marriott Grand Villa Casino Convention Center,4331 Dominion Street,2026-12-28,,11:00 AM - 4:00 PM,,https://bossashows.com/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=29017,monthly
+# RESOLVED 2026-08-28 (Nathan delegated the call) — one row REMOVED from this payload:
+#   monthly-sports-card-comic-book-show-ottawa-2026-09-13  (TCDb ID 16940)
+# It is day 2 of an event the sheet already carries, not a new show. The existing row
+# capital-trade-shows-card-comic-show-ottawa-2026-09-12 runs Sep 12->13 at the same venue
+# (Nepean Sportsplex Curling Rink), same address, same hours, same promoter, and the TCDb
+# date falls inside that range. Corroborated by a pattern in our own data rather than by
+# argument: all three Curling Rink bookings are two-day weekend events with an EndDate,
+# while every Hall A & B booking is single-day.
+#
+# Chosen DELETE over rename-in-place. The existing row is better sourced (the promoter's
+# own capitaltradeshows.ca, vs TCDb's generic name), already has the correct two-day range,
+# and — decisively — keeping it means NO slug change, so no redirect and no 404 risk. This
+# repo removed three redirects that were shadowing live show pages on 2026-08-27 (0615115f);
+# not creating a fourth is worth more than a tidier title.
+#
+# A redirect for the TCDb-derived slug already exists in src/data/redirects.json and is safe
+# (verified: its source is not a real show, its target is, and no redirect shadows a live
+# show page). Nothing further to do — do NOT re-add the row below if this payload is
+# regenerated. The earlier HOLD marker (3c09f41a) was lost when 70bedb36 rebuilt this file,
+# which is exactly how a resolved duplicate gets silently re-introduced.
+# Removed row, kept for the record:
+#   monthly-sports-card-comic-book-show-ottawa-2026-09-13,Monthly Sports Card & Comic Book Show,Ottawa,ON,Nepean Sportsplex CURLING RINK,1701 Woodroffe Ave. S,2026-09-13,,10:00 AM - 3:00 PM,,http://capitaltradeshows.com/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=16940,
