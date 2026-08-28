@@ -123,3 +123,37 @@ Before trusting any scrape from a source in this table:
   sooner, it is truncated.
 - **A zero is a claim too.** Confirm the page actually loaded and is genuinely empty
   before recording an absence — that is the silent-false-negative trap this file opens with.
+
+## The quarterly show refresh (added 2026-08-28)
+
+```bash
+python3 scripts/refresh-shows.py              # full run, ~5 min
+python3 scripts/refresh-shows.py --limit 3    # smoke test
+```
+
+Emits a review payload + report under `docs/research/`. **Never writes the sheet** and never
+deletes anything — a human reads the report and decides.
+
+**Run it quarterly.** TCDB publishes about a four-month horizon, so the calendar decays to
+nothing on its own with no error. First run found **8 genuinely new shows** two days after a
+full manual import.
+
+**Batch size is load-bearing.** dev-browser kills any script at **30 seconds**. At ~1.5s per
+page that is 8 pages per invocation — 18 overran it twice. Results checkpoint to
+`.show-refresh-cache-<date>.jsonl` after every batch, so a kill costs one batch and a re-run
+resumes. Delete that file to force a clean fetch.
+
+**Three classes of false result this script now guards against**, each found while testing it:
+
+- **Phantom GONE.** TCDB misspells some cities ("St. Catherines", "Lloyminster"). Those never
+  match our correct spelling, so the real rows looked deleted *and* the misspelled ones looked
+  new — 4 phantom GONE and 5 phantom NEW. `SOURCE_CITY_ALIASES` maps them.
+- **Re-proposed rejects.** Rows deliberately deleted (merged duplicates, folded series) still
+  exist upstream and return as NEW every quarter. Flagged `PREVIOUSLY-REJECTED` by checking
+  `redirects.json`, which already records every dead show URL.
+- **GONE under `--limit`.** A limited run only fetches a few pages per province, so everything
+  else looks missing; a smoke test reported GONE 148. GONE is now suppressed unless it is a
+  full run.
+
+**Chrome housekeeping:** dev-browser's CDP attach times out once Chrome accumulates too many
+targets (~47 was enough). The script warns above 40. Close stale tabs and re-run.
