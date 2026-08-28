@@ -84,8 +84,8 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: 'card-grading-companies-canada',
-    title: 'PSA vs SGC vs BGS vs CGC: Card Grading Companies in Canada',
-    dek: 'An honest comparison of every grader Canadians can actually use — turnaround, cost, cross-border shipping, and which one fits which situation.',
+    title: 'PSA vs Beckett vs SGC vs CGC: Card Grading in Canada',
+    dek: 'Which graders have a Canadian drop-off, which ship across the border, what each costs and how long each takes — plus the Canadian graders that skip the border entirely.',
   },
   {
     slug: 'are-old-hockey-cards-worth-anything',

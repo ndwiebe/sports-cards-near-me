@@ -25,9 +25,22 @@ if (overtimeStore === undefined) {
   throw new Error('Overtime Sports Cards & Grading (Balzac) entry missing from stores.json');
 }
 
-const title = 'PSA vs SGC vs BGS vs CGC: Card Grading Companies in Canada';
+// Titled for the words people actually type. Search Console, 27 days to
+// 2026-08-23: the grading queries are brand-led, and BECKETT is the biggest of
+// them (49 impressions across "beckett grading canada", "beckett card grading",
+// "beckett grading", "does beckett grade in canada") — while this title said
+// only "BGS". A searcher looking for Beckett never saw their own word. Two of
+// those queries sit at position 2.0 and 2.6 with zero clicks between them,
+// which is a snippet problem, not a ranking one: the 2026-08-25 read found
+// guide CTR flat (0.74% -> 0.72%) across five positions of rank improvement.
+// Also shorter, so it survives Google's ~60-character cut once the layout
+// appends " | Sports Cards Near Me".
+const title = 'PSA vs Beckett vs SGC vs CGC: Card Grading in Canada';
+// Leads with the brand names and answers the questions the query data actually
+// asks — "does beckett grade in canada", "beckett grading canada locations",
+// "psa grading cost canada". Every claim here is one the page delivers on.
 const description =
-  'An honest comparison of the card grading companies Canadians can actually use — turnaround, cost structure, cross-border shipping, and which grader fits which situation.';
+  'PSA, Beckett (BGS), SGC and CGC compared for Canadians — which have a Canadian drop-off, which ship across the border, what each costs and how long each takes.';
 
 const capsule =
   "Canadians grading sports cards can use four major US graders — PSA, SGC, CGC, and Beckett (BGS) — plus four Canadian graders that skip the border entirely: Overtime Grading, TGA, KSA, and HOF Grading. PSA carries the strongest resale premium and now has a Mississauga receiving centre; the Canadian graders suit lower-value or bulk submissions where cost and turnaround matter more than resale brand.";
