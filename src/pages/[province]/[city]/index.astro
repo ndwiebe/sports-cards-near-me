@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import StoreCard from '../../../components/StoreCard.astro';
+import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
 import MapIsland from '../../../components/MapIsland.astro';
 import storesJson from '../../../data/stores.json';
 import resellersJson from '../../../data/resellers.json';
@@ -292,6 +293,12 @@ const faqLd = faqPageLd(faqs);
       ))}
     </ul>
   </section>
+
+  <CrossLinkCallout
+    heading="Getting cards ready to sell or trade?"
+    body="Sharp photos make a card easier to price and to list, whether you're selling to a shop here or listing it yourself. DisplayMyCard is my own tool — it has no bearing on how the shops above are ranked."
+    links={[{ label: 'Enhance your card photos →', href: 'https://displaymycard.com', external: true }]}
+  />
 
   <script>
     import { whenMapReady } from '../../../scripts/map-registry';

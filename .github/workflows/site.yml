@@ -40,6 +40,11 @@ jobs:
           # GA4 measurement ID (G-XXXXXXXXXX), public by design. Opt-in: GA4 sets
           # cookies, so leaving this unset also avoids a consent-banner obligation.
           PUBLIC_GA4_ID: ${{ vars.PUBLIC_GA4_ID }}
+          # Click-counter Worker endpoint. Public by design (it ships in the page as
+          # a sendBeacon target). Without this the Worker can be deployed and running
+          # and the site still sends it nothing — the build simply omits the listener.
+          # Set as a repo variable to the URL that deploy-click-tracker.yml prints.
+          PUBLIC_CLICK_TRACKER_URL: ${{ vars.PUBLIC_CLICK_TRACKER_URL }}
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:

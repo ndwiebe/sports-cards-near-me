@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import MapIsland from '../../../components/MapIsland.astro';
+import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
 import { PROVINCES } from '../../../lib/types';
@@ -174,6 +175,12 @@ const ld: Record<string, unknown> = {
       ))}
     </ul>
   </section>
+
+  <CrossLinkCallout
+    heading="Taking cards in to sell or trade?"
+    body="Sharp photos make a card easier to price and to list. DisplayMyCard is my own tool — it has no bearing on how any shop is ranked here."
+    links={[{ label: 'Enhance your card photos →', href: 'https://displaymycard.com', external: true }]}
+  />
 
   <p class="mt-12 text-sm text-muted">
     Own this shop? <a href="/suggest/" class="text-prizm">Claim or update your listing</a>.
