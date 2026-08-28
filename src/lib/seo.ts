@@ -616,6 +616,20 @@ export const TITLE_BUDGET = 60;
  * eats the least important part first.
  */
 export function storeTitle(store: Store): string {
+  // A shop with no walk-in storefront must not be titled like one. "Card Shop in
+  // Bracebridge" is present tense, and "4.7★, 46 Reviews" is a live-business
+  // advertisement — both were still rendering on pages whose body says
+  // "Permanently closed". These pages are noindex, so this isn't an SEO fix: the
+  // title is what the browser tab and any shared link show, and it contradicted
+  // the page. Same rule the capsule and the Store schema already follow.
+  if (store.status === 'closed') {
+    return `${store.name} — Permanently Closed · ${store.city}, ${store.province}`;
+  }
+  if (store.status === 'online-only') {
+    // Still a live business, so the rating stays honest — but "Card Shop in X"
+    // would promise somewhere to walk into, which is the thing that ended.
+    return `${store.name} — Online Only · ${store.city}, ${store.province}`;
+  }
   if (store.rating === undefined || store.reviewCount === undefined) {
     // Absence-of-data rule: say nothing at all about reviews we do not hold.
     return `${store.name} — Card Shop in ${store.city}, ${store.province}`;

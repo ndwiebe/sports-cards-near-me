@@ -57,10 +57,15 @@ const breadcrumbLd = breadcrumbListLd([
 
 // "<shop> reviews" is a live query, so the rating belongs in the description
 // where it shows in the result, not only on the page.
-const description =
-  store.rating !== undefined && store.reviewCount !== undefined
-    ? `${store.name} in ${store.city}, ${provinceName} — ${store.rating} stars from ${store.reviewCount} Google reviews. Address, map, directions and what they carry.`
-    : `${store.name} in ${store.city}, ${provinceName}: address, map, directions and what they carry.`;
+// Present tense ("what they carry") is a claim about a shop still trading, so a
+// shop with no storefront gets its own description rather than the live one.
+const description = isClosed
+  ? `${store.name} in ${store.city}, ${provinceName} has permanently closed. Its last known address and details are kept here; see card shops still open in ${store.city}.`
+  : isOnlineOnly
+    ? `${store.name} has closed its ${store.city}, ${provinceName} storefront and now sells online only. Where to find them, and card shops still open in ${store.city}.`
+    : store.rating !== undefined && store.reviewCount !== undefined
+      ? `${store.name} in ${store.city}, ${provinceName} — ${store.rating} stars from ${store.reviewCount} Google reviews. Address, map, directions and what they carry.`
+      : `${store.name} in ${store.city}, ${provinceName}: address, map, directions and what they carry.`;
 
 const ld: Record<string, unknown> = {
   '@context': 'https://schema.org',

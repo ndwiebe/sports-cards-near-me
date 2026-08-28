@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseStatus, splitStores, rowToStore } from '../../src/lib/stores-build';
-import { storeAnswerCapsule } from '../../src/lib/seo';
+import { storeAnswerCapsule, storeTitle } from '../../src/lib/seo';
 import type { Store } from '../../src/lib/types';
 
 // A shop with no walk-in storefront — closed for good, or moved online-only —
@@ -123,5 +123,32 @@ describe('the online-only capsule must not claim the storefront is gone for good
     const c = storeAnswerCapsule(store(), 'Alberta');
     expect(c).toMatch(/is a sports card shop/);
     expect(c).toContain('4.7');
+  });
+});
+
+describe('the page title must not advertise a shop that has no storefront', () => {
+  // These pages are noindex, so this is not an SEO fix. The title is what the
+  // browser tab and any shared link show, and it was contradicting the page:
+  // "Muskoka Cards & Collectibles — Card Shop in Bracebridge" above a body that
+  // says "Permanently closed", and "4.7★, 46 Reviews" for a shop that shut.
+  it('says permanently closed instead of naming it a card shop', () => {
+    const t = storeTitle(store({ status: 'closed' }));
+    expect(t).toMatch(/Permanently Closed/);
+    expect(t).not.toMatch(/Card Shop in/);
+  });
+
+  it('never puts a rating in a closed shop title', () => {
+    expect(storeTitle(store({ status: 'closed', rating: 4.7, reviewCount: 340 }))).not.toContain('4.7');
+  });
+
+  it('marks online-only as online only, not as a walk-in card shop', () => {
+    const t = storeTitle(store({ status: 'online-only' }));
+    expect(t).toMatch(/Online Only/);
+    expect(t).not.toMatch(/Card Shop in/);
+    expect(t).not.toMatch(/Permanently Closed/);
+  });
+
+  it('leaves an open shop title exactly as it was', () => {
+    expect(storeTitle(store())).toBe("Wayne's Sports Cards — 4.7★, 340 Reviews · Edmonton");
   });
 });
