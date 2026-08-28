@@ -29,6 +29,17 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | 2026-08-28 | Sonnet A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — own worktree only | Plan 17 quarterly show refresh. Emits a payload; never writes the sheet. |
 | 2026-08-28 | Sonnet B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — own worktree only | Plan 18 monthly Search Console pull. Read-only against GSC. |
 | 2026-08-28 | Opus 5 / `scnm-plan4` (Nathan session) | **data + lib** | stores sheet Hours column, NEW `src/lib/store-hours.ts`, NEW `tests/unit/store-hours.test.ts`, `shows.ts` + `shows/[slug]` next | Hours import (632 stores) + opening-hours structured data. ⚠️ Wiring the spec into the `Store` JSON-LD needs `store/[slug]/index.astro`, which the closed-shop session holds — parser is committed and unused until that frees up. Moving to show vendor/table-booking fields next. |
+| 2026-08-28 | Opus 5 coordinator / `scnm-plan4` | **coordination** | `SESSIONS.md` only | Running 4 parallel builds (Fable plan → Sonnet build in worktrees → Opus review) for the launch-readiness pass. Rows below are its claims. |
+| 2026-08-28 | Sonnet A (readiness), **worktree** | **A: online-only status** | `types.ts`, `stores-build.ts`, `seo.ts`, `store/[slug]` — worktree only | Capital City Sports Cards → online-only (storefront gone after break-ins, still trading at capitalcitysportscards.company.site, verified live). ⚠️ shares `store/[slug]` with B |
+| 2026-08-28 | Sonnet B (readiness), **worktree** | **B: logos on cards** | `StoreCard.astro`, `store/[slug]` — worktree only | Surface the 332 existing logo chips beyond map pins. ⚠️ shares `store/[slug]` with A |
+| 2026-08-28 | Sonnet C (readiness), **worktree** | **C: freshness visible** | homepage / about / footer — worktree only | State the accuracy moat on the page. No per-store verified date exists — must not invent one |
+| 2026-08-28 | Sonnet D (readiness), **worktree** | **D: filter chips** | `[province]/[city]` — worktree only | Case-insensitive chips via the existing `collectTags()` |
+
+
+⚠️ **Hours session is PAUSED (out of usage until ~20:00 2026-08-28).** `src/lib/store-hours.ts`
+and `tests/unit/store-hours.test.ts` are UNTRACKED and belong to it — no other session may touch,
+commit or depend on them. It also needs `store/[slug]/index.astro`, which readiness workstreams
+A and B now hold. **It must re-read this table before resuming.**
 
 ## Queued — claimed but not started
 
