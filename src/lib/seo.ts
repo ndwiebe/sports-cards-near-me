@@ -301,6 +301,15 @@ function namesList(stores: Store[]): string {
 
 /** Computed 40-60 word answer capsule for a city page. Every fact is derived from `stores`. */
 export function cityAnswerCapsule(city: string, provinceName: string, stores: Store[]): string {
+  // A city whose only shop has closed still has a page, because the URL is indexed and
+  // "card shops in X" is still a real question. Answering it with "X has 0 sports card
+  // shops listed" is technically true and useless; say what happened and hand them on.
+  if (stores.length === 0) {
+    return (
+      `${city}, ${provinceName} has no card shop currently open — the one we listed has ` +
+      `permanently closed. The nearest open shops are listed below.`
+    );
+  }
   const total = stores.length;
   const shopWord = total === 1 ? 'shop' : 'shops';
   const parts: string[] = [

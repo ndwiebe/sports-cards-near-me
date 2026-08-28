@@ -1,1 +1,617 @@
-[]
+[
+  {
+    "slug": "babs-gaming-and-sports-cards-inc-lloydminster",
+    "name": "Babs Gaming And Sports Cards Inc",
+    "city": "Lloydminster",
+    "citySlug": "lloydminster",
+    "address": "5720 44 St, Lloydminster, AB T9V 0B3",
+    "province": "AB",
+    "rating": 4.7,
+    "reviewCount": 46,
+    "website": "http://www.babsgaming.ca/",
+    "services": [],
+    "sports": [],
+    "lat": 53.2784647,
+    "lng": -110.0278869,
+    "status": "closed"
+  },
+  {
+    "slug": "the-cardboard-casket-medicine-hat",
+    "name": "The Cardboard Casket",
+    "city": "Medicine Hat",
+    "citySlug": "medicine-hat",
+    "address": "1201 Kingsway Ave SE #201, Medicine Hat, AB T1A 2Y2",
+    "province": "AB",
+    "rating": 4.2,
+    "reviewCount": 31,
+    "website": "http://www.facebook.com/groups/thecardboardcasket",
+    "services": [],
+    "sports": [],
+    "lat": 50.02715999999999,
+    "lng": -110.66857,
+    "status": "closed"
+  },
+  {
+    "slug": "brightside-hobbies-brightside-tcg-morinville",
+    "name": "Brightside Hobbies (Brightside TCG)",
+    "city": "Morinville",
+    "citySlug": "morinville",
+    "address": "10130 100 Ave, Morinville, AB T8R 1P8",
+    "province": "AB",
+    "phone": "(780) 939-4910",
+    "social": "https://www.facebook.com/brightsidecard/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 53.8021,
+    "lng": -113.6489,
+    "status": "closed"
+  },
+  {
+    "slug": "tailgate-mercantile-co-okotoks",
+    "name": "Tailgate Mercantile Co.",
+    "city": "Okotoks",
+    "citySlug": "okotoks",
+    "address": "21 Elizabeth St Unit 2, Okotoks, AB",
+    "province": "AB",
+    "rating": 4.2,
+    "reviewCount": 26,
+    "social": "https://www.facebook.com/tailgatemercantileco/",
+    "services": [],
+    "sports": [],
+    "lat": 50.7256763,
+    "lng": -113.9784963,
+    "status": "closed"
+  },
+  {
+    "slug": "bill-sr-s-sports-cards-red-deer",
+    "name": "Bill Sr's Sports Cards",
+    "city": "Red Deer",
+    "citySlug": "red-deer",
+    "address": "4781 49 St, Red Deer, AB T4N 1T6",
+    "province": "AB",
+    "rating": 4.1,
+    "reviewCount": 19,
+    "services": [],
+    "sports": [],
+    "lat": 52.2678685,
+    "lng": -113.8084803,
+    "status": "closed"
+  },
+  {
+    "slug": "hockey-central-sports-memorabilia-inc-sylvan-lake",
+    "name": "Hockey Central Sports Memorabilia Inc",
+    "city": "Sylvan Lake",
+    "citySlug": "sylvan-lake",
+    "address": "3715 47 Ave Unit 330, Sylvan Lake, AB T4S 0C8",
+    "province": "AB",
+    "rating": 4.1,
+    "reviewCount": 269,
+    "social": "https://www.facebook.com/p/Hockey-Central-Sports-Memorabilia-Inc-100039454767071/",
+    "services": [],
+    "sports": [],
+    "lat": 52.3038376,
+    "lng": -114.0775995,
+    "status": "closed"
+  },
+  {
+    "slug": "sn-hobbies-new-westminster",
+    "name": "SN Hobbies",
+    "city": "New Westminster",
+    "citySlug": "new-westminster",
+    "address": "814 12th St, New Westminster, BC V3M 4K1",
+    "province": "BC",
+    "rating": 4.4,
+    "reviewCount": 301,
+    "phone": "778-397-1075",
+    "website": "https://www.snhobbies.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
+    "lat": 49.21112,
+    "lng": -122.93495,
+    "status": "closed"
+  },
+  {
+    "slug": "penticton-sports-cards-collectables-penticton",
+    "name": "Penticton Sports Cards & Collectables",
+    "city": "Penticton",
+    "citySlug": "penticton",
+    "address": "288 Westminster Ave W, Penticton, BC V2A 1J9",
+    "province": "BC",
+    "rating": 4.3,
+    "reviewCount": 216,
+    "phone": "250-460-2773",
+    "social": "https://www.facebook.com/PentictonSportsCards/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 49.49917,
+    "lng": -119.59744,
+    "status": "closed"
+  },
+  {
+    "slug": "mandalorian-emporium-squamish",
+    "name": "Mandalorian Emporium",
+    "city": "Squamish",
+    "citySlug": "squamish",
+    "address": "1333 Pemberton Ave, Squamish, BC V8B 0A6",
+    "province": "BC",
+    "rating": 4.7,
+    "reviewCount": 33,
+    "social": "https://www.facebook.com/MandalorianEmporium/",
+    "services": [
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 49.70257,
+    "lng": -123.15235,
+    "status": "closed"
+  },
+  {
+    "slug": "triple-play-sports-cards-victoria",
+    "name": "Triple Play Sports Cards",
+    "city": "Victoria",
+    "citySlug": "victoria",
+    "address": "1209 Wharf St, Victoria, BC V8W 1T9",
+    "province": "BC",
+    "rating": 4.2,
+    "reviewCount": 101,
+    "phone": "250-384-3311",
+    "website": "https://www.tripleplaysc.com/",
+    "social": "https://www.facebook.com/tripleplaysc/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 48.42623,
+    "lng": -123.36983,
+    "status": "closed"
+  },
+  {
+    "slug": "bay-breakers-happy-valley-goose-bay",
+    "name": "Bay Breakers",
+    "city": "Happy Valley-Goose Bay",
+    "citySlug": "happy-valley-goose-bay",
+    "address": "9 Ikey St, Happy Valley-Goose Bay, NL A0P 1C0",
+    "province": "NL",
+    "phone": "709-899-1102",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 53.30684,
+    "lng": -60.33826,
+    "status": "closed"
+  },
+  {
+    "slug": "muskoka-cards-collectibles-bracebridge",
+    "name": "Muskoka Cards & Collectibles",
+    "city": "Bracebridge",
+    "citySlug": "bracebridge",
+    "address": "16A Manitoba St, Bracebridge, ON P1L 1R9",
+    "province": "ON",
+    "services": [
+      "Sells",
+      "Trade Nights"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 45.0405,
+    "lng": -79.30929,
+    "status": "closed"
+  },
+  {
+    "slug": "prospects-antiques-sports-cards-gravenhurst",
+    "name": "Prospects Antiques & Sports Cards",
+    "city": "Gravenhurst",
+    "citySlug": "gravenhurst",
+    "address": "130 Muskoka Road South, Gravenhurst, ON P1P 1T5",
+    "province": "ON",
+    "phone": "(705) 687-6449",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 44.91946,
+    "lng": -79.37376,
+    "status": "closed"
+  },
+  {
+    "slug": "tcm-the-card-mann-sports-cards-pokemon-grimsby",
+    "name": "TCM - The Card Mann Sports Cards Pokemon",
+    "city": "Grimsby",
+    "citySlug": "grimsby",
+    "address": "63 Main St W, Grimsby, ON L3M 4H1",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Other"
+    ],
+    "lat": 43.19375,
+    "lng": -79.56359,
+    "status": "closed"
+  },
+  {
+    "slug": "north-western-games-kenora",
+    "name": "North-Western Games",
+    "city": "Kenora",
+    "citySlug": "kenora",
+    "address": "Kenora, ON (exact address not confirmed)",
+    "province": "ON",
+    "rating": 4.7,
+    "reviewCount": 9,
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 49.7664,
+    "lng": -94.4909,
+    "status": "closed"
+  },
+  {
+    "slug": "northern-sports-cards-lindsay-kawartha-lakes",
+    "name": "Northern Sports Cards",
+    "city": "Lindsay (Kawartha Lakes)",
+    "citySlug": "lindsay-kawartha-lakes",
+    "address": "55 Mary Street West, Lindsay, ON",
+    "province": "ON",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 44.34563,
+    "lng": -78.73487,
+    "status": "closed"
+  },
+  {
+    "slug": "trade-em-stadium-stoney-creek",
+    "name": "Trade Em Stadium",
+    "city": "Stoney Creek",
+    "citySlug": "stoney-creek",
+    "address": "570 Hwy 8 Unit 3, Stoney Creek, ON L8G 4M2",
+    "province": "ON",
+    "rating": 4.5,
+    "reviewCount": 35,
+    "phone": "289-656-1188",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 43.21443,
+    "lng": -79.70996,
+    "status": "closed"
+  },
+  {
+    "slug": "nutts-collectables-woodstock",
+    "name": "Nutts Collectables",
+    "city": "Woodstock",
+    "citySlug": "woodstock",
+    "address": "563 Dundas Street, Woodstock, ON",
+    "province": "ON",
+    "rating": 3.3,
+    "reviewCount": 38,
+    "phone": "(519) 537-3xxx (partial)",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Other"
+    ],
+    "lat": 43.13073,
+    "lng": -80.75368,
+    "status": "closed"
+  },
+  {
+    "slug": "em-cards-and-collectibles-charlottetown",
+    "name": "EM Cards and Collectibles",
+    "city": "Charlottetown",
+    "citySlug": "charlottetown",
+    "address": "95 Capital Drive, Unit 1166, Charlottetown, PE",
+    "province": "PE",
+    "rating": 4.9,
+    "reviewCount": 90,
+    "phone": "902-894-9834",
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon"
+    ],
+    "lat": 46.26508,
+    "lng": -63.155,
+    "status": "closed"
+  },
+  {
+    "slug": "next-level-games-and-collectibles-summerside",
+    "name": "Next Level Games and Collectibles",
+    "city": "Summerside",
+    "citySlug": "summerside",
+    "address": "251 Water St Unit E, Summerside, PE C1N 1B5",
+    "province": "PE",
+    "rating": 5,
+    "reviewCount": 13,
+    "phone": "(902) 436-4263",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Grading Services",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football",
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 46.39171,
+    "lng": -63.7905,
+    "status": "closed"
+  },
+  {
+    "slug": "la-zone-retro-amos",
+    "name": "La Zone Rétro",
+    "city": "Amos",
+    "citySlug": "amos",
+    "address": "82 1re Avenue Est, Amos, QC J9T 4B2",
+    "province": "QC",
+    "rating": 4.6,
+    "reviewCount": 18,
+    "phone": "819-825-8273",
+    "website": "https://www.lazonevd.com/",
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 48.5715,
+    "lng": -78.11339,
+    "status": "closed"
+  },
+  {
+    "slug": "univers-fantastique-beloeil",
+    "name": "Univers Fantastique",
+    "city": "Beloeil",
+    "citySlug": "beloeil",
+    "address": "951 rue Bernard-Pilon, Beloeil, QC J3G 1V7",
+    "province": "QC",
+    "rating": 4.8,
+    "reviewCount": 133,
+    "phone": "450-813-7334",
+    "website": "http://www.universfantastique.co/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Hockey"
+    ],
+    "lat": 45.55669,
+    "lng": -73.22969,
+    "status": "closed"
+  },
+  {
+    "slug": "hobby-o-max-chicoutimi-chicoutimi-saguenay",
+    "name": "Hobby O Max Chicoutimi",
+    "city": "Chicoutimi (Saguenay)",
+    "citySlug": "chicoutimi-saguenay",
+    "address": "405 rue Racine Est, Chicoutimi, QC",
+    "province": "QC",
+    "rating": 4.4,
+    "reviewCount": 14,
+    "phone": "418-549-9395",
+    "services": [
+      "Sells",
+      "Sells Wax"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon"
+    ],
+    "lat": 48.42831,
+    "lng": -71.0561,
+    "status": "closed"
+  },
+  {
+    "slug": "la-magie-des-cartes-drummondville",
+    "name": "La magie des cartes",
+    "city": "Drummondville",
+    "citySlug": "drummondville",
+    "address": "260-A rue Brock, Drummondville, QC J2C 1M4",
+    "province": "QC",
+    "rating": 4.1,
+    "reviewCount": 11,
+    "phone": "819-850-6489",
+    "website": "http://lamagiedescartes.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Hockey"
+    ],
+    "lat": 45.88388,
+    "lng": -72.48742,
+    "status": "closed"
+  },
+  {
+    "slug": "cartes-sportives-jumbo-bear-laval",
+    "name": "Cartes sportives Jumbo Bear",
+    "city": "Laval",
+    "citySlug": "laval",
+    "address": "1004 B rue de Callières, Laval, QC H7E 3N2",
+    "province": "QC",
+    "rating": 3.5,
+    "reviewCount": 24,
+    "phone": "450-664-3446",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey"
+    ],
+    "lat": 45.59284,
+    "lng": -73.66874,
+    "status": "closed"
+  },
+  {
+    "slug": "geek-factory-mtl-montreal",
+    "name": "Geek Factory MTL",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "2622 rue Jean-Talon Est, Montréal, QC H2A 1V3",
+    "province": "QC",
+    "rating": 4.4,
+    "reviewCount": 38,
+    "phone": "438-476-0243",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon"
+    ],
+    "lat": 45.55542,
+    "lng": -73.60012,
+    "status": "closed"
+  },
+  {
+    "slug": "tw-sportcards-montreal",
+    "name": "TW Sportcards",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "5264 rue Bélanger, Montréal, QC",
+    "province": "QC",
+    "rating": 5,
+    "reviewCount": 9,
+    "phone": "438-385-4433",
+    "website": "https://www.twsportscards.com/",
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Hockey",
+      "Baseball",
+      "Basketball",
+      "Football"
+    ],
+    "lat": 45.57662,
+    "lng": -73.57677,
+    "status": "closed"
+  },
+  {
+    "slug": "hobby-nation-3r-trois-rivieres",
+    "name": "Hobby Nation 3R",
+    "city": "Trois-Rivières",
+    "citySlug": "trois-rivieres",
+    "address": "4270 boulevard des Forges, Trois-Rivières, QC G8Y 1W3",
+    "province": "QC",
+    "rating": 4.7,
+    "reviewCount": 26,
+    "phone": "819-697-1354",
+    "website": "https://www.hobbynation3r.com/",
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 46.3577,
+    "lng": -72.58749,
+    "status": "closed"
+  },
+  {
+    "slug": "la-zone-retro-val-d-or",
+    "name": "La Zone Rétro",
+    "city": "Val-d'Or",
+    "citySlug": "val-d-or",
+    "address": "864 3e Avenue, Val-d'Or, QC J9P 1T1",
+    "province": "QC",
+    "rating": 4.3,
+    "reviewCount": 117,
+    "phone": "819-825-8273",
+    "website": "https://www.lazonevd.com/",
+    "services": [
+      "Sells",
+      "Buys",
+      "Trades Singles"
+    ],
+    "sports": [
+      "Hockey",
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 48.10333,
+    "lng": -77.78887,
+    "status": "closed"
+  }
+]

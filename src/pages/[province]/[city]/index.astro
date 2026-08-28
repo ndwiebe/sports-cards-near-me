@@ -2,6 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import StoreCard from '../../../components/StoreCard.astro';
 import CrossLinkCallout from '../../../components/CrossLinkCallout.astro';
+import closedStoresJson from '../../../data/stores-closed.json';
 import MapIsland from '../../../components/MapIsland.astro';
 import storesJson from '../../../data/stores.json';
 import resellersJson from '../../../data/resellers.json';
@@ -20,8 +21,15 @@ const THIN_CITY_SHOP_COUNT = 1;
 const NEARBY_SHOP_LIMIT = 5;
 const UPCOMING_SHOW_LIMIT = 5;
 
+// Paths come from open AND closed shops. 11 cities had their only shop marked closed
+// on 2026-08-28; building paths from stores.json alone silently deleted 11 city pages
+// that are live and indexed today (Penticton, Bracebridge, Squamish and friends all
+// returned 200 before the change). Killing an indexed URL is the exact failure
+// CLAUDE.md warns about, and a city losing its last shop is a permanent condition, not
+// a reason to stop answering "card shops in Penticton". The page stays and tells the
+// truth instead, pointing at the nearest open shops.
 export function getStaticPaths() {
-  const stores = storesJson as Store[];
+  const stores = [...(storesJson as Store[]), ...(closedStoresJson as Store[])];
   return provincesWithStores(stores).flatMap((p) =>
     citiesIn(stores, p.code).map((c) => ({ params: { province: p.slug, city: c.citySlug } })),
   );
@@ -30,8 +38,14 @@ export function getStaticPaths() {
 const stores = storesJson as Store[];
 const province = provinceBySlug(Astro.params.province);
 if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`);
-const cityGroup = citiesIn(stores, province.code).find((c) => c.citySlug === Astro.params.city);
-if (!cityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
+// Look the city up across both sets so a closed-only city resolves, then keep ONLY the
+// open shops for everything the page counts, lists, maps or claims.
+const allCityGroup = citiesIn([...stores, ...(closedStoresJson as Store[])], province.code)
+  .find((c) => c.citySlug === Astro.params.city);
+if (!allCityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
+const cityGroup = { ...allCityGroup, stores: allCityGroup.stores.filter((s) => s.status !== 'closed') };
+const closedHere = allCityGroup.stores.filter((s) => s.status === 'closed');
+const noneOpen = cityGroup.stores.length === 0;
 const services = [...new Set(cityGroup.stores.flatMap((s) => s.services))].sort();
 const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
 
@@ -39,8 +53,12 @@ const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
 // country, so a border city can return a neighbour in another province — and
 // the link below is built with THIS page's province.slug, which would 404.
 const nearbyCities = nearestCities(stores, province.code, cityGroup.citySlug).filter((c) => c.province === province.code);
-const nearbyStores = cityGroup.stores.length === THIN_CITY_SHOP_COUNT
-  ? nearestStoresToCity(stores, province.code, cityGroup.citySlug, { limit: NEARBY_SHOP_LIMIT })
+// A city with no open shops needs the nearby list MORE than a thin one, not less --
+// it is the only useful thing left on the page. cityCentres works off the combined
+// set so a closed-only city still has coordinates to measure from.
+const nearbyStores = cityGroup.stores.length === THIN_CITY_SHOP_COUNT || noneOpen
+  ? nearestStoresToCity([...stores, ...(closedStoresJson as Store[])], province.code, cityGroup.citySlug, { limit: NEARBY_SHOP_LIMIT })
+      .filter((s) => s.status !== 'closed')
   : [];
 const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGroup.citySlug);
 const shows = showsJson as ShowRecord[];
@@ -97,10 +115,14 @@ const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stor
 const faqLd = faqPageLd(faqs);
 ---
 <Base
-  title={`${cityGroup.stores.length} Card Shop${cityGroup.stores.length === 1 ? '' : 's'} in ${cityGroup.city}, ${province.code} — ${titleSuffix}`}
-  description={topRated !== undefined && topRated.rating !== undefined
-    ? `All ${cityGroup.stores.length} card shops in ${cityGroup.city}, ${province.name} — Google ratings, map and directions, rebuilt daily. ${rankedFirstPhrase(topRated)}.`
-    : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, map and directions. Rebuilt daily so listings stay current.`}
+  title={noneOpen
+    ? `Card Shops in ${cityGroup.city}, ${province.code} — Nearest Open Shops`
+    : `${cityGroup.stores.length} Card Shop${cityGroup.stores.length === 1 ? '' : 's'} in ${cityGroup.city}, ${province.code} — ${titleSuffix}`}
+  description={noneOpen
+    ? `No card shop is currently open in ${cityGroup.city}, ${province.name} — the one we listed has closed. Here are the nearest open shops, with distances, map and directions.`
+    : topRated !== undefined && topRated.rating !== undefined
+      ? `All ${cityGroup.stores.length} card shops in ${cityGroup.city}, ${province.name} — Google ratings, map and directions, rebuilt daily. ${rankedFirstPhrase(topRated)}.`
+      : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, map and directions. Rebuilt daily so listings stay current.`}
 >
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(storeListLd)} />
