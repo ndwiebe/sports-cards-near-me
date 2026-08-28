@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-28 | Opus, `scnm-plan4` | **docs/ci** | `.github/workflows/ratings-refresh.yml` only | Closure scan ran and found 6 CLOSED_PERMANENTLY, but the CSV never reached the branch and the PR step is blocked by a repo setting. Adding an artifact upload so the results survive both failures. |
 
 ## Queued — claimed but not started
 
