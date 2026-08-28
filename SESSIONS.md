@@ -28,7 +28,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 |---|---|---|---|---|
 | 2026-08-28 | Sonnet A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — own worktree only | Plan 17 quarterly show refresh. Emits a payload; never writes the sheet. |
 | 2026-08-28 | Sonnet B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — own worktree only | Plan 18 monthly Search Console pull. Read-only against GSC. |
-| 2026-08-28 | Opus 5 / `scnm-plan4` | **lib + data + pages** | `types.ts`, `stores-build.ts`, `bake-stores.ts`, `store/[slug]`, `astro.config.mjs` | Closed-shop handling (Nathan approved: keep page + label + drop from counts + noindex). Splitting stores.json so 30 listing consumers need no change |
 | 2026-08-28 | Opus 5 / `scnm-plan4` (Nathan session) | **data + lib** | stores sheet Hours column, NEW `src/lib/store-hours.ts`, NEW `tests/unit/store-hours.test.ts`, `shows.ts` + `shows/[slug]` next | Hours import (632 stores) + opening-hours structured data. ⚠️ Wiring the spec into the `Store` JSON-LD needs `store/[slug]/index.astro`, which the closed-shop session holds — parser is committed and unused until that frees up. Moving to show vendor/table-booking fields next. |
 
 ## Queued — claimed but not started
@@ -88,6 +87,36 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Closed-shop handling shipped, 29 shops verified and
+  marked, and an 11-page regression caught before it left the machine** (`1daab366`, `16bdcd35`).
+  `store/[slug]/index.astro` is now FREE — the Hours session waiting on it can proceed.
+  - **Mechanism:** `bake-stores.ts` writes `stores.json` (open only) + `stores-closed.json`.
+    31 files import stores.json for listings, counts, maps, guides and the sitemap; splitting at
+    the bake means all of them exclude closed shops with **no code change**, instead of 31 chances
+    to miss one. The store route is the only reader of both, so the page survives with a banner,
+    `noindex`, no Store schema, no rating and past-tense copy. `Store.status` reads sheet column M,
+    which is optional — absent reads as open, and only an explicit `"closed"` unlists anything.
+  - **Due diligence on the 32** (Nathan delegated): full re-scan confirmed 32; 26 matched Google
+    on street number *and* postal; all 13 known websites fetched (8 dead — 404s, DNS failures, and
+    one domain now resolving to an unrelated site); social checked in a real browser.
+    **3 held back, not marked:** Toyz Game Emporium (live FB page, 5.8K followers, active Call
+    button), Booster House (still selling online — possibly online-only, but not confirmed shut),
+    BFireBallDragon (**Google matched a different address**, 1490 vs 1642 — wrong business).
+    29 written to the sheet's new `Status` column; read back and verified 29 marked, 0 unexpected,
+    all 3 held-back rows still blank.
+  - ⚠️ **The regression worth remembering:** 11 cities had their only shop closed, so they left
+    `citiesIn()` and the build **silently deleted 11 city pages that return 200 live today**
+    (Penticton, Bracebridge, Squamish, Morinville, Amos…). The only symptom was page count
+    1468 → 1442. Fixed by keeping the page and answering honestly — "Nearest Open Shops" title,
+    a capsule saying the listed shop closed, and the 5 nearest open shops with distances.
+    Everything the page *counts or claims* still reads open shops only. **Any change that removes
+    shops from stores.json can delete city pages; check the page count.**
+  - Verified on built output: 1453 pages, 0 closed shops linked from any non-store page, 710 store
+    dirs fully accounted (660 open + 29 closed + 21 redirect stubs), 50 noindexed = 29 closed + 21
+    stubs with no open shop wrongly hidden. 294 tests, typecheck clean.
+  - Left alone: untracked `store-hours.ts` + its test from the Hours session (SESSIONS explained
+    them, so not committed blind).
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **The closure census had silently lost 27 of its 32
   findings. Recovered and guarded (`6d9533bf`).** Went to build the `status` field and checked the
