@@ -29,11 +29,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | 2026-08-28 | Sonnet A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — own worktree only | Plan 17 quarterly show refresh. Emits a payload; never writes the sheet. |
 | 2026-08-28 | Sonnet B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — own worktree only | Plan 18 monthly Search Console pull. Read-only against GSC. |
 | 2026-08-28 | Opus 5 / `scnm-plan4` (Nathan session) | **data + lib** | stores sheet Hours column, NEW `src/lib/store-hours.ts`, NEW `tests/unit/store-hours.test.ts`, `shows.ts` + `shows/[slug]` next | Hours import (632 stores) + opening-hours structured data. ⚠️ Wiring the spec into the `Store` JSON-LD needs `store/[slug]/index.astro`, which the closed-shop session holds — parser is committed and unused until that frees up. Moving to show vendor/table-booking fields next. |
-| 2026-08-28 | Opus 5 coordinator / `scnm-plan4` | **coordination** | `SESSIONS.md` only | Running 4 parallel builds (Fable plan → Sonnet build in worktrees → Opus review) for the launch-readiness pass. Rows below are its claims. |
-| 2026-08-28 | Sonnet A (readiness), **worktree** | **A: online-only status** | `types.ts`, `stores-build.ts`, `seo.ts`, `store/[slug]` — worktree only | Capital City Sports Cards → online-only (storefront gone after break-ins, still trading at capitalcitysportscards.company.site, verified live). ⚠️ shares `store/[slug]` with B |
-| 2026-08-28 | Sonnet B (readiness), **worktree** | **B: logos on cards** | `StoreCard.astro`, `store/[slug]` — worktree only | Surface the 332 existing logo chips beyond map pins. ⚠️ shares `store/[slug]` with A |
-| 2026-08-28 | Sonnet C (readiness), **worktree** | **C: freshness visible** | homepage / about / footer — worktree only | State the accuracy moat on the page. No per-store verified date exists — must not invent one |
-| 2026-08-28 | Sonnet D (readiness), **worktree** | **D: filter chips** | `[province]/[city]` — worktree only | Case-insensitive chips via the existing `collectTags()` |
 
 
 ⚠️ **Hours session is PAUSED (out of usage until ~20:00 2026-08-28).** `src/lib/store-hours.ts`
@@ -98,6 +93,41 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus 5 coordinator + 4 parallel Sonnet builds in worktrees)* **Launch-readiness
+  pass: all four workstreams merged, reviewed, verified.** 310 tests, 1453 pages, typecheck clean.
+  - **D — filter chips** (`28cf297c`): city-page chips now use `collectTags()` (case-insensitive)
+    instead of raw `Set`s. **The load-bearing part was the client-side matcher**, which D caught
+    itself: collapsing two chips into one would otherwise have left that chip silently failing to
+    match any shop whose raw tag used the other casing. Both sides now compare lowercased.
+  - **A — `online-only` status** (`f94faad5`): second status value. `splitStores` now keys on
+    `status === undefined`, so **any future status unlists by default** rather than needing to be
+    remembered — the safe direction. Store JSON-LD suppressed for both statuses (aggregateRating +
+    telephone assert a walk-in location); rating stays visible for online-only, hides for closed.
+  - **C — freshness on the page** (`406c3c0a`): computed freshness lines on home/about/llms.txt.
+    Correctly refused to claim a ratings cadence (the monthly PR step has succeeded exactly once).
+  - **B — logos** (`e70d8d8c`): the 332 chips now appear on store cards (44px) and store pages
+    (64px), not just map pins. Chose a build-time parity test over a client `onerror` fallback.
+    **Surfaced real pre-existing drift:** 11 of 332 `logos.json` entries point at slugs no current
+    store has (city-slug renames). Harmless — `hasLogo()` can only fire for a real store — and
+    documented as `KNOWN_STALE_LOGO_SLUGS` so *new* drift still fails the test. Worth cleaning up
+    in the data lane; `scrape-logos.py` rewrites `logos.json` from disk, so the fix is a re-run.
+  - ⚠️ **Review caught overclaiming that existed in NO single workstream** (`2359bedc`). C computed
+    "N confirmed closures" from `stores-closed.json`'s **length**. A then added a second reason to
+    be in that file. The instant both merged, the homepage, about page and `llms.txt` — the three
+    surfaces whose entire job is not overclaiming — would have reported a live, trading business as
+    a closure. Counts are now filtered by status and the about page names the online-only group in
+    its own sentence. **Counting the container is not counting the thing.** Also fixed: capsule copy
+    asserting "the ONE we listed has PERMANENTLY CLOSED" for no-open-shop cities (wrong on both
+    count and cause), a cumulative "have been so far" on a count that can decrease, and removed my
+    own dead `closedHere` binding.
+  - **Capital City Sports Cards → online-only** (`855d6ae7`): sheet `M17=online-only` and
+    `G17` fixed from a Facebook **group** URL to the live store (banner renders "Shop online at
+    {website}", so the old value would have misdirected people). Edmonton 16 → 15. Recorded as
+    Verified Reseller application #1 in `docs/research/`, not as page copy.
+  - **Note for the paused Hours session:** `store/[slug]/index.astro` is FREE again. It now carries
+    A's status logic and B's logo; rebase your JSON-LD wiring on top.
+  - Nothing published — the 09:00 UTC cron ships all of today's work.
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Closed-shop handling shipped, 29 shops verified and
   marked, and an 11-page regression caught before it left the machine** (`1daab366`, `16bdcd35`).
