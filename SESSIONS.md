@@ -86,6 +86,27 @@ Full cause, verification and a reappliable patch:
 
 ## Log
 
+- **2026-08-28** — *(Fable, SST cwd)* **`deploy-click-tracker` visibility bug found + fixed —
+  and then a real run revealed 3 more bugs the visibility fix alone couldn't have caught.**
+  New `workflow_dispatch` workflows are invisible in the Actions UI (web + mobile) until they
+  exist on the default branch, confirmed against GitHub's own docs — same shape as a fix
+  already sitting in this repo's history for `ratings-refresh.yml`. Pushed just the workflow
+  file to `main` via an isolated `git worktree` (confirmed first: `site.yml` only triggers on
+  push to `redesign`, so this couldn't fire a production deploy; confirmed after: nothing did).
+  Nathan then actually ran it from the app — and it failed, for three real reasons only a live
+  run surfaces: (1) `actions/checkout` had no `ref`, so a run dispatched against `main`'s copy
+  checked out `main`, where `worker/` doesn't exist — pinned to `ref: redesign`; (2) the KV-id
+  regex (`id = "..."`) never matched wrangler's real output (`"id": "..."`, JSON-shaped) — it
+  had **created a namespace successfully on every possible run and then reported failure
+  regardless**, confirmed by testing the fixed pattern against the actual failing run's log
+  line; (3) the "find existing namespace" check looked for a title ending in
+  `scnm-click-tracker-CLICKS`; a bare `wrangler kv namespace create CLICKS` with no project
+  config actually titles it exactly `CLICKS` — the old check would never have found it on a
+  second run and would have tried to create a duplicate every time. A real namespace already
+  exists from Nathan's run (`67ed7ea5b1f44afaae3d9797d1c0b2a0`, titled `CLICKS`) — the fixed
+  lookup will find and reuse it. Fixed on `redesign` (`ea0d7e55`), re-synced to `main` the same way (isolated worktree again).
+  **Not yet re-run** — waiting on Nathan to retry from the app.
+
 - **2026-08-28** — *(Opus, `scnm-plan4`)* **Plan 14 verified — no work needed, it was already
   done correctly by the parallel session.** I claimed lib+data to run Plan 14 through Codex;
   Codex could not execute (see below) and by the time I fell back to doing it myself, the
