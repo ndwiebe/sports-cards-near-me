@@ -26,8 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-28 | Sonnet A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — own worktree only | Plan 17 quarterly show refresh. Emits a payload; never writes the sheet. |
-| 2026-08-28 | Sonnet B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — own worktree only | Plan 18 monthly Search Console pull. Read-only against GSC. |
 
 
 
@@ -88,6 +86,27 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus)* **Both recurring SCNM jobs are now scripts.** `scripts/fetch-gsc.py`
+  (Plan 18) pulls the Search Console export straight into the directory
+  `analyze-gsc-export.py` already accepts — the monthly read is two commands and no manual CSV
+  download. `scripts/refresh-shows.py` (Plan 17) re-scrapes TCDB quarterly and reports
+  NEW/CHANGED/KNOWN/GONE; **first run found 8 genuinely new shows two days after a full manual
+  import**, which is the case for its existence. Both emit review payloads and never write the
+  sheet. Merged to `redesign`; 320 tests pass.
+  **Nathan asked for "a repeatable skill" — a skill was the wrong shape.** The analysis already
+  lived in `analyze-gsc-export.py` with the traps baked in, and skills are a global namespace for
+  what are one repo's chores. Scripts plus a cadence instead.
+  ⚠️ **dev-browser kills any script at 30 SECONDS.** A single invocation cannot loop 190 pages;
+  batches of 8 with a checkpoint file after each batch. 18 per batch overran it twice.
+  ⚠️ **Four classes of confidently-wrong output found while testing the refresh**, all now
+  guarded: GONE computed on a `--limit` run (reported 148 of 162 missing); phantom GONE *and*
+  phantom NEW from TCDB's own city misspellings ("St. Catherines", "Lloyminster") failing to
+  match ours; deliberately-deleted rows returning as NEW every quarter (now flagged
+  `PREVIOUSLY-REJECTED` via `redirects.json`); and the batch cap above.
+  ℹ️ Codex was quota-blocked mid-run and both Sonnet subagents died on a session limit, so this
+  was built directly — per the standing rule that bulk mechanical work belongs in a script, not
+  a subagent.
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`, Nathan session)* **Hours shipped end-to-end, show
   promoter fields added, Alberta gap closed by 10.**
