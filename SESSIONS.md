@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-28 | Opus, `scnm-plan4` | **docs/ci** | `.github/workflows/ratings-refresh.yml` only | Closure scan ran and found 6 CLOSED_PERMANENTLY, but the CSV never reached the branch and the PR step is blocked by a repo setting. Adding an artifact upload so the results survive both failures. |
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -85,6 +85,25 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus)* **First closure scan run — 5 candidates, results rescued.** The scan
+  works; its output nearly didn't survive. Two independent failures: the new untracked
+  `closure-review.csv` never made it into the PR commit, and the PR step fails outright on
+  *"GitHub Actions is not permitted to create or approve pull requests"* — a **repo setting**
+  (Settings → Actions → General → Workflow permissions), not a code bug. Added an
+  `upload-artifact` step with `if: always()` so the CSVs survive both; results now downloadable
+  with `gh run download <id> -n ratings-refresh-csvs`. Committed as
+  `docs/research/2026-08-28-closure-review.csv`.
+  ⚠️ **`gh workflow run <wf>` defaults to the DEFAULT BRANCH (`main`), not your branch.** My
+  first re-run silently used main's old workflow, so the artifact step "didn't run" — it wasn't
+  there. Use `--ref redesign`. Same family as the site.yml deploy trap already documented above.
+  ⚠️ The summary line says **6** CLOSED_PERMANENTLY; the CSV holds **5** data rows. The count
+  appears to include the header line — off by one, worth fixing in `refresh-ratings.py`.
+  🚨 **Search Console is NOT reachable from this machine.** `dominathan@gmail.com` — the only
+  account signed into AI Chrome — has **zero** Search Console properties (it lands on the
+  "Welcome/Add a website" screen). SCNM's property lives under a different Google account, so
+  the generative-AI eligibility check cannot be done from here by anyone until that account is
+  signed in or `dominathan@` is added as a property owner.
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Diagnosed the desktop/mobile ranking gap the 25 Aug
   read flagged as never-investigated — and found my own click-tracker fix was inert in
