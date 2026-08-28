@@ -195,6 +195,52 @@ def report(sheets):
             print('  directory and should. Treat that share as structurally unwinnable, not as')
             print('  headroom a title rewrite will recover.')
 
+    # Devices is optional — an export missing it still produces every other section.
+    if sheets.get('devices'):
+        devices = [r for r in sheets['devices'] if str(r.get('Device') or '').strip()]
+        rows = [(str(r.get('Device')).strip().lower(), num(r.get('Impressions')),
+                 num(r.get('Clicks')), num(r.get('Position'))) for r in devices]
+        rows = [r for r in rows if r[1] > 0]
+        ti = sum(r[1] for r in rows)
+        tc = sum(r[2] for r in rows)
+        if rows and ti:
+            print('\nDEVICES  (steer by the mobile row, not the blend — see the note)')
+            print(f'  {"device":<9}{"impr":>7}{"share":>8}{"clicks":>8}{"share":>8}{"CTR":>8}{"position":>10}')
+            for name, impr, clicks, pos in sorted(rows, key=lambda r: -r[1]):
+                print(f'  {name:<9}{impr:>7.0f}{impr/ti*100:>7.1f}%{clicks:>8.0f}'
+                      f'{(clicks/tc*100 if tc else 0):>7.1f}%{(clicks/impr*100 if impr else 0):>7.2f}%{pos:>10.2f}')
+
+            blended = sum(impr * pos for _, impr, _, pos in rows) / ti
+            primary = max(rows, key=lambda r: r[1])
+            print(f'\n  blended position : {blended:>5.2f}   <- what a single "average position" reports')
+            print(f'  {primary[0]:<7} position : {primary[3]:>5.2f}   <- {primary[1]/ti*100:.0f}% of impressions,'
+                  f' {(primary[2]/tc*100 if tc else 0):.0f}% of clicks')
+            print(f'  drag             : {blended - primary[3]:>+5.2f}  positions the blend carries from'
+                  ' segments that are not the audience')
+            # Why this section exists (2026-08-28): the plan tracked BLENDED position
+            # against a <=7.5 target and called it "the one metric still short" at 9.2.
+            # Mobile alone was 8.34 — 0.84 short, not 1.7. The gap was a quarter desktop,
+            # which sat around position 24, produced a fifth of the clicks, and did not
+            # move for any reason we could find. Five hypotheses were eliminated (query
+            # mix, an outlier day, local intent, device-specific content, Core Web Vitals)
+            # and no fixable cause was identified. Full workings:
+            # ~/jarvis-memory/06-SportsCardsNearMe/2026-08-28-desktop-mobile-ranking-gap-diagnosis.md
+            print('\n  Blending devices into one ranking figure hides which audience you are')
+            print('  losing. Report the dominant row against the target; note the others and')
+            print('  do not chase them without a cause you can actually name.')
+
+            # A deep average with a healthy CTR is two populations, not one. Desktop read
+            # 0.97% CTR at position 17.9 on 2026-08-25 — page-two results earn ~0.2%, so
+            # that average described no real query. Flag it rather than let anyone try to
+            # "improve" a midpoint between page one and page four.
+            for name, impr, clicks, pos in rows:
+                ctr = clicks / impr * 100 if impr else 0
+                if pos >= 15 and ctr >= 0.5:
+                    print(f'\n  WARNING: {name} shows CTR {ctr:.2f}% at position {pos:.1f}. Results that deep')
+                    print('  earn roughly 0.2%, so this average is the midpoint of two different')
+                    print('  populations, not a rank anything actually holds. Do not treat it as a')
+                    print('  number to move — split it before drawing any conclusion from it.')
+
     if queries:
         print(f'\nTOP QUERIES BY IMPRESSIONS')
         rows = sorted(queries, key=lambda r: -num(r.get('Impressions')))[:12]
