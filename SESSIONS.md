@@ -94,6 +94,35 @@ Full cause, verification and a reappliable patch:
 
 ## Log
 
+- **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Finished the unblocked backlog: stale logos, the
+  grading guide, and the three held-back closure cases.** 314 tests, 1453 pages.
+  - **Stale logos (`cb4c097c`).** Workstream B's parity test found 11 `logos.json` entries pointing
+    at no store. They were two different problems: **5 were city renames whose shop still exists and
+    was silently missing a logo it already had on disk** — the chip was filed under the old slug, so
+    `hasLogo()` never fired. Renamed those (each verified: target exists AND has no logo), deleted 6
+    genuinely dead. Open shops with a logo 319 → **324**; orphans 11 → **0**. Removed the now-obsolete
+    `KNOWN_STALE_LOGO_SLUGS` allowance, and turned `expect(length).toBe(332)` into a floor — an exact
+    count fails on any routine add/remove/rescrape, which is not what that test is asking.
+  - **Grading guide (`a95df0db`).** 45% of guide impressions, worst converter on the site. The
+    2026-08-25 read called it a snippet problem (guide CTR flat at 0.74%→0.72% across five positions
+    of rank gain) but nobody had looked at WHICH queries arrive. They're brand-led and **the biggest
+    brand was the one word the title didn't contain**: Beckett — 49 impressions across four queries
+    vs 24 for SGC and 22 for PSA — while the title said only "BGS". Two of those sit at **position
+    2.0 and 2.6 with zero clicks**, which cannot be a ranking problem. Title now
+    `PSA vs Beckett vs SGC vs CGC: Card Grading in Canada` (also 7 chars shorter, so it survives
+    Google's cut once the layout appends the site name). Verified the page delivers on it — 11
+    Beckett mentions, and it directly answers "does beckett grade in canada". **Judge on the next
+    read: if Beckett queries still earn nothing at position 2, the problem is the page, not the snippet.**
+  - **Three held-back shops** — outcomes written to `docs/research/2026-08-28-closure-review-outcomes.md`
+    so the next monthly scan doesn't redo the investigation, because it WILL re-flag all three.
+    **BFireBallDragon: resolved, flag rejected** — Google matched a different address (1490 vs 1642);
+    the closure belongs to another business. **Toyz Game Emporium and Booster House: still
+    unresolved, need a phone call.** Two browser attempts produced no usable evidence. Toyz has a
+    separate and larger problem — empty `services` AND `sports`, and its own page calls it a video
+    game supplier, so the real question is whether it belongs in a card directory at all.
+  - **Still blocked:** "open now". 631/659 shops have hours; no code derives the state. The parser
+    belongs to the paused Hours session and is still uncommitted — not duplicating it.
+
 - **2026-08-28** — *(Opus 5 coordinator + 4 parallel Sonnet builds in worktrees)* **Launch-readiness
   pass: all four workstreams merged, reviewed, verified.** 310 tests, 1453 pages, typecheck clean.
   - **D — filter chips** (`28cf297c`): city-page chips now use `collectTags()` (case-insensitive)
