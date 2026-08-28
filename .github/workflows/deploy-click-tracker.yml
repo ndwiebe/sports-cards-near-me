@@ -14,7 +14,15 @@ jobs:
     permissions:
       contents: read
     steps:
+      # Pinned to redesign regardless of which ref this workflow_dispatch is fired
+      # against: the workflow FILE has to live on main to be visible/runnable at all
+      # (GitHub requires this for workflow_dispatch — see SESSIONS.md), but
+      # worker/click-tracker.js and worker/wrangler.jsonc only exist on redesign.
+      # Without this, a run dispatched from main's copy checks out main and the
+      # later "Deploy the Worker" step fails with no worker/ directory.
       - uses: actions/checkout@v4
+        with:
+          ref: redesign
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -26,16 +34,29 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           npx wrangler kv namespace list > /tmp/kv-list.json
+          # 2026-08-28: bare `wrangler kv namespace create CLICKS` (no --config,
+          # no project context) titles the namespace exactly "CLICKS", not
+          # "<worker-name>-CLICKS" as an earlier version of this script assumed.
+          # Confirmed against a real create run. Matching on the exact title we
+          # know wrangler actually used, not a guessed convention. Collision risk:
+          # if this Cloudflare account ever hosts an unrelated namespace also
+          # bare-titled "CLICKS", this would misidentify it — acceptable for now,
+          # revisit if that ever happens.
           ID=$(node -e "
             const list = require('/tmp/kv-list.json');
-            const found = list.find(ns => ns.title.endsWith('scnm-click-tracker-CLICKS'));
+            const found = list.find(ns => ns.title === 'CLICKS');
             if (found) console.log(found.id);
           ")
           if [ -z "$ID" ]; then
             echo "No existing namespace found — creating one."
             npx wrangler kv namespace create CLICKS > /tmp/kv-create.txt
             cat /tmp/kv-create.txt
-            ID=$(grep -o 'id = "[a-f0-9]*"' /tmp/kv-create.txt | grep -o '[a-f0-9]\{32\}')
+            # 2026-08-28: wrangler's real create output is `"id": "<32 hex>"`
+            # (JSON-shaped, colon) — the earlier `id = "..."` (space-equals)
+            # pattern never matched, so a namespace was created successfully
+            # every time and the step still failed right after, believing it
+            # had nothing. Verified against the actual failing run's log.
+            ID=$(grep -o '"id": *"[a-f0-9]*"' /tmp/kv-create.txt | grep -o '[a-f0-9]\{32\}')
           fi
           if [ -z "$ID" ]; then
             echo "::error::Could not determine a KV namespace id — see the output above."
