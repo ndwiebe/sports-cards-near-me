@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-28 | Opus 5 / `scnm-plan4` | **docs** | `docs/research/2026-08-27-enrichment-payload.csv` | Resolving the Ottawa Sep-13 HOLD (Nathan delegated the call) — annotation was lost when `70bedb36` regenerated the payload |
 
 ## Queued — claimed but not started
 
