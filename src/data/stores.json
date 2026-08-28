@@ -69,6 +69,20 @@
     "lng": -114.0124649
   },
   {
+    "slug": "hk-collectibles-balzac",
+    "name": "HK Collectibles",
+    "city": "Balzac",
+    "citySlug": "balzac",
+    "address": "260300 Writing Creek Cres Unit i10, Balzac, AB T4A 0X8",
+    "province": "AB",
+    "phone": "(403) 918-4994",
+    "website": "https://hkcollectibles.ca/",
+    "services": [],
+    "sports": [],
+    "lat": 51.196195,
+    "lng": -113.9958807
+  },
+  {
     "slug": "overtime-sports-cards-grading-balzac",
     "name": "Overtime Sports Cards & Grading",
     "city": "Balzac",
@@ -93,6 +107,20 @@
       "Magic",
       "Pokemon"
     ],
+    "lat": 51.196195,
+    "lng": -113.9958807
+  },
+  {
+    "slug": "senshen-collectibles-balzac",
+    "name": "Senshen Collectibles",
+    "city": "Balzac",
+    "citySlug": "balzac",
+    "address": "260300 Writing Creek Cres, Balzac, AB T4A 0X8",
+    "province": "AB",
+    "phone": "(403) 992-3396",
+    "website": "http://www.senshencollectibles.com/",
+    "services": [],
+    "sports": [],
     "lat": 51.196195,
     "lng": -113.9958807
   },
@@ -251,6 +279,19 @@
     "lng": -114.06332
   },
   {
+    "slug": "earthbound-trading-card-games-calgary",
+    "name": "Earthbound Trading Card Games",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "47 Bermondsey Crescent NW, Calgary, AB T3K 1W1",
+    "province": "AB",
+    "website": "https://earthboundtcgames.square.site/",
+    "services": [],
+    "sports": [],
+    "lat": 51.1257193,
+    "lng": -114.096399
+  },
+  {
     "slug": "eastridge-sports-cards-games-calgary",
     "name": "Eastridge Sports Cards & Games",
     "city": "Calgary",
@@ -325,6 +366,34 @@
     "lng": -114.0697216
   },
   {
+    "slug": "reliquary-cards-calgary",
+    "name": "Reliquary Cards",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "6326 Bowness Rd NW, Calgary, AB T3B 0E5",
+    "province": "AB",
+    "phone": "(403) 288-4926",
+    "website": "http://www.reliquarycards.com/",
+    "services": [],
+    "sports": [],
+    "lat": 51.0855602,
+    "lng": -114.1790536
+  },
+  {
+    "slug": "scuffed-cards-calgary",
+    "name": "Scuffed Cards",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1336 Acadia Dr SE, Calgary, AB T2J 2V9",
+    "province": "AB",
+    "phone": "(403) 818-1586",
+    "website": "http://scuffedcards.com/",
+    "services": [],
+    "sports": [],
+    "lat": 50.9380834,
+    "lng": -114.0477148
+  },
+  {
     "slug": "sentry-box-cards-calgary",
     "name": "Sentry Box Cards",
     "city": "Calgary",
@@ -369,6 +438,34 @@
     ],
     "lat": 51.0959,
     "lng": -114.05155
+  },
+  {
+    "slug": "vaulted-yyc-17th-ave-calgary",
+    "name": "Vaulted YYC - 17th Ave",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1435 17 Ave SW, Calgary, AB T2T 0E1",
+    "province": "AB",
+    "phone": "(403) 474-4445",
+    "website": "https://vaultedyyc.com/",
+    "services": [],
+    "sports": [],
+    "lat": 51.0377228,
+    "lng": -114.0950287
+  },
+  {
+    "slug": "vaulted-yyc-crossroads-calgary",
+    "name": "Vaulted YYC Crossroads",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1235 26 Ave SE, Calgary, AB T2G 1R7",
+    "province": "AB",
+    "phone": "(403) 474-4445",
+    "website": "https://vaultedyyc.com/",
+    "services": [],
+    "sports": [],
+    "lat": 51.0299014,
+    "lng": -114.0351623
   },
   {
     "slug": "anime-hypercubed-camrose",
@@ -590,6 +687,20 @@
     "lng": -110.2078179
   },
   {
+    "slug": "puck-it-cards-collectibles-didsbury",
+    "name": "Puck it Cards & Collectibles",
+    "city": "Didsbury",
+    "citySlug": "didsbury",
+    "address": "7 Co-Op Rd, Didsbury, AB T0M 0W0",
+    "province": "AB",
+    "phone": "+1 587-436-8166",
+    "website": "https://linktr.ee/puckitcards",
+    "services": [],
+    "sports": [],
+    "lat": 51.6578283,
+    "lng": -114.1347827
+  },
+  {
     "slug": "tugs-cards-comics-tugs-pop-culture-sports-drumheller",
     "name": "TUGS Cards & Comics (Tugs Pop Culture & Sports)",
     "city": "Drumheller",
@@ -713,6 +824,20 @@
     "lng": -113.4694644
   },
   {
+    "slug": "foil-city-cards-edmonton",
+    "name": "Foil City Cards",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "7810 Gateway Blvd NW, Edmonton, AB T6E 6C3",
+    "province": "AB",
+    "phone": "(825) 402-6528",
+    "website": "https://www.foilcitycards.com/",
+    "services": [],
+    "sports": [],
+    "lat": 53.516692,
+    "lng": -113.494728
+  },
+  {
     "slug": "gamesland-canada-edmonton",
     "name": "Gamesland Canada",
     "city": "Edmonton",
@@ -737,6 +862,20 @@
     ],
     "lat": 53.54236,
     "lng": -113.57654
+  },
+  {
+    "slug": "hpw-cards-inc-edmonton",
+    "name": "HPW Cards Inc.",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "10553 Kingsway NW, Edmonton, AB T5H 4K1",
+    "province": "AB",
+    "phone": "(587) 785-8885",
+    "website": "https://www.hpwcards.com/",
+    "services": [],
+    "sports": [],
+    "lat": 53.5579104,
+    "lng": -113.5021014
   },
   {
     "slug": "icons-and-heroes-edmonton",
