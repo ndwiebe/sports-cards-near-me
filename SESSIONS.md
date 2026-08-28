@@ -38,7 +38,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | ~~Ottawa fold-in~~ | — | — | ✅ resolved as a DELETE (confirmed duplicate, not a rename) — shipped same write |
 | ~~`noindex` the empty `/resellers/` pages~~ | — | — | ✅ shipped 2026-08-27, `ede35311` |
 | ~~Titles + meta descriptions on store/city pages~~ | — | — | ✅ shipped 2026-08-25, `8bff32da` — do not redo |
-| ~~Click tracking (Directions/Call)~~ | — | — | Built 2026-08-27 (`9159e9e0`), **wired into the build 2026-08-28 (`0a5e9f8f`)** — the Worker alone was never enough: `PUBLIC_CLICK_TRACKER_URL` was missing from `site.yml`, so the listener was omitted from every page and a deployed Worker would have received nothing forever, both workflows green. **Nathan-only, in order:** (1) `gh workflow run deploy-click-tracker.yml --ref redesign` (provisions real billed infra — a session is correctly blocked from this), (2) set the printed URL as repo variable `PUBLIC_CLICK_TRACKER_URL`, (3) `gh workflow run site --ref main` to publish, then check a live store page for `sendBeacon` |
+| ~~Click tracking (Directions/Call)~~ | — | — | ⚠️ **Wiring is HALF-LANDED.** Built 2026-08-27 (`9159e9e0`), wired 2026-08-28 (`0a5e9f8f`) on `redesign` **only** — production dispatches against `main`, whose `site.yml` lacked the line, so the live build never requested it. Sync commit `22bab42f` sits on **local `main`, unpushed** (Nathan approves every main push). Push it before step 3 below or the counter stays dead with a green run. Then: built 2026-08-27 (`9159e9e0`), wired 2026-08-28 (`0a5e9f8f`) — the Worker alone was never enough: `PUBLIC_CLICK_TRACKER_URL` was missing from `site.yml`, so the listener was omitted from every page and a deployed Worker would have received nothing forever, both workflows green. **Nathan-only, in order:** (1) `gh workflow run deploy-click-tracker.yml --ref redesign` (provisions real billed infra — a session is correctly blocked from this), (2) set the printed URL as repo variable `PUBLIC_CLICK_TRACKER_URL`, (3) `gh workflow run site --ref main` to publish, then check a live store page for `sendBeacon` |
 | Per-city show pages as a NEW page type | — | — | ❌ **DECIDED AGAINST 2026-08-27** — see the decision record below. Enrichment (Plan 15, above) replaces this. |
 
 ⚠️ **All four data tasks are SHEET edits, not JSON edits.** See `CLAUDE.md` → the three
@@ -85,6 +85,30 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Diagnosed the desktop/mobile ranking gap the 25 Aug
+  read flagged as never-investigated — and found my own click-tracker fix was inert in
+  production.** Full diagnosis:
+  `~/jarvis-memory/06-SportsCardsNearMe/2026-08-28-desktop-mobile-ranking-gap-diagnosis.md`.
+  - **The gap is real and site-wide**, median **+23.8 positions** worse on desktop across every
+    page type. Ruled out, each with evidence rather than argument: query composition (the
+    bad-position pool is 8× too small, and the withheld long tail derives to position 10.44 —
+    *better* than visible queries); the 2026-08-12 spike (strip the day, desktop is still 17.35);
+    local intent (`/guides/card-grading-companies-canada/` has zero local intent and is among the
+    worst hit, 35.5 vs 11.7); content differences (static site, byte-identical HTML per device);
+    and Core Web Vitals (Search Console has "not enough usage data" for **both** devices).
+  - **No mechanism established, and no fixable defect found.** Recording that as the answer rather
+    than dressing up a guess. Loose end: desktop CTR of 0.97% at position 17.9 is internally
+    inconsistent — desktop is near-certainly bimodal, so 17.9 describes no real query.
+  - **The actionable finding is a measurement one.** The plan tracks *blended* position against
+    ≤7.5 by 5 Nov. Mobile — 74% of impressions, 76% of clicks — is already at **8.34**, so the site
+    is 0.84 short, not the 1.7 the blend implies. Desktop drags the blend ~4.5 weighted points that
+    cannot be won back. Recommend reporting mobile position as the headline.
+  - **Method note for the next pull:** the staged export can never answer device questions —
+    Search Console exports each dimension separately, so `Devices.csv` is three rows of totals.
+    Device × query and device × page were pulled live via `dev-browser`. The property is a
+    **URL-prefix** property (`https://sportscardsnearme.ca/`); `sc-domain:` returns "no access".
+  - **Left for Nathan:** `22bab42f` on local `main`, unpushed — see the click-tracking row above.
 
 - **2026-08-28** — *(Fable, SST cwd)* **`deploy-click-tracker` visibility bug found + fixed —
   and then a real run revealed 3 more bugs the visibility fix alone couldn't have caught.**
