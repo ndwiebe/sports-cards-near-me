@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import storesJson from '../data/stores.json';
+import closedStoresJson from '../data/stores-closed.json';
 import showsJson from '../data/shows.json';
 import type { Store } from '../lib/types';
 import type { ShowRecord } from '../lib/shows';
@@ -8,6 +9,7 @@ import { isUpcoming } from '../lib/shows';
 import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, MIN_REVIEWS_FOR_TOP, type FaqItem } from '../lib/seo';
 
 const stores = storesJson as Store[];
+const closedCount = (closedStoresJson as Store[]).length;
 const shows = showsJson as ShowRecord[];
 
 // Every number on this page is computed, for the same reason the rest of the
@@ -55,6 +57,10 @@ const faqs: FaqItem[] = [
     question: 'How do I get my shop or show listed, or fix a mistake?',
     answer: `Use the suggest-a-store or add-a-show forms — both are free and a person reviews every submission. For a correction to an existing listing, email ${CONTACT} and it will be fixed at the next daily rebuild.`,
     link: { href: '/suggest/', label: 'Suggest a store' },
+  },
+  {
+    question: 'Is there a "last verified" date on each listing?',
+    answer: `Not yet. The whole directory rebuilds daily and every closure is confirmed by a person, but we don't currently publish a per-listing verification date — that's a gap, and this is us saying so rather than implying a date we don't have.`,
   },
 ];
 
@@ -142,6 +148,22 @@ const aboutLd = {
       blank rather than guessed at — an empty field is honest, a wrong rating attached to a real business is not.
     </p>
 
+    <h2 class="text-3xl">How fresh is this data?</h2>
+    <p>
+      The site rebuilds every day from the same spreadsheet the listings are compiled into, and every listing in it
+      is reviewed by a person, not scraped and published unread. Corrections work the same way — they land at the
+      next daily rebuild, same as everything else here.
+    </p>
+    <p>
+      Shops don't just quietly vanish when they close. Each one is confirmed individually before it's marked, and{' '}
+      {closedCount} have been so far: pulled out of every listing, ranking and map, with their page kept online and
+      relabelled "permanently closed" instead of deleted, so a search for the shop by name still finds something true.
+    </p>
+    <p>
+      What we don't yet publish is a "last verified" date on each individual listing — that data doesn't exist yet.
+      We'd rather say so than let the daily rebuild imply a per-shop check that isn't there.
+    </p>
+
     <h2 class="text-3xl">What "best" has to mean here</h2>
     <p>
       A shop is only described as best, top-rated, or a top pick if it has a Google rating backed by at least{' '}
@@ -165,8 +187,9 @@ const aboutLd = {
     <p>
       If a listing here is wrong — a shop has moved, closed, changed hands, or should never have been listed — tell
       me and I'll fix it. Email <a href={`mailto:${CONTACT}`} class="text-prizm">{CONTACT}</a>, or use{' '}
-      <a href="/suggest/" class="text-prizm">the suggest-a-store form</a>. Corrections go live at the next daily
-      rebuild. Shop owners can also ask to have their listing removed entirely, no reason required.
+      <a href="/suggest/" class="text-prizm">the suggest-a-store form</a> — see "How fresh is this data?" above for
+      when a fix actually goes live. Shop owners can also ask to have their listing removed entirely, no reason
+      required.
     </p>
 
     <h2 class="text-3xl">Common questions</h2>

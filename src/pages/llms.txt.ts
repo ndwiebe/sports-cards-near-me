@@ -3,6 +3,7 @@
 // same data the pages use, so counts here can never drift from what's published.
 import type { APIRoute } from 'astro';
 import storesJson from '../data/stores.json';
+import closedStoresJson from '../data/stores-closed.json';
 import showsJson from '../data/shows.json';
 import type { Store } from '../lib/types';
 import { PROVINCES } from '../lib/types';
@@ -12,6 +13,7 @@ import { GUIDES } from '../lib/guides';
 
 export const GET: APIRoute = ({ site }) => {
   const stores = storesJson as Store[];
+  const closedCount = (closedStoresJson as Store[]).length;
   const shows = showsJson as ShowRecord[];
   const base = (site ?? new URL('https://sportscardsnearme.ca')).origin;
 
@@ -70,6 +72,7 @@ export const GET: APIRoute = ({ site }) => {
     '',
     `- Last built: ${new Date().toISOString().slice(0, 10)}`,
     '- Rebuild cadence: daily',
+    `- Confirmed permanent closures removed from listings so far: ${closedCount}. Each is verified individually; the page stays online, marked closed, rather than being deleted.`,
     `- Sitemap: ${base}/sitemap-index.xml`,
     '',
   ];
