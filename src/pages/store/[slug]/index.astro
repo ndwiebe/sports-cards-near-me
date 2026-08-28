@@ -11,6 +11,7 @@ import { sellPageExistsForCity } from '../../../lib/sell';
 import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
 import { hasLogo } from '../../../lib/logos';
+import { parseStoreHours } from '../../../lib/store-hours';
 
 // Closed shops keep their page. Someone who searches the shop by name deserves to be
 // told it has closed, rather than hitting a 404 that tells them nothing — and if the
@@ -48,6 +49,7 @@ const faqs = storeFaqs(store, provinceName, sellPageExistsForCity(storesJson as 
 // which sits on page two despite earning the most reach of any page type.
 const offersGrading = store.services.some((s) => s.toLowerCase() === 'grading services');
 const faqLd = faqPageLd(faqs);
+const openingHours = parseStoreHours(store.hours);
 const breadcrumbLd = breadcrumbListLd([
   { name: 'Home', url: absoluteUrl(Astro.site, '/') },
   { name: provinceName, url: absoluteUrl(Astro.site, `/${provinceSlug}/`) },
@@ -79,6 +81,10 @@ const ld: Record<string, unknown> = {
     store.reviewCount !== undefined && {
       aggregateRating: { '@type': 'AggregateRating', ratingValue: store.rating, reviewCount: store.reviewCount },
     }),
+  // The Hours string renders below for people; this is the same hours in the
+  // form Google reads for "open now". Absent when a shop's hours don't parse
+  // cleanly — see the all-or-nothing rule in store-hours.ts.
+  ...(openingHours !== undefined && { openingHoursSpecification: openingHours }),
 };
 ---
 <Base
