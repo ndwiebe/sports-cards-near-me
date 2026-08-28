@@ -26,7 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-28 | Opus 5 / `scnm-plan4` | **pages** + `site.yml` | `site.yml`, `src/pages/store/[slug]/index.astro`, `src/pages/[province]/[city]/index.astro` | Wiring `PUBLIC_CLICK_TRACKER_URL` into the build (it was never added — the Worker would stay inert even after deploy) + in-content ecosystem callout on store/city pages |
 
 ## Queued — claimed but not started
 
@@ -38,7 +37,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | ~~Ottawa fold-in~~ | — | — | ✅ resolved as a DELETE (confirmed duplicate, not a rename) — shipped same write |
 | ~~`noindex` the empty `/resellers/` pages~~ | — | — | ✅ shipped 2026-08-27, `ede35311` |
 | ~~Titles + meta descriptions on store/city pages~~ | — | — | ✅ shipped 2026-08-25, `8bff32da` — do not redo |
-| ~~Click tracking (Directions/Call)~~ | — | — | Built 2026-08-27 (`9159e9e0`) — inert until deployed. **Nathan-only:** `gh workflow run deploy-click-tracker.yml --ref redesign` (blocked by the permission classifier when a session tried it — provisions real billed infra, needs a human go) |
+| ~~Click tracking (Directions/Call)~~ | — | — | Built 2026-08-27 (`9159e9e0`), **wired into the build 2026-08-28 (`0a5e9f8f`)** — the Worker alone was never enough: `PUBLIC_CLICK_TRACKER_URL` was missing from `site.yml`, so the listener was omitted from every page and a deployed Worker would have received nothing forever, both workflows green. **Nathan-only, in order:** (1) `gh workflow run deploy-click-tracker.yml --ref redesign` (provisions real billed infra — a session is correctly blocked from this), (2) set the printed URL as repo variable `PUBLIC_CLICK_TRACKER_URL`, (3) `gh workflow run site --ref main` to publish, then check a live store page for `sendBeacon` |
 | Per-city show pages as a NEW page type | — | — | ❌ **DECIDED AGAINST 2026-08-27** — see the decision record below. Enrichment (Plan 15, above) replaces this. |
 
 ⚠️ **All four data tasks are SHEET edits, not JSON edits.** See `CLAUDE.md` → the three
@@ -218,3 +217,32 @@ Full cause, verification and a reappliable patch:
   ready. `npm run typecheck && npm test` (270/270) and `npm run build` (1471 pages) all pass
   on both fix commits. **Nothing sheet-side has been written — the CSV is guidance, not an
   action taken.**
+
+### 2026-08-28 — Opus 5 · review of the monetization report, and the blocker it exposed
+
+Reviewed `~/jarvis-memory/06-SportsCardsNearMe/2026-08-27-scnm-metrics-outreach-monetization.html`
+against its own sources and this repo. Most of it checked out — GSC figures, 689/146/0 counts,
+competitor listing counts and the core "free outreach now, paid outreach much later" judgment
+are all sound. Four things did not, and one of them was a live trap:
+
+- **`PUBLIC_CLICK_TRACKER_URL` was never added to `site.yml`.** This file recorded the remaining
+  step as one Nathan-only command. That command was necessary and not sufficient: the site builds
+  on GitHub Actions, so a variable not passed into that build step doesn't exist at build time.
+  Deploying the Worker would have produced a running counter receiving nothing, indefinitely,
+  with green checkmarks on both workflows. Fixed in `0a5e9f8f`, verified both directions against
+  a real build (unset → 0 `sendBeacon`; set → URL present, 4 `data-track-click` hooks).
+- **The report's section 3 was stale within two hours of being written** — it recommended PostHog
+  or GA4, both already considered and rejected by `9159e9e0`. Report patched with a visible
+  correction banner rather than silently rewritten, so the staleness stays legible.
+- **Ecosystem callout added to store + city pages** (`0a5e9f8f`, 937 pages). Note the report's
+  premise was half wrong: `EcosystemFooter` is in `Base.astro` and has always been sitewide.
+  Only the in-content callout was missing. Labelled as Nathan's own per about.astro's Independence
+  section and PLAN.md G3 — `sell/index.astro`'s older callout does **not** carry that label and
+  arguably should; flagged, not changed.
+- **Did not redo the titles/meta pass.** This file says shipped `8bff32da`, do-not-redo; confirmed
+  live on the real URL (`Outpost… — 4.7★, 365 Reviews · Edmonton`, and city descriptions now say
+  "ranks first on our review-weighted score"). Also note `8bff32da`'s "Actions minutes exhausted
+  until 2026-09-01" is stale — runs have succeeded since, including two `site --ref main` publishes.
+
+Nothing published. `0a5e9f8f` changes copy on 937 live pages, so production is Nathan's call.
+274 unit tests, typecheck clean, 1468 pages built.
