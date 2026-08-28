@@ -26,13 +26,13 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-28 | Opus 5 / `scnm-plan4` | **data** | `scripts/refresh-ratings.py`, `docs/research/closure-review.csv` | Partial scans were clobbering the full closure census (32 → 5). Restoring the 32 and making the file merge instead of overwrite |
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
 | Work | Lane | Plan | Blocked on |
 |---|---|---|---|
-| Capital City closure + `status` field design | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | ✅ unblocked — full closure scan ran 2026-08-27: **32 of 689 shops CLOSED_PERMANENTLY**, real enough to justify designing the field now. Data sits on branch `chore/ratings-refresh` (the monthly workflow's PR-creation step is blocked by a repo Actions permission, `default_workflow_permissions: read` — flagged to Nathan, not fixed unilaterally, it's repo-wide) |
+| Capital City closure + `status` field design (⚠️ census was clobbered 2026-08-28, now restored + guarded — see log) | **data** (sheet + `bake-stores`) | `docs/superpowers/plans/2026-08-27-data-fixes-and-gsc-wins.md` | ✅ unblocked — full closure scan ran 2026-08-27: **32 of 689 shops CLOSED_PERMANENTLY**, real enough to justify designing the field now. Data sits on branch `chore/ratings-refresh` (the monthly workflow's PR-creation step is blocked by a repo Actions permission, `default_workflow_permissions: read` — flagged to Nathan, not fixed unilaterally, it's repo-wide) |
 | ~~Calgary Genesis Centre triple~~ | — | — | ✅ shipped 2026-08-27 — deleted via direct sheet write (`gws`), not a CSV hand-off. See log. |
 | ~~Leduc rename~~ | — | — | ✅ shipped 2026-08-27, same sheet write |
 | ~~Ottawa fold-in~~ | — | — | ✅ **CLOSED 2026-08-28** (`a547ddfb`) — Nathan delegated the call. Confirmed DELETE, not rename: the TCDb Sep-13 row is day 2 of `...ottawa-2026-09-12` (Sep 12→13, same curling rink/address/hours/promoter). Settled by a pattern in our own data — all 3 Curling Rink bookings are 2-day with an EndDate, all Hall A&B are 1-day. Row removed from the payload. No site data changed; the existing redirect is safe (source isn't a real show, target is, nothing shadowed). ⚠️ The earlier HOLD marker was **destroyed** by `70bedb36` regenerating the payload — annotations in generated files don't survive. Reasoning now lives in the vault decisions log. |
@@ -85,6 +85,33 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus 5, `scnm-plan4`)* **The closure census had silently lost 27 of its 32
+  findings. Recovered and guarded (`6d9533bf`).** Went to build the `status` field and checked the
+  premise first: SESSIONS said 32 closures, the branch held 5, and nothing had failed.
+  - **Cause:** `refresh-ratings.py` defaults to scanning only *unrated* stores. Yesterday's run
+    passed `--all` (689 stores, 4m07s, 32 closures). Today's ran the default (52 stores, 43s, 5)
+    and wrote `closure-review.csv` with `'w'`. A 52-store slice overwrote a 689-store census. The
+    workflow's PR step **force-pushes** its branch (`+ 5665caa...9998a2e (forced update)`), so git
+    preserved nothing either. Green-looking run, smaller file, 27 real candidates gone.
+  - **Recovered** from commit `158b544`, which GitHub still had post-force-push. Confirmed the 5
+    are a strict subset of the 32 — today didn't contradict yesterday, it just saw less.
+  - **Fixed** by making the file merge rather than overwrite: a row survives until a scan that
+    actually re-checked that store says otherwise; this run's verdict wins for stores it checked
+    (so a reopening is still dropped correctly); unchecked stores carry over. Verified both
+    directions against the real recovered data — partial run over the census yields 32 (27
+    carried + 5 re-confirmed), and 31 when one store reopens.
+  - Output now states its own scope. `"5 CLOSED_PERMANENTLY"` printed without `"out of 52 of 689"`
+    is precisely what made a partial answer look complete. `closure-review.csv` now lives on
+    `redesign` too — the merge needs a base to merge into, and the workflow checks out `redesign`.
+  - **Did NOT build the `status` field.** The 32 are candidates for Nathan's review; the script's
+    own comment is right that unlisting a live business on Google's flag alone is the worst error
+    this directory can make. Design work is unblocked but the review is the gate.
+  - ⚠️ **Still open, repo-wide, needs Nathan:** the workflow's PR step fails with *"GitHub Actions
+    is not permitted to create or approve pull requests"* (`default_workflow_permissions: read`).
+    Every ratings-refresh run has failed at this step since 2026-08-01. The CSVs now survive as an
+    artifact (`d2f6bdd5`), but no PR ever opens, so results only reach anyone if someone goes
+    looking.
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Ottawa Sep-13 duplicate closed (`a547ddfb`), and
   outreach is now formally gated on product readiness.** Nathan delegated the Ottawa call; it was
