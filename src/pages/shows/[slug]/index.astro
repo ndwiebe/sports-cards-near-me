@@ -52,11 +52,30 @@ const ld = showEventLd(show, absoluteUrl(Astro.site, `/shows/${show.slug}/`));
     {show.hours !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt><dd class="mt-1">{show.hours}</dd></div>}
     {show.admission !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Admission</dt><dd class="mt-1">{show.admission}</dd></div>}
     {show.recurring !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Recurring</dt><dd class="mt-1">{show.recurring}</dd></div>}
+    {show.organizer !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Organizer</dt><dd class="mt-1">{show.organizer}</dd></div>}
   </dl>
   <div class="mt-8 flex flex-wrap gap-3">
     {show.website !== undefined && <a href={show.website} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Website</a>}
     {show.sourceUrl !== undefined && <a href={show.sourceUrl} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Source</a>}
   </div>
+  {/* A promoter's problem is filling tables, not being listed. Where we hold a
+      booking link, this is the only place on the site that helps them with it. */}
+  {show.tableBooking !== undefined && (
+    <section class="mt-12 rounded-2xl border border-bord p-6">
+      <h2 class="text-2xl">Selling at this show?</h2>
+      <p class="mt-2 text-sm text-paper/85">
+        {show.organizer !== undefined ? `${show.organizer} takes` : 'The organizer takes'} table
+        bookings for {show.name}. Tables at a busy show go early, so book ahead of the date.
+      </p>
+      <a
+        href={show.tableBooking}
+        target="_blank"
+        rel="noopener"
+        class="mt-4 inline-block rounded-lg px-5 py-2.5 font-semibold text-ink"
+        style="background:var(--gradient-refractor)"
+      >Book a table</a>
+    </section>
+  )}
   <p class="mt-12 text-sm text-muted">
     Run a show, or know one we're missing?{' '}
     <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it to the calendar</a> — it's free, and a person reviews every submission.

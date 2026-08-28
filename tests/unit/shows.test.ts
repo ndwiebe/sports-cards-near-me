@@ -35,6 +35,8 @@ const row = (over: Partial<Record<number, GvizCell | null>> = {}): GvizRow => {
     cell('https://calgarycardexpo.example/'),
     cell('https://source.example/calgary'),
     cell('Annual'),
+    cell('https://calgarycardexpo.example/vendors/'),
+    cell('Calgary Card Expo Inc.'),
   ];
   return base.map((c, i) => (i in over ? (over[i] ?? null) : c));
 };
@@ -230,5 +232,28 @@ describe('showsThisWeekend', () => {
 
   it('returns an empty array when nothing falls on the weekend', () => {
     expect(showsThisWeekend([makeShow('2026-07-10')], new Date(2026, 6, 13))).toEqual([]);
+  });
+});
+
+// Added 2026-08-28. A promoter's actual problem is filling tables; before these
+// two fields the site listed their show and gave a dealer no way into it.
+describe('rowToShow — promoter fields', () => {
+  it('maps the table-booking link and organizer name', () => {
+    const s = rowToShow(row());
+    expect(s?.tableBooking).toBe('https://calgarycardexpo.example/vendors/');
+    expect(s?.organizer).toBe('Calgary Card Expo Inc.');
+  });
+
+  it('drops a table-booking value that is not a URL', () => {
+    // The column exists so a promoter's own booking page can be linked. Promoter
+    // contacts reach us as personal mobile numbers; requiring a URL means one
+    // cannot be published through this field even by accident.
+    expect(rowToShow(row({ 12: cell('call Steve 613-555-0134') }))?.tableBooking).toBeUndefined();
+  });
+
+  it('leaves both undefined when the columns are empty', () => {
+    const s = rowToShow(row({ 12: null, 13: null }));
+    expect(s?.tableBooking).toBeUndefined();
+    expect(s?.organizer).toBeUndefined();
   });
 });

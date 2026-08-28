@@ -82,3 +82,32 @@ describe('showEventLd', () => {
     }
   });
 });
+
+const fixture = (over: Partial<ShowRecord> = {}): ShowRecord => ({
+  slug: 'capital-card-show-ottawa-2026-09-12', name: 'Capital Card Show', city: 'Ottawa',
+  citySlug: 'ottawa', province: 'ON', venue: 'Nepean Sportsplex',
+  address: '1701 Woodroffe Ave, Ottawa, ON', startDate: '2026-09-12', hours: '10-4', ...over,
+});
+
+describe('showEventLd — organizer', () => {
+  it('names the promoter and links their booking page', () => {
+    const ld = showEventLd(
+      fixture({ organizer: 'Capital Trade Shows', tableBooking: 'https://capitaltradeshows.ca/vendors/' }),
+      'https://sportscardsnearme.ca/shows/x/',
+    );
+    expect(ld.organizer).toEqual({
+      '@type': 'Organization',
+      name: 'Capital Trade Shows',
+      url: 'https://capitaltradeshows.ca/vendors/',
+    });
+  });
+
+  it('omits the booking url when only the name is known', () => {
+    const ld = showEventLd(fixture({ organizer: 'Capital Trade Shows' }), 'https://x/');
+    expect(ld.organizer).toEqual({ '@type': 'Organization', name: 'Capital Trade Shows' });
+  });
+
+  it('omits organizer entirely when the promoter is unknown', () => {
+    expect(showEventLd(fixture(), 'https://x/').organizer).toBeUndefined();
+  });
+});

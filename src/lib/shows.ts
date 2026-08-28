@@ -19,6 +19,21 @@ export interface ShowRecord {
   website?: string | undefined;
   sourceUrl?: string | undefined;
   recurring?: string | undefined;
+  /**
+   * Where a dealer books a table, as a URL.
+   *
+   * A promoter's actual problem is filling tables, and until this existed the
+   * site told collectors a show was happening while giving a dealer no way in.
+   *
+   * Deliberately a URL and not free text: promoter contact details reach us as
+   * personal mobile numbers and personal email addresses (see the private
+   * contacts note in the vault), and appearing on a hobby database is not
+   * consent to be republished. `httpUrl` rejects anything that isn't a link, so
+   * a pasted phone number cannot reach a public page through this field.
+   */
+  tableBooking?: string | undefined;
+  /** Public promoter or organisation NAME — never a person's contact details. */
+  organizer?: string | undefined;
 }
 
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -199,6 +214,8 @@ export function rowToShow(cells: GvizRow): ShowRecord | null {
     website: httpUrl(cells[9]?.v),
     sourceUrl: httpUrl(cells[10]?.v),
     recurring: sanitizeText(cells[11]?.v),
+    tableBooking: httpUrl(cells[12]?.v),
+    organizer: sanitizeText(cells[13]?.v),
   };
 }
 
@@ -295,6 +312,16 @@ export function showEventLd(show: ShowRecord, canonicalUrl: string): Record<stri
     },
     ...(show.admission !== undefined && {
       offers: { '@type': 'Offer', description: show.admission, url: canonicalUrl },
+    }),
+    // Organizer is a named party Google shows in the event result. Only the
+    // public promoter/business name ever lands here — the sheet column holds no
+    // contact details, by design (see ShowRecord.organizer).
+    ...(show.organizer !== undefined && {
+      organizer: {
+        '@type': 'Organization',
+        name: show.organizer,
+        ...(show.tableBooking !== undefined && { url: show.tableBooking }),
+      },
     }),
   };
 }
