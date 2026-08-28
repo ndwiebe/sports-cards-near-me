@@ -123,3 +123,36 @@ Before trusting any scrape from a source in this table:
   sooner, it is truncated.
 - **A zero is a claim too.** Confirm the page actually loaded and is genuinely empty
   before recording an absence — that is the silent-false-negative trap this file opens with.
+
+## The monthly Search Console read (added 2026-08-28)
+
+Two commands, no manual CSV download:
+
+```bash
+python3 scripts/fetch-gsc.py                                   # writes docs/research/gsc-export-<date>/
+python3 scripts/analyze-gsc-export.py docs/research/gsc-export-<date>
+```
+
+`fetch-gsc.py` drives the signed-in AI Chrome to Search Console and triggers the real
+Export → CSV, so the file set is identical to a human export and the analyzer needs no
+translation layer. It also writes `enhancements.json` (Events valid/invalid, and the
+Search Appearance state).
+
+**Property id — this cost a wrong conclusion.** It is the **URL-prefix** form
+`https://sportscardsnearme.ca/`. Both `sc-domain:sportscardsnearme.ca` and
+`http://sportscardsnearme.ca/` return "you don't have access", and probing only those two
+on 2026-08-28 produced a confident, false "this account has zero properties". A bad id
+redirects *silently* to `/search-console/not-verified`, so the script asserts on the landed
+URL every run rather than trusting a 200.
+
+**If it fails to connect:** dev-browser attaches over CDP, and that attach times out when
+Chrome has accumulated too many targets — 68 (19 pages, 31 ad iframes) was enough to break
+it on 2026-08-28 even though port 9222 still answered 200. Close stale tabs and retry:
+
+```bash
+curl -s http://127.0.0.1:9222/json/list | python3 -c "import sys,json;d=json.load(sys.stdin);print(len(d),'targets')"
+```
+
+**An empty `Search appearance.csv` is a real finding, not a failed pull** — it means no
+enhanced result has surfaced yet. Baseline 2026-08-28: Events 4 valid / 0 invalid,
+Search Appearance empty.
