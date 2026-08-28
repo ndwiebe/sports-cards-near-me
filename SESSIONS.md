@@ -26,6 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
+| 2026-08-28 | Opus 5 / `scnm-plan4` | **pages** + `site.yml` | `site.yml`, `src/pages/store/[slug]/index.astro`, `src/pages/[province]/[city]/index.astro` | Wiring `PUBLIC_CLICK_TRACKER_URL` into the build (it was never added — the Worker would stay inert even after deploy) + in-content ecosystem callout on store/city pages |
 
 ## Queued — claimed but not started
 
