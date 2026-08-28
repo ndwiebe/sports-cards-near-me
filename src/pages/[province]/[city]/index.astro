@@ -10,7 +10,7 @@ import type { Store } from '../../../lib/types';
 import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
 import { toMapResellers } from '../../../lib/map-data';
-import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, collectTags, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { isUpcoming, parseLocalDate, primaryShowCalendarYear } from '../../../lib/shows';
@@ -46,8 +46,9 @@ if (!allCityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
 const cityGroup = { ...allCityGroup, stores: allCityGroup.stores.filter((s) => s.status !== 'closed') };
 const closedHere = allCityGroup.stores.filter((s) => s.status === 'closed');
 const noneOpen = cityGroup.stores.length === 0;
-const services = [...new Set(cityGroup.stores.flatMap((s) => s.services))].sort();
-const sports = [...new Set(cityGroup.stores.flatMap((s) => s.sports))].sort();
+// Case-insensitively deduped and A-Z sorted — a sheet typo like "Grading services" vs
+// "Grading Services" must collapse to one chip, not render both. See commit 73e41802.
+const tags = collectTags(cityGroup.stores);
 
 // Same-province filter is load-bearing: nearestCities ranks across the whole
 // country, so a border city can return a neighbour in another province — and
@@ -70,7 +71,7 @@ const upcomingProvinceShows = shows
 const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
 const showYear = primaryShowCalendarYear(shows, province.code, buildDate);
 const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : '/shows/';
-const cityLowerTags = [...services, ...sports].map((t) => t.trim().toLowerCase());
+const cityLowerTags = tags.map((t) => t.trim().toLowerCase());
 const cityBuys = cityLowerTags.includes('buys');
 const cityTcg = cityLowerTags.includes('pokemon');
 
@@ -163,9 +164,9 @@ const faqLd = faqPageLd(faqs);
       class="w-full max-w-md rounded-lg border border-bord bg-well px-4 py-2.5 text-sm text-paper placeholder:text-faint"
       data-filter-search
     />
-    {(services.length > 0 || sports.length > 0) && (
+    {tags.length > 0 && (
       <div class="flex flex-wrap gap-1.5" role="group" aria-label="Filter stores">
-        {[...services, ...sports].map((t) => (
+        {tags.map((t) => (
           <button
             type="button"
             class="rounded-full border border-bord px-3 py-1 text-xs font-semibold uppercase tracking-wide text-muted hover:border-prizm aria-pressed:border-prizm aria-pressed:text-paper"
@@ -359,8 +360,11 @@ const faqLd = faqPageLd(faqs);
       for (const s of all) {
         if (s.kind === 'reseller') continue;
         const hay = `${s.name} ${s.city}`.toLowerCase();
-        const tagPool = [...s.services, ...s.sports];
-        const ok = hay.includes(q) && need.every((n) => tagPool.includes(n));
+        // Chips are deduped case-insensitively (collectTags), but a store's raw tag can
+        // still carry different casing than the chip's canonical label — compare both
+        // sides trimmed and lowercased, or a chip silently stops matching that store.
+        const tagPool = [...s.services, ...s.sports].map((t) => t.trim().toLowerCase());
+        const ok = hay.includes(q) && need.every((n) => tagPool.includes(n.trim().toLowerCase()));
         if (ok) visible.add(s.slug);
       }
       for (const card of list?.querySelectorAll<HTMLElement>('[data-store-card]') ?? []) {

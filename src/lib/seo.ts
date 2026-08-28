@@ -81,7 +81,7 @@ function joinWithAnd(items: string[]): string {
 }
 
 /** Unique services+sports tags present among the stores, case-insensitively deduped, A-Z. */
-function collectTags(stores: Store[]): string[] {
+export function collectTags(stores: Store[]): string[] {
   const seen = new Map<string, string>();
   for (const s of stores) {
     for (const t of [...s.services, ...s.sports]) {
