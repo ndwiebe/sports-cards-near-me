@@ -85,6 +85,24 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # Belt and braces, added 2026-08-28. The 2026-08-28 run produced a
+      # closure-review.csv with 6 CLOSED_PERMANENTLY rows and then LOST it: the
+      # new untracked file never made it into the PR commit, and the PR step
+      # itself failed outright on "GitHub Actions is not permitted to create or
+      # approve pull requests" (a repo setting). The scan is the expensive part;
+      # an artifact survives both failure modes and costs nothing.
+      - name: Upload the CSVs as an artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ratings-refresh-csvs
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            docs/research/ratings-refresh.csv
+            docs/research/ratings-refresh-unmatched.csv
+            docs/research/closure-review.csv
+
       - name: Open a PR with the results
         uses: peter-evans/create-pull-request@v6
         with:
