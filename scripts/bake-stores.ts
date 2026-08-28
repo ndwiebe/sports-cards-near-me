@@ -7,12 +7,13 @@ import type { Store } from '../src/lib/types';
 const SHEET_ID = '14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I';
 const GID = '1588938698';
 const OUT = 'src/data/stores.json';
-// Closed shops live in their own file rather than carrying a flag inside stores.json.
-// 30-odd pages, guides and helpers import stores.json to build listings, counts, maps
-// and the sitemap; filtering at each of those is a correctness problem you only find
-// out about when a dead shop shows up in someone's city. Splitting at the bake means
-// every one of those consumers excludes closed shops with no code change at all.
-// The store page reads BOTH, so a closed shop keeps its URL and gets a banner.
+// Unlisted shops (closed OR online-only) live in their own file rather than carrying
+// a flag inside stores.json. 30-odd pages, guides and helpers import stores.json to
+// build listings, counts, maps and the sitemap; filtering at each of those is a
+// correctness problem you only find out about when an unlisted shop shows up in
+// someone's city. Splitting at the bake means every one of those consumers excludes
+// unlisted shops with no code change at all. The store page reads BOTH, so an
+// unlisted shop keeps its URL and gets a banner — worded for its actual status.
 const OUT_CLOSED = 'src/data/stores-closed.json';
 
 // Previous TOTAL, not previous listed count. assertCountSane runs before the closed
@@ -54,4 +55,4 @@ await mkdir('src/data', { recursive: true });
 await writeFile(OUT, `${JSON.stringify(open, null, 2)}\n`);
 await writeFile(OUT_CLOSED, `${JSON.stringify(closed, null, 2)}\n`);
 log.info(`baked ${open.length} stores (${skipped} rows skipped) → ${OUT}`);
-log.info(`  ${closed.length} marked closed → ${OUT_CLOSED} (kept as pages, excluded from every listing)`);
+log.info(`  ${closed.length} unlisted (closed or online-only) → ${OUT_CLOSED} (kept as pages, excluded from every listing)`);

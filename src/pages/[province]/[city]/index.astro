@@ -43,7 +43,7 @@ if (!province) throw new Error(`unknown province slug: ${Astro.params.province}`
 const allCityGroup = citiesIn([...stores, ...(closedStoresJson as Store[])], province.code)
   .find((c) => c.citySlug === Astro.params.city);
 if (!allCityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
-const cityGroup = { ...allCityGroup, stores: allCityGroup.stores.filter((s) => s.status !== 'closed') };
+const cityGroup = { ...allCityGroup, stores: allCityGroup.stores.filter((s) => s.status === undefined) };
 const closedHere = allCityGroup.stores.filter((s) => s.status === 'closed');
 const noneOpen = cityGroup.stores.length === 0;
 // Case-insensitively deduped and A-Z sorted — a sheet typo like "Grading services" vs
@@ -59,7 +59,7 @@ const nearbyCities = nearestCities(stores, province.code, cityGroup.citySlug).fi
 // set so a closed-only city still has coordinates to measure from.
 const nearbyStores = cityGroup.stores.length === THIN_CITY_SHOP_COUNT || noneOpen
   ? nearestStoresToCity([...stores, ...(closedStoresJson as Store[])], province.code, cityGroup.citySlug, { limit: NEARBY_SHOP_LIMIT })
-      .filter((s) => s.status !== 'closed')
+      .filter((s) => s.status === undefined)
   : [];
 const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGroup.citySlug);
 const shows = showsJson as ShowRecord[];
