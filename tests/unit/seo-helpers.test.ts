@@ -16,6 +16,7 @@ import {
   corpusMeanRating,
   byWeightedRankIn,
   carriesSportsCards,
+  collectTags,
 } from '../../src/lib/seo';
 import type { Store } from '../../src/lib/types';
 
@@ -499,5 +500,34 @@ describe('carriesSportsCards', () => {
 
   it('does not treat "Other" as sports', () => {
     expect(carriesSportsCards(store({ sports: ['Other'] }))).toBe(false);
+  });
+});
+
+describe('collectTags', () => {
+  it('dedupes case-insensitively, keeping the first-seen casing — the exact 73e41802 bug', () => {
+    const tags = collectTags([
+      store({ services: ['Grading services'], sports: [] }),
+      store({ services: ['Grading Services'], sports: [] }),
+    ]);
+    expect(tags).toEqual(['Grading services']);
+  });
+
+  it('trims surrounding whitespace', () => {
+    expect(collectTags([store({ services: [' Buys '], sports: [] })])).toEqual(['Buys']);
+  });
+
+  it('drops empty and whitespace-only tags', () => {
+    expect(collectTags([store({ services: ['', '   '], sports: ['Hockey'] })])).toEqual(['Hockey']);
+  });
+
+  it('sorts A-Z across combined services and sports', () => {
+    const tags = collectTags([
+      store({ services: ['Trading', 'Buys'], sports: ['Hockey', 'Basketball'] }),
+    ]);
+    expect(tags).toEqual(['Basketball', 'Buys', 'Hockey', 'Trading']);
+  });
+
+  it('returns nothing for stores with no tags', () => {
+    expect(collectTags([store({ services: [], sports: [] })])).toEqual([]);
   });
 });
