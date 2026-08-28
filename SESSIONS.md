@@ -28,13 +28,8 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 |---|---|---|---|---|
 | 2026-08-28 | Sonnet A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — own worktree only | Plan 17 quarterly show refresh. Emits a payload; never writes the sheet. |
 | 2026-08-28 | Sonnet B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — own worktree only | Plan 18 monthly Search Console pull. Read-only against GSC. |
-| 2026-08-28 | Opus 5 / `scnm-plan4` (Nathan session) | **data + lib** | stores sheet Hours column, NEW `src/lib/store-hours.ts`, NEW `tests/unit/store-hours.test.ts`, `shows.ts` + `shows/[slug]` next | Hours import (632 stores) + opening-hours structured data. ⚠️ Wiring the spec into the `Store` JSON-LD needs `store/[slug]/index.astro`, which the closed-shop session holds — parser is committed and unused until that frees up. Moving to show vendor/table-booking fields next. |
 
 
-⚠️ **Hours session is PAUSED (out of usage until ~20:00 2026-08-28).** `src/lib/store-hours.ts`
-and `tests/unit/store-hours.test.ts` are UNTRACKED and belong to it — no other session may touch,
-commit or depend on them. It also needs `store/[slug]/index.astro`, which readiness workstreams
-A and B now hold. **It must re-read this table before resuming.**
 
 ## Queued — claimed but not started
 
@@ -94,6 +89,43 @@ Full cause, verification and a reappliable patch:
 
 ## Log
 
+- **2026-08-28** — *(Opus 5, `scnm-plan4`, Nathan session)* **Hours shipped end-to-end, show
+  promoter fields added, Alberta gap closed by 10.**
+  - **Store hours (`4e43e132`, `a26cfbe3`).** The Hours column was empty for all 689 shops — its
+    59 non-empty cells held a pasted Material-icon glyph, which `sanitizeText` correctly stripped,
+    so the field never reached a page. **The data already existed**: the monthly ratings refresh
+    requests `regularOpeningHours` on the same Places call (same billing tier as rating, so free)
+    and 632 stores' hours had been sitting unmerged on `chore/ratings-refresh` since that
+    workflow's PR step got blocked on a repo Actions permission. Matched 632/632 to sheet rows
+    1:1, backed the column up, wrote it. Then `parseStoreHours` -> `openingHoursSpecification`
+    in the Store JSON-LD, which is the half the rendered string cannot do.
+    - All-or-nothing per store: an unparsed day reads to Google as *closed*, and publishing a
+      shop as shut on a day it is open is worse than publishing nothing. A test asserts every
+      one of the 4,424 live day-segments parses, so a phrasing drift fails loudly.
+    - ⚠️ The first version refused a close earlier than its open as a backwards range. **Ten
+      stores — board-game cafes and lounges — genuinely close at 1am**, and all their hours would
+      have vanished silently. schema.org reads that pair as spanning midnight; kept.
+  - **Show promoter fields (`2abba6f9`).** Sheet columns M `Table Booking` / N `Organizer`, the
+    mapper, a "Selling at this show?" block, and `Organization` in the Event markup. A promoter's
+    problem is filling tables, not being listed; nothing on the site helped a dealer get into a
+    show. **`Table Booking` is a URL, not free text, on purpose** — promoter contacts reach us as
+    personal mobiles and personal emails, so `httpUrl` makes it structurally impossible to publish
+    one through this field. Both columns are empty; the values are what the parked outreach collects.
+  - **Alberta (`39485c47`).** 92 -> 102. Head-to-head vs localcardshopsnearme: Calgary 8 vs 31,
+    Edmonton 16 vs 51, Toronto 37 vs 40 — Alberta was the outlier, in the province Nathan knows
+    best. 69 real absences after same-city name filtering; 10 clear the publishing standard and
+    are live, 59 are in `docs/research/2026-08-28-alberta-coverage-gap.csv` with tier + source.
+    - **New Horizon Mall (Balzac) is a cluster of separate vendors at one street address.**
+      Street-number matching calls them duplicates of each other. They are not. Unit addresses
+      don't geocode, so they take the mall coordinates we already hold.
+    - Caught one true duplicate the name diff missed: the competitor's "...- NEW HORIZON MALL"
+      suffix on a shop we already list.
+  - **Competitive read corrected — the show competitors are real** (vault note). The 27 Aug
+    analysis called Canadian shows "uncontested" after auditing shop directories. Searching for
+    shows instead: **TCDb takes 6 of the top 10** for Alberta show queries with per-province
+    calendars, and `tcgshowsnearme.com` carries 5,243 shows (~150 Canadian) against our 197.
+    We still lead on Canadian shows; we are not alone in them, and TCDb — our own data source —
+    outranks us on them everywhere.
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Finished the unblocked backlog: stale logos, the
   grading guide, and the three held-back closure cases.** 314 tests, 1453 pages.
   - **Stale logos (`cb4c097c`).** Workstream B's parity test found 11 `logos.json` entries pointing
