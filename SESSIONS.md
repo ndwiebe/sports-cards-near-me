@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-08-28 | Opus 5 / `scnm-plan4` | **docs/scripts** | `scripts/analyze-gsc-export.py` | Adding the device split so the monthly read stops steering by blended position (per today's diagnosis) |
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -85,6 +85,18 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Analyzer now reports position by device
+  (`44ec7309`).** Follow-through on today's diagnosis: the monthly read was steering by blended
+  average position, which is a quarter desktop — a segment at ~position 24 driving a fifth of
+  clicks that no work moves. Blended 10.77 vs mobile 8.34 against a ≤7.5 target, so the November
+  goal looked nearly twice as far away as it is. The new `DEVICES` section prints the per-device
+  split, names the dominant row as the one to steer by, and shows the drag the blend carries.
+  Also warns when a device shows a plausible CTR at a deep average position (desktop: 0.97% at
+  17.9, where page two earns ~0.2%) — that average is the midpoint of two populations and is not
+  a rank to chase. Devices stays optional; verified both ways against the real 2026-08-25 export
+  — reproduces 8.34/17.90/10.77 exactly, and runs clean with the sheet deleted. Does **not**
+  attempt to fix desktop: five hypotheses eliminated, no fixable cause found, recorded as such.
 
 - **2026-08-28** — *(Opus)* **First closure scan run — 5 candidates, results rescued.** The scan
   works; its output nearly didn't survive. Two independent failures: the new untracked
