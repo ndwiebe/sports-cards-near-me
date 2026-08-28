@@ -26,6 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
+| — | _(none claimed)_ | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -84,6 +85,27 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-08-28** — *(Opus, `scnm-plan4`)* **Plan 14 verified — no work needed, it was already
+  done correctly by the parallel session.** I claimed lib+data to run Plan 14 through Codex;
+  Codex could not execute (see below) and by the time I fell back to doing it myself, the
+  other session had already implemented it *and* fixed two things past what my plan said.
+  Credit where due: **my Plan 14 was wrong about Ottawa.** It said "fold the TCDb row into the
+  Capital Trade Shows series by renaming it". The surviving series row runs **2026-09-12 →
+  09-13** — a two-day event at the same curling rink — so the TCDb single-day 09-13 row is a
+  *duplicate of day two*, not a differently-named show. Renaming it would have published the
+  same weekend twice. The right action was delete + redirect to the surviving row, which is
+  what shipped. My verification had asked only "does a row exist with startDate 09-13", which
+  a multi-day event answers "no" to.
+  Verified at HEAD: 204 shows, **0 broken show redirects** (all 5 resolve to real pages),
+  Ottawa duplicate gone, Leduc renamed, 274 tests, 1468 pages. Nothing left to commit.
+  ⚠️ **`codex exec` is currently unusable on this machine (2026-08-28).** Turns write a
+  `task_started` event to `~/.codex/sessions/` and then sit at 0% CPU indefinitely — three
+  runs killed after 20+ minutes each. Auth is fine (`codex login status` responds instantly),
+  and disabling MCP servers (`-c 'mcp_servers={}'`) does not help. A recurring
+  `codex_models_manager: failed to renew cache TTL: missing field 'base_instructions'` error
+  accompanies it. It worked on 2026-08-27 (Plan 13). Treat Codex as unavailable until a run
+  proves otherwise, and check for a session file before assuming a run has begun.
 
 - **2026-08-28** — *(Opus 5, `scnm-plan4`)* **Reviewed the 2026-08-27 monetization report and
   found a live trap in the click-tracker handoff.** Most of the report checked out against its
