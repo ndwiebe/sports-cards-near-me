@@ -1,0 +1,16 @@
+{
+  "fetched_at": "2026-08-28T21:58:35.963088+00:00",
+  "property": "https://sportscardsnearme.ca/",
+  "events": {
+    "valid": 4,
+    "invalid": 0,
+    "last_update": "8/26/26",
+    "source_url": "https://search.google.com/search-console/r/events?resource_id=https%3A%2F%2Fsportscardsnearme.ca%2F"
+  },
+  "search_appearance": {
+    "state": "empty",
+    "row_count": 0,
+    "note": "No data \u2014 matches the 2026-08-28 baseline shape",
+    "source": "Search appearance.csv"
+  }
+}
