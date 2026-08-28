@@ -505,6 +505,12 @@ export function storeAnswerCapsule(store: Store, provinceName: string): string {
       `It has permanently closed and no longer appears in our listings.${where}`
     );
   }
+  if (store.status === 'online-only') {
+    return (
+      `${store.name} was a walk-in sports card shop in ${store.city}, ${provinceName}. ` +
+      `It has closed its storefront and now sells online only; it no longer appears in our walk-in listings.`
+    );
+  }
   const parts: string[] = [
     `${store.name} is a sports card shop in ${store.city}, ${provinceName}, listed on Sports Cards Near Me.`,
   ];
