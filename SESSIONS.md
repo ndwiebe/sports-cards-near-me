@@ -26,7 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| — | _(none claimed)_ | — | — | — |
+| 2026-08-28 | Opus 5 / `scnm-plan4` | **data** | `scripts/refresh-ratings.py`, `docs/research/closure-review.csv` | Partial scans were clobbering the full closure census (32 → 5). Restoring the 32 and making the file merge instead of overwrite |
 
 ## Queued — claimed but not started
 
