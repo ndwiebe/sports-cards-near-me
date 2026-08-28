@@ -1,4 +1,14 @@
 name: site
+# ⚠️ This file must stay in sync with the copy on `main`. The publish-to-Pages job
+# only runs when the triggering ref is `main` (see deploy-github-pages below), and
+# GitHub resolves a workflow's own definition — including its env var wiring — from
+# whichever ref the run was dispatched against, not from wherever `checkout` later
+# pulls actual site code from. Confirmed 2026-08-28: PUBLIC_CLICK_TRACKER_URL was
+# added here and worked on `redesign`, but production silently never requested it
+# because `main`'s copy of this file predated the line. `checkout` below still
+# correctly pulls page code from `redesign` — it's specifically new env vars /
+# job-level changes made HERE that need a second push to `main` to actually reach
+# production. See CLAUDE.md → "the three things that will burn you".
 permissions:
   contents: read
   pages: write
@@ -30,13 +40,21 @@ jobs:
         env:
           PUBLIC_MAPBOX_TOKEN: ${{ secrets.PUBLIC_MAPBOX_TOKEN }}
           # Search Console ownership token. Not a secret — Google's HTML-tag method
-          # publishes this value in the page source by design. NOTE: this workflow file
-          # must stay in sync with the copy on `redesign`; the publish-to-Pages job only
-          # runs when the triggering ref is `main`, so it is main's copy that decides
-          # what the live site is built with.
+          # publishes this value in the page source by design, so it lives in the
+          # workflow rather than in repo secrets. Removing it un-verifies the property.
           PUBLIC_GSC_VERIFICATION: oqigACqbn4bKdAfTZBv3_Bw9Wg3vo7HSk6IXml4riks
+          # Cloudflare Web Analytics beacon token — also public by design (it ships in
+          # the beacon script tag). Set as a repo variable once the site is added at
+          # dash.cloudflare.com > Web Analytics; unset means no beacon is emitted.
           PUBLIC_CF_ANALYTICS_TOKEN: ${{ vars.PUBLIC_CF_ANALYTICS_TOKEN }}
+          # GA4 measurement ID (G-XXXXXXXXXX), public by design. Opt-in: GA4 sets
+          # cookies, so leaving this unset also avoids a consent-banner obligation.
           PUBLIC_GA4_ID: ${{ vars.PUBLIC_GA4_ID }}
+          # Click-counter Worker endpoint. Public by design (it ships in the page as
+          # a sendBeacon target). Without this the Worker can be deployed and running
+          # and the site still sends it nothing — the build simply omits the listener.
+          # Set as a repo variable to the URL that deploy-click-tracker.yml prints.
+          PUBLIC_CLICK_TRACKER_URL: ${{ vars.PUBLIC_CLICK_TRACKER_URL }}
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
         env:
