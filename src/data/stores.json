@@ -655,37 +655,6 @@
     "lng": -113.5299609
   },
   {
-    "slug": "capital-city-sports-cards-edmonton",
-    "name": "Capital City Sports Cards",
-    "city": "Edmonton",
-    "citySlug": "edmonton",
-    "address": "7633 50 St NW #101, Edmonton, AB T6B 2W9",
-    "province": "AB",
-    "rating": 4.5,
-    "reviewCount": 46,
-    "hours": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: Closed; Saturday: 10:00 AM – 6:00 PM; Sunday: 11:00 AM – 6:00 PM",
-    "website": "https://www.facebook.com/groups/577619796765695/",
-    "social": "https://www.facebook.com/CapitalCitySportsCards/",
-    "services": [
-      "Buys",
-      "Sells",
-      "Trades Singles",
-      "Sells Wax",
-      "Grading Services",
-      "Breaking",
-      "SPIN-TO-WIN"
-    ],
-    "sports": [
-      "Hockey",
-      "Football",
-      "Basketball",
-      "Baseball",
-      "Pokemon"
-    ],
-    "lat": 53.5131885,
-    "lng": -113.4166497
-  },
-  {
     "slug": "common-box-games-edmonton",
     "name": "Common Box Games",
     "city": "Edmonton",

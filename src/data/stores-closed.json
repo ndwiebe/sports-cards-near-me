@@ -1,5 +1,37 @@
 [
   {
+    "slug": "capital-city-sports-cards-edmonton",
+    "name": "Capital City Sports Cards",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "7633 50 St NW #101, Edmonton, AB T6B 2W9",
+    "province": "AB",
+    "rating": 4.5,
+    "reviewCount": 46,
+    "hours": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: Closed; Saturday: 10:00 AM – 6:00 PM; Sunday: 11:00 AM – 6:00 PM",
+    "website": "https://capitalcitysportscards.company.site",
+    "social": "https://www.facebook.com/CapitalCitySportsCards/",
+    "services": [
+      "Buys",
+      "Sells",
+      "Trades Singles",
+      "Sells Wax",
+      "Grading Services",
+      "Breaking",
+      "SPIN-TO-WIN"
+    ],
+    "sports": [
+      "Hockey",
+      "Football",
+      "Basketball",
+      "Baseball",
+      "Pokemon"
+    ],
+    "lat": 53.5131885,
+    "lng": -113.4166497,
+    "status": "online-only"
+  },
+  {
     "slug": "babs-gaming-and-sports-cards-inc-lloydminster",
     "name": "Babs Gaming And Sports Cards Inc",
     "city": "Lloydminster",
