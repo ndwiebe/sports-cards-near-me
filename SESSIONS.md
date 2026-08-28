@@ -27,6 +27,8 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
 | 2026-08-28 | Opus 5 / `scnm-plan4` | **lib + data + pages** | `types.ts`, `stores-build.ts`, `bake-stores.ts`, `store/[slug]`, `astro.config.mjs` | Closed-shop handling (Nathan approved: keep page + label + drop from counts + noindex). Splitting stores.json so 30 listing consumers need no change |
+| 2026-08-28 | Codex A via Opus, **worktree** `../scnm-refresh` | **scripts** | NEW `scripts/refresh-shows.py` + docs — in its own worktree, nothing in `scnm-plan4` | Plan 17, quarterly show refresh. Emits a review payload; never writes the sheet. No overlap with the closed-shop work above. |
+| 2026-08-28 | Codex B via Opus, **worktree** `../scnm-gsc` | **scripts** | NEW `scripts/fetch-gsc.py` + docs — in its own worktree | Plan 18, monthly Search Console pull. Read-only against GSC; composes with the existing analyzer rather than changing it. |
 
 ## Queued — claimed but not started
 
