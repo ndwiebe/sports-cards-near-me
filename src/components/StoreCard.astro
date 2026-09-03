@@ -1,6 +1,7 @@
 ---
 import type { Store } from '../lib/types';
 import { hasLogo } from '../lib/logos';
+import OpenNowBadge from './OpenNowBadge.astro';
 
 interface Props { store: Store }
 const { store } = Astro.props;
@@ -21,6 +22,7 @@ const { store } = Astro.props;
         ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> ({store.reviewCount} Google reviews)</span>}
       </p>
     )}
+    <OpenNowBadge store={store} />
     {(store.services.length > 0 || store.sports.length > 0) && (
       <ul role="list" class="mt-3 flex flex-wrap gap-1.5">
         {[...store.services, ...store.sports].map((t) => (

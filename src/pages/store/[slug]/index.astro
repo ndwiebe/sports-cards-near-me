@@ -12,6 +12,7 @@ import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
 import { hasLogo } from '../../../lib/logos';
 import { parseStoreHours } from '../../../lib/store-hours';
+import OpenNowBadge from '../../../components/OpenNowBadge.astro';
 
 // Closed shops keep their page. Someone who searches the shop by name deserves to be
 // told it has closed, rather than hitting a 404 that tells them nothing — and if the
@@ -144,6 +145,7 @@ const ld: Record<string, unknown> = {
       ★ {store.rating}{store.reviewCount !== undefined && <span class="text-muted"> · {store.reviewCount} Google reviews</span>}
     </p>
   )}
+  <OpenNowBadge store={store} />
   <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
   <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
     <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{store.address}</dd></div>
