@@ -293,6 +293,23 @@ class ListKeysUsesRemoteTests(unittest.TestCase):
         self.assertIn('--remote', seen['args'])
         self.assertIn('--prefix=clicks:', seen['args'])
 
+    def test_get_value_passes_remote_flag(self):
+        # Same trap, other half of the pipeline. list_keys was guarded and get_value
+        # wasn't, so the flag could have been dropped here with the suite still green.
+        seen = {}
+
+        def fake_get(args, cwd=None):
+            seen['args'] = args
+            return '3'
+
+        original = click_report.run_wrangler
+        click_report.run_wrangler = fake_get
+        try:
+            click_report.get_value('some-namespace-id', 'clicks:a-shop:directions:2026-09')
+        finally:
+            click_report.run_wrangler = original
+        self.assertIn('--remote', seen['args'])
+
 
 class WriteCsvTests(unittest.TestCase):
     def test_writes_expected_columns_and_rows(self):
