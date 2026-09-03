@@ -26,6 +26,11 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
+| 2026-09-03 | Opus orchestrator · `scnm-plan4` | **data** | the Google Sheet (stores tab), `src/data/redirects.json` | Nathan's two rulings: Toyz Game Emporium REMOVED (not a card shop), Booster House confirmed open + TCG-only. Sheet write + rebake + redirect. Also integrates and deploys the three worktree branches below. |
+| 2026-09-03 | Sonnet builder · `../scnm-open-now` [feat/open-now] | **lib + pages** | `src/lib/store-hours.ts`, new open-state lib, `src/pages/store/[slug]/index.astro`, city pages, `src/pages/about*` | "Open now" state + the About-page disclosure correction. Isolated worktree. |
+| 2026-09-03 | Sonnet builder · `../scnm-click-report` [feat/click-report] | **docs + scripts** | `scripts/click-report.py` (new), `worker/`, `docs/` | Readout for the click counter (live since 2026-08-28, currently write-only). Isolated worktree. |
+| 2026-09-03 | Sonnet builder · `../scnm-logos` [chore/logos-backfill] | **data** (files, not sheet) | `scripts/scrape-logos.py`, `public/logos/`, `src/data/logos.json` | Logo backfill for the 178 logo-less shops that have a website. Isolated worktree — no sheet access, so it cannot collide with the data row above. |
+| 2026-09-03 | Research agents · `scnm-plan4` | **docs** | `docs/research/` ONLY, no git | Sept GSC read · shop backlog triage (59 AB / 41 QC / 57 no-evidence) · show-payload verification · French decision brief. These agents never stage or commit; the orchestrator commits their output. |
 
 
 
