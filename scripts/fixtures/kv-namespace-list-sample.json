@@ -1,0 +1,6 @@
+[
+  { "id": "4a12c19f92b348fdb45aa5019882b9be", "title": "brightside_requests", "supports_url_encoding": true },
+  { "id": "67ed7ea5b1f44afaae3d9797d1c0b2a0", "title": "CLICKS", "supports_url_encoding": true },
+  { "id": "a23ed02b4c634144a039bbd31914d738", "title": "DRAWS", "supports_url_encoding": true },
+  { "id": "a7c34a3bcbd7410aa83cf6aba4e43727", "title": "SUBMISSIONS", "supports_url_encoding": true }
+]
