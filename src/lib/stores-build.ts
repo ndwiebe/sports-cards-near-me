@@ -39,6 +39,9 @@ export function rowToStore(cells: GvizRow): Store | null {
     lat,
     lng,
     ...(status !== undefined ? { status } : {}),
+    // Column 13 (`Unverified Note`) -- optional and additive, same as Status: a
+    // sheet without the column yields undefined, which renders nothing.
+    ...(sanitizeText(cells[13]?.v) !== undefined ? { unverifiedNote: sanitizeText(cells[13]?.v) } : {}),
   };
 }
 

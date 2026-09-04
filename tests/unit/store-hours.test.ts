@@ -132,3 +132,15 @@ describe('formatHoursByDay', () => {
     expect(formatHoursByDay('   ')).toBeUndefined();
   });
 });
+
+// The "listed but not confirmed" caveat — Nathan's call, 2026-09-04: publishing a
+// shop with its own doubt attached beats leaving a real business out entirely.
+describe('unverifiedNote', () => {
+  it('is absent for almost every shop, and present only where set by hand', () => {
+    const all = storesJson as Store[];
+    const flagged = all.filter((s) => s.unverifiedNote !== undefined);
+    expect(flagged.length).toBeGreaterThan(0);
+    expect(flagged.length).toBeLessThan(10);
+    for (const s of flagged) expect(s.unverifiedNote?.trim().length).toBeGreaterThan(30);
+  });
+});

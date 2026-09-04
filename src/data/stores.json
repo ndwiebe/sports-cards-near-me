@@ -69,6 +69,19 @@
     "lng": -114.0124649
   },
   {
+    "slug": "double-z-collectibles-balzac",
+    "name": "Double Z Collectibles",
+    "city": "Balzac",
+    "citySlug": "balzac",
+    "address": "260300 Writing Creek Cres Unit J22, Balzac, AB T4A 0X8",
+    "province": "AB",
+    "services": [],
+    "sports": [],
+    "lat": 51.196195,
+    "lng": -113.9958807,
+    "unverifiedNote": "We found this shop through other directories rather than from the business itself, and we have not been able to confirm it from its own website or a second independent source. The unit number and mall are as listed elsewhere."
+  },
+  {
     "slug": "hk-collectibles-balzac",
     "name": "HK Collectibles",
     "city": "Balzac",
@@ -369,6 +382,20 @@
     "sports": [],
     "lat": 50.9695367,
     "lng": -114.0697216
+  },
+  {
+    "slug": "overtime-sports-cards-north-hill-centre-calgary",
+    "name": "Overtime Sports Cards North Hill Centre",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1632 14 Ave NW Unit 1683, Calgary, AB T2N 1M7",
+    "province": "AB",
+    "website": "https://www.overtimesportscards.ca/",
+    "services": [],
+    "sports": [],
+    "lat": 51.0659174,
+    "lng": -114.10104,
+    "unverifiedNote": "We also list Overtime Sports Cards & Grading in Balzac, and our earlier records say that shop moved there. Overtime’s own website names this North Hill Centre location, so this is most likely a second store — but we have not confirmed both are trading."
   },
   {
     "slug": "reliquary-cards-calgary",
@@ -12615,6 +12642,20 @@
     ],
     "lat": 45.56442,
     "lng": -73.20825
+  },
+  {
+    "slug": "le-roi-des-cartes-hockey-accessoires-beloeil",
+    "name": "Le Roi des Cartes - Hockey & Accessoires",
+    "city": "Beloeil",
+    "citySlug": "beloeil",
+    "address": "347 Rue Duvernay, Beloeil, QC J3G 5S8",
+    "province": "QC",
+    "website": "https://leroidescartes.ca",
+    "services": [],
+    "sports": [],
+    "lat": 45.5650147,
+    "lng": -73.2096508,
+    "unverifiedNote": "We may already list this shop under another name. Our directory carries “DSM Sports Cards Collectors (Le roi des cartes)” a few doors along the same street, at 272 rue Duvernay, with a different website. These may be two separate shops, one shop that moved, or one shop we have recorded twice — we could not tell from public sources, and we would rather show you both than quietly merge them."
   },
   {
     "slug": "450-sports-blainville",

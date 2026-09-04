@@ -149,6 +149,16 @@ const ld: Record<string, unknown> = {
     </p>
   )}
   <OpenNowBadge store={store} />
+  {store.unverifiedNote !== undefined && (
+    <aside class="mt-4 max-w-prose rounded-lg border border-bord bg-panel/60 p-4 text-sm" data-unverified-note>
+      <p class="font-semibold text-gold">We haven't confirmed this listing</p>
+      <p class="mt-1 text-paper/85">{store.unverifiedNote}</p>
+      <p class="mt-2 text-muted">
+        Please check with the shop before making a trip. If you can put us right,{' '}
+        <a href="/suggest/" class="text-prizm">tell us</a> and we'll fix it.
+      </p>
+    </aside>
+  )}
   <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
   <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
     <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{store.address}</dd></div>

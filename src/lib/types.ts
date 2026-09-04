@@ -41,4 +41,10 @@ export interface Store {
   // online — the page must say so, not claim it has permanently closed.
   // See scripts/bake-stores.ts.
   status?: 'closed' | 'online-only' | undefined;
+  /** A visible "we haven't confirmed this" note shown on the shop's own page.
+   * Set by hand in the sheet, never derived. Exists because the alternative to
+   * publishing an unconfirmed listing is leaving a real business out entirely --
+   * Nathan's call, 2026-09-04 -- and a listing that carries its own doubt is
+   * honest in a way a silent one is not. Absent for almost every shop. */
+  unverifiedNote?: string | undefined;
 }
