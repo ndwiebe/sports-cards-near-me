@@ -380,6 +380,19 @@
     "lng": -114.1790536
   },
   {
+    "slug": "screen-free-games-calgary-calgary",
+    "name": "Screen Free Games Calgary",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "Sunridge Mall, 2525 36 St NE Unit 258, Calgary, AB T1Y 5T4",
+    "province": "AB",
+    "website": "https://screenfreegames.com/",
+    "services": [],
+    "sports": [],
+    "lat": 51.074035,
+    "lng": -113.985536
+  },
+  {
     "slug": "scuffed-cards-calgary",
     "name": "Scuffed Cards",
     "city": "Calgary",
@@ -1044,6 +1057,19 @@
     ],
     "lat": 53.5259148,
     "lng": -113.6174699
+  },
+  {
+    "slug": "west-edmonton-coin-stamp-edmonton",
+    "name": "West Edmonton Coin & Stamp",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "8882 170 St NW #1390, Edmonton, AB T5T 4V4",
+    "province": "AB",
+    "website": "http://www.westedmontoncoinandstamp.com/",
+    "services": [],
+    "sports": [],
+    "lat": 53.521222,
+    "lng": -113.619366
   },
   {
     "slug": "west-s-sports-cards-edmonton",
@@ -12563,6 +12589,19 @@
     "lng": -73.90168
   },
   {
+    "slug": "card-caster-blainville",
+    "name": "Card Caster",
+    "city": "Blainville",
+    "citySlug": "blainville",
+    "address": "625 Bd du Cure-Labelle Suite 5-6, Blainville, QC J7C 2J1",
+    "province": "QC",
+    "website": "https://cardcastergames.com",
+    "services": [],
+    "sports": [],
+    "lat": 45.659579,
+    "lng": -73.858746
+  },
+  {
     "slug": "poke-jeux-boucherville",
     "name": "Poke Jeux",
     "city": "Boucherville",
@@ -12702,6 +12741,19 @@
     ],
     "lat": 48.35154,
     "lng": -64.65714
+  },
+  {
+    "slug": "l-univers-des-cartes-chateauguay",
+    "name": "L'Univers des Cartes",
+    "city": "Chateauguay",
+    "citySlug": "chateauguay",
+    "address": "75 Bd Saint-Jean-Baptiste Suite 130, Chateauguay, QC J6J 3H6",
+    "province": "QC",
+    "website": "https://luniversdescartes.com",
+    "services": [],
+    "sports": [],
+    "lat": 45.362741,
+    "lng": -73.713659
   },
   {
     "slug": "village-des-heros-chateauguay",
@@ -12863,6 +12915,18 @@
     ],
     "lat": 45.47741,
     "lng": -73.83838
+  },
+  {
+    "slug": "sport-cards-hall-of-fame-dollard-des-ormeaux",
+    "name": "Sport Cards Hall Of Fame",
+    "city": "Dollard-Des Ormeaux",
+    "citySlug": "dollard-des-ormeaux",
+    "address": "4067 Boul. Saint-Jean, Dollard-des-Ormeaux, QC H9G 2R4",
+    "province": "QC",
+    "services": [],
+    "sports": [],
+    "lat": 45.477416,
+    "lng": -73.838331
   },
   {
     "slug": "collecto-sports-drummondville",
@@ -13313,6 +13377,19 @@
     "lng": -73.72273
   },
   {
+    "slug": "geekstuff-laval",
+    "name": "Geekstuff",
+    "city": "Laval",
+    "citySlug": "laval",
+    "address": "5220 Boulevard des Laurentides, Laval, QC H7K 2J8",
+    "province": "QC",
+    "website": "https://geekstuffstore.com",
+    "services": [],
+    "sports": [],
+    "lat": 45.622085,
+    "lng": -73.747259
+  },
+  {
     "slug": "l-imaginaire-laval-laval",
     "name": "L'Imaginaire Laval",
     "city": "Laval",
@@ -13734,6 +13811,19 @@
     ],
     "lat": 45.48437,
     "lng": -73.62984
+  },
+  {
+    "slug": "electric-avenue-montreal-montreal",
+    "name": "Electric Avenue Montreal",
+    "city": "Montreal",
+    "citySlug": "montreal",
+    "address": "6054 Monkland Ave, Montreal, QC H4A 1H2",
+    "province": "QC",
+    "website": "https://electricavenuemtl.com",
+    "services": [],
+    "sports": [],
+    "lat": 45.470774,
+    "lng": -73.62698
   },
   {
     "slug": "librairie-crossover-comics-montreal",
@@ -14261,6 +14351,18 @@
     "lng": -73.37833
   },
   {
+    "slug": "le-coin-du-hobby-saint-eustache",
+    "name": "Le Coin Du Hobby",
+    "city": "Saint-Eustache",
+    "citySlug": "saint-eustache",
+    "address": "455 Av. Mathers, Saint-Eustache, QC J7P 4C1",
+    "province": "QC",
+    "services": [],
+    "sports": [],
+    "lat": 45.581291,
+    "lng": -73.867539
+  },
+  {
     "slug": "les-cartes-sportives-m-c-saint-eustache",
     "name": "Les Cartes Sportives M.C.",
     "city": "Saint-Eustache",
@@ -14281,6 +14383,19 @@
     ],
     "lat": 45.58205,
     "lng": -73.86844
+  },
+  {
+    "slug": "maitre-des-jeux-le-saint-eustache",
+    "name": "Maitre des Jeux (Le)",
+    "city": "Saint-Eustache",
+    "citySlug": "saint-eustache",
+    "address": "433 Bd Arthur-Sauve, Saint-Eustache, QC J7P 2B3",
+    "province": "QC",
+    "website": "https://maitredesjeux.net",
+    "services": [],
+    "sports": [],
+    "lat": 45.565596,
+    "lng": -73.905487
   },
   {
     "slug": "stakk-saint-eustache-hq-saint-eustache",
@@ -14707,6 +14822,19 @@
     ],
     "lat": 45.644951,
     "lng": -73.835981
+  },
+  {
+    "slug": "le-roi-des-cartes-valleyfield-salaberry-de-valleyfield",
+    "name": "Le Roi des Cartes Valleyfield",
+    "city": "Salaberry-de-Valleyfield",
+    "citySlug": "salaberry-de-valleyfield",
+    "address": "1175 Bd Monseigneur-Langlois, Salaberry-de-Valleyfield, QC J6S 1C1",
+    "province": "QC",
+    "website": "https://leroidescartesvalley.com",
+    "services": [],
+    "sports": [],
+    "lat": 45.269956,
+    "lng": -74.135832
   },
   {
     "slug": "sport-collect-2010-salaberry-de-valleyfield",
