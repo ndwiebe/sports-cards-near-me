@@ -178,6 +178,7 @@ const ld: Record<string, unknown> = {
   </div>
   <div class="mt-8 flex flex-wrap gap-3">
     <a href={directions} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)" data-track-click="directions" data-store-slug={store.slug}>Directions</a>
+    {store.phone !== undefined && <a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm" data-track-click="call" data-store-slug={store.slug}>Call</a>}
     {store.website !== undefined && <a href={store.website} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Website</a>}
     {store.social !== undefined && <a href={store.social} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
   </div>
