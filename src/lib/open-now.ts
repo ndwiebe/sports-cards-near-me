@@ -10,6 +10,7 @@
  * inline client script.
  */
 
+import { isStatutoryHoliday } from './holidays';
 import { parseStoreHours, type OpeningHoursSpecification } from './store-hours';
 import type { ProvinceCode, Store } from './types';
 
@@ -21,12 +22,15 @@ import type { ProvinceCode, Store } from './types';
  * UTC-6, no DST) and Alberta (UTC-7/UTC-6) fall out of the same code path
  * without a special case.
  *
- * Two provinces straddle a real boundary and are mapped to whichever side
- * carries the overwhelming majority of listings: Ontario runs Eastern almost
- * everywhere, but the pocket around Kenora and Rainy River in the northwest
- * observes Central time and will read an hour off here. Nunavut (which would
- * straddle Eastern/Central/Mountain) carries no `ProvinceCode` in this
- * dataset — zero shops — so it never reaches this map.
+ * Province boundaries are not shop boundaries: Ontario runs Eastern almost
+ * everywhere, but Kenora is west of the Ontario/Manitoba line and runs
+ * Central; BC runs Pacific almost everywhere, but the Kootenays pocket
+ * around Cranbrook runs Mountain; and the Saskatchewan side of Lloydminster
+ * runs Alberta clock time by provincial statute, unlike the rest of
+ * Saskatchewan. None of that is expressible at the province level, so those
+ * three shops are handled by `SHOP_TIME_ZONE_OVERRIDES` below instead of
+ * here. Nunavut (which would straddle Eastern/Central/Mountain) carries no
+ * `ProvinceCode` in this dataset — zero shops — so it never reaches this map.
  */
 export const PROVINCE_TIME_ZONE: Record<ProvinceCode, string> = {
   AB: 'America/Edmonton',
@@ -47,9 +51,25 @@ export function provinceTimeZone(province: ProvinceCode): string {
   return PROVINCE_TIME_ZONE[province];
 }
 
+/**
+ * Single shops (not whole cities) whose real time zone the province map
+ * gets wrong — see the comment on PROVINCE_TIME_ZONE. Checked ahead of the
+ * province map, never instead of it.
+ */
+export const SHOP_TIME_ZONE_OVERRIDES: Record<string, string> = {
+  'kootenay-sports-cards-collectables-cranbrook': 'America/Edmonton', // Cranbrook BC: Mountain, observes DST like Edmonton
+  'great-canadian-collectibles-kenora': 'America/Winnipeg', // Kenora ON: Central, not Eastern
+  'nova-s-sports-cards-lloydminster-sk-side': 'America/Edmonton', // Lloydminster SK side: Alberta time by statute
+};
+
+export function storeTimeZone(store: Store): string {
+  return SHOP_TIME_ZONE_OVERRIDES[store.slug] ?? provinceTimeZone(store.province);
+}
+
 export interface OpenNowPayload {
   spec: OpeningHoursSpecification[];
   timeZone: string;
+  province: ProvinceCode;
 }
 
 /**
@@ -62,7 +82,7 @@ export function openNowPayload(store: Store): OpenNowPayload | undefined {
   if (store.status !== undefined) return undefined;
   const spec = parseStoreHours(store.hours);
   if (spec === undefined) return undefined;
-  return { spec, timeZone: provinceTimeZone(store.province) };
+  return { spec, timeZone: storeTimeZone(store), province: store.province };
 }
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -71,7 +91,12 @@ const MINUTES_PER_WEEK = MINUTES_PER_DAY * 7;
 
 export interface OpenNowState {
   isOpen: boolean;
-  /** e.g. "Open now · closes 6:00 PM" or "Closed · opens Tuesday 11:00 AM" */
+  /**
+   * e.g. "Listed open now · closes 6:00 PM" or "Closed · opens Tuesday 11:00
+   * AM". Empty when there's a schedule match but no honest claim to make
+   * from it (a 24-hour listing, or a statutory holiday) — the badge renders
+   * nothing rather than a guess.
+   */
   summary: string;
 }
 
@@ -92,29 +117,33 @@ interface Occurrence {
   start: number; // dayIndex*1440 + open minute, absolute within a 0..10079 week timeline
   end: number; // exclusive; > 10080 is legitimate for a Saturday block that ends Sunday
   closesMinute: number; // wall-clock minute the block ends, for display while open
+  isAllDay: boolean; // the "Open 24 hours" special case — no real close time exists
 }
 
 function buildOccurrences(spec: OpeningHoursSpecification[]): Occurrence[] {
   return spec.map((s) => {
     const dayIndex = DAY_NAMES.indexOf(s.dayOfWeek);
     const opensMin = toMinutes(s.opens);
+    const isAllDay = opensMin === 0 && s.closes === '23:59';
     // parseStoreHours encodes "Open 24 hours" as 00:00-23:59, one minute short
     // of a full day. Read as literal minutes that leaves a one-minute closed
     // gap at 23:59 that isn't real — treat that exact pair as the full day.
-    const closesMin = opensMin === 0 && s.closes === '23:59' ? MINUTES_PER_DAY : toMinutes(s.closes);
+    const closesMin = isAllDay ? MINUTES_PER_DAY : toMinutes(s.closes);
     const wraps = closesMin <= opensMin;
     const start = dayIndex * MINUTES_PER_DAY + opensMin;
     const end = dayIndex * MINUTES_PER_DAY + closesMin + (wraps ? MINUTES_PER_DAY : 0);
-    return { start, end, closesMinute: closesMin % MINUTES_PER_DAY };
+    return { start, end, closesMinute: closesMin % MINUTES_PER_DAY, isAllDay };
   });
 }
 
 // An occurrence is a fixed point in a 7-day cycle, but a Saturday-night block
 // can end Sunday morning — past the end of that cycle. Checking the target
-// shifted a week either side is what catches the wrap without special-casing
-// "is this Saturday's block."
+// shifted a week forward is what catches the wrap without special-casing
+// "is this Saturday's block." (Shifting backward can never match: target is
+// always in [0, 10079] and occ.start >= 0, so target - MINUTES_PER_WEEK is
+// always negative and always < occ.start.)
 function matches(target: number, occ: Occurrence): boolean {
-  return [target, target - MINUTES_PER_WEEK, target + MINUTES_PER_WEEK].some((t) => t >= occ.start && t < occ.end);
+  return [target, target + MINUTES_PER_WEEK].some((t) => t >= occ.start && t < occ.end);
 }
 
 export function localClock(now: Date, timeZone: string): { dayIndex: number; minuteOfDay: number } {
@@ -135,17 +164,32 @@ function describeUpcoming(dayDiff: number, weekdayIndex: number, minuteOfDay: nu
   const time = formatClock(minuteOfDay);
   if (dayDiff === 0) return `opens ${time}`;
   if (dayDiff === 1) return `opens tomorrow ${time}`;
+  // At exactly 7 days out, weekdayIndex names TODAY's weekday — "opens
+  // Monday" on a Monday reads as "later today", which is the opposite of
+  // true. "next Monday" is unambiguous at every other dayDiff too, but only
+  // 7 is where the bare name actively lies.
+  if (dayDiff === 7) return `opens next ${DAY_NAMES[weekdayIndex]} ${time}`;
   return `opens ${DAY_NAMES[weekdayIndex]} ${time}`;
 }
 
-export function computeOpenState(spec: OpeningHoursSpecification[], timeZone: string, now: Date): OpenNowState {
+export function computeOpenState(spec: OpeningHoursSpecification[], timeZone: string, now: Date, province: ProvinceCode): OpenNowState {
   const { dayIndex, minuteOfDay } = localClock(now, timeZone);
   const target = dayIndex * MINUTES_PER_DAY + minuteOfDay;
   const occurrences = buildOccurrences(spec);
 
   const openOcc = occurrences.find((occ) => matches(target, occ));
   if (openOcc !== undefined) {
-    return { isOpen: true, summary: `Open now · closes ${formatClock(openOcc.closesMinute)}` };
+    // Two cases where the schedule says "open" but asserting that would be a
+    // guess dressed as a fact: a "24 hours" listing (almost always a mis-set
+    // source record, and there's no real close time to report even if it's
+    // genuine) and a statutory holiday (the schedule has no holiday data at
+    // all — see holidays.ts). Both suppress rather than assert either
+    // "open" or "closed"; the "closed" direction is unaffected because it
+    // never overclaims in the first place.
+    if (openOcc.isAllDay || isStatutoryHoliday(now, timeZone, province)) {
+      return { isOpen: false, summary: '' };
+    }
+    return { isOpen: true, summary: `Listed open now · closes ${formatClock(openOcc.closesMinute)}` };
   }
 
   // Closed: the soonest future start wins. Weeks repeat identically, so
