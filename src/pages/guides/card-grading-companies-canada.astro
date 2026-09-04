@@ -12,10 +12,23 @@ const stores = storesJson as Store[];
 // Shops that list grading services among what they offer — same computed,
 // case-insensitive filter used on the PSA submission guide, so this list
 // never drifts out of sync with what's actually in the directory.
-const gradingStores = stores
-  .filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services'))
-  .sort(byRecommendedRank)
-  .slice(0, 3);
+const gradingStores2 = stores.filter((s) =>
+  s.services.some((v) => v.toLowerCase() === 'grading services'),
+);
+const gradingStores = [...gradingStores2].sort(byRecommendedRank).slice(0, 3);
+
+// The same shops, all of them, grouped by province for the browsable list below.
+// This is the one answer on this page a comparison article cannot copy: every other
+// result for "card grading canada" explains the graders, none can tell a Canadian
+// which shop down the road will handle the submission. Built from the directory, so
+// it follows the daily rebuild instead of going stale in prose.
+const gradingByProvince = [...new Set(gradingStores2.map((s) => s.province))]
+  .sort((a, b) => PROVINCES[a].name.localeCompare(PROVINCES[b].name))
+  .map((code) => ({
+    code,
+    name: PROVINCES[code].name,
+    shops: gradingStores2.filter((s) => s.province === code).sort(byRecommendedRank),
+  }));
 
 // Overtime Grading's Balzac, AB drop-off point is also a directory listing —
 // looked up by its stable slug rather than hand-typed, same pattern the
@@ -317,6 +330,27 @@ const ld: Record<string, unknown> = {
       <a href="/guides/psa-grading-submissions-canada/" class="text-prizm">PSA submission guide</a> covers that route
       in full, alongside submitting direct and group submissions.
     </p>
+    <p>
+      Here is every shop in the directory that lists grading services, by province — {gradingStores2.length} of
+      them. Being listed here is free and nobody paid to appear; it reflects what each shop says it offers.
+      Confirm the details with the shop before you hand over cards, because which grader they submit to, what
+      they charge on top, and how often they ship all vary.
+    </p>
+    <div class="mt-6 grid gap-6 sm:grid-cols-2">
+      {gradingByProvince.map((group) => (
+        <div>
+          <h3 class="font-semibold uppercase tracking-wide text-muted">{group.name}</h3>
+          <ul role="list" class="mt-2 space-y-1 text-sm">
+            {group.shops.map((s) => (
+              <li>
+                <a href={`/store/${s.slug}/`} class="text-prizm">{s.name}</a>{' '}
+                <span class="text-muted">— {s.city}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
 
     <h2 class="text-3xl">How Long Does Card Grading Take?</h2>
     <p>
