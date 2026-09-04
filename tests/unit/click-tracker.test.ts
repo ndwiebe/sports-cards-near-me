@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-// @ts-expect-error -- plain Cloudflare Worker module, no types of its own
+// Plain Cloudflare Worker module — no types of its own, so `fetch` is untyped here.
 import worker from '../../worker/click-tracker.js';
 
 const SITE = 'https://sportscardsnearme.ca';
