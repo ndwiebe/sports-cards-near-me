@@ -1,0 +1,44 @@
+---
+import type { Store } from '../lib/types';
+import { openNowPayload } from '../lib/open-now';
+
+interface Props { store: Store }
+const { store } = Astro.props;
+
+// undefined covers both an unparseable hours string (all-or-nothing, see
+// store-hours.ts) and a closed/online-only shop (no current walk-in location
+// to be "open" at) — either way the badge renders nothing, never a guess.
+const payload = openNowPayload(store);
+const json = payload !== undefined ? JSON.stringify(payload).replace(/</g, '\\u003c') : undefined;
+---
+{payload !== undefined && (
+  <span data-open-now class="mt-1 block text-sm font-semibold">
+    <script type="application/json" data-open-now-spec set:html={json} />
+  </span>
+)}
+<script>
+  import { computeOpenState } from '../lib/open-now';
+  import type { OpeningHoursSpecification } from '../lib/store-hours';
+  import type { ProvinceCode } from '../lib/types';
+
+  interface Payload { spec: OpeningHoursSpecification[]; timeZone: string; province: ProvinceCode }
+
+  // Deliberately client-side only — see open-now.ts for why. Not scoped to a
+  // single badge: Astro dedupes this script to one copy per page regardless
+  // of how many StoreCards render it, so it has to sweep every badge itself.
+  for (const el of document.querySelectorAll<HTMLElement>('[data-open-now]')) {
+    const raw = el.querySelector('script[data-open-now-spec]')?.textContent;
+    if (raw === undefined || raw === null || raw === '') continue;
+    const { spec, timeZone, province } = JSON.parse(raw) as Payload;
+    const state = computeOpenState(spec, timeZone, new Date(), province);
+    // Empty summary means computeOpenState found a schedule match but
+    // nothing honest to claim from it (24-hour listing, statutory holiday) —
+    // hide the badge rather than show blank coloured text.
+    if (state.summary === '') {
+      el.classList.add('hidden');
+      continue;
+    }
+    el.textContent = state.summary;
+    el.classList.add(state.isOpen ? 'text-emerald-400' : 'text-rose-300');
+  }
+</script>
