@@ -253,6 +253,29 @@ class RunWranglerTests(unittest.TestCase):
         self.assertNotIn('wrangler login', str(ctx.exception))
         self.assertIn('Something else entirely broke', str(ctx.exception))
 
+    def test_auth_looking_error_while_auth_is_fine_shows_the_real_error(self):
+        # The regression that prompted auth_is_broken(). On 2026-09-04 a transient
+        # failure carried auth-ish wording on a fully authenticated session, and the
+        # script told Nathan to go re-run a login that was working -- burying the
+        # real cause. Now the login prompt requires whoami to ALSO fail.
+        def fake_run(cmd, *a, **kw):
+            if 'whoami' in cmd:
+                return subprocess.CompletedProcess(args=cmd, returncode=0, stdout='account ok', stderr='')
+            return subprocess.CompletedProcess(
+                args=cmd, returncode=1, stdout='',
+                stderr='X [ERROR] Authentication error [code: 10000] -- but whoami is fine.\n',
+            )
+
+        original_run = subprocess.run
+        subprocess.run = fake_run
+        try:
+            with self.assertRaises(click_report.ClickReportError) as ctx:
+                click_report.run_wrangler(['kv', 'namespace', 'list'])
+        finally:
+            subprocess.run = original_run
+        self.assertNotIn('wrangler login', str(ctx.exception))
+        self.assertIn('but whoami is fine', str(ctx.exception))
+
 
 class GetValueTests(unittest.TestCase):
     def test_rejects_non_integer_value(self):

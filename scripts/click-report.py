@@ -63,10 +63,15 @@ LAUNCH_MONTH = '2026-08'
 # error ... code: 10000") and a non-interactive one with no credentials at all ("necessary
 # to set a CLOUDFLARE_API_TOKEN"). Confirmed against real wrangler 4.115.0 output
 # 2026-09-03.
+# Deliberately narrow. An earlier, looser list included 'cloudflare_api_token',
+# which wrangler names in a generic "you can also set ..." hint printed on all
+# sorts of unrelated failures -- so a transient network blip was reported to
+# Nathan as "could not authenticate", sending him to re-run a login that was
+# working fine. Confirmed 2026-09-04 against a fully authenticated session.
+# A marker match is now only a SUSPICION; auth_is_broken() is what decides.
 AUTH_FAILURE_MARKERS = (
     'authentication error',
     'not authenticated',
-    'cloudflare_api_token',
 )
 
 
@@ -98,13 +103,28 @@ def run_wrangler(args, cwd=None):
 
     if result.returncode != 0:
         lowered = result.stderr.lower()
-        if any(marker in lowered for marker in AUTH_FAILURE_MARKERS):
+        if any(marker in lowered for marker in AUTH_FAILURE_MARKERS) and auth_is_broken():
             raise ClickReportError(
                 'Wrangler could not authenticate to Cloudflare. Run this, then re-run the report:\n\n'
                 '    npx wrangler login\n'
             )
         raise ClickReportError(f"`{' '.join(cmd)}` failed (exit {result.returncode}):\n{result.stderr.strip()}")
     return result.stdout
+
+
+def auth_is_broken():
+    """Ask wrangler directly rather than inferring auth state from another command's
+    error text. Only called when something already failed, so the extra round-trip
+    costs nothing on the happy path -- and it is the difference between telling Nathan
+    to go re-authenticate and telling him what actually broke."""
+    try:
+        probe = subprocess.run(
+            ['npx', 'wrangler', 'whoami'], cwd=WRANGLER_CWD,
+            capture_output=True, text=True, timeout=120,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return False  # can't confirm -- fall through and show the real error
+    return probe.returncode != 0
 
 
 def run_wrangler_json(args, cwd=None):
