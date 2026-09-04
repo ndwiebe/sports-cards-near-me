@@ -26,8 +26,11 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-
-_(none — the 2026-09-03 parallel readiness pass released all five lanes; see the log.)_
+| 2026-09-04 | Opus 5, `scnm-plan4` (Nathan session) | **data (shows)** | `scripts/refresh-shows.py` run + `docs/research/2026-09-04-show-refresh-*` | Quarterly calendar refresh. Script never writes the sheet; payload verified against the duplicate trap before any write. |
+| 2026-09-04 | Opus 5, `scnm-plan4` (Nathan session) | **data (logos)** | `src/data/logos.json`, `public/logos/**` | `scrape-logos.py` run, 378 → 386. New chips reviewed by eye before commit. |
+| 2026-09-04 | Opus 5, `scnm-plan4` (Nathan session) | **pages + lib** | `src/pages/city/**`, `src/lib/nearby.ts` (read), city-page components | The 42 crownless city pages from the TCG re-rank. |
+| 2026-09-04 | Sonnet subagent, `scnm-plan4` | **docs** | `docs/research/**`, `audit-noncard-scanned.csv` (read-only) | Triage of the 33 AMBIGUOUS + 7 UNREACHABLE + 26 unresolved rows. Writes a recommendation only — no sheet writes, no code. |
+| 2026-09-04 | Sonnet subagent, `scnm-plan4` | **ops** | `.github/workflows/*.yml` | Node 20 deprecation warnings. Workflow-file edits need their own sync to `main` (CLAUDE.md §2 corollary). |
 
 ## Queued — claimed but not started
 
