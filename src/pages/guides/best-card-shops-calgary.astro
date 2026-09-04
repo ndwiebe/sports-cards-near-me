@@ -8,8 +8,8 @@ import { isBuyer } from '../../lib/sell';
 import { isPokemonShop } from '../../lib/tcg';
 import {
   MIN_REVIEWS_FOR_TOP,
-  byRecommendedRank,
-  topRatedStore,
+  bySportsCardRank,
+  topRatedSportsCardStore,
   absoluteUrl,
   breadcrumbListLd,
   faqPageLd,
@@ -32,8 +32,10 @@ const topEligible = cityRated.filter((s) => (s.reviewCount ?? 0) >= MIN_REVIEWS_
 // Ordered by the SAME weighted score that crowns `top` below. These were sorted by
 // raw rating until 2026-08-01, which meant the prose named one shop as ranking first
 // while the list beneath it led with another — the page argued with itself.
-const topShops = [...topEligible].sort(byRecommendedRank);
-const top = topRatedStore(cityStores);
+const topShops = [...topEligible].sort(bySportsCardRank);
+// 'Best card shops' on this site means sports cards -- a confirmed TCG-only shop
+// is not crowned here (Nathan, 2026-09-04). Uncategorised shops are unaffected.
+const top = topRatedSportsCardStore(cityStores);
 const otherShops = cityStores.filter((s) => !topEligible.includes(s));
 const unratedCount = cityStores.length - cityRated.length;
 const ratedBelowBarCount = cityRated.length - topEligible.length;

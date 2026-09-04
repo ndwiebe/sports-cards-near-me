@@ -250,6 +250,49 @@ export function topRatedStores(stores: Store[], n: number, corpusMean?: number):
   return rankedEligibleStores(stores, corpusMean).slice(0, n);
 }
 
+/** Category tags that are positive evidence a shop sells SPORTS cards, and tags that
+ * are positive evidence of trading-card games. "Other" is deliberately in neither:
+ * 146 of the 352 shops carrying it also carry an explicit sports tag, so when a shop
+ * sells sports cards this data says so outright — "Other" is a separate bucket (board
+ * games, comics, supplies), not a place sports hides. */
+const SPORTS_TAGS = new Set(['hockey', 'baseball', 'football', 'basketball', 'sports', 'soccer', 'golf']);
+const TCG_TAGS = new Set(['pokemon', 'magic', 'lorcana', 'yu-gi-oh', 'one piece']);
+
+/** A shop we have POSITIVE evidence sells trading-card games and no sports cards.
+ *
+ * The asymmetry is the whole point, and it is Nathan's call of 2026-09-04: a shop is
+ * demoted on a sports-card surface only when the data says what it sells, never when
+ * the data is silent. A shop with no category tags at all returns false here and keeps
+ * its normal place — 78 shops (11.5% of the directory) are in that position and no
+ * amount of scanning closes the gap, because a shop with no website cannot be scanned.
+ * Demoting them would turn our own missing data into a public claim about their
+ * business, which is the one thing this site refuses to do everywhere else.
+ */
+export function isConfirmedTcgOnly(store: Store): boolean {
+  const tags = store.sports.map((t) => t.toLowerCase());
+  return tags.some((t) => TCG_TAGS.has(t)) && !tags.some((t) => SPORTS_TAGS.has(t));
+}
+
+/** Ranking for pages that are explicitly about SPORTS cards. Identical to
+ * `byRecommendedRank`, except a confirmed TCG-only shop sorts below everyone else.
+ * Nobody is hidden — a Pokémon shop still appears on the page, it just cannot top a
+ * list a visitor reached by searching for sports cards.
+ *
+ * Do NOT use this on the Pokémon/TCG surfaces: there a TCG shop is the right answer
+ * and must rank normally. */
+export function bySportsCardRank(a: Store, b: Store): number {
+  const demoted = (s: Store): number => (isConfirmedTcgOnly(s) ? 1 : 0);
+  return demoted(a) - demoted(b) || byRecommendedRank(a, b);
+}
+
+/** The shop worth crowning on a sports-card page: same rule as `topRatedStore`, but a
+ * confirmed TCG-only shop is never crowned. Returns undefined when that leaves nobody,
+ * which callers already render as no claim at all — the site's existing behaviour in
+ * the cities where nothing clears the review bar. No crown beats a wrong crown. */
+export function topRatedSportsCardStore(stores: Store[], corpusMean?: number): Store | undefined {
+  return topRatedStore(stores.filter((s) => !isConfirmedTcgOnly(s)), corpusMean);
+}
+
 /** Sort comparator for rating-ordered shop lists that must still show everyone.
  * Shops eligible to be crowned (rated with >= MIN_REVIEWS_FOR_TOP reviews) rank
  * first, ordered by Bayesian-weighted score so review volume counts as evidence

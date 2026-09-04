@@ -11,7 +11,7 @@ import type { ShowRecord } from '../../lib/shows';
 import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming } from '../../lib/shows';
 import {
   MIN_REVIEWS_FOR_TOP,
-  byRecommendedRank,
+  bySportsCardRank,
   absoluteUrl,
   breadcrumbListLd,
   faqPageLd,
@@ -59,7 +59,7 @@ function namesList(shops: Store[]): string {
 // Sorted by raw rating until 2026-08-01, which put this page out of step with the
 // volume weighting every other ranked surface had already adopted.
 const topEligible = abRated.filter((s) => (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP);
-const topShops = [...topEligible].sort(byRecommendedRank).slice(0, 8);
+const topShops = [...topEligible].sort(bySportsCardRank).slice(0, 8);
 const topCityCount = new Set(topShops.map((s) => s.citySlug)).size;
 const mostReviewed = [...topShops].sort((a, b) => (b.reviewCount ?? 0) - (a.reviewCount ?? 0))[0];
 

@@ -78,7 +78,10 @@
     "phone": "(403) 918-4994",
     "website": "https://hkcollectibles.ca/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "One Piece",
+      "Pokemon"
+    ],
     "lat": 51.196195,
     "lng": -113.9958807
   },
@@ -120,7 +123,9 @@
     "phone": "(403) 992-3396",
     "website": "http://www.senshencollectibles.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 51.196195,
     "lng": -113.9958807
   },
@@ -375,7 +380,11 @@
     "phone": "(403) 288-4926",
     "website": "http://www.reliquarycards.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Lorcana",
+      "Magic",
+      "Pokemon"
+    ],
     "lat": 51.0855602,
     "lng": -114.1790536
   },
@@ -388,7 +397,16 @@
     "province": "AB",
     "website": "https://screenfreegames.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Baseball",
+      "Basketball",
+      "Hockey",
+      "Lorcana",
+      "Magic",
+      "One Piece",
+      "Pokemon",
+      "Yu-Gi-Oh"
+    ],
     "lat": 51.074035,
     "lng": -113.985536
   },
@@ -402,7 +420,10 @@
     "phone": "(403) 818-1586",
     "website": "http://scuffedcards.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
     "lat": 50.9380834,
     "lng": -114.0477148
   },
@@ -462,7 +483,9 @@
     "phone": "(403) 474-4445",
     "website": "https://vaultedyyc.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 51.0377228,
     "lng": -114.0950287
   },
@@ -476,7 +499,9 @@
     "phone": "(403) 474-4445",
     "website": "https://vaultedyyc.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Pokemon"
+    ],
     "lat": 51.0299014,
     "lng": -114.0351623
   },
@@ -709,7 +734,10 @@
     "phone": "+1 587-436-8166",
     "website": "https://linktr.ee/puckitcards",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Hockey",
+      "Pokemon"
+    ],
     "lat": 51.6578283,
     "lng": -114.1347827
   },
@@ -846,7 +874,10 @@
     "phone": "(825) 402-6528",
     "website": "https://www.foilcitycards.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Lorcana",
+      "Yu-Gi-Oh"
+    ],
     "lat": 53.516692,
     "lng": -113.494728
   },
@@ -886,7 +917,14 @@
     "phone": "(587) 785-8885",
     "website": "https://www.hpwcards.com/",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Hockey",
+      "Lorcana",
+      "Magic",
+      "One Piece",
+      "Pokemon",
+      "Yu-Gi-Oh"
+    ],
     "lat": 53.5579104,
     "lng": -113.5021014
   },
@@ -1382,7 +1420,11 @@
     "services": [
       "Sells"
     ],
-    "sports": [],
+    "sports": [
+      "Baseball",
+      "Football",
+      "Hockey"
+    ],
     "lat": 49.7032561,
     "lng": -112.8243276
   },
@@ -1519,7 +1561,11 @@
     "services": [
       "Sells"
     ],
-    "sports": [],
+    "sports": [
+      "Lorcana",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
     "lat": 50.031695,
     "lng": -110.662883
   },
@@ -6601,7 +6647,9 @@
       "Sells",
       "Buys"
     ],
-    "sports": [],
+    "sports": [
+      "Lorcana"
+    ],
     "lat": 44.23689,
     "lng": -76.51767
   },
@@ -8104,7 +8152,9 @@
     "services": [
       "Sells"
     ],
-    "sports": [],
+    "sports": [
+      "Magic"
+    ],
     "lat": 43.582,
     "lng": -79.71382
   },
@@ -9580,7 +9630,9 @@
       "Sells",
       "Sells Wax"
     ],
-    "sports": [],
+    "sports": [
+      "Lorcana"
+    ],
     "lat": 45.43185,
     "lng": -75.67865
   },
@@ -10028,7 +10080,10 @@
     "services": [
       "Sells"
     ],
-    "sports": [],
+    "sports": [
+      "Baseball",
+      "Hockey"
+    ],
     "lat": 46.53652,
     "lng": -84.36373
   },
@@ -12597,7 +12652,11 @@
     "province": "QC",
     "website": "https://cardcastergames.com",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Lorcana",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
     "lat": 45.659579,
     "lng": -73.858746
   },
@@ -14832,7 +14891,12 @@
     "province": "QC",
     "website": "https://leroidescartesvalley.com",
     "services": [],
-    "sports": [],
+    "sports": [
+      "Lorcana",
+      "Magic",
+      "Pokemon",
+      "Yu-Gi-Oh"
+    ],
     "lat": 45.269956,
     "lng": -74.135832
   },

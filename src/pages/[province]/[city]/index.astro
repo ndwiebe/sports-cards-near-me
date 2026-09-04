@@ -10,7 +10,7 @@ import type { Store } from '../../../lib/types';
 import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
 import { toMapResellers } from '../../../lib/map-data';
-import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, collectTags, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, collectTags, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedSportsCardStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { isUpcoming, parseLocalDate, primaryShowCalendarYear } from '../../../lib/shows';
@@ -97,7 +97,10 @@ const capsule = cityAnswerCapsule(cityGroup.city, province.name, cityGroup.store
 // 92%. topRatedStore returns undefined where nothing clears the review bar
 // (54 of 248 cities), and those cities get no claim at all rather than a
 // weaker one — same rule as the shop pages: no empty scaffolding.
-const topRated = topRatedStore(cityGroup.stores);
+// Sports-card surface: a confirmed TCG-only shop is never crowned here (Nathan,
+// 2026-09-04). Undefined when that leaves nobody, which renders as no claim --
+// the same way a city where nothing clears the review bar already behaves.
+const topRated = topRatedSportsCardStore(cityGroup.stores);
 
 // The title must not promise something the page can't show. 57 city pages were
 // titled "Rated & Mapped" while carrying no rated shop at all — a claim the

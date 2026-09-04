@@ -17,6 +17,7 @@ import {
   provinceFaqs,
   rankedFirstPhrase,
   topRatedStores,
+  isConfirmedTcgOnly,
 } from '../../lib/seo';
 
 export function getStaticPaths() {
@@ -34,7 +35,10 @@ const allStores = cities.flatMap((c) => c.stores);
 // shop clears the 20-review bar. topRatedStores returns [] rather than
 // undefined when nothing qualifies, so the section below renders an honest
 // data-gap line instead of an empty scaffold.
-const topStores = topRatedStores(allStores, 5);
+// Province pages are a sports-card surface, so confirmed TCG-only shops are not
+// candidates for the named 'best reviewed' list (Nathan, 2026-09-04). Shops with
+// no category data are untouched and remain eligible.
+const topStores = topRatedStores(allStores.filter((s) => !isConfirmedTcgOnly(s)), 5);
 const topRated = topStores[0];
 
 // Cities worth calling out above the full alphabetical grid: the ones that
