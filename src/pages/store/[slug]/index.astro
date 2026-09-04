@@ -11,7 +11,7 @@ import { sellPageExistsForCity } from '../../../lib/sell';
 import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
 import { hasLogo } from '../../../lib/logos';
-import { parseStoreHours } from '../../../lib/store-hours';
+import { formatHoursByDay, parseStoreHours } from '../../../lib/store-hours';
 import OpenNowBadge from '../../../components/OpenNowBadge.astro';
 
 // Closed shops keep their page. Someone who searches the shop by name deserves to be
@@ -51,6 +51,9 @@ const faqs = storeFaqs(store, provinceName, sellPageExistsForCity(storesJson as 
 const offersGrading = store.services.some((s) => s.toLowerCase() === 'grading services');
 const faqLd = faqPageLd(faqs);
 const openingHours = parseStoreHours(store.hours);
+// Undefined for a shop whose hours don't come through as a full seven-day week --
+// the raw line is rendered instead, rather than a week with a day missing.
+const hoursRows = formatHoursByDay(store.hours);
 const breadcrumbLd = breadcrumbListLd([
   { name: 'Home', url: absoluteUrl(Astro.site, '/') },
   { name: provinceName, url: absoluteUrl(Astro.site, `/${provinceSlug}/`) },
@@ -149,7 +152,25 @@ const ld: Record<string, unknown> = {
   <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
   <dl class="mt-8 grid max-w-2xl gap-4 text-sm">
     <div><dt class="font-semibold uppercase tracking-wide text-muted">Address</dt><dd class="mt-1">{store.address}</dd></div>
-    {store.hours !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt><dd class="mt-1">{store.hours}</dd></div>}
+    {store.hours !== undefined && (
+      <div>
+        <dt class="font-semibold uppercase tracking-wide text-muted">Hours</dt>
+        <dd class="mt-1">
+          {hoursRows === undefined ? store.hours : (
+            <table class="w-full max-w-xs border-collapse text-sm">
+              <tbody>
+                {hoursRows.map((row) => (
+                  <tr class="border-b border-bord/40 last:border-0">
+                    <th scope="row" class="py-1.5 pr-4 text-left font-normal text-muted">{row.day}</th>
+                    <td class={`py-1.5 text-right tabular-nums ${row.isClosed ? 'text-muted' : ''}`}>{row.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </dd>
+      </div>
+    )}
     {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="text-prizm" data-track-click="call" data-store-slug={store.slug}>{store.phone}</a></dd></div>}
   </dl>
   <div class="mt-8 max-w-2xl">

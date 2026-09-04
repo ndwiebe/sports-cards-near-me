@@ -106,3 +106,49 @@ export function parseStoreHours(hours: string | undefined): OpeningHoursSpecific
 
   return out.length > 0 ? out : undefined;
 }
+
+export interface HoursRow {
+  day: string;
+  /** Exactly what the source says for that day — "11:00 AM – 6:30 PM", "Closed", "Open 24 hours". */
+  value: string;
+  isClosed: boolean;
+}
+
+const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+/**
+ * The same string, laid out one day per row instead of a single run-on line.
+ *
+ * Deliberately a re-layout, not a re-interpretation: the value is passed through
+ * verbatim, so this can never disagree with the hours a visitor would have read
+ * before, and it stays correct if Google's phrasing drifts in ways
+ * `parseStoreHours` would reject. That is also why it doesn't reuse the parsed
+ * specification — that form drops closed days (schema.org reads absence as
+ * closed), and a week with Tuesday silently missing is exactly what a human
+ * reader must not be shown.
+ *
+ * Returns undefined unless all seven days are present exactly once, so the
+ * caller can fall back to the original string rather than render a partial week.
+ */
+export function formatHoursByDay(hours: string | undefined): HoursRow[] | undefined {
+  if (hours === undefined || hours.trim() === '') return undefined;
+
+  const byDay = new Map<string, string>();
+  for (const segment of hours.split(';')) {
+    const text = segment.trim();
+    if (text === '') continue;
+
+    const colon = text.indexOf(':');
+    if (colon === -1) return undefined;
+    const day = DAYS[text.slice(0, colon).trim().toLowerCase()];
+    const value = text.slice(colon + 1).trim();
+    if (day === undefined || value === '' || byDay.has(day)) return undefined;
+    byDay.set(day, value);
+  }
+
+  if (byDay.size !== WEEK.length) return undefined;
+  return WEEK.map((day) => {
+    const value = byDay.get(day) as string;
+    return { day, value, isClosed: /^closed$/i.test(value) };
+  });
+}

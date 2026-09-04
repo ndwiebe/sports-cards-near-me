@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseStoreHours } from '../../src/lib/store-hours';
+import { formatHoursByDay, parseStoreHours } from '../../src/lib/store-hours';
 import storesJson from '../../src/data/stores.json';
 import type { Store } from '../../src/lib/types';
 
@@ -79,5 +79,56 @@ describe('parseStoreHours', () => {
     expect(withHours.length).toBeGreaterThan(600);
     const failed = withHours.filter((s) => parseStoreHours(s.hours) === undefined);
     expect(failed.map((s) => `${s.slug}: ${s.hours}`)).toEqual([]);
+  });
+});
+
+describe('formatHoursByDay', () => {
+  const full =
+    'Monday: Closed; Tuesday: 11:00 AM – 6:30 PM; Wednesday: 11:00 AM – 6:30 PM; ' +
+    'Thursday: 11:00 AM – 6:30 PM; Friday: 11:00 AM – 6:30 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: Closed';
+
+  it('returns one row per day, Monday first, whatever order the source used', () => {
+    const rows = formatHoursByDay(full);
+    expect(rows?.map((r) => r.day)).toEqual([
+      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+    ]);
+  });
+
+  it('passes the value through verbatim rather than reformatting it', () => {
+    const rows = formatHoursByDay(full);
+    expect(rows?.[1]).toEqual({ day: 'Tuesday', value: '11:00 AM – 6:30 PM', isClosed: false });
+  });
+
+  it('flags closed days so they can be styled down, without inventing wording', () => {
+    const rows = formatHoursByDay(full);
+    expect(rows?.[0]).toEqual({ day: 'Monday', value: 'Closed', isClosed: true });
+    expect(rows?.[6]?.isClosed).toBe(true);
+  });
+
+  it('keeps "Open 24 hours" as written instead of turning it into a time range', () => {
+    const rows = formatHoursByDay(full.replace('Monday: Closed', 'Monday: Open 24 hours'));
+    expect(rows?.[0]).toEqual({ day: 'Monday', value: 'Open 24 hours', isClosed: false });
+  });
+
+  it('keeps a split shift on one row, exactly as the source writes it', () => {
+    const rows = formatHoursByDay(full.replace('Monday: Closed', 'Monday: 9:00 AM – 12:00 PM, 1:00 – 5:00 PM'));
+    expect(rows?.[0]?.value).toBe('9:00 AM – 12:00 PM, 1:00 – 5:00 PM');
+  });
+
+  it('gives up on a partial week rather than render one with a day missing', () => {
+    expect(formatHoursByDay(full.replace('; Sunday: Closed', ''))).toBeUndefined();
+  });
+
+  it('gives up on a duplicated day, which would otherwise silently drop one', () => {
+    expect(formatHoursByDay(full.replace('Wednesday:', 'Tuesday:'))).toBeUndefined();
+  });
+
+  it('gives up on an unrecognised day name', () => {
+    expect(formatHoursByDay(full.replace('Friday:', 'Freeday:'))).toBeUndefined();
+  });
+
+  it('has nothing to say about missing or empty hours', () => {
+    expect(formatHoursByDay(undefined)).toBeUndefined();
+    expect(formatHoursByDay('   ')).toBeUndefined();
   });
 });
