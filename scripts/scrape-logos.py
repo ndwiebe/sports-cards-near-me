@@ -4,7 +4,9 @@
 Reads src/data/stores.json; for each store with a website and no existing
 public/logos/<slug>.webp, fetches the site's apple-touch-icon / favicon /
 og:image, normalizes to 64x64 webp, and rewrites src/data/logos.json as the
-sorted list of slugs that have a logo file on disk.
+sorted list of slugs that have a logo file on disk. Candidates previously
+rejected by eye are recorded in src/data/logos-rejected.json (hand-maintained,
+not generated) and skipped rather than re-downloaded.
 Usage: python3 scripts/scrape-logos.py
 """
 import json, re, io, pathlib, hashlib, urllib.request, urllib.parse, concurrent.futures
@@ -51,6 +53,17 @@ PLATFORM_ICON_PIXEL_HASHES = {
     'a134bfeb1196e2fb98bac80933de8675',  # Shopify default favicon (light hexagon)
 }
 
+# Hand-maintained (never generated) record of scraped candidates a human rejected
+# by eye -- see src/data/logos-rejected.json for why this file has to exist at all.
+# Keyed on (slug, exact source URL): a slug-only denylist would lock a shop out
+# forever, even after it uploads a real logo at a different URL, so we key on the
+# URL too and let a changed source re-surface for review.
+REJECTED_PATH = ROOT / 'src/data/logos-rejected.json'
+REJECTED = set()
+if REJECTED_PATH.exists():
+    REJECTED = {(r['slug'], r['url']) for r in json.load(open(REJECTED_PATH))['rejected']}
+skipped_rejected = []
+
 def is_platform_site(url):
     host = urllib.parse.urlparse(url).netloc.lower()
     if host.startswith('www.'):
@@ -90,6 +103,9 @@ def grab(store):
         low = url.lower()
         if low.endswith('.svg') or any(p in low for p in PLATFORM_ASSET_URL_PATTERNS):
             continue
+        if (slug, url) in REJECTED:
+            skipped_rejected.append(slug)
+            continue
         try:
             img = Image.open(io.BytesIO(fetch(url)))
             img.load()
@@ -115,6 +131,8 @@ def main():
     have = sorted(p.stem for p in OUT.glob('*.webp'))
     json.dump(have, open(ROOT / 'src/data/logos.json', 'w'), indent=1)
     print(f'new logos: {len(new)} | total on disk: {len(have)}')
+    if skipped_rejected:
+        print(f'skipped (previously rejected, see logos-rejected.json): {", ".join(sorted(set(skipped_rejected)))}')
 
 if __name__ == '__main__':
     main()

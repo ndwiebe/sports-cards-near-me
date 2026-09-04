@@ -1,0 +1,47 @@
+{
+  "_comment": "Shops whose scraped logo candidate was rejected on visual inspection: a generic site-template/CMS icon, an unreadable crop, or an image that isn't actually the shop's own logo. This file is HAND-MAINTAINED, not generated -- unlike logos.json. Deleting the .webp file alone does NOT stick: scripts/scrape-logos.py rewrites logos.json from whatever is on disk, so the exact same bad image gets re-downloaded and silently re-added the next time the script runs, unless the rejection is also recorded here. Each entry is keyed on BOTH slug and the exact source URL the script fetched, not slug alone: if a shop later uploads a real logo at a different URL (a new filename, a redesigned site), it re-surfaces for review instead of being locked out forever. Add a row here whenever a scraped logo is rejected by eye.",
+  "rejected": [
+    {
+      "slug": "foil-city-cards-edmonton",
+      "url": "https://www.foilcitycards.com/site/templates/images/apple-touch-icon-57x57.png",
+      "reason": "generic gradient \"C\" disc from a site-template icon path, not a shop logo",
+      "date": "2026-09-03"
+    },
+    {
+      "slug": "foil-city-cards-edmonton",
+      "url": "https://www.foilcitycards.com/site/templates/images/apple-touch-icon-72x72.png",
+      "reason": "same generic gradient \"C\" disc as the 57x57 sibling, just a different pixel size from the same site-template icon path -- confirmed by eye 2026-09-03 after it slipped through the URL-only denylist on a re-run and got re-added under this different-sized filename",
+      "date": "2026-09-03"
+    },
+    {
+      "slug": "foil-city-cards-edmonton",
+      "url": "https://www.foilcitycards.com/site/templates/images/apple-touch-icon-114x114.png",
+      "reason": "same generic gradient \"C\" disc, another sibling size from the same site-template icon path, checked proactively alongside the 72x72 sibling",
+      "date": "2026-09-03"
+    },
+    {
+      "slug": "foil-city-cards-edmonton",
+      "url": "https://www.foilcitycards.com/site/templates/images/favicon.png",
+      "reason": "same generic gradient \"C\" disc, the site-template favicon variant, checked proactively alongside the other sibling sizes",
+      "date": "2026-09-03"
+    },
+    {
+      "slug": "imperial-garden-sports-collectibles-grande-prairie",
+      "url": "https://imperialgardensc.com/cdn/shop/files/Untitled-1.png?crop=center&height=32&v=1767401393&width=32",
+      "reason": "generic payment/trust-seal badge, not a shop logo",
+      "date": "2026-09-03"
+    },
+    {
+      "slug": "gamesland-canada-edmonton",
+      "url": "https://gamesland.ca/cdn/shop/files/Gamesland_logo-new_3.png?crop=center&height=32&v=1721060912&width=32",
+      "reason": "sliced, unreadable wordmark fragment",
+      "date": "2026-09-03"
+    },
+    {
+      "slug": "senshen-collectibles-balzac",
+      "url": "http://senshencollectibles.com/cdn/shop/files/Logo.png?crop=center&height=32&v=1773973371&width=32",
+      "reason": "sliced, unreadable wordmark fragment",
+      "date": "2026-09-03"
+    }
+  ]
+}
