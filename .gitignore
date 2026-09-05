@@ -21,3 +21,8 @@ __pycache__/
 # local KV store that `wrangler kv key list` silently reads from instead of Cloudflare
 # when --remote is omitted -- machine-local scratch, never something to commit.
 .wrangler/
+
+# Resume checkpoint written by scripts/refresh-shows.py after every batch of 8
+# detail pages. Transient -- it exists so a killed run does not re-scrape 183 pages,
+# and it is regenerated per run date. The payload and report next to it ARE committed.
+docs/research/.show-refresh-cache-*.jsonl
