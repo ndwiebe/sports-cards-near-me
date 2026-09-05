@@ -29,11 +29,11 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: redesign
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -93,7 +93,7 @@ jobs:
       # an artifact survives both failure modes and costs nothing.
       - name: Upload the CSVs as an artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ratings-refresh-csvs
           if-no-files-found: warn
@@ -104,7 +104,7 @@ jobs:
             docs/research/closure-review.csv
 
       - name: Open a PR with the results
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/ratings-refresh
           base: redesign
