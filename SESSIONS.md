@@ -26,11 +26,8 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-09-04 | Opus 5, `scnm-plan4` (Nathan session) | **data (shows)** | `scripts/refresh-shows.py` run + `docs/research/2026-09-04-show-refresh-*` | Quarterly calendar refresh. Script never writes the sheet; payload verified against the duplicate trap before any write. |
-| 2026-09-04 | Opus 5, `scnm-plan4` (Nathan session) | **data (logos)** | `src/data/logos.json`, `public/logos/**` | `scrape-logos.py` run, 378 → 386. New chips reviewed by eye before commit. |
-| 2026-09-04 | Opus 5, `scnm-plan4` (Nathan session) | **pages + lib** | `src/pages/city/**`, `src/lib/nearby.ts` (read), city-page components | The 42 crownless city pages from the TCG re-rank. |
-| 2026-09-04 | Sonnet subagent, `scnm-plan4` | **docs** | `docs/research/**`, `audit-noncard-scanned.csv` (read-only) | Triage of the 33 AMBIGUOUS + 7 UNREACHABLE + 26 unresolved rows. Writes a recommendation only — no sheet writes, no code. |
-| 2026-09-04 | Sonnet subagent, `scnm-plan4` | **ops** | `.github/workflows/*.yml` | Node 20 deprecation warnings. Workflow-file edits need their own sync to `main` (CLAUDE.md §2 corollary). |
+
+_(none — the 2026-09-04/05 parallel pass released all five lanes; see the log.)_
 
 ## Queued — claimed but not started
 
@@ -89,6 +86,43 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-09-05** — *(Opus 5, `scnm-plan4`, Nathan session)* **Four of five lanes shipped in
+  parallel; the show refresh is blocked and the triage is half done.**
+  - **City pages (`414dec77`).** The 42 pages the TCG tiering left with no ranking claim now
+    name the nearest shop that IS ranked, with its town, province and distance. Measured first:
+    **92 of 249 cities are crownless**, not 42 — the 42 are the tiering casualties, the other 50
+    never cleared the review bar, and both need the same thing. `nearestStoresToCityWithDistance`
+    carries the km; `nearestStoresToCity` is now a thin map over it so the orderings cannot drift.
+    Verified on built pages (Cochrane gets the new line, Calgary keeps its crown) and
+    mutation-tested — a constant distance fails the suite. 383 tests green.
+  - **Logos (`a3a9a03b`).** 378 → 385. Three of eight candidates rejected: one was another
+    business's share banner (Valleyfield serving `tcgandgames.com` assets), two were Shopify
+    `?crop=center` slices. ⚠️ **A rejection makes the script fall through to the next candidate,
+    so a single reject is not the end of it** — Overtime and West Edmonton each came back on a
+    sibling URL and needed re-inspection. Took three passes. Overtime's fallback is good and is
+    kept; West Edmonton's 96x96 sibling crops identically and was rejected too.
+  - **Workflows (`8d101467`).** Node 20 warnings cleared from the real run logs, not guessed.
+    ⚠️ **`cloudflare/wrangler-action` deliberately NOT bumped** — it hardcodes a default Wrangler
+    CLI version ("3.90.0" in v3, "4" in v4), so bumping the action silently changes which Wrangler
+    major runs, and `deploy-click-tracker`'s KV step hand-parses raw wrangler output and has
+    broken twice on exactly that. Needs an explicit `wranglerVersion` pin — Nathan's call.
+    **These three files still need their own sync to `main`** (CLAUDE.md §2 corollary).
+  - **Show refresh — BLOCKED, not done.** `refresh-shows.py` fails in `check_chrome`'s successor
+    step: the CDP port answers 200 and the websocket connects, then `connectOverCDP` times out at
+    30s against Nathan's live Chrome. ⚠️ **The script's own 40-target warning threshold does not
+    catch this** — it failed at 32 targets, twice, reproducibly. The port being up is not the same
+    as being attachable. `dev-browser install` (its own Chromium, which would remove the
+    dependency on Nathan's browser entirely) was started and killed before finishing; the
+    playwright MCP reached tcdb.com fine, so **tcdb does not block a headless browser** — the
+    "no fallback exists" comment in the script is about curl/fetch/defuddle, not about Chromium.
+  - **Backlog triage — HALF DONE (`f9aa519f`).** 20 of ~66 rows researched before the session hit
+    its usage limit; evidence saved, no decisions applied, no recommendation written. It turned up
+    three identity problems in listings we already publish: **Cartoon Kingdom and Cedar Creek
+    Hobbies (Windsor) are one business** behind a 301, **Retro Boyz trades as Long Live The
+    Hunt**, and Valleyfield above. All three are answerable from the web.
+  - ℹ️ `timeout` does not exist on macOS — `perl -e 'alarm N; exec @ARGV'` is the substitute. A
+    backgrounded job that "completed, exit 0" had actually died on `command not found`.
 
 - **2026-08-28** — *(Opus)* **Both recurring SCNM jobs are now scripts.** `scripts/fetch-gsc.py`
   (Plan 18) pulls the Search Console export straight into the directory
