@@ -20,10 +20,10 @@ jobs:
       # worker/click-tracker.js and worker/wrangler.jsonc only exist on redesign.
       # Without this, a run dispatched from main's copy checks out main and the
       # later "Deploy the Worker" step fails with no worker/ directory.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: redesign
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
