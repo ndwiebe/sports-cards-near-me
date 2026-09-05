@@ -110,12 +110,26 @@ export function nearestCities(
     .slice(0, limit);
 }
 
-export function nearestStoresToCity(
+/** A neighbouring shop with the distance that ranked it, in km. */
+export interface NearbyStore {
+  store: Store;
+  km: number;
+}
+
+/** Same ranking as `nearestStoresToCity`, keeping the distance each result was
+ * ranked by.
+ *
+ * The distance is not decoration. A city page that can't crown anyone points at
+ * the nearest shop that IS ranked, and that pointer is only honest if it says
+ * how far away it is and in which town — "there's a better-reviewed shop
+ * somewhere" is the kind of vague nearby block Google reads as doorway filler.
+ * `nearestStoresToCity` stays the shape callers that only render cards want. */
+export function nearestStoresToCityWithDistance(
   all: Store[],
   originProvince: ProvinceCode,
   citySlug: string,
   opts: { limit?: number; maxKm?: number } = {},
-): Store[] {
+): NearbyStore[] {
   const limit = opts.limit ?? DEFAULT_LIMIT;
   const maxKm = opts.maxKm ?? DEFAULT_CITY_MAX_KM;
   const origin = cityCentres(all).find((c) => c.province === originProvince && c.citySlug === citySlug);
@@ -125,6 +139,14 @@ export function nearestStoresToCity(
     .map((s) => ({ store: s, km: distanceKm(origin.lat, origin.lng, s.lat, s.lng) }))
     .filter((x) => x.km <= maxKm)
     .sort((a, b) => a.km - b.km || a.store.slug.localeCompare(b.store.slug))
-    .slice(0, limit)
-    .map((x) => x.store);
+    .slice(0, limit);
+}
+
+export function nearestStoresToCity(
+  all: Store[],
+  originProvince: ProvinceCode,
+  citySlug: string,
+  opts: { limit?: number; maxKm?: number } = {},
+): Store[] {
+  return nearestStoresToCityWithDistance(all, originProvince, citySlug, opts).map((x) => x.store);
 }

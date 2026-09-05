@@ -14,12 +14,13 @@ import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, collectTags
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { isUpcoming, parseLocalDate, primaryShowCalendarYear } from '../../../lib/shows';
-import { nearestCities, nearestStoresToCity } from '../../../lib/nearby';
+import { nearestCities, nearestStoresToCity, nearestStoresToCityWithDistance } from '../../../lib/nearby';
 import { relatedGuidesForCity } from '../../../lib/related-guides';
 
 const THIN_CITY_SHOP_COUNT = 1;
 const NEARBY_SHOP_LIMIT = 5;
 const UPCOMING_SHOW_LIMIT = 5;
+const NEARBY_RANKED_SEARCH_LIMIT = 40;
 
 // Paths come from open AND closed shops. 11 cities had their only shop marked closed
 // on 2026-08-28; building paths from stores.json alone silently deleted 11 city pages
@@ -45,6 +46,17 @@ const allCityGroup = citiesIn([...stores, ...(closedStoresJson as Store[])], pro
 if (!allCityGroup) throw new Error(`unknown city slug: ${Astro.params.city}`);
 const cityGroup = { ...allCityGroup, stores: allCityGroup.stores.filter((s) => s.status === undefined) };
 const noneOpen = cityGroup.stores.length === 0;
+
+// "Best card shops in [city]" is the highest-commercial-intent format in the
+// keyword research, and it only became honest once ratings coverage reached
+// 92%. topRatedStore returns undefined where nothing clears the review bar
+// (54 of 248 cities), and those cities get no claim at all rather than a
+// weaker one — same rule as the shop pages: no empty scaffolding.
+// Sports-card surface: a confirmed TCG-only shop is never crowned here (Nathan,
+// 2026-09-04). Undefined when that leaves nobody, which renders as no claim --
+// the same way a city where nothing clears the review bar already behaves.
+const topRated = topRatedSportsCardStore(cityGroup.stores);
+
 // Case-insensitively deduped and A-Z sorted — a sheet typo like "Grading services" vs
 // "Grading Services" must collapse to one chip, not render both. See commit 73e41802.
 const tags = collectTags(cityGroup.stores);
@@ -56,10 +68,30 @@ const nearbyCities = nearestCities(stores, province.code, cityGroup.citySlug).fi
 // A city with no open shops needs the nearby list MORE than a thin one, not less --
 // it is the only useful thing left on the page. cityCentres works off the combined
 // set so a closed-only city still has coordinates to measure from.
-const nearbyStores = cityGroup.stores.length === THIN_CITY_SHOP_COUNT || noneOpen
+// A city with no crown needs this block for the same reason a one-shop city does:
+// the page has stopped answering "which one should I go to?" and nothing else on
+// it does. 92 of 249 cities are crownless — 50 because nothing clears the review
+// bar, and 42 because the only shop that did was confirmed TCG-only (the
+// 2026-09-04 tiering). Those 42 previously carried a claim and now carry none.
+const crownless = !noneOpen && topRated === undefined;
+const nearbyStores = cityGroup.stores.length === THIN_CITY_SHOP_COUNT || noneOpen || crownless
   ? nearestStoresToCity([...stores, ...(closedStoresJson as Store[])], province.code, cityGroup.citySlug, { limit: NEARBY_SHOP_LIMIT })
       .filter((s) => s.status === undefined)
   : [];
+
+// What replaces the ranking claim on a crownless page: the nearest shop that IS
+// ranked, named with its real town and distance. It answers the question the
+// crown answered without inventing a local winner — and it is different text in
+// every city, which a boilerplate "no ranking available" line would not be.
+//
+// Ranked over a wide slice and filtered afterwards, not limited to 5 first: the
+// nearest neighbours are frequently unrated, and asking for 5 would often return
+// five unranked shops and no answer at all. NEARBY_RANKED_SEARCH_LIMIT is a
+// ceiling on work, not on relevance — maxKm is what keeps "nearest" honest.
+const nearestRanked = crownless
+  ? nearestStoresToCityWithDistance(stores, province.code, cityGroup.citySlug, { limit: NEARBY_RANKED_SEARCH_LIMIT })
+      .find(({ store }) => topRatedSportsCardStore([store]) !== undefined)
+  : undefined;
 const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGroup.citySlug);
 const shows = showsJson as ShowRecord[];
 const buildDate = new Date();
@@ -91,16 +123,6 @@ const storeListLd = itemListLd(
   25,
 );
 const capsule = cityAnswerCapsule(cityGroup.city, province.name, cityGroup.stores);
-
-// "Best card shops in [city]" is the highest-commercial-intent format in the
-// keyword research, and it only became honest once ratings coverage reached
-// 92%. topRatedStore returns undefined where nothing clears the review bar
-// (54 of 248 cities), and those cities get no claim at all rather than a
-// weaker one — same rule as the shop pages: no empty scaffolding.
-// Sports-card surface: a confirmed TCG-only shop is never crowned here (Nathan,
-// 2026-09-04). Undefined when that leaves nobody, which renders as no claim --
-// the same way a city where nothing clears the review bar already behaves.
-const topRated = topRatedSportsCardStore(cityGroup.stores);
 
 // The title must not promise something the page can't show. 57 city pages were
 // titled "Rated & Mapped" while carrying no rated shop at all — a claim the
@@ -154,6 +176,16 @@ const faqLd = faqPageLd(faqs);
             <span> — {topRated.rating} stars from {topRated.reviewCount} Google reviews</span>
           )}. Ordered by rating weighted for review volume, among shops with {MIN_REVIEWS_FOR_TOP}+ reviews — so this is
           not simply the highest star average. Nobody pays for a place in this ranking.
+        </p>
+      )}
+      {nearestRanked !== undefined && (
+        <p class="mt-4 text-sm text-muted" data-nearest-ranked>
+          No shop in {cityGroup.city} is ranked here yet — that takes a Google rating from at least{' '}
+          {MIN_REVIEWS_FOR_TOP} reviews, on a shop the data confirms sells sports cards. The nearest one that
+          is ranked:{' '}
+          <a href={`/store/${nearestRanked.store.slug}/`} class="font-semibold text-prizm">{nearestRanked.store.name}</a>
+          {' '}in {nearestRanked.store.city}, {nearestRanked.store.province} — about {Math.round(nearestRanked.km)} km away.
+          Every shop in {cityGroup.city} is still listed below.
         </p>
       )}
     </div>

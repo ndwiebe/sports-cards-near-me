@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { nearestCities, nearestStores, nearestStoresToCity } from '../../src/lib/nearby';
+import { nearestCities, nearestStores, nearestStoresToCity, nearestStoresToCityWithDistance } from '../../src/lib/nearby';
 import type { Store } from '../../src/lib/types';
 
 const store = (over: Partial<Store> = {}): Store => ({
@@ -136,5 +136,42 @@ describe('nearestCities — cities that share a citySlug across provinces', () =
     const strat = out.find((c) => c.citySlug === 'stratford');
     expect(strat).toBeDefined();
     expect(strat).toMatchObject({ citySlug: 'stratford', province: 'ON', count: 2 });
+  });
+});
+
+describe('nearestStoresToCityWithDistance', () => {
+  // The crownless city pages print this number ("about 22 km away"), so a distance
+  // that is merely ORDERED correctly is not enough — it has to be right.
+  it('returns the distance each result was ranked by', () => {
+    const out = nearestStoresToCityWithDistance([EDM, EDM2, SHERWOOD, CALGARY], 'AB', 'edmonton', { maxKm: 500 });
+    const sherwood = out.find((x) => x.store.slug === 'c-sherwood-park');
+    const calgary = out.find((x) => x.store.slug === 'd-calgary');
+    expect(sherwood?.km).toBeGreaterThan(10);
+    expect(sherwood?.km).toBeLessThan(30);
+    expect(calgary?.km).toBeGreaterThan(250);
+    expect(calgary?.km).toBeLessThan(310);
+  });
+
+  it('excludes every shop in the origin city, not just the nearest one', () => {
+    const out = nearestStoresToCityWithDistance([EDM, EDM2, SHERWOOD], 'AB', 'edmonton', { maxKm: 500 });
+    expect(out.map((x) => x.store.slug)).toEqual(['c-sherwood-park']);
+  });
+
+  it('agrees exactly with nearestStoresToCity, which is now built on it', () => {
+    const opts = { maxKm: 500, limit: 3 };
+    const withKm = nearestStoresToCityWithDistance([EDM, EDM2, SHERWOOD, CALGARY], 'AB', 'edmonton', opts);
+    const plain = nearestStoresToCity([EDM, EDM2, SHERWOOD, CALGARY], 'AB', 'edmonton', opts);
+    expect(withKm.map((x) => x.store.slug)).toEqual(plain.map((s) => s.slug));
+  });
+
+  it('returns nothing for a city with no shops to measure from', () => {
+    expect(nearestStoresToCityWithDistance([EDM, EDM2], 'AB', 'red-deer')).toEqual([]);
+  });
+
+  it('is ordered nearest-first, so callers can take the first ranked hit', () => {
+    const out = nearestStoresToCityWithDistance([EDM, EDM2, SHERWOOD, CALGARY], 'AB', 'calgary', { maxKm: 5000 });
+    expect(out).not.toHaveLength(0);
+    const kms = out.map((x) => x.km);
+    expect(kms).toEqual([...kms].sort((a, b) => a - b));
   });
 });
