@@ -106,9 +106,32 @@ Full cause, verification and a reappliable patch:
     ⚠️ **`cloudflare/wrangler-action` deliberately NOT bumped** — it hardcodes a default Wrangler
     CLI version ("3.90.0" in v3, "4" in v4), so bumping the action silently changes which Wrangler
     major runs, and `deploy-click-tracker`'s KV step hand-parses raw wrangler output and has
-    broken twice on exactly that. Needs an explicit `wranglerVersion` pin — Nathan's call.
-    **These three files still need their own sync to `main`** (CLAUDE.md §2 corollary).
-  - **Show refresh — BLOCKED, not done.** `refresh-shows.py` fails in `check_chrome`'s successor
+    broken twice on exactly that.
+    **Resolved the same session (`49a0e261`)** after checking that v4's `action.yml` carries an
+    input list identical to v3's and differs only in `using: node24` vs `node20`: bumped to v4
+    **with `wranglerVersion: "3.90.0"` pinned**, so the CLI stays exactly what runs today and the
+    bump is a runtime change only. Verified by dispatching a real run rather than reading the
+    diff — the log shows `npm i wrangler@3.90.0`, and the run carries **zero annotations**.
+    All three files synced to `main` (`6d68e491`, `09abd5a3`) and **published: run 33991919759
+    green, `sportscardsnearme.ca` serving 200, the new city-page line confirmed on the served
+    Cochrane page, and Calgary still crowned.**
+  - **Show refresh — DONE on the second attempt (`bb8abca2`).** Nathan restarted Chrome, but the
+    debug port still wasn't up: **"AI Chrome" is a separate app from regular Chrome** and the
+    session launched it directly (`open -na "Google Chrome" --args --remote-debugging-port=9222
+    --user-data-dir=$HOME/chrome-debug-profile`, sanctioned in `~/.claude/tool-constraints.md`).
+    Then it ran clean: 183 detail pages, **NEW 20 · CHANGED 23 · KNOWN 137 · GONE 0**, reaching
+    to 2027-02-07.
+    ⚠️ **The payload must not be pasted as-is, and the reason is structural rather than a
+    one-off: TCDB publishes one row per DAY, we store one row per EVENT with an EndDate, and the
+    comparison matches on start date — so day 2 of a show we already list looks brand new.** Two
+    VanCity rows are days 2 and 3 of a listing we already carry as 10-02 → 10-04; four more rows
+    are two two-day events needing a merge, one of which TCDB titles "DAY 1" on *both* days. 20
+    NEW is really ~15. Row-by-row: `docs/research/2026-09-05-show-payload-verification.md`.
+    ⚠️ **GONE 0 was checked, not trusted** — six provinces returned empty, including Québec. It
+    is correct: every show we carry in those provinces came from the promoter's own site, never
+    from TCDB. **Standing consequence: TCDB's Canadian coverage is AB/BC/ON/SK only. Québec's 6
+    upcoming shows are hand-found and this script will never see them.**
+  - **How it failed the first time, kept because it will recur.** `refresh-shows.py` fails in `check_chrome`'s successor
     step: the CDP port answers 200 and the websocket connects, then `connectOverCDP` times out at
     30s against Nathan's live Chrome. ⚠️ **The script's own 40-target warning threshold does not
     catch this** — it failed at 32 targets, twice, reproducibly. The port being up is not the same
