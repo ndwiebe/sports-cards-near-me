@@ -1,22 +1,15 @@
 /**
- * Counts "Directions" and "Call" clicks per store, per month. Nothing else.
- *
- * Why this exists: the site is a static build with no server, so there was no way to
- * answer "how many customers did the directory actually send you" — the exact number a
- * shop owner needs before a paid listing is an obvious yes. GA4 would answer this but
- * needs a cookie-consent decision (see layouts/Base.astro); Cloudflare Web Analytics,
- * the analytics already running, has no event model at all (confirmed against their own
- * docs 2026-08-27). This avoids both: no cookies, no PII, one anonymous counter per
- * store per month, incremented via navigator.sendBeacon from the store page.
- *
- * KV key shape: clicks:{storeSlug}:{method}:{YYYY-MM} -> integer count (as text).
- * method is exactly "directions" or "call" — anything else is rejected, not recorded
- * under an unexpected key.
+ * Records accepted listing actions as separate KV events. Existing clicks: keys
+ * are approximate legacy counters and are no longer changed. No cookies,
+ * visitor identifiers, IP addresses or full referrers are stored.
  */
+import { validSourceCity } from './event-schema.js';
+import cityPaths from './city-paths.json' with { type: 'json' };
+const KNOWN_CITIES = new Set(cityPaths);
 
 const ALLOWED_ORIGIN = 'https://sportscardsnearme.ca';
 const LOCAL_ORIGIN = 'http://localhost:4321';
-const ALLOWED_METHODS = new Set(['directions', 'call']);
+const ALLOWED_METHODS = new Set(['directions', 'call', 'website']);
 const SLUG_RE = /^[a-z0-9-]{1,120}$/;
 
 // Substrings of the User-Agent for crawlers, previewers and monitoring tools.
@@ -71,8 +64,9 @@ export default {
 
     const store = typeof body?.store === 'string' ? body.store : undefined;
     const method = typeof body?.method === 'string' ? body.method : undefined;
+    const sourceCandidate = body?.sourceCity ?? 'unknown';
 
-    if (store === undefined || !SLUG_RE.test(store) || method === undefined || !ALLOWED_METHODS.has(method)) {
+    if (store === undefined || !SLUG_RE.test(store) || method === undefined || !ALLOWED_METHODS.has(method) || !validSourceCity(sourceCandidate)) {
       return new Response('Bad request', { status: 400, headers });
     }
 
@@ -93,11 +87,12 @@ export default {
     }
 
     const month = new Date().toISOString().slice(0, 7); // YYYY-MM, UTC is fine for a monthly bucket
-    const key = `clicks:${store}:${method}:${month}`;
-
-    const current = await env.CLICKS.get(key);
-    const next = (current === null ? 0 : Number.parseInt(current, 10)) + 1;
-    await env.CLICKS.put(key, String(next));
+    const sourceCity = KNOWN_CITIES.has(sourceCandidate) ? sourceCandidate : 'unknown';
+    // Independent keys avoid lost updates from concurrent KV read/modify/write.
+    // The random event ID identifies this request, never a visitor or session.
+    // Keep old clicks: counters untouched for separately labelled legacy reports.
+    const key = `events:${store}:${method}:${month}:${sourceCity}:${crypto.randomUUID()}`;
+    await env.CLICKS.put(key, '1');
 
     return new Response(null, { status: 204, headers });
   },

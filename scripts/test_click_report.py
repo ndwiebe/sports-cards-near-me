@@ -354,5 +354,29 @@ class WriteCsvTests(unittest.TestCase):
         self.assertEqual(read_rows[0]['orphan'], 'False')
 
 
+class EventRowsTests(unittest.TestCase):
+    def test_separates_source_from_destination_and_unknown(self):
+        prefix = 'events:a-shop:website:2026-09:'
+        events = {
+            prefix + 'alberta/edmonton:11111111-1111-4111-8111-111111111111': 1,
+            prefix + 'alberta/edmonton:22222222-2222-4222-8222-222222222222': 1,
+            prefix + 'unknown:33333333-3333-4333-8333-333333333333': 1,
+        }
+        rows = click_report.build_event_rows(events, {'a-shop': ('A', 'Sherwood Park')})
+        self.assertEqual([r['combined'] for r in rows], [2, 1])
+        self.assertEqual(rows[0]['source_city'], 'alberta/edmonton')
+        self.assertEqual(rows[0]['destination_city'], 'Sherwood Park')
+        self.assertEqual(rows[1]['source_city'], 'unknown')
+
+    def test_rejects_corrupt_or_legacy_event_values(self):
+        key = 'events:a-shop:call:2026-09:unknown:11111111-1111-4111-8111-111111111111'
+        for events in ({key: 2}, {'clicks:a-shop:call:2026-09': 1}):
+            with self.assertRaises(click_report.ClickReportError):
+                click_report.build_event_rows(events, {})
+
+    def test_empty_events_produces_no_fabricated_zero_rows(self):
+        self.assertEqual(click_report.build_event_rows({}, {}), [])
+
+
 if __name__ == '__main__':
     sys.exit(unittest.main())

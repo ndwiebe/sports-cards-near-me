@@ -56,12 +56,15 @@ const breadcrumbLd = breadcrumbListLd([
 
     <h2 class="text-3xl">Shop button counts</h2>
     <p>
-      Selecting Directions or Call on a shop page sends the shop identifier and button type to a Cloudflare
-      service. We store a monthly total for each shop and button. These totals measure button selections,
+      Selecting Directions, Call or Website on a shop page sends the shop identifier and button type to a Cloudflare
+      service. When the immediately preceding page was a city page on this site, we also send its city path.
+      Query strings, fragments and external referrers are excluded. Other arrivals have no city attribution.
+      We store each accepted selection with its month and a random record identifier, then combine records into totals.
+      The record identifier is new for every selection and does not identify a visitor. These totals measure button selections,
       not individual visitors, completed calls, store visits or purchases.
     </p>
     <p>
-      Our counter sets no cookies and stores no visitor identifier, IP address or browsing history.
+      Our counter sets no cookies and stores no visitor identifier or IP address.
       Cloudflare receives the network request, including the IP address and browser information needed to
       process the request. The counter checks the request origin and browser information to exclude common
       automated requests. Cloudflare handles its infrastructure data under
@@ -99,7 +102,7 @@ const breadcrumbLd = breadcrumbListLd([
     <h2 class="text-3xl">Hosting</h2>
     <p>
       The site is static and hosted on GitHub Pages. Like any web host, GitHub receives the requests needed to serve
-      a page, including your IP address, and handles those under its own terms. The site has no visitor account database. The separate Cloudflare service stores the aggregate button totals described above.
+      a page, including your IP address, and handles those under its own terms. The site has no visitor account database. The separate Cloudflare service stores the button records and older aggregate totals described above.
     </p>
 
     <h2 class="text-3xl">Links to other sites</h2>

@@ -1,106 +1,98 @@
-# Click tracking — what the number is, and how to read it
+# Click tracking
 
-`worker/click-tracker.js` has been counting taps on "Get Directions" and "Call" on each
-shop's listing page since **2026-08-28**. This is the counter start date, not the start of
-a city page's Search Console history. PLAN.md requires 90 days of history for the city
-page, roughly 100+ impressions and 20+ outbound listing clicks per month. The present
-store totals do not establish which city page generated a tap and do not clear that gate.
+The tracker records accepted selections of Directions, Call and Website on shop pages.
+These are actions, not unique visitors, completed calls, store visits or purchases.
+Repeated selections count separately. No cookies or visitor profiles are used.
 
-## What it counts
+## Separate event records
 
-One anonymous counter per store, per method, per calendar month (UTC), stored in
-Cloudflare KV under a key shaped `clicks:{storeSlug}:{directions|call}:{YYYY-MM}`. It
-increments via `navigator.sendBeacon` from the store page — no cookies, no visitor
-identity, nothing that needed a consent banner.
+Each accepted request writes one independent key in the existing Cloudflare KV namespace:
 
-**It counts a tap. It does not count a person, and it never counts a sale.**
+```
+events:{storeSlug}:{directions|call|website}:{YYYY-MM}:{sourceCity|unknown}:{randomUUID} = 1
+```
 
-- One visitor tapping "Get Directions" twice (e.g. Maps didn't open the first time)
-  counts as two. There is no dedup, by design — nothing to dedup against, since nothing
-  identifies the visitor.
-- A tap on "Call" means the phone dialer opened. It does not mean the call connected, was
-  answered, or led to a purchase.
-- A tap on "Get Directions" means Maps opened. It does not mean the visitor's car actually
-  went there.
+The random identifier belongs to one action, never to a visitor or session. The stored
+fields contain no IP address, precise timestamp, full referrer or browser identifier.
+Cloudflare still receives ordinary network request information. The privacy page
+explains this distinction.
 
-Read it as **intent signal**, not **traffic delivered**, and never as **revenue
-delivered**. "We sent 14 taps toward you last month" is an honest sentence. "We sent you
-14 customers" is not — don't let it get shortened to that in a pitch.
+Separate keys prevent concurrent requests from overwriting the same counter. One
+hundred concurrent accepted requests are covered by a local regression test. This
+uses the existing namespace and one write per action, with no counter read. Storage
+now grows by one small record per action. No new service or subscription is provisioned.
 
-## Accuracy limits verified September 8
+KV is eventually consistent, so recent events can appear late in reports. Bot filtering
+is heuristic. Delivery failures, repeated taps and forged requests are still possible.
+Recorded actions are not proof of human visitors or sales. Never send test clicks to
+the live counter. Localhost is accepted by the existing origin policy, so a local test
+must use a mocked destination or unset tracking configuration.
 
-The Worker reads a KV value, adds one, then writes the replacement. Two requests can
-read the same old value and overwrite each other. A local reproduction with ten
-concurrent accepted requests stored only one increment. No production requests were
-sent. This proves a possible undercount, not the amount lost in production.
+## City attribution
 
-Cloudflare documents [eventual consistency and the absence of atomic KV operations](https://developers.cloudflare.com/kv/concepts/how-kv-works/).
-Treat these totals as approximate recorded taps. The existing sequential unit test
-only verifies sequential behavior. Fix the storage model before using counts as a
-commercial performance measure.
+The browser includes only the path of the immediately preceding SCNM city page.
+Queries and fragments are removed. External referrers, category pages, shop pages,
+guides and direct arrivals produce `unknown`. No browser storage follows a visitor.
+The Worker checks the city against `worker/city-paths.json`, generated from directory
+cities. Unknown paths still count as actions, with no city attribution.
 
-Origin checks and User-Agent filtering exclude common automated traffic, but do not
-prove a human click. Forged requests, repeated taps and failed beacon delivery remain
-possible. The tracker also accepts localhost requests. Do not test against the live
-counter, because a test can contaminate totals.
+For example, an Edmonton city page leading to a Sherwood Park shop is recorded with
+source `alberta/edmonton` and destination Sherwood Park. The destination address never
+supplies a missing source city. Internal navigation to a listing is not counted as an
+outbound action. A missing or suppressed referrer stays unattributed.
 
-## The caveat that matters most
+Refresh the allowlist before a Worker release with:
 
-A shop owner cannot independently verify this number. There's no dashboard on their end,
-no call log they can cross-reference, no way to check our count against their own
-records short of trusting us. The site's entire value proposition to a shop rests on this
-number being honest, so it is worth being conservative in how it's described: present it
-as "taps recorded," with the caveats above stated up front, not polished into a stronger
-claim than the data supports.
+```
+node --import tsx scripts/bake-click-cities.ts
+```
 
-## How to run the report
+Cities added after the Worker release remain unattributed until its next release.
 
-```bash
+## Historical counters
+
+The original tracker began August 28, 2026. Its keys have this form:
+
+```
+clicks:{storeSlug}:{directions|call}:{YYYY-MM}
+```
+
+Those values are approximate. The former read, increment, write sequence lost updates
+under concurrency. A local reproduction accepted ten requests but stored one increment.
+This proves a possible undercount, not the amount lost in production. Cloudflare
+[documents KV consistency limits](https://developers.cloudflare.com/kv/concepts/how-kv-works/).
+
+The new Worker never changes old counters. They retain their original values and have
+no city attribution. Reports label them as legacy data and do not silently combine
+them with event records. Missing historical website clicks or city sources cannot be
+reconstructed.
+
+## Reports
+
+```
 python3 scripts/click-report.py
 ```
 
-Requires the `wrangler` CLI, already logged in (`npx wrangler whoami` to check — if it's
-not, the report will tell you exactly what to run). It:
+Requires authenticated Wrangler. The command reads both prefixes from remote KV.
+It produces the existing `click-report-YYYY-MM-DD.csv` for legacy totals and a separate
+`click-events-report-YYYY-MM-DD.csv` with source city, destination city, month and
+individual action types. Authentication failures and malformed event values fail
+explicitly. No event records is not proof the tracker is healthy.
 
-- reads the click counters straight from Cloudflare KV (nothing cached, nothing
-  estimated — if it can't authenticate or a value doesn't parse, it fails loudly instead
-  of printing a guess),
-- resolves each store slug against `src/data/stores.json` for a name and city — a slug
-  with no match prints flagged as an orphan rather than silently vanishing, since slugs
-  are `name + city` and get reassigned when a row is renamed or reordered in the sheet,
-- prints a per-shop, per-month table (directions and call shown separately as well as
-  combined, sorted by combined clicks descending) plus site-wide monthly totals,
-- writes the same data to `docs/research/click-report-YYYY-MM-DD.csv`.
+Wrangler [lists all matching keys](https://developers.cloudflare.com/kv/reference/kv-commands/).
+The script reads each value, so report time and read volume grow with the event count.
+Keep this internal and revisit aggregation if volume grows materially.
 
-A month with genuinely zero taps prints as "no clicks recorded," never as a bare `0` —
-those look identical as a number but mean different things (checked-and-found-nothing vs.
-never-checked), and this report only ever prints the former.
+## Commercial gate and rollout
 
-## Where this can't answer the question
+PLAN.md requires 90 days of Search Console history for the city page, roughly 100+
+impressions and 20+ outbound listing clicks per month. The counter start date does
+not establish the city's Search Console history. New attribution starts with the
+verified release, not retrospectively. Outreach remains paused.
 
-This has no GA4-style event breakdown, no per-page traffic context, no way to tell a
-"quiet month" from "the button/beacon silently broke." If a month's totals look
-implausibly low against known site traffic, check that `PUBLIC_CLICK_TRACKER_URL` is
-still wired into the production build (see `CLAUDE.md`'s note on `site.yml` needing its
-own sync to `main` — this exact class of bug has already caused this pipeline to record
-nothing for a period once) before concluding it was a quiet month.
-
-## Required attribution work
-
-Keep destination store totals distinct from source page totals. A store in Edmonton
-receiving a tap does not establish an Edmonton city page referral.
-
-1. Fix concurrent counting first with serialized increments or separate event records.
-2. Define separate events for internal listing navigation and actual outbound website,
-   directions and call selections. Internal navigation must not count as outbound traffic.
-3. Carry only an allowlisted city page identifier for the immediately preceding city
-   navigation. Discard query strings, fragments and external referrers. Do not infer a
-   source city from the shop address or invent attribution for direct search arrivals.
-4. Add separate reporting for attributed and unattributed actions. Retain historical
-   counter totals as approximate legacy data, without backfilling missing attribution.
-5. Verify concurrent updates, malformed input, bot filtering, direct arrivals and
-   ordinary navigation. Update the disclosure with the exact fields before deployment.
-
-No new tracking fields or storage resources were deployed during this review. The
-existing workflow deploys the Worker independently from the site, so both releases
-need verification when the implementation changes.
+Deploy the site disclosure and client, then deploy the Worker through the existing
+`deploy-click-tracker` workflow. Both workflows check out `redesign`. The site requires
+a fresh `site` dispatch from `main` to reach production. Website actions sent during
+the brief interval before the Worker update are rejected by the old Worker. Mark the
+measurement start only after both releases succeed. Verify live script wiring and
+Worker deployment logs without adding synthetic actions to production.

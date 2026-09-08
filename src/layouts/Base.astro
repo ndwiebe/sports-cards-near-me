@@ -33,17 +33,13 @@ const cfAnalyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID;
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
 
-// Counts "Directions" and "Call" clicks per store — the number a shop owner actually
-// needs before a paid listing is a sale rather than a favour. Not GA4 (cookies mean a
-// consent decision, see above) and not Cloudflare Web Analytics (no event model at all,
-// confirmed 2026-08-27). A tiny Worker instead: no cookies, no PII, one counter per
-// store per month. worker/click-tracker.js · deploy-click-tracker.yml. Unset means the
-// two CTAs just do their normal job and nothing is sent, same convention as the rest of
-// this block.
+// Anonymous listing actions. No visitor identity or browser storage.
+// The Worker stores separate events to avoid concurrent counter overwrites.
+// Unset configuration leaves links working without sending tracking requests.
 const clickTrackerUrl = import.meta.env.PUBLIC_CLICK_TRACKER_URL;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-click-tracker-url={clickTrackerUrl}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,14 +79,18 @@ const clickTrackerUrl = import.meta.env.PUBLIC_CLICK_TRACKER_URL;
       <script is:inline defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js"></script>
     )}
     {clickTrackerUrl && (
-      <script is:inline define:vars={{ clickTrackerUrl }}>
+      <script>
+        import { sourceCityFromReferrer } from '../../worker/event-schema.js';
+        const clickTrackerUrl = document.documentElement.dataset.clickTrackerUrl;
         document.addEventListener('click', (e) => {
+          if (!clickTrackerUrl || !(e.target instanceof Element)) return;
           const el = e.target.closest('[data-track-click]');
           if (el === null) return;
           const method = el.getAttribute('data-track-click');
           const store = el.getAttribute('data-store-slug');
           if (method === null || store === null) return;
-          navigator.sendBeacon(clickTrackerUrl, JSON.stringify({ store, method }));
+          const sourceCity = sourceCityFromReferrer(document.referrer, location.origin);
+          navigator.sendBeacon(clickTrackerUrl, JSON.stringify({ store, method, sourceCity }));
         });
       </script>
     )}

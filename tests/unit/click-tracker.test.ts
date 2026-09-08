@@ -37,14 +37,14 @@ describe('click-tracker worker', () => {
     const res = await worker.fetch(tap(), env);
     expect(res.status).toBe(204);
     expect(Object.values(writes)).toEqual(['1']);
-    expect(Object.keys(writes)[0]).toMatch(/^clicks:a-real-shop-toronto:call:\d{4}-\d{2}$/);
+    expect(Object.keys(writes)[0]).toMatch(/^events:a-real-shop-toronto:call:\d{4}-\d{2}:unknown:[a-f0-9-]{36}$/);
   });
 
-  it('increments rather than overwriting on a second tap', async () => {
+  it('retains separate records for repeated taps', async () => {
     const { env, writes } = fakeEnv();
     await worker.fetch(tap(), env);
     await worker.fetch(tap(), env);
-    expect(Object.values(writes)).toEqual(['2']);
+    expect(Object.values(writes)).toEqual(['1', '1']);
   });
 
   // The hole the 2026-09-03 review found: CORS headers only shape what a browser does
@@ -81,8 +81,37 @@ describe('click-tracker worker', () => {
 
   it('still rejects an unknown method or a malformed slug', async () => {
     const { env, writes } = fakeEnv();
-    expect((await worker.fetch(tap({ body: { store: 'a-shop', method: 'website' } }), env)).status).toBe(400);
+    expect((await worker.fetch(tap({ body: { store: 'a-shop', method: 'purchase' } }), env)).status).toBe(400);
     expect((await worker.fetch(tap({ body: { store: 'Not A Slug', method: 'call' } }), env)).status).toBe(400);
     expect(writes).toEqual({});
   });
+  it('retains every concurrent accepted action without reading a stale counter', async () => {
+    const { env, writes } = fakeEnv();
+    env.CLICKS.get = async () => { throw new Error('must not read counter'); };
+    const results = await Promise.all(Array.from({length: 100}, () => worker.fetch(tap(), env)));
+    expect(results.every(r => r.status === 204)).toBe(true);
+    expect(Object.keys(writes)).toHaveLength(100);
+  });
+
+  it('records website actions with source city and leaves old counters untouched', async () => {
+    const { env, writes } = fakeEnv();
+    writes['clicks:old-shop:call:2026-08'] = '7';
+    await worker.fetch(tap({body: {store: 'a-shop', method: 'website', sourceCity: 'alberta/edmonton'}}), env);
+    expect(writes['clicks:old-shop:call:2026-08']).toBe('7');
+    expect(Object.keys(writes).some(k => k.includes(':website:') && k.includes(':alberta/edmonton:'))).toBe(true);
+  });
+
+  it.each(['https://example.com/private', 'alberta/edmonton?email=a', 'store/shop', 42])('rejects non-city attribution %s', async sourceCity => {
+    const { env, writes } = fakeEnv();
+    const res = await worker.fetch(tap({body: {store: 'a-shop', method: 'call', sourceCity}}), env);
+    expect(res.status).toBe(400);
+    expect(writes).toEqual({});
+  });
+
+  it('counts an unknown city path without claiming attribution', async () => {
+    const { env, writes } = fakeEnv();
+    await worker.fetch(tap({body: {store: 'a-shop', method: 'call', sourceCity: 'alberta/not-a-listed-city'}}), env);
+    expect(Object.keys(writes)[0]).toContain(':unknown:');
+  });
+
 });
