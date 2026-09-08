@@ -12056,8 +12056,8 @@
     "lng": -83.00429
   },
   {
-    "slug": "cartoon-kingdom-windsor",
-    "name": "Cartoon Kingdom",
+    "slug": "cartoon-kingdom-cedar-creek-hobbies-windsor",
+    "name": "Cartoon Kingdom & Cedar Creek Hobbies",
     "city": "Windsor",
     "citySlug": "windsor",
     "address": "3160 Dougall Ave, Windsor, ON N9E 1S6",
@@ -12066,26 +12066,7 @@
     "reviewCount": 252,
     "hours": "Monday: 10:00 AM – 7:00 PM; Tuesday: 10:00 AM – 7:00 PM; Wednesday: 10:00 AM – 7:00 PM; Thursday: 10:00 AM – 7:00 PM; Friday: 10:00 AM – 7:00 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: 11:00 AM – 4:00 PM",
     "phone": "(519) 972-0009",
-    "website": "http://www.cartoonkingdom.ca/",
-    "services": [
-      "Sells"
-    ],
-    "sports": [],
-    "lat": 42.26981,
-    "lng": -83.01147
-  },
-  {
-    "slug": "cedar-creek-hobbies-windsor",
-    "name": "Cedar Creek Hobbies",
-    "city": "Windsor",
-    "citySlug": "windsor",
-    "address": "3160 Dougall Ave, Windsor, ON N9E 1S6",
-    "province": "ON",
-    "rating": 4.6,
-    "reviewCount": 88,
-    "hours": "Monday: 10:00 AM – 7:00 PM; Tuesday: 10:00 AM – 7:00 PM; Wednesday: 10:00 AM – 7:00 PM; Thursday: 10:00 AM – 7:00 PM; Friday: 10:00 AM – 7:00 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: 11:00 AM – 4:00 PM",
-    "phone": "(519) 733-2619",
-    "website": "http://www.cedarcreekhobbies.com/",
+    "website": "https://www.cartoonkingdom.ca/",
     "services": [
       "Sells"
     ],
@@ -14924,24 +14905,6 @@
     "lng": -73.835981
   },
   {
-    "slug": "le-roi-des-cartes-valleyfield-salaberry-de-valleyfield",
-    "name": "Le Roi des Cartes Valleyfield",
-    "city": "Salaberry-de-Valleyfield",
-    "citySlug": "salaberry-de-valleyfield",
-    "address": "1175 Bd Monseigneur-Langlois, Salaberry-de-Valleyfield, QC J6S 1C1",
-    "province": "QC",
-    "website": "https://leroidescartesvalley.com",
-    "services": [],
-    "sports": [
-      "Lorcana",
-      "Magic",
-      "Pokemon",
-      "Yu-Gi-Oh"
-    ],
-    "lat": 45.269956,
-    "lng": -74.135832
-  },
-  {
     "slug": "sport-collect-2010-salaberry-de-valleyfield",
     "name": "Sport Collect 2010",
     "city": "Salaberry-de-Valleyfield",
@@ -14967,6 +14930,24 @@
     ],
     "lat": 45.2638,
     "lng": -74.13256
+  },
+  {
+    "slug": "tcg-and-games-valleyfield-salaberry-de-valleyfield",
+    "name": "TCG and Games Valleyfield",
+    "city": "Salaberry-de-Valleyfield",
+    "citySlug": "salaberry-de-valleyfield",
+    "address": "1175 Bd Monseigneur-Langlois, Salaberry-de-Valleyfield, QC J6S 1C1",
+    "province": "QC",
+    "website": "https://tcgandgames.com/",
+    "services": [],
+    "sports": [
+      "Lorcana",
+      "Magic",
+      "Pokemon",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 45.269956,
+    "lng": -74.135832
   },
   {
     "slug": "l-entre-jeux-shawinigan-shawinigan",

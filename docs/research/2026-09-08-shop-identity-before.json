@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "cartoon-kingdom-windsor",
+    "name": "Cartoon Kingdom",
+    "city": "Windsor",
+    "citySlug": "windsor",
+    "address": "3160 Dougall Ave, Windsor, ON N9E 1S6",
+    "province": "ON",
+    "rating": 4.5,
+    "reviewCount": 252,
+    "hours": "Monday: 10:00 AM \u2013 7:00 PM; Tuesday: 10:00 AM \u2013 7:00 PM; Wednesday: 10:00 AM \u2013 7:00 PM; Thursday: 10:00 AM \u2013 7:00 PM; Friday: 10:00 AM \u2013 7:00 PM; Saturday: 10:00 AM \u2013 5:00 PM; Sunday: 11:00 AM \u2013 4:00 PM",
+    "phone": "(519) 972-0009",
+    "website": "http://www.cartoonkingdom.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [],
+    "lat": 42.26981,
+    "lng": -83.01147
+  },
+  {
+    "slug": "cedar-creek-hobbies-windsor",
+    "name": "Cedar Creek Hobbies",
+    "city": "Windsor",
+    "citySlug": "windsor",
+    "address": "3160 Dougall Ave, Windsor, ON N9E 1S6",
+    "province": "ON",
+    "rating": 4.6,
+    "reviewCount": 88,
+    "hours": "Monday: 10:00 AM \u2013 7:00 PM; Tuesday: 10:00 AM \u2013 7:00 PM; Wednesday: 10:00 AM \u2013 7:00 PM; Thursday: 10:00 AM \u2013 7:00 PM; Friday: 10:00 AM \u2013 7:00 PM; Saturday: 10:00 AM \u2013 5:00 PM; Sunday: 11:00 AM \u2013 4:00 PM",
+    "phone": "(519) 733-2619",
+    "website": "http://www.cedarcreekhobbies.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Other"
+    ],
+    "lat": 42.26981,
+    "lng": -83.01147
+  },
+  {
+    "slug": "le-roi-des-cartes-valleyfield-salaberry-de-valleyfield",
+    "name": "Le Roi des Cartes Valleyfield",
+    "city": "Salaberry-de-Valleyfield",
+    "citySlug": "salaberry-de-valleyfield",
+    "address": "1175 Bd Monseigneur-Langlois, Salaberry-de-Valleyfield, QC J6S 1C1",
+    "province": "QC",
+    "website": "https://leroidescartesvalley.com",
+    "services": [],
+    "sports": [
+      "Lorcana",
+      "Magic",
+      "Pokemon",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 45.269956,
+    "lng": -74.135832
+  }
+]
