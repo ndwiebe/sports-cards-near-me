@@ -1959,6 +1959,24 @@
     "lng": -113.6070419
   },
   {
+    "slug": "sunshine-game-hobby-st-paul",
+    "name": "Sunshine Game & Hobby",
+    "city": "St. Paul",
+    "citySlug": "st-paul",
+    "address": "5105 50 Ave, St. Paul, AB T0A 3A0",
+    "province": "AB",
+    "phone": "780-645-5353",
+    "social": "https://www.facebook.com/p/Sunshine-Game-Hobby-100039993647887/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Hockey"
+    ],
+    "lat": 53.991081,
+    "lng": -111.30028
+  },
+  {
     "slug": "stettler-game-corner-stettler",
     "name": "Stettler Game Corner",
     "city": "Stettler",
@@ -12599,17 +12617,16 @@
     "lng": -73.57367
   },
   {
-    "slug": "dsm-sports-cards-collectors-le-roi-des-cartes-beloeil",
-    "name": "DSM Sports Cards Collectors (Le roi des cartes)",
+    "slug": "le-roi-des-cartes-hockey-accessoires-beloeil",
+    "name": "Le Roi des Cartes - Hockey & Accessoires",
     "city": "Beloeil",
     "citySlug": "beloeil",
-    "address": "272 rue Duvernay, Beloeil, QC J3G 2M2",
+    "address": "347 Rue Duvernay, Beloeil, QC J3G 5S8",
     "province": "QC",
     "rating": 4.8,
     "reviewCount": 209,
-    "hours": "Monday: 9:00 AM – 9:00 PM; Tuesday: 10:00 AM – 5:00 PM; Wednesday: 10:00 AM – 5:00 PM; Thursday: 10:00 AM – 9:00 PM; Friday: 10:00 AM – 9:00 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: 9:00 AM – 5:00 PM",
     "phone": "450-281-0625",
-    "website": "https://dsmsportscardscollectors.com/",
+    "website": "https://leroidescartes.ca",
     "services": [
       "Buys",
       "Sells",
@@ -12619,24 +12636,16 @@
       "Hockey",
       "Baseball",
       "Basketball",
-      "Football"
+      "Football",
+      "Soccer",
+      "Pokemon",
+      "Magic",
+      "Lorcana",
+      "One Piece",
+      "Yu-Gi-Oh"
     ],
-    "lat": 45.56442,
-    "lng": -73.20825
-  },
-  {
-    "slug": "le-roi-des-cartes-hockey-accessoires-beloeil",
-    "name": "Le Roi des Cartes - Hockey & Accessoires",
-    "city": "Beloeil",
-    "citySlug": "beloeil",
-    "address": "347 Rue Duvernay, Beloeil, QC J3G 5S8",
-    "province": "QC",
-    "website": "https://leroidescartes.ca",
-    "services": [],
-    "sports": [],
     "lat": 45.5650147,
-    "lng": -73.2096508,
-    "unverifiedNote": "We may already list this shop under another name. Our directory carries “DSM Sports Cards Collectors (Le roi des cartes)” a few doors along the same street, at 272 rue Duvernay, with a different website. These may be two separate shops, one shop that moved, or one shop we have recorded twice — we could not tell from public sources, and we would rather show you both than quietly merge them."
+    "lng": -73.2096508
   },
   {
     "slug": "450-sports-blainville",
