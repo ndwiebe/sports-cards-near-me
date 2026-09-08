@@ -27,7 +27,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
 
-_(none — the 2026-09-04/05 parallel pass released all five lanes; see the log.)_
+| — | (none) | — | — | — |
 
 ## Queued — claimed but not started
 
@@ -86,6 +86,8 @@ Full cause, verification and a reappliable patch:
 ---
 
 ## Log
+
+- **2026-09-08** — Codex isolated checkout: source-sheet calendar refresh applied (215 shows), event-identity comparison guarded (10 Python regressions), and four show redirects added. Merged Cartoon Kingdom/Cedar Creek duplicate and renamed Valleyfield to TCG and Games from confirmed primary sources, with three store redirects and logo mapping updated. 680 stores; 383 unit tests and typecheck green; 1,489-page build. All 15 noindex/404 alert examples explained by intended closures/redirects/retired categories; the other 35 tested URLs return 200 and have sitemap, canonical and internal-link coverage. Source decisions in `docs/research/2026-09-08-review-resolution.md`. Outreach remains paused. Cloudflare referral read blocked by dashboard security challenge; wider weak-evidence shop research remains open. Calendar commit `d4a670b5`, shop commit `1b736a7c`. Production run verification recorded separately when complete.
 
 - **2026-09-05** — *(Opus 5, `scnm-plan4`, Nathan session)* **Four of five lanes shipped in
   parallel; the show refresh is blocked and the triage is half done.**
