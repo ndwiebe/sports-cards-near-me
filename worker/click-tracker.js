@@ -4,7 +4,7 @@
  * visitor identifiers, IP addresses or full referrers are stored.
  */
 import { validSourceCity } from './event-schema.js';
-import cityPaths from './city-paths.json' with { type: 'json' };
+import cityPaths from './city-paths.json';
 const KNOWN_CITIES = new Set(cityPaths);
 
 const ALLOWED_ORIGIN = 'https://sportscardsnearme.ca';
