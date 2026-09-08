@@ -69,6 +69,27 @@
     "lng": -114.0124649
   },
   {
+    "slug": "bento-gaming-balzac",
+    "name": "Bento Gaming",
+    "city": "Balzac",
+    "citySlug": "balzac",
+    "address": "260300 Writing Creek Cres Unit F6, Balzac, AB T4A 0X8",
+    "province": "AB",
+    "phone": "(825) 415-5645",
+    "website": "https://bentogaming.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh",
+      "One Piece"
+    ],
+    "lat": 51.1960417,
+    "lng": -113.9972674
+  },
+  {
     "slug": "double-z-collectibles-balzac",
     "name": "Double Z Collectibles",
     "city": "Balzac",
@@ -141,6 +162,28 @@
     ],
     "lat": 51.196195,
     "lng": -113.9958807
+  },
+  {
+    "slug": "the-realm-games-and-toys-balzac",
+    "name": "The Realm Games and Toys",
+    "city": "Balzac",
+    "citySlug": "balzac",
+    "address": "260300 Writing Creek Cres Unit H10, Balzac, AB T4A 0X8",
+    "province": "AB",
+    "phone": "(587) 377-3256",
+    "website": "https://realmgamesandtoys.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh",
+      "One Piece",
+      "Lorcana"
+    ],
+    "lat": 51.1960965,
+    "lng": -113.9978153
   },
   {
     "slug": "cardera-collectibles-balzac-rocky-view-county",
@@ -338,6 +381,27 @@
     "lng": -114.0694367
   },
   {
+    "slug": "first-player-calgary",
+    "name": "First Player",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1212 34 Ave SE #120, Calgary, AB T2G 1V7",
+    "province": "AB",
+    "phone": "(825) 513-7529",
+    "website": "https://firstplayer.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh",
+      "One Piece"
+    ],
+    "lat": 51.0234094,
+    "lng": -114.0374501
+  },
+  {
     "slug": "maple-leaf-sports-calgary",
     "name": "Maple Leaf Sports",
     "city": "Calgary",
@@ -363,6 +427,24 @@
     ],
     "lat": 51.0738411,
     "lng": -114.0619601
+  },
+  {
+    "slug": "ogre-s-den-gaming-club-calgary",
+    "name": "Ogre's Den Gaming Club",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "3220 5 Ave NE, Calgary, AB T2A 6M6",
+    "province": "AB",
+    "phone": "(403) 273-0037",
+    "website": "https://ogresden.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 51.0575952,
+    "lng": -113.9868376
   },
   {
     "slug": "olympic-sports-cards-and-games-calgary",
@@ -396,6 +478,24 @@
     "lat": 51.0659174,
     "lng": -114.10104,
     "unverifiedNote": "We also list Overtime Sports Cards & Grading in Balzac, and our earlier records say that shop moved there. Overtime’s own website names this North Hill Centre location, so this is most likely a second store — but we have not confirmed both are trading."
+  },
+  {
+    "slug": "phoenix-comics-nw-calgary",
+    "name": "Phoenix Comics NW",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1010 16 Ave NW, Calgary, AB T2M 0K5",
+    "province": "AB",
+    "phone": "403-220-1399",
+    "website": "https://www.phoenixcomics.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 51.0671259,
+    "lng": -114.0836121
   },
   {
     "slug": "reliquary-cards-calgary",
@@ -499,6 +599,41 @@
     ],
     "lat": 51.0959,
     "lng": -114.05155
+  },
+  {
+    "slug": "thecardmrkt-calgary",
+    "name": "TheCardMrkt",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "1235 26 Ave SE, Calgary, AB T2G 1R7",
+    "province": "AB",
+    "website": "https://thecardmrkt.square.site/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
+    "lat": 51.0301759,
+    "lng": -114.0349756
+  },
+  {
+    "slug": "under-the-mountain-games-calgary",
+    "name": "Under The Mountain Games",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "3630 Brentwood Rd NW #313b, Calgary, AB T2L 1K8",
+    "province": "AB",
+    "phone": "(403) 463-8185",
+    "website": "https://underthemountain.games/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 51.0856953,
+    "lng": -114.1246767
   },
   {
     "slug": "vaulted-yyc-17th-ave-calgary",
@@ -816,6 +951,23 @@
     "lng": -113.432123
   },
   {
+    "slug": "authentic-dungeons-edmonton",
+    "name": "Authentic Dungeons",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "10041 166 St NW, Edmonton, AB T5P 4Y1",
+    "province": "AB",
+    "phone": "(587) 200-3070",
+    "website": "https://authenticdungeons.com/",
+    "services": [],
+    "sports": [
+      "Magic",
+      "Lorcana"
+    ],
+    "lat": 53.5406296,
+    "lng": -113.6062557
+  },
+  {
     "slug": "capital-city-cards-collectibles-edmonton",
     "name": "Capital City Cards & Collectibles",
     "city": "Edmonton",
@@ -832,6 +984,24 @@
     "sports": [],
     "lat": 53.5581999,
     "lng": -113.5299609
+  },
+  {
+    "slug": "cerberus-gaming-corp-edmonton",
+    "name": "Cerberus Gaming Corp.",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "9024 51 Ave NW, Edmonton, AB T6E 5X4",
+    "province": "AB",
+    "phone": "(780) 249-3294",
+    "website": "https://cerberusgamingcorp.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 53.4886744,
+    "lng": -113.4648273
   },
   {
     "slug": "common-box-games-edmonton",
@@ -868,6 +1038,26 @@
     "sports": [],
     "lat": 53.539645,
     "lng": -113.593344
+  },
+  {
+    "slug": "downstairs-cellar-edmonton",
+    "name": "Downstairs Cellar",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "10824 82 Ave NW Basement, Edmonton, AB T6E 2B3",
+    "province": "AB",
+    "phone": "(587) 322-1113",
+    "website": "https://downstairscellar.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 53.5183008,
+    "lng": -113.5104782
   },
   {
     "slug": "eclipse-games-edmonton",
@@ -909,6 +1099,25 @@
     "lng": -113.494728
   },
   {
+    "slug": "gamer-s-den-edmonton",
+    "name": "Gamer's Den",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "11610 119 St NW, Edmonton, AB T5G 2X7",
+    "province": "AB",
+    "phone": "(780) 760-4263",
+    "website": "https://www.gamersden.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon"
+    ],
+    "lat": 53.5677179,
+    "lng": -113.5273295
+  },
+  {
     "slug": "gamesland-canada-edmonton",
     "name": "Gamesland Canada",
     "city": "Edmonton",
@@ -933,6 +1142,26 @@
     ],
     "lat": 53.54236,
     "lng": -113.57654
+  },
+  {
+    "slug": "hard-brick-games-edmonton",
+    "name": "Hard Brick Games",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "9126 51 Ave NW, Edmonton, AB T6E 5L8",
+    "province": "AB",
+    "phone": "(587) 402-3161",
+    "website": "https://hardbrickgames.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "One Piece"
+    ],
+    "lat": 53.4885381,
+    "lng": -113.4688022
   },
   {
     "slug": "hpw-cards-inc-edmonton",
@@ -979,6 +1208,24 @@
     ],
     "lat": 53.52224709999999,
     "lng": -113.6230717
+  },
+  {
+    "slug": "industrial-park-games-ltd-edmonton",
+    "name": "Industrial Park Games Ltd.",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "7339 42 St NW, Edmonton, AB T6B 2T1",
+    "province": "AB",
+    "phone": "(780) 405-7567",
+    "website": "https://industrialparkgames.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Other"
+    ],
+    "lat": 53.5093985,
+    "lng": -113.4054302
   },
   {
     "slug": "outpost-sports-cards-and-games-edmonton",
@@ -1029,6 +1276,24 @@
     "sports": [],
     "lat": 53.4857551,
     "lng": -113.4869758
+  },
+  {
+    "slug": "red-claw-gaming-edmonton",
+    "name": "Red Claw Gaming",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "13552 Fort Rd NW, Edmonton, AB T5A 1C5",
+    "province": "AB",
+    "phone": "(780) 757-7655",
+    "website": "https://www.redclawgaming.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 53.5991194,
+    "lng": -113.4241584
   },
   {
     "slug": "swirl-cafe-games-edmonton",
@@ -1096,6 +1361,65 @@
     ],
     "lat": 53.4744092,
     "lng": -113.481658
+  },
+  {
+    "slug": "the-time-vault-edmonton",
+    "name": "The Time Vault",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "12227 66 St NW, Edmonton, AB T5B 1K1",
+    "province": "AB",
+    "phone": "(780) 200-3567",
+    "website": "https://thetimevault.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 53.5775411,
+    "lng": -113.4427323
+  },
+  {
+    "slug": "warp-2-comics-games-edmonton",
+    "name": "Warp 2 Comics & Games",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "12863 97 St NW, Edmonton, AB T5E 4C2",
+    "province": "AB",
+    "phone": "(780) 478-7767",
+    "website": "https://warpcomics.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 53.5874102,
+    "lng": -113.4915805
+  },
+  {
+    "slug": "warp-3-comics-games-edmonton",
+    "name": "Warp 3 Comics & Games",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "2331 66 St NW Unit 329, Edmonton, AB T6K 4B5",
+    "province": "AB",
+    "phone": "(780) 462-5767",
+    "website": "https://warpcomics.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Pokemon",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 53.4554405,
+    "lng": -113.4307271
   },
   {
     "slug": "wayne-s-sports-cards-collectibles-edmonton",
@@ -1275,6 +1599,25 @@
     "lng": -113.21175
   },
   {
+    "slug": "cosmic-radiance-gaming-gibbons",
+    "name": "Cosmic Radiance Gaming",
+    "city": "Gibbons",
+    "citySlug": "gibbons",
+    "address": "4724 50 Ave, Gibbons, AB T0A 0A7",
+    "province": "AB",
+    "phone": "(780) 578-4441",
+    "website": "https://cosmicradiancegaming.crystalcommerce.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 53.8281825,
+    "lng": -113.325169
+  },
+  {
     "slug": "imperial-garden-sports-collectibles-grande-prairie",
     "name": "Imperial Garden Sports Collectibles",
     "city": "Grande Prairie",
@@ -1369,6 +1712,26 @@
     ],
     "lat": 53.42436,
     "lng": -117.54574
+  },
+  {
+    "slug": "dreamescape-gaming-inc-leduc",
+    "name": "dreamESCAPE Gaming Inc.",
+    "city": "Leduc",
+    "citySlug": "leduc",
+    "address": "5205 50 Ave Unit 6, Leduc, AB T9E 6V2",
+    "province": "AB",
+    "phone": "(780) 986-2882",
+    "website": "https://dreamescapegaming.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "One Piece"
+    ],
+    "lat": 53.263935,
+    "lng": -113.560234
   },
   {
     "slug": "evolution-sports-excellence-leduc",
@@ -1528,6 +1891,24 @@
     "lng": -112.8373149
   },
   {
+    "slug": "treasure-chest-games-lethbridge",
+    "name": "Treasure Chest Games",
+    "city": "Lethbridge",
+    "citySlug": "lethbridge",
+    "address": "24 Mt Burke Blvd W #20, Lethbridge, AB T1K 7X9",
+    "province": "AB",
+    "phone": "(403) 320-6055",
+    "website": "https://www.treasure-chest.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 49.6617718,
+    "lng": -112.877514
+  },
+  {
     "slug": "border-city-games-lloydminster",
     "name": "Border City Games",
     "city": "Lloydminster",
@@ -1595,6 +1976,24 @@
     ],
     "lat": 50.031695,
     "lng": -110.662883
+  },
+  {
+    "slug": "first-edition-foundry-inc-medicine-hat",
+    "name": "First Edition Foundry Inc.",
+    "city": "Medicine Hat",
+    "citySlug": "medicine-hat",
+    "address": "66b 8 St NW, Medicine Hat, AB T1A 6P1",
+    "province": "AB",
+    "phone": "(403) 581-4816",
+    "website": "https://firsteditionfoundry.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 50.050038,
+    "lng": -110.688746
   },
   {
     "slug": "games-galore-the-billiard-store-medicine-hat",
@@ -2014,6 +2413,26 @@
     ],
     "lat": 51.04375,
     "lng": -113.39498
+  },
+  {
+    "slug": "the-mystic-alien-sundre",
+    "name": "The Mystic Alien",
+    "city": "Sundre",
+    "citySlug": "sundre",
+    "address": "708 Main Ave W Bay 3 and 4, Sundre, AB T0M 1X0",
+    "province": "AB",
+    "phone": "(403) 586-2774",
+    "website": "https://themysticalien.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 51.7952373,
+    "lng": -114.6528858
   },
   {
     "slug": "ken-s-sports-cards-memorabilia-taber",
@@ -12833,6 +13252,24 @@
     "lng": -64.65714
   },
   {
+    "slug": "jeux-a-z-games-chateauguay",
+    "name": "Jeux A-Z Games",
+    "city": "Châteauguay",
+    "citySlug": "chateauguay",
+    "address": "100-C & 100-D Boulevard d'Anjou, Châteauguay, QC J6K 1C4",
+    "province": "QC",
+    "phone": "(450) 844-8800",
+    "website": "https://jeuxaz.games/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
+    "lat": 45.3600585,
+    "lng": -73.731921
+  },
+  {
     "slug": "l-univers-des-cartes-chateauguay",
     "name": "L'Univers des Cartes",
     "city": "Chateauguay",
@@ -13089,6 +13526,44 @@
     "lng": -64.48517
   },
   {
+    "slug": "boutique-fdb-gatineau",
+    "name": "Boutique FDB",
+    "city": "Gatineau",
+    "citySlug": "gatineau",
+    "address": "28 Bd du Mont-Bleu Unite 102A, Gatineau, QC J8Z 1J1",
+    "province": "QC",
+    "phone": "(819) 205-4263",
+    "website": "https://www.boutiquefdb.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 45.4630094,
+    "lng": -75.7448071
+  },
+  {
+    "slug": "l-as-des-jeux-gatineau",
+    "name": "L'As des jeux",
+    "city": "Gatineau",
+    "citySlug": "gatineau",
+    "address": "325 Boulevard Gréber Unit E-1B, Gatineau, QC J8T 5R3",
+    "province": "QC",
+    "phone": "(819) 600-9494",
+    "website": "https://www.asdesjeux.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Lorcana"
+    ],
+    "lat": 45.4784664,
+    "lng": -75.6990956
+  },
+  {
     "slug": "le-centre-du-comic-carte-sportive-gatineau",
     "name": "Le Centre du Comic Carte Sportive",
     "city": "Gatineau",
@@ -13137,6 +13612,24 @@
     ],
     "lat": 45.4559,
     "lng": -75.74203
+  },
+  {
+    "slug": "maitre-de-jeu-granby",
+    "name": "Maître De Jeu",
+    "city": "Granby",
+    "citySlug": "granby",
+    "address": "14 Rue Saint-Joseph, Granby, QC J2G 6T6",
+    "province": "QC",
+    "phone": "(450) 776-6669",
+    "website": "https://www.bestmtg.com/en",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 45.3997949,
+    "lng": -72.7279584
   },
   {
     "slug": "ppag-hockey-cards-granby",
@@ -13853,6 +14346,25 @@
     "lng": -73.61394
   },
   {
+    "slug": "carta-magica-montreal-montreal",
+    "name": "Carta Magica Montreal",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "6360 Rue St-Hubert, Montreal, QC H2S 2M2",
+    "province": "QC",
+    "phone": "(514) 286-9099",
+    "website": "https://www.cartamagica.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 45.5355801,
+    "lng": -73.6021296
+  },
+  {
     "slug": "chez-geeks-montreal",
     "name": "Chez Geeks",
     "city": "Montréal",
@@ -13914,6 +14426,106 @@
     "sports": [],
     "lat": 45.470774,
     "lng": -73.62698
+  },
+  {
+    "slug": "enchanted-cards-and-collectibles-montreal",
+    "name": "Enchanted Cards and Collectibles",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "6888a Victoria Ave, Montreal, QC H3W 2T4",
+    "province": "QC",
+    "social": "https://www.instagram.com/enchanted.cards/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh",
+      "One Piece",
+      "Lorcana"
+    ],
+    "lat": 45.4971161,
+    "lng": -73.6441439
+  },
+  {
+    "slug": "face-to-face-games-montreal",
+    "name": "Face to Face Games",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "1501 Rue Barré Suite 201, Montréal, QC H3J 1S9",
+    "province": "QC",
+    "phone": "(514) 769-7007",
+    "website": "https://www.facetofacegames.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic"
+    ],
+    "lat": 45.4904575,
+    "lng": -73.5659965
+  },
+  {
+    "slug": "game-keeper-lajeunesse-montreal",
+    "name": "Game Keeper Lajeunesse",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "10810 Rue Lajeunesse, Montreal, QC H3L 2E8",
+    "province": "QC",
+    "phone": "(438) 380-3939",
+    "website": "https://www.gamekeeper.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 45.5557007,
+    "lng": -73.6704945
+  },
+  {
+    "slug": "gobelin-d-argent-silver-goblin-montreal",
+    "name": "Gobelin D'Argent (Silver Goblin)",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "#216, 372 Saint-Catherine St W, Montreal, QC H3B 1A4",
+    "province": "QC",
+    "phone": "(514) 303-2273",
+    "website": "https://silvergoblin.cards/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "One Piece"
+    ],
+    "lat": 45.5057634,
+    "lng": -73.5672666
+  },
+  {
+    "slug": "l-expedition-montreal",
+    "name": "L'Expédition",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "6571 Rue St-Hubert, Montreal, QC H2S 2M5",
+    "province": "QC",
+    "phone": "(438) 386-9793",
+    "website": "https://www.expeditionjeux.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh"
+    ],
+    "lat": 45.5367612,
+    "lng": -73.6041807
   },
   {
     "slug": "librairie-crossover-comics-montreal",
@@ -14006,6 +14618,27 @@
     ],
     "lat": 47.04401,
     "lng": -70.88968
+  },
+  {
+    "slug": "three-kings-loot-inc-montreal",
+    "name": "Three Kings Loot inc",
+    "city": "Montréal",
+    "citySlug": "montreal",
+    "address": "5175 C Sherbrooke St W, Montreal, QC H4A 3K8",
+    "province": "QC",
+    "phone": "(438) 386-3638",
+    "website": "https://www.threekingsloot.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Yu-Gi-Oh",
+      "One Piece"
+    ],
+    "lat": 45.4755527,
+    "lng": -73.6078124
   },
   {
     "slug": "savage-cards-piedmont-saint-sauveur",
@@ -14177,6 +14810,26 @@
     ],
     "lat": 46.81209,
     "lng": -71.29918
+  },
+  {
+    "slug": "la-boutique-mythique-quebec",
+    "name": "La Boutique Mythique",
+    "city": "Québec",
+    "citySlug": "quebec",
+    "address": "354 Boulevard Charest E, Québec, QC G1K 3H5",
+    "province": "QC",
+    "phone": "(418) 529-9000",
+    "website": "https://laboutiquemythique.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Lorcana"
+    ],
+    "lat": 46.8133806,
+    "lng": -71.225217
   },
   {
     "slug": "stakk-quebec-quebec",
@@ -14555,6 +15208,26 @@
     ],
     "lat": 45.50056,
     "lng": -73.42376
+  },
+  {
+    "slug": "boutique-awesome-saint-hubert-longueuil",
+    "name": "Boutique Awesome",
+    "city": "Saint-Hubert (Longueuil)",
+    "citySlug": "saint-hubert-longueuil",
+    "address": "5666 Ch. de Chambly, Saint-Hubert, QC J3Y 7E5",
+    "province": "QC",
+    "phone": "(450) 286-4115",
+    "website": "https://www.boutiqueawesome.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Lorcana"
+    ],
+    "lat": 45.5017113,
+    "lng": -73.4146809
   },
   {
     "slug": "la-madame-des-cartes-saint-hubert-longueuil",
@@ -15256,6 +15929,27 @@
     "lng": -72.58903
   },
   {
+    "slug": "joubec-val-d-or-val-d-or",
+    "name": "Joubec Val-d'Or",
+    "city": "Val-d'Or",
+    "citySlug": "val-d-or",
+    "address": "670 3e Avenue, Val-d'Or, QC J9P 1S5",
+    "province": "QC",
+    "phone": "(819) 824-5121",
+    "website": "https://www.joubec.com/fr/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Hockey",
+      "Lorcana"
+    ],
+    "lat": 48.1016527,
+    "lng": -77.7845559
+  },
+  {
     "slug": "sports-la-tornade-vaudreuil-dorion",
     "name": "Sports La Tornade",
     "city": "Vaudreuil-Dorion",
@@ -15351,6 +16045,24 @@
     ],
     "lat": 46.05756,
     "lng": -71.95211
+  },
+  {
+    "slug": "orthanc-la-forteresse-victoriaville",
+    "name": "Orthanc La Forteresse",
+    "city": "Victoriaville",
+    "citySlug": "victoriaville",
+    "address": "26A Notre-Dame St E, Victoriaville, QC G6P 3Z5",
+    "province": "QC",
+    "phone": "(819) 751-2727",
+    "website": "https://orthanclaforteresse.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 46.0560054,
+    "lng": -71.9582608
   },
   {
     "slug": "nova-s-sports-cards-lloydminster-sk-side",
