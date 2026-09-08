@@ -530,6 +530,20 @@
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=28100"
   },
   {
+    "slug": "collectors-summit-hamilton-2026-09-09",
+    "name": "Collectors Summit",
+    "city": "Hamilton",
+    "citySlug": "hamilton",
+    "province": "ON",
+    "venue": "Mohawk College Fennell Campus, The Joyce Centre",
+    "address": "135 Fennell Ave W",
+    "startDate": "2026-09-09",
+    "hours": "10:00 AM - 2:00 PM",
+    "admission": "Free",
+    "website": "https://www.ontreasure.com/events/vizioncollective-09092026",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31707"
+  },
+  {
     "slug": "trade-night-at-the-outpost-edmonton-2026-09-11",
     "name": "Trade Night at The Outpost",
     "city": "Edmonton",
@@ -648,6 +662,34 @@
     "hours": "10:00 AM - 5:00 PM",
     "website": "https://www.facebook.com/groups/1508054042781173/",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=30750",
+    "recurring": "monthly"
+  },
+  {
+    "slug": "chonky-card-show-richmond-2026-09-12",
+    "name": "Chonky Card Show",
+    "city": "Richmond",
+    "citySlug": "richmond",
+    "province": "BC",
+    "venue": "Lipont Place",
+    "address": "4211 No. 3 Road, Richmond, BC V6X 3A7",
+    "startDate": "2026-09-12",
+    "hours": "11:00 AM - 5:00 PM",
+    "website": "https://www.instagram.com/chonkycardshow/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31362"
+  },
+  {
+    "slug": "metamiraj-card-show-surrey-2026-09-12",
+    "name": "Metamiraj Card Show",
+    "city": "Surrey",
+    "citySlug": "surrey",
+    "province": "BC",
+    "venue": "Sheraton Hotel Guildford",
+    "address": "15269 104 Avenue, Surrey, BC V3R 1N5",
+    "startDate": "2026-09-12",
+    "hours": "11:00 AM - 5:00 PM",
+    "admission": "$5",
+    "website": "https://metamiraj.com/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31363",
     "recurring": "monthly"
   },
   {
@@ -798,6 +840,19 @@
     "recurring": "annual"
   },
   {
+    "slug": "the-redeye-show-by-jetlagged-cards-richmond-2026-09-18",
+    "name": "The REDEYE Show by Jetlagged Cards",
+    "city": "Richmond",
+    "citySlug": "richmond",
+    "province": "BC",
+    "venue": "RRCG Hall",
+    "address": "7891 Cambie Rd, Richmond, BC",
+    "startDate": "2026-09-18",
+    "hours": "7:00 PM - 11:00 PM",
+    "website": "https://www.jetlaggedcards.com/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31798"
+  },
+  {
     "slug": "big-kahuna-card-show-and-collectibles-st-albert-2026-09-19",
     "name": "BIG KAHUNA CARD SHOW and COLLECTIBLES",
     "city": "St. Albert",
@@ -824,6 +879,20 @@
     "recurring": "monthly"
   },
   {
+    "slug": "cardfesta-30th-anniversary-show-brampton-2026-09-19",
+    "name": "CardFesta - 30th Anniversary Show",
+    "city": "Brampton",
+    "citySlug": "brampton",
+    "province": "ON",
+    "venue": "Bramalea City Centre",
+    "address": "25 Peel Centre Dr",
+    "startDate": "2026-09-19",
+    "endDate": "2026-09-20",
+    "hours": "11:00 AM - 6:00 PM",
+    "website": "https://www.cardfesta.com/upcoming-events",
+    "sourceUrl": "https://bramaleacitycentre.ca/events/bramalea-city-centre-cardfesta-weekend-takeover/"
+  },
+  {
     "slug": "gta-card-show-markham-2026-09-19",
     "name": "GTA Card Show",
     "city": "Markham",
@@ -847,6 +916,32 @@
     "hours": "10:00 AM - 4:00 PM",
     "website": "https://www.360cardscomicsshow.com/",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=30635"
+  },
+  {
+    "slug": "collector-s-fest-by-lazy-trading-cards-richmond-2026-09-19",
+    "name": "Collector's Fest by Lazy Trading Cards",
+    "city": "Richmond",
+    "citySlug": "richmond",
+    "province": "BC",
+    "venue": "Hilton Vancouver Airport Hotel Grand Ballroom",
+    "address": "5911 Minoru Blvd, Richmond, BC V6X 4C7",
+    "startDate": "2026-09-19",
+    "hours": "10:00 AM - 6:00 PM",
+    "website": "https://lazytradingcards.com/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32115"
+  },
+  {
+    "slug": "collect-ex-burlington-burlington-2026-09-19",
+    "name": "COLLECT EX: Burlington",
+    "city": "Burlington",
+    "citySlug": "burlington",
+    "province": "ON",
+    "venue": "Burlington Centre Mall",
+    "address": "777 Guelph Line",
+    "startDate": "2026-09-19",
+    "hours": "9:30 AM - 5:00 PM",
+    "website": "https://www.instagram.com/p/Dc_xev1m8Zd/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32118"
   },
   {
     "slug": "collections-montreal-montreal-2026-09-20",
@@ -899,19 +994,6 @@
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=27553"
   },
   {
-    "slug": "cardfesta-30th-anniversary-show-brampton-2026-09-20",
-    "name": "CardFesta - 30th Anniversary Show",
-    "city": "Brampton",
-    "citySlug": "brampton",
-    "province": "ON",
-    "venue": "Bramalea City Centre",
-    "address": "25 Peel Centre Dr",
-    "startDate": "2026-09-20",
-    "hours": "11:00 AM - 6:00 PM",
-    "website": "https://www.cardfesta.com",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=30825"
-  },
-  {
     "slug": "collector-verse-expo-dorchester-ontario-dorchester-2026-09-20",
     "name": "Collector Verse Expo Dorchester Ontario",
     "city": "Dorchester",
@@ -961,6 +1043,20 @@
     "hours": "10:00 AM - 4:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=22279",
     "recurring": "monthly"
+  },
+  {
+    "slug": "north-american-card-exchange-free-sports-and-pokemon-show-brampton-2026-09-20",
+    "name": "North American Card Exchange - Free Sports and Pokemon Show",
+    "city": "Brampton",
+    "citySlug": "brampton",
+    "province": "ON",
+    "venue": "Brampton Soccer Center",
+    "address": "1495 Sandalwood Pkwy E",
+    "startDate": "2026-09-20",
+    "hours": "11:00 AM - 6:00 PM",
+    "admission": "Free",
+    "website": "https://www.ontreasure.com/events/nace-free-pokemon-and-sports-card-event-09202026",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32161"
   },
   {
     "slug": "sport-card-memorabilia-expo-montreal-laval-2026-09-25",
@@ -1015,6 +1111,32 @@
     "startDate": "2026-09-26",
     "hours": "9:00 AM - 2:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=27583"
+  },
+  {
+    "slug": "card-summit-edmonton-2026-09-26",
+    "name": "Card Summit",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "province": "AB",
+    "venue": "Central Lions Rec Center",
+    "address": "11113 113 St",
+    "startDate": "2026-09-26",
+    "hours": "10:00 AM - 4:00 PM",
+    "website": "https://www.instagram.com/thecardsummit/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31800"
+  },
+  {
+    "slug": "coastal-collectibles-convention-vancouver-2026-09-26",
+    "name": "Coastal Collectibles Convention",
+    "city": "Vancouver",
+    "citySlug": "vancouver",
+    "province": "BC",
+    "venue": "Croatian Cultural Centre",
+    "address": "3250 Commercial Drive, Vancouver, BC",
+    "startDate": "2026-09-26",
+    "hours": "10:00 AM - 5:00 PM",
+    "website": "https://www.facebook.com/p/Coastal-Collectibles-Convention-61585439110093/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31364"
   },
   {
     "slug": "youth-sports-cards-show-calgary-2026-09-27",
@@ -1265,6 +1387,21 @@
     "startDate": "2026-10-10",
     "hours": "9:00 AM - 3:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21142",
+    "recurring": "monthly"
+  },
+  {
+    "slug": "metamiraj-card-show-surrey-2026-10-10",
+    "name": "Metamiraj Card Show",
+    "city": "Surrey",
+    "citySlug": "surrey",
+    "province": "BC",
+    "venue": "Sheraton Hotel Guildford",
+    "address": "15269 104 Avenue, Surrey, BC V3R 1N5",
+    "startDate": "2026-10-10",
+    "hours": "11:00 AM - 5:00 PM",
+    "admission": "Free",
+    "website": "https://metamiraj.com/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32112",
     "recurring": "monthly"
   },
   {
@@ -1734,20 +1871,6 @@
     "recurring": "annual (spring & fall)"
   },
   {
-    "slug": "sport-card-expo-toronto-mississauga-2026-11-06",
-    "name": "Sport Card Expo Toronto",
-    "city": "Mississauga",
-    "citySlug": "mississauga",
-    "province": "ON",
-    "venue": "The International Centre",
-    "address": "6900 Airport Road",
-    "startDate": "2026-11-06",
-    "hours": "11:00 AM - 8:00 PM",
-    "website": "https://sportcardexpotoronto.com/",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18009",
-    "recurring": "monthly"
-  },
-  {
     "slug": "trade-on-south-edmonton-2026-11-07",
     "name": "Trade On South",
     "city": "Edmonton",
@@ -1800,20 +1923,6 @@
     "recurring": "monthly"
   },
   {
-    "slug": "sport-card-expo-toronto-mississauga-2026-11-07",
-    "name": "Sport Card Expo Toronto",
-    "city": "Mississauga",
-    "citySlug": "mississauga",
-    "province": "ON",
-    "venue": "The International Centre",
-    "address": "6900 Airport Road",
-    "startDate": "2026-11-07",
-    "hours": "10:00 AM - 6:00 PM",
-    "website": "https://sportcardexpotoronto.com/",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18010",
-    "recurring": "monthly"
-  },
-  {
     "slug": "saskatoon-sportscard-collectibles-show-saskatoon-2026-11-07",
     "name": "Saskatoon Sportscard & Collectibles Show",
     "city": "Saskatoon",
@@ -1828,6 +1937,21 @@
     "recurring": "monthly"
   },
   {
+    "slug": "metamiraj-card-show-surrey-2026-11-07",
+    "name": "Metamiraj Card Show",
+    "city": "Surrey",
+    "citySlug": "surrey",
+    "province": "BC",
+    "venue": "Sheraton Hotel Guildford",
+    "address": "15269 104 Avenue, Surrey, BC V3R 1N5",
+    "startDate": "2026-11-07",
+    "hours": "11:00 AM - 5:00 PM",
+    "admission": "$5",
+    "website": "https://metamiraj.com/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32113",
+    "recurring": "monthly"
+  },
+  {
     "slug": "cards-collectibles-show-fort-saskatchewan-2026-11-08",
     "name": "Cards & Collectibles Show",
     "city": "Fort Saskatchewan",
@@ -1838,20 +1962,6 @@
     "startDate": "2026-11-08",
     "hours": "9:00 AM - 4:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=20204",
-    "recurring": "monthly"
-  },
-  {
-    "slug": "sport-card-expo-toronto-mississauga-2026-11-08",
-    "name": "Sport Card Expo Toronto",
-    "city": "Mississauga",
-    "citySlug": "mississauga",
-    "province": "ON",
-    "venue": "The International Centre",
-    "address": "6900 Airport Road",
-    "startDate": "2026-11-08",
-    "hours": "10:00 AM - 5:00 PM",
-    "website": "https://sportcardexpotoronto.com/",
-    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=18011",
     "recurring": "monthly"
   },
   {
@@ -1933,6 +2043,19 @@
     "hours": "9:00 AM - 3:00 PM",
     "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=21143",
     "recurring": "monthly"
+  },
+  {
+    "slug": "living-sky-card-show-moose-jaw-2026-11-14",
+    "name": "Living Sky Card Show",
+    "city": "Moose Jaw",
+    "citySlug": "moose-jaw",
+    "province": "SK",
+    "venue": "Cosmo Senior Centre",
+    "address": "235 3rd Ave NE",
+    "startDate": "2026-11-14",
+    "hours": "10:00 AM - 3:00 PM",
+    "website": "https://www.instagram.com/livingskycollectibles/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=31404"
   },
   {
     "slug": "stony-plain-card-show-stony-plain-2026-11-15",
@@ -2280,6 +2403,21 @@
     "recurring": "monthly"
   },
   {
+    "slug": "metamiraj-card-show-surrey-2026-12-13",
+    "name": "Metamiraj Card Show",
+    "city": "Surrey",
+    "citySlug": "surrey",
+    "province": "BC",
+    "venue": "Sheraton Hotel Guildford",
+    "address": "15269 104 Avenue, Surrey, BC V3R 1N5",
+    "startDate": "2026-12-13",
+    "hours": "11:00 AM - 5:00 PM",
+    "admission": "Free",
+    "website": "https://metamiraj.com/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32114",
+    "recurring": "monthly"
+  },
+  {
     "slug": "west-van-card-show-ubc-vancouver-2026-12-19",
     "name": "West Van Card Show @ UBC",
     "city": "Vancouver",
@@ -2467,6 +2605,21 @@
     "website": "https://www.capitaltradeshows.ca/schedule",
     "sourceUrl": "https://www.capitaltradeshows.ca/schedule",
     "recurring": "monthly"
+  },
+  {
+    "slug": "mega-miraj-surrey-2027-02-06",
+    "name": "MEGA MIRAJ",
+    "city": "Surrey",
+    "citySlug": "surrey",
+    "province": "BC",
+    "venue": "Aria Banquet & Convention Centre",
+    "address": "12350 Pattullo Pl, Surrey, BC V3V 8C3",
+    "startDate": "2027-02-06",
+    "endDate": "2027-02-07",
+    "hours": "11:00 AM - 6:00 PM",
+    "admission": "Free general admission; optional paid VIP tickets",
+    "website": "https://metamiraj.com/megamiraj/",
+    "sourceUrl": "https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=32110"
   },
   {
     "slug": "capital-trade-shows-card-comic-show-ottawa-2027-02-07",

@@ -139,6 +139,66 @@ def slugify(s: str) -> str:
     return re.sub(r'-+', '-', re.sub(r'[^a-z0-9]+', '-', s.lower())).strip('-')
 
 
+def match_existing(row: dict, ours: list[dict]) -> tuple[dict | None, str | None]:
+    """A city/date is not an event identity; several promoters can book the same day.
+
+    Match source IDs first, then corroborate identity within the existing event's
+    date interval. Later days are already covered, never proposed as new events.
+    Unresolved collisions go to review instead of overwriting an arbitrary show.
+    """
+    province = PROVINCES.get(row['province'], row['province'])
+    candidates = [s for s in ours if s['province'] == province
+                  and norm_city(s['city']) == norm_city(row['city'])
+                  and s['startDate'] <= row['iso'] <= (s.get('endDate') or s['startDate'])]
+    exact = [s for s in candidates if row.get('url') and s.get('sourceUrl') == row['url']]
+    if len(exact) == 1:
+        return exact[0], None
+    def same_identity(s):
+        same_name = norm_city(s['name']) == norm_city(row['name'])
+        same_venue = bool(row.get('venue')) and norm_city(s.get('venue', '')) == norm_city(row['venue'])
+        # A shared homepage is evidence only alongside a venue: promoters run
+        # different shows, and event marketplaces host unrelated organisers.
+        same_site = bool(row.get('website')) and s.get('website', '').rstrip('/') == row['website'].rstrip('/')
+        return same_name or (same_venue and same_site)
+    matched = [s for s in candidates if same_identity(s)]
+    if len(matched) == 1:
+        return matched[0], None
+    return None, 'REVIEW-IDENTITY' if candidates else None
+
+
+def classify_row(row: dict, ours: list[dict]) -> tuple[str, dict | None]:
+    mine, review = match_existing(row, ours)
+    if review:
+        return review, None
+    if mine is None:
+        return 'NEW', None
+    if row['iso'] > mine['startDate']:
+        return 'COVERED-DAY', mine
+    changed = ((clean(mine.get('venue') or '') != row.get('venue') and row.get('venue'))
+               or (clean(mine.get('hours') or '') != clean(row.get('hours') or '') and row.get('hours'))
+               or (not mine.get('address') and row.get('address')))
+    return ('CHANGED' if changed else 'KNOWN'), mine
+
+
+def flag_adjacent_new_days(rows: list[dict]) -> None:
+    """Keep adjacent source days for review, rather than advertising two NEW events.
+
+    Dates alone cannot prove a multi-day booking. No rows are discarded or merged.
+    """
+    groups = defaultdict(list)
+    for row in rows:
+        if row['_status'] == 'NEW':
+            name = re.sub(r'\bday\s*\d+\b', '', row['name'], flags=re.I)
+            key = (row['province'], norm_city(row['city']), norm_city(row['venue']), norm_city(name))
+            groups[key].append(row)
+    for group in groups.values():
+        ordered = sorted(group, key=lambda r: r['iso'])
+        for left, right in zip(ordered, ordered[1:]):
+            gap = (date.fromisoformat(right['iso']) - date.fromisoformat(left['iso'])).days
+            if gap <= 1:
+                left['_status'] = right['_status'] = 'REVIEW-MULTIDAY'
+
+
 def scrape_lists(limit: int | None) -> tuple[list[dict], dict[str, str]]:
     """One page object, reused, ~1s between fetches. Never a tab per show."""
     provs = json.dumps(list(PROVINCES))
@@ -293,15 +353,12 @@ def main() -> None:
         r['iso'] = datetime.strptime(r['date'], '%A, %B %d, %Y').date().isoformat() if r.get('date') else ''
         r['detail_ok'] = bool(d.get('ok'))
 
-    canon = {}
+    # A venue can host unrelated shows. Never rename one from the most frequent
+    # name at that venue; preserve what the source actually calls each event.
     for r in rows:
-        canon.setdefault((norm_city(r['city']), norm_city(r['venue'])), Counter())[r['name']] += 1
-    canon = {k: sorted(c.items(), key=lambda kv: (-kv[1], -len(kv[0])))[0][0] for k, c in canon.items()}
-    for r in rows:
-        r['canonName'] = canon[(norm_city(r['city']), norm_city(r['venue']))]
+        r['canonName'] = r['name']
 
     # --- classify ----------------------------------------------------------------
-    ours_key = {(norm_city(s['city']), s['startDate']): s for s in ours}
     # Rows we have DELIBERATELY removed before (merged duplicates, folded series) still
     # exist upstream, so they come back as NEW every quarter. redirects.json already
     # records every dead show URL, so use it to flag them rather than re-litigating the
@@ -315,23 +372,17 @@ def main() -> None:
             if m:
                 rejected.add((slugify(m.group(1)), m.group(2)))
     tcdb_ours = [s for s in ours if 'tcdb.com' in (s.get('sourceUrl') or '')]
-    seen_keys, out = set(), []
+    seen_slugs, out = set(), []
     for r in rows:
-        k = (norm_city(r['city']), r['iso'])
-        seen_keys.add(k)
-        mine = ours_key.get(k)
-        if mine is None:
-            st = 'NEW'
-        elif (clean(mine.get('venue') or '') != r['venue'] and r['venue']) or \
-             (clean(mine.get('hours') or '') != clean(r.get('hours') or '') and r.get('hours')) or \
-             (not mine.get('address') and r['address']):
-            st = 'CHANGED'
-        else:
-            st = 'KNOWN'
+        st, mine = classify_row(r, ours)
+        if mine is not None:
+            seen_slugs.add(mine['slug'])
         if st == 'NEW' and (slugify(f"{r['canonName']}-{r['city']}"), r['iso']) in rejected:
             st = 'PREVIOUSLY-REJECTED'
         r['_status'] = st
         out.append(r)
+
+    flag_adjacent_new_days(out)
 
     # GONE is only meaningful on a FULL run. Under --limit we deliberately fetch a
     # handful of rows per province, so almost every show we hold looks "missing
@@ -340,7 +391,7 @@ def main() -> None:
     gone = [] if args.limit else [s for s in tcdb_ours
             if PROVINCES.get(next((k for k, v in PROVINCES.items() if v == s['province']), ''), '') or True
             if s['province'] in {PROVINCES[p] for p in live_provs}
-            and (norm_city(s['city']), s['startDate']) not in seen_keys
+            and s['slug'] not in seen_slugs
             and s['startDate'] >= today]
     gone_note = ('not computed on a --limit run' if args.limit else 'full comparison')
 
@@ -354,7 +405,7 @@ def main() -> None:
         w.writerow(['Show Name', 'City', 'Province', 'Venue', 'Address', 'StartDate', 'EndDate',
                     'Hours', 'Admission', 'Website', 'SourceUrl', 'Recurring', '_status'])
         for r in sorted(out, key=lambda x: (x['province'], x['city'], x['iso'])):
-            if r['_status'] == 'KNOWN':
+            if r['_status'] in ('KNOWN', 'COVERED-DAY'):
                 continue
             w.writerow([r['canonName'], r['city'], PROVINCES[r['province']], r['venue'], r['address'],
                         r['iso'], '', r.get('hours') or '', '', r['website'], r['url'], '', r['_status']])
@@ -365,6 +416,9 @@ def main() -> None:
              f'- NEW: **{counts["NEW"]}**',
              f'- PREVIOUSLY-REJECTED (deleted before, still upstream): {counts["PREVIOUSLY-REJECTED"]}', f'- CHANGED: **{counts["CHANGED"]}**',
              f'- KNOWN (unchanged): {counts["KNOWN"]}', f'- GONE upstream: **{len(gone)}** ({gone_note})', '',
+             f'- COVERED-DAY (already inside an existing event): {counts["COVERED-DAY"]}',
+             f'- REVIEW-IDENTITY (same city/date, uncertain event): {counts["REVIEW-IDENTITY"]}', '',
+             f'- REVIEW-MULTIDAY (adjacent new source days): {counts["REVIEW-MULTIDAY"]}', '',
              '## Province fetch status', '']
     for p, st in status.items():
         lines.append(f'- {p}: {st}')
