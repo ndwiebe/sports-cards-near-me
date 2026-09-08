@@ -1,9 +1,10 @@
 # Click tracking — what the number is, and how to read it
 
 `worker/click-tracker.js` has been counting taps on "Get Directions" and "Call" on each
-shop's listing page since **2026-08-28**. That date is the start of the 90-day window the
-plan needs banked before the number goes into a shop owner's pitch ("we sent you 14
-people last month"), so it runs out in late November.
+shop's listing page since **2026-08-28**. This is the counter start date, not the start of
+a city page's Search Console history. PLAN.md requires 90 days of history for the city
+page, roughly 100+ impressions and 20+ outbound listing clicks per month. The present
+store totals do not establish which city page generated a tap and do not clear that gate.
 
 ## What it counts
 
@@ -25,6 +26,23 @@ identity, nothing that needed a consent banner.
 Read it as **intent signal**, not **traffic delivered**, and never as **revenue
 delivered**. "We sent 14 taps toward you last month" is an honest sentence. "We sent you
 14 customers" is not — don't let it get shortened to that in a pitch.
+
+## Accuracy limits verified September 8
+
+The Worker reads a KV value, adds one, then writes the replacement. Two requests can
+read the same old value and overwrite each other. A local reproduction with ten
+concurrent accepted requests stored only one increment. No production requests were
+sent. This proves a possible undercount, not the amount lost in production.
+
+Cloudflare documents [eventual consistency and the absence of atomic KV operations](https://developers.cloudflare.com/kv/concepts/how-kv-works/).
+Treat these totals as approximate recorded taps. The existing sequential unit test
+only verifies sequential behavior. Fix the storage model before using counts as a
+commercial performance measure.
+
+Origin checks and User-Agent filtering exclude common automated traffic, but do not
+prove a human click. Forged requests, repeated taps and failed beacon delivery remain
+possible. The tracker also accepts localhost requests. Do not test against the live
+counter, because a test can contaminate totals.
 
 ## The caveat that matters most
 
@@ -66,3 +84,23 @@ implausibly low against known site traffic, check that `PUBLIC_CLICK_TRACKER_URL
 still wired into the production build (see `CLAUDE.md`'s note on `site.yml` needing its
 own sync to `main` — this exact class of bug has already caused this pipeline to record
 nothing for a period once) before concluding it was a quiet month.
+
+## Required attribution work
+
+Keep destination store totals distinct from source page totals. A store in Edmonton
+receiving a tap does not establish an Edmonton city page referral.
+
+1. Fix concurrent counting first with serialized increments or separate event records.
+2. Define separate events for internal listing navigation and actual outbound website,
+   directions and call selections. Internal navigation must not count as outbound traffic.
+3. Carry only an allowlisted city page identifier for the immediately preceding city
+   navigation. Discard query strings, fragments and external referrers. Do not infer a
+   source city from the shop address or invent attribution for direct search arrivals.
+4. Add separate reporting for attributed and unattributed actions. Retain historical
+   counter totals as approximate legacy data, without backfilling missing attribution.
+5. Verify concurrent updates, malformed input, bot filtering, direct arrivals and
+   ordinary navigation. Update the disclosure with the exact fields before deployment.
+
+No new tracking fields or storage resources were deployed during this review. The
+existing workflow deploys the Worker independently from the site, so both releases
+need verification when the implementation changes.
