@@ -90,6 +90,28 @@
     "lng": -113.9972674
   },
   {
+    "slug": "collectors-valley-balzac",
+    "name": "Collectors Valley",
+    "city": "Balzac",
+    "citySlug": "balzac",
+    "address": "260300 Writing Creek Cres, Balzac, AB T4A 0X8",
+    "province": "AB",
+    "phone": "(587) 254-2418",
+    "website": "https://collectors-valley.square.site/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "One Piece",
+      "Magic",
+      "Lorcana",
+      "Weiss Schwarz"
+    ],
+    "lat": 51.1959193,
+    "lng": -113.9974471
+  },
+  {
     "slug": "double-z-collectibles-balzac",
     "name": "Double Z Collectibles",
     "city": "Balzac",
@@ -400,6 +422,25 @@
     ],
     "lat": 51.0234094,
     "lng": -114.0374501
+  },
+  {
+    "slug": "imaginary-wars-gaming-and-hobbies-calgary",
+    "name": "Imaginary Wars Gaming and Hobbies",
+    "city": "Calgary",
+    "citySlug": "calgary",
+    "address": "10233 Elbow Dr SW Unit 135, Calgary, AB T2W 1E8",
+    "province": "AB",
+    "phone": "(587) 351-1939",
+    "website": "https://www.facebook.com/imaginarywars/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic",
+      "Star Wars Unlimited"
+    ],
+    "lat": 50.9622409,
+    "lng": -114.0865905
   },
   {
     "slug": "maple-leaf-sports-calgary",
@@ -1004,6 +1045,24 @@
     "lng": -113.4648273
   },
   {
+    "slug": "collectiverse-edmonton",
+    "name": "CollectiVerse",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "435 Mistatim Way NW, Edmonton, AB T6V 0M8",
+    "province": "AB",
+    "phone": "(587) 400-7478",
+    "website": "https://www.facebook.com/CollectiVerse.Ltd/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon"
+    ],
+    "lat": 53.5997992,
+    "lng": -113.5808392
+  },
+  {
     "slug": "common-box-games-edmonton",
     "name": "Common Box Games",
     "city": "Edmonton",
@@ -1383,6 +1442,27 @@
     "lng": -113.4427323
   },
   {
+    "slug": "vintage-games-n-junque-edmonton-edmonton",
+    "name": "Vintage Games N Junque Edmonton",
+    "city": "Edmonton",
+    "citySlug": "edmonton",
+    "address": "10422 82 Ave NW, Edmonton, AB T6E 2A2",
+    "province": "AB",
+    "phone": "(825) 967-0069",
+    "website": "https://vintage-games-n-junque-edmonton.square.site/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Flesh and Blood",
+      "Riftbound"
+    ],
+    "lat": 53.5183417,
+    "lng": -113.4986537
+  },
+  {
     "slug": "warp-2-comics-games-edmonton",
     "name": "Warp 2 Comics & Games",
     "city": "Edmonton",
@@ -1520,6 +1600,24 @@
     "sports": [],
     "lat": 53.58548,
     "lng": -116.433951
+  },
+  {
+    "slug": "rare-gems-edson-edson",
+    "name": "Rare Gems Edson",
+    "city": "Edson",
+    "citySlug": "edson",
+    "address": "306 50 St, Edson, AB T7E 1X7",
+    "province": "AB",
+    "phone": "(587) 817-2681",
+    "website": "https://www.facebook.com/p/Rare-gems-Edson-61572938927206/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 53.5824981,
+    "lng": -116.431924
   },
   {
     "slug": "all-in-sports-den-fort-mcmurray",
@@ -1712,6 +1810,26 @@
     ],
     "lat": 53.42436,
     "lng": -117.54574
+  },
+  {
+    "slug": "amazing-wonders-emporium-lacombe",
+    "name": "Amazing Wonders Emporium",
+    "city": "Lacombe",
+    "citySlug": "lacombe",
+    "address": "5230 45 St Unit 17, Lacombe, AB T4L 2A1",
+    "province": "AB",
+    "phone": "(403) 782-6070",
+    "website": "https://www.facebook.com/amazingwondersemporium.ca/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Pokemon",
+      "Magic",
+      "Hockey"
+    ],
+    "lat": 52.4671363,
+    "lng": -113.7248853
   },
   {
     "slug": "dreamescape-gaming-inc-leduc",
@@ -2049,6 +2167,27 @@
     "lng": -114.10621
   },
   {
+    "slug": "kash-in-collectibles-inc-peace-river",
+    "name": "Kash In Collectibles Inc.",
+    "city": "Peace River",
+    "citySlug": "peace-river",
+    "address": "10122 100 St Unit 7, Peace River, AB T8S 1S8",
+    "province": "AB",
+    "phone": "(780) 625-5942",
+    "website": "https://www.instagram.com/kashincollectibles/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Sports",
+      "Pokemon",
+      "One Piece",
+      "Magic"
+    ],
+    "lat": 56.2312306,
+    "lng": -117.2912867
+  },
+  {
     "slug": "d-j-s-sports-cards-comics-red-deer",
     "name": "D J's Sports Cards Comics",
     "city": "Red Deer",
@@ -2183,6 +2322,24 @@
     "lng": -113.2944723
   },
   {
+    "slug": "mythic-comics-collectibles-sherwood-park",
+    "name": "Mythic Comics & Collectibles",
+    "city": "Sherwood Park",
+    "citySlug": "sherwood-park",
+    "address": "2008C Sherwood Dr, Sherwood Park, AB T8A 0Z1",
+    "province": "AB",
+    "phone": "(780) 570-1872",
+    "website": "https://www.facebook.com/MythicComicsShpk/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [
+      "Magic"
+    ],
+    "lat": 53.52572,
+    "lng": -113.29467
+  },
+  {
     "slug": "slab-savvy-cpa-sherwood-park",
     "name": "Slab Savvy CPA",
     "city": "Sherwood Park",
@@ -2285,6 +2442,22 @@
     "sports": [],
     "lat": 53.554189,
     "lng": -113.9359418
+  },
+  {
+    "slug": "da-pop-up-shop-stalbert-st-albert",
+    "name": "Da Pop-up Shop StAlbert",
+    "city": "St. Albert",
+    "citySlug": "st-albert",
+    "address": "375 St Albert Trl Unit 185, St. Albert, AB T8N 3K8",
+    "province": "AB",
+    "phone": "(647) 768-3808",
+    "website": "https://www.dapopupshop.com/",
+    "services": [
+      "Sells"
+    ],
+    "sports": [],
+    "lat": 53.6424857,
+    "lng": -113.6218084
   },
   {
     "slug": "mission-fun-games-st-albert",
@@ -14931,6 +15104,25 @@
     ],
     "lat": 46.76927,
     "lng": -71.28488
+  },
+  {
+    "slug": "groupe-tw-tw-prestige-repentigny",
+    "name": "Groupe TW (TW Prestige)",
+    "city": "Repentigny",
+    "citySlug": "repentigny",
+    "address": "10 Rue Notre-Dame Est Local 108, Repentigny, QC J6A 2X9",
+    "province": "QC",
+    "phone": "(450) 564-9933",
+    "website": "https://www.groupetw.com/",
+    "services": [
+      "Sells",
+      "Grading Services"
+    ],
+    "sports": [
+      "Sports"
+    ],
+    "lat": 45.7135703,
+    "lng": -73.4750108
   },
   {
     "slug": "tw-repentigny-repentigny",
