@@ -26,7 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-09-23 | Claude subagent, `scnm-q4-growth` (q4-growth) | pages | `worker/event-schema.js`, `src/layouts/Base.astro`, `src/lib/store-actions.ts`, `src/pages/store/[slug]/index.astro`, `src/components/StoreCard.astro`, `src/pages/privacy.astro`, `docs/click-tracking.md`, `tests/unit/click-source.test.ts`, `tests/unit/store-actions.test.ts`, `tests/e2e/store-card-actions.spec.ts` | Executing `docs/superpowers/plans/2026-09-23-q4-phase1a-card-actions.md` (Phase 1a shop-card actions) task by task |
 
 ## Queued — claimed but not started
 
@@ -606,3 +605,18 @@ Full cause, verification and a reappliable patch:
   ready. `npm run typecheck && npm test` (270/270) and `npm run build` (1471 pages) all pass
   on both fix commits. **Nothing sheet-side has been written — the CSV is guidance, not an
   action taken.**
+
+- **2026-09-23** — *(Claude subagent, `scnm-q4-growth`, pages lane)* Shipped Phase 1a
+  (`docs/superpowers/plans/2026-09-23-q4-phase1a-card-actions.md`) task by task with TDD,
+  three commits: `2346a0e6` credits a tap made on a city page to that city
+  (`sourceCityForClick` in `worker/event-schema.js` + `Base.astro`); `8e32c510` extracts
+  shared `directionsUrl`/`telHref` helpers into `src/lib/store-actions.ts` and switches the
+  store page to use them; `bc3cf0b5` adds a Directions/Call/Website action row to every
+  `StoreCard.astro` (outside the shop link, ≥44px tap targets) and updates the privacy page
+  and `docs/click-tracking.md` copy to match. `npm run typecheck && npm test` (403/403) and
+  `npm run build` (1548 pages, unchanged) green throughout; e2e
+  (`store-card-actions.spec.ts` + `pokemon`/`sell`/`smoke`) all pass. 375×812 screenshots of
+  `/alberta/edmonton/` and `/pokemon/toronto/` confirmed the row fits on one line and stays
+  readable even with a 3-line shop name. Nothing outside the plan's file list touched. Next:
+  Opus/strongest-model `/code-review`, then Nathan-gated merge + production publish per
+  `CLAUDE.md` §2.
