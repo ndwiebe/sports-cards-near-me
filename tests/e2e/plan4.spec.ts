@@ -27,14 +27,15 @@ test('nav has a Shows link', async ({ page }) => {
 });
 
 test('show detail page has Event structured data', async ({ page }) => {
-  const first = shows[0];
+  // Past shows deliberately carry no Event data, so test an upcoming one.
+  const first = findUpcoming(new Date());
   if (!first) {
-    test.skip(true, 'no baked shows');
+    test.skip(true, 'no upcoming shows');
     return;
   }
   await page.goto(`/shows/${first.slug}/`);
   await expect(page.locator('h1')).toContainText(first.name.split(' ')[0] ?? '');
-  const ld = await page.locator('script[type="application/ld+json"]').textContent();
+  const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join('\n');
   expect(ld).toContain('"@type":"Event"');
 });
 
