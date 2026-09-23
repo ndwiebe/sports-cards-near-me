@@ -1,6 +1,6 @@
 # Click tracking
 
-The tracker records accepted selections of Directions, Call and Website on shop pages.
+The tracker records accepted selections of Directions, Call and Website on shop pages and shop listings.
 These are actions, not unique visitors, completed calls, store visits or purchases.
 Repeated selections count separately. No cookies or visitor profiles are used.
 
@@ -30,7 +30,7 @@ must use a mocked destination or unset tracking configuration.
 
 ## City attribution
 
-The browser includes only the path of the immediately preceding SCNM city page.
+A tap made on a city page is credited to that city. Otherwise the browser sends only the path of the immediately preceding SCNM city page.
 Queries and fragments are removed. External referrers, category pages, shop pages,
 guides and direct arrivals produce `unknown`. No browser storage follows a visitor.
 The Worker checks the city against `worker/city-paths.json`, generated from directory

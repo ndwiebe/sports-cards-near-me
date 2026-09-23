@@ -56,8 +56,8 @@ const breadcrumbLd = breadcrumbListLd([
 
     <h2 class="text-3xl">Shop button counts</h2>
     <p>
-      Selecting Directions, Call or Website on a shop page sends the shop identifier and button type to a Cloudflare
-      service. When the immediately preceding page was a city page on this site, we also send its city path.
+      Selecting Directions, Call or Website on a shop page or a shop listing sends the shop identifier and button type to a Cloudflare
+      service. When that selection happens on, or immediately after, a city page on this site, we also send its city path.
       Query strings, fragments and external referrers are excluded. Other arrivals have no city attribution.
       We store each accepted selection with its month and a random record identifier, then combine records into totals.
       The record identifier is new for every selection and does not identify a visitor. These totals measure button selections,
