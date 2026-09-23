@@ -19,3 +19,13 @@ export function sourceCityFromReferrer(referrer, origin) {
     return 'unknown';
   }
 }
+
+/** A tap made on a city page belongs to that city; otherwise use the preceding page.
+ * @param {string} pathname
+ * @param {string} referrer
+ * @param {string} origin
+ */
+export function sourceCityForClick(pathname, referrer, origin) {
+  const here = pathname.replace(/^\/|\/$/g, '');
+  return CITY_PATH.test(here) ? here : sourceCityFromReferrer(referrer, origin);
+}

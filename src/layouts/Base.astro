@@ -80,7 +80,7 @@ const clickTrackerUrl = import.meta.env.PUBLIC_CLICK_TRACKER_URL;
     )}
     {clickTrackerUrl && (
       <script>
-        import { sourceCityFromReferrer } from '../../worker/event-schema.js';
+        import { sourceCityForClick } from '../../worker/event-schema.js';
         const clickTrackerUrl = document.documentElement.dataset.clickTrackerUrl;
         document.addEventListener('click', (e) => {
           if (!clickTrackerUrl || !(e.target instanceof Element)) return;
@@ -89,7 +89,7 @@ const clickTrackerUrl = import.meta.env.PUBLIC_CLICK_TRACKER_URL;
           const method = el.getAttribute('data-track-click');
           const store = el.getAttribute('data-store-slug');
           if (method === null || store === null) return;
-          const sourceCity = sourceCityFromReferrer(document.referrer, location.origin);
+          const sourceCity = sourceCityForClick(location.pathname, document.referrer, location.origin);
           navigator.sendBeacon(clickTrackerUrl, JSON.stringify({ store, method, sourceCity }));
         });
       </script>
