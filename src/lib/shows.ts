@@ -114,6 +114,58 @@ export function groupShowsByMonth(shows: ShowRecord[]): ShowMonthGroup[] {
   return groups;
 }
 
+export interface ShowSeries {
+  slug: string;
+  name: string;
+  city: string;
+  citySlug: string;
+  province: ProvinceCode;
+  /** Every show in the series, chronological ascending. Always 2+. */
+  shows: ShowRecord[];
+}
+
+/**
+ * Groups shows into recurring series using ONLY fields the sheet already carries
+ * (name + province + city) — no new sheet column. `recurring` (monthly/annual/...)
+ * is cadence metadata, not identity: two different sub-series at the same venue
+ * ("Card & Comic Show" vs "Pokemon Show") can share the same recurring value, so
+ * grouping on it alone would merge them. Checked against the live dataset
+ * 2026-09-23: 42 of 95 unique (name, city) combinations have 2+ dates.
+ */
+export function seriesKey(show: ShowRecord): string {
+  return `${show.name.trim().toLowerCase()}|${show.province}|${show.citySlug}`;
+}
+
+export function groupShowsIntoSeries(shows: ShowRecord[]): ShowSeries[] {
+  const groups = new Map<string, ShowRecord[]>();
+  for (const show of shows) {
+    const key = seriesKey(show);
+    const list = groups.get(key);
+    if (list) list.push(show);
+    else groups.set(key, [show]);
+  }
+  const series: ShowSeries[] = [];
+  for (const group of groups.values()) {
+    if (group.length < 2) continue; // a single date isn't a series worth its own page
+    const sorted = [...group].sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
+    const first = sorted[0]!;
+    series.push({
+      slug: `${slugify(first.name)}-${first.citySlug}`,
+      name: first.name,
+      city: first.city,
+      citySlug: first.citySlug,
+      province: first.province,
+      shows: sorted,
+    });
+  }
+  return series;
+}
+
+/** First not-yet-passed date in a series, or undefined once every date has happened. */
+export function nextInSeries(series: ShowSeries, buildDate: Date): ShowRecord | undefined {
+  return series.shows.find((s) => isUpcoming(s, buildDate));
+}
+
 /** A province's shows in a given calendar year (by startDate), chronological. */
 export function showsInProvinceYear(shows: ShowRecord[], province: ProvinceCode, year: number): ShowRecord[] {
   return shows
