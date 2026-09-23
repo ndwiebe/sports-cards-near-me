@@ -1,0 +1,40 @@
+[
+  {
+    "sheet": "Stores",
+    "rowKey": "203-collectibles-ltd-edmonton",
+    "op": { "kind": "update", "column": "Hours", "oldValue": "", "newValue": "Mon-Sat 11-7, Sun 12-5" },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has current hours for this shop"
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sample-shop-calgary",
+    "op": { "kind": "update", "column": "Status", "oldValue": "", "newValue": "closed" },
+    "source": "refresh-ratings.py",
+    "reason": "Google businessStatus reports CLOSED_PERMANENTLY"
+  },
+  {
+    "sheet": "Shows",
+    "rowKey": "new-show-red-deer-2026-11-14",
+    "op": {
+      "kind": "add-row",
+      "values": { "Name": "Red Deer Card Show", "City": "Red Deer", "Province": "AB", "StartDate": "2026-11-14" }
+    },
+    "source": "tcdb",
+    "reason": "New listing found on TCDb"
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "old-name-cards-leduc",
+    "op": {
+      "kind": "rename",
+      "column": "Name",
+      "oldValue": "Old Name Cards",
+      "newValue": "New Name Collectibles",
+      "oldSlug": "old-name-cards-leduc",
+      "newSlug": "new-name-collectibles-leduc"
+    },
+    "source": "nathan-manual",
+    "reason": "Shop confirmed a rebrand by phone"
+  }
+]
