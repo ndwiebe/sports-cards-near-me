@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatHoursByDay, parseStoreHours } from '../../src/lib/store-hours';
+import { formatHoursByDay, openOnSunday, parseStoreHours } from '../../src/lib/store-hours';
 import storesJson from '../../src/data/stores.json';
 import type { Store } from '../../src/lib/types';
 
@@ -79,6 +79,28 @@ describe('parseStoreHours', () => {
     expect(withHours.length).toBeGreaterThan(600);
     const failed = withHours.filter((s) => parseStoreHours(s.hours) === undefined);
     expect(failed.map((s) => `${s.slug}: ${s.hours}`)).toEqual([]);
+  });
+});
+
+// Round 2 title work (2026-09-23) needed one real, checkable fact for city/
+// province/Pokémon titles beyond the shop count — a Sunday opening is the one
+// most collectors care about that this data can actually answer.
+describe('openOnSunday', () => {
+  it('is true when Sunday has a real window', () => {
+    expect(openOnSunday('Monday: Closed; Sunday: 12:00 – 5:00 PM')).toBe(true);
+  });
+
+  it('is false when Sunday is closed', () => {
+    expect(openOnSunday('Monday: 10:00 AM – 5:00 PM; Sunday: Closed')).toBe(false);
+  });
+
+  it('is false when Sunday is absent from the string entirely', () => {
+    expect(openOnSunday('Monday: 10:00 AM – 5:00 PM')).toBe(false);
+  });
+
+  it('is false for missing or unparseable hours, never a guess', () => {
+    expect(openOnSunday(undefined)).toBe(false);
+    expect(openOnSunday('Monday: by appointment')).toBe(false);
   });
 });
 

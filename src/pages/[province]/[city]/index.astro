@@ -10,7 +10,7 @@ import type { Store } from '../../../lib/types';
 import type { ResellerRecord } from '../../../lib/resellers';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../../lib/stores';
 import { toMapResellers } from '../../../lib/map-data';
-import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityFaqs, collectTags, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedSportsCardStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
+import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityDescription, cityFaqs, cityTitle, collectTags, faqPageLd, itemListLd, ldJson, topRatedSportsCardStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
 import { isUpcoming, parseLocalDate, primaryShowCalendarYear } from '../../../lib/shows';
@@ -124,31 +124,18 @@ const storeListLd = itemListLd(
 );
 const capsule = cityAnswerCapsule(cityGroup.city, province.name, cityGroup.stores);
 
-// The title must not promise something the page can't show. 57 city pages were
-// titled "Rated & Mapped" while carrying no rated shop at all — a claim the
-// page fails to deliver, and the click-then-bounce that follows is the opposite
-// of the CTR work this title exists for. "Rated" only when a rating is visible;
-// no "Rated"/"Ranked" language for a lone shop, which cannot be ranked.
-const anyRated = cityGroup.stores.some((s) => s.rating !== undefined);
-const titleSuffix = cityGroup.stores.length === 1
-  ? 'Address, Map & Directions'
-  : anyRated
-    ? 'Rated & Mapped, Updated Daily'
-    : 'Address, Map & Directions, Updated Daily';
-
 const faqs = cityFaqs(cityGroup.city, province.name, provinceUrl, cityGroup.stores, cityGroup.citySlug);
 const faqLd = faqPageLd(faqs);
+
+// Round 2 (2026-09-23): built from the crowned shop's real star number and the
+// Sunday-open count, off the 2026-09-23 Search Console read
+// (docs/research/2026-09-23-title-round1-ctr.md). Same absence-of-data rules
+// as round 1's inline titleSuffix — no claim a lone/crownless/unrated city
+// can't back; see cityTitle/cityDescription in src/lib/seo.ts.
+const pageTitle = cityTitle(cityGroup.city, province.code, cityGroup.stores, noneOpen);
+const pageDescription = cityDescription(cityGroup.city, province.name, cityGroup.stores, noneOpen);
 ---
-<Base
-  title={noneOpen
-    ? `Card Shops in ${cityGroup.city}, ${province.code} — Nearest Open Shops`
-    : `${cityGroup.stores.length} Card Shop${cityGroup.stores.length === 1 ? '' : 's'} in ${cityGroup.city}, ${province.code} — ${titleSuffix}`}
-  description={noneOpen
-    ? `No card shop is currently open in ${cityGroup.city}, ${province.name} — the one we listed has closed. Here are the nearest open shops, with distances, map and directions.`
-    : topRated !== undefined && topRated.rating !== undefined
-      ? `All ${cityGroup.stores.length} card shops in ${cityGroup.city}, ${province.name} — Google ratings, map and directions, rebuilt daily. ${rankedFirstPhrase(topRated)}.`
-      : `Every sports card shop in ${cityGroup.city}, ${province.name} — compare ratings where they exist, map and directions. Rebuilt daily so listings stay current.`}
->
+<Base title={pageTitle} description={pageDescription}>
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(storeListLd)} />
   <script type="application/ld+json" set:html={ldJson(faqLd)} />
