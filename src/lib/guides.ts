@@ -97,4 +97,14 @@ export const GUIDES: GuideMeta[] = [
     title: 'How to Spot Fake Sports Cards',
     dek: 'Practical, checkable signs a card or graded slab might be counterfeit — print quality, card stock, fake holograms, and cert lookups.',
   },
+  {
+    slug: 'beckett-grading-canada',
+    title: 'Beckett (BGS) Grading for Canadian Collectors',
+    dek: "Does Beckett grade in Canada? What BGS subgrades and Black Label mean, and how Canadians actually submit to Beckett's Texas headquarters right now.",
+  },
+  {
+    slug: 'sgc-cgc-grading-canada',
+    title: 'SGC & CGC Card Grading for Canadian Collectors',
+    dek: "The other two major US graders, compared: SGC's vintage reputation and 2024 sale to PSA's parent company, and CGC's current fees, membership tiers, and CrossOver service.",
+  },
 ];
