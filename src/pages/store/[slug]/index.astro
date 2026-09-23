@@ -12,6 +12,7 @@ import { nearestStores } from '../../../lib/nearby';
 import { relatedGuidesForStore } from '../../../lib/related-guides';
 import { hasLogo } from '../../../lib/logos';
 import { formatHoursByDay, parseStoreHours } from '../../../lib/store-hours';
+import { directionsUrl, telHref } from '../../../lib/store-actions';
 import OpenNowBadge from '../../../components/OpenNowBadge.astro';
 
 // Closed shops keep their page. Someone who searches the shop by name deserves to be
@@ -30,7 +31,7 @@ const isClosed = store.status === 'closed';
 const isOnlineOnly = store.status === 'online-only';
 const provinceName = PROVINCES[store.province].name;
 const provinceSlug = PROVINCES[store.province].slug;
-const directions = `https://www.google.com/maps/dir/?api=1&destination=${store.lat},${store.lng}`;
+const directions = directionsUrl(store);
 
 const nearby = nearestStores(storesJson as Store[], store);
 const guides = relatedGuidesForStore(store);
@@ -181,14 +182,14 @@ const ld: Record<string, unknown> = {
         </dd>
       </div>
     )}
-    {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="text-prizm" data-track-click="call" data-store-slug={store.slug}>{store.phone}</a></dd></div>}
+    {store.phone !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Phone</dt><dd class="mt-1"><a href={telHref(store.phone)} class="text-prizm" data-track-click="call" data-store-slug={store.slug}>{store.phone}</a></dd></div>}
   </dl>
   <div class="mt-8 max-w-2xl">
     <MapIsland stores={[store]} mode="store" height="300px" />
   </div>
   <div class="mt-8 flex flex-wrap gap-3">
     <a href={directions} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)" data-track-click="directions" data-store-slug={store.slug}>Directions</a>
-    {store.phone !== undefined && <a href={`tel:${store.phone.replace(/[^0-9+]/g, '')}`} class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm" data-track-click="call" data-store-slug={store.slug}>Call</a>}
+    {store.phone !== undefined && <a href={telHref(store.phone)} class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm" data-track-click="call" data-store-slug={store.slug}>Call</a>}
     {store.website !== undefined && <a href={store.website} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm" data-track-click="website" data-store-slug={store.slug}>Website</a>}
     {store.social !== undefined && <a href={store.social} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Social</a>}
   </div>
