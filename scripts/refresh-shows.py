@@ -319,6 +319,31 @@ for (const u of urls) {{
     return js
 
 
+def build_summary(today: str, counts: Counter, gone: list[dict], status: dict[str, str]) -> dict:
+    """Machine-readable run outcome, written alongside the CSV/MD so a CI step can
+    read "did anything happen" without parsing markdown. Pure -- no Chrome, no
+    network -- unlike the scrape itself, which still requires dev-browser against
+    a signed-in Chrome and stays out of CI (see the plan doc, Task 3b). The
+    payload/report stay the actual review artifacts; this is just a gate.
+
+    GONE is counted but never alone sets needs_review: it's reported, never
+    auto-deleted (see this file's own module docstring), so it belongs in the
+    digest as a fact, not as something that pages anyone by itself.
+    """
+    return {
+        'date': today,
+        'new': counts['NEW'],
+        'changed': counts['CHANGED'],
+        'known': counts['KNOWN'],
+        'gone': len(gone),
+        'review_identity': counts['REVIEW-IDENTITY'],
+        'review_multiday': counts['REVIEW-MULTIDAY'],
+        'previously_rejected': counts['PREVIOUSLY-REJECTED'],
+        'provinces_with_errors': sorted(p for p, s in status.items() if s.startswith('error')),
+        'needs_review': counts['NEW'] + counts['CHANGED'] + counts['REVIEW-IDENTITY'] + counts['REVIEW-MULTIDAY'] > 0,
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--limit', type=int, help='detail pages per province (smoke test)')
@@ -439,9 +464,13 @@ def main() -> None:
     lines += ['', '## Detail pages that failed to load', ''] + ([f'- {r["url"]}' for r in bad] or ['- none'])
     report.write_text('\n'.join(lines) + '\n')
 
+    summary = OUTDIR / f'{today}-show-refresh-summary.json'
+    summary.write_text(json.dumps(build_summary(today, counts, gone, status), indent=2) + '\n')
+
     print(f'\nNEW {counts["NEW"]} · CHANGED {counts["CHANGED"]} · KNOWN {counts["KNOWN"]} · GONE {len(gone)}')
-    print(f'payload: {payload}')
-    print(f'report:  {report}')
+    print(f'payload:  {payload}')
+    print(f'report:   {report}')
+    print(f'summary:  {summary}')
 
 
 if __name__ == '__main__':
