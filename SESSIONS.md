@@ -26,8 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-
-| — | (none) | — | — | — |
+| 2026-09-23 | Claude subagent, `scnm-q4-growth` (q4-growth) | pages | `worker/event-schema.js`, `src/layouts/Base.astro`, `src/lib/store-actions.ts`, `src/pages/store/[slug]/index.astro`, `src/components/StoreCard.astro`, `src/pages/privacy.astro`, `docs/click-tracking.md`, `tests/unit/click-source.test.ts`, `tests/unit/store-actions.test.ts`, `tests/e2e/store-card-actions.spec.ts` | Executing `docs/superpowers/plans/2026-09-23-q4-phase1a-card-actions.md` (Phase 1a shop-card actions) task by task |
 
 ## Queued — claimed but not started
 
