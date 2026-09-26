@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  SCNM weekly job: show discovery -> sheet-change engine (review mode) -> weekly digest.
+  See docs/ops/scnm-weekly-job.md for what this does in plain English, and
+  scripts/weekly-scnm-job.sh for the job itself (this plist only ever runs
+  that one script -- all the logic lives there, not here).
+
+  THIS FILE LIVES IN THE REPO ONLY. It is not installed automatically by any
+  build or Claude session -- copying it to ~/Library/LaunchAgents/ and running
+  `launchctl` is a Nathan-approved, human step (see docs/ops/scnm-weekly-job.md
+  "Turning it on").
+
+  Points at a DEDICATED clone the job manages for itself
+  ($HOME/.scnm-weekly-job/repo), never at any of the ~/Projects/8-Web-Apps/scnm-*
+  worktrees a Claude Code session might be using -- see the "WHY A DEDICATED
+  CLONE" comment at the top of weekly-scnm-job.sh. That clone must exist
+  before this plist is loaded: run `bash scripts/weekly-scnm-job.sh --dry-run`
+  by hand once first (from any up-to-date checkout of this repo) to create it;
+  every run after that re-syncs itself from GitHub, including picking up
+  future edits to weekly-scnm-job.sh itself.
+
+  WAKE BEHAVIOR: launchd does NOT queue missed StartCalendarInterval runs like
+  cron can appear to -- if the Mac is asleep or off at Sunday 07:00, launchd
+  runs the job once, soon after the Mac next wakes, instead of skipping the
+  week outright (verified against Apple's launchd.plist documentation,
+  2026-09-26; not the same as "runs every missed occurrence"). Either way, a
+  week where discovery didn't run gets recorded honestly in that week's digest
+  (docs/digests/job-status.json's "chrome"/"discovery" entries) rather than
+  silently looking like "no new shows" -- see
+  ~/jarvis-memory/decisions/2026/2026-08-06-monitoring-contract-silence-must-be-proven.md.
+-->
+<plist version="1.0">
+<dict>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>HOME</key>
+		<string>/Users/nathanwiebe</string>
+		<key>PATH</key>
+		<string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+		<key>USER</key>
+		<string>nathanwiebe</string>
+	</dict>
+	<key>Label</key>
+	<string>com.nathan.scnm-weekly</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/homebrew/bin/bash</string>
+		<string>/Users/nathanwiebe/.scnm-weekly-job/repo/scripts/weekly-scnm-job.sh</string>
+	</array>
+	<key>StandardErrorPath</key>
+	<string>/Users/nathanwiebe/Library/Logs/scnm-weekly/launchd-stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/nathanwiebe/Library/Logs/scnm-weekly/launchd-stdout.log</string>
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Hour</key>
+		<integer>7</integer>
+		<key>Minute</key>
+		<integer>0</integer>
+		<key>Weekday</key>
+		<integer>0</integer>
+	</dict>
+	<key>WorkingDirectory</key>
+	<string>/Users/nathanwiebe</string>
+</dict>
+</plist>
