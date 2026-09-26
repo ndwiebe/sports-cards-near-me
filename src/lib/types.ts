@@ -32,13 +32,23 @@ export interface Store {
   sports: string[];
   lat: number;
   lng: number;
-  // Absent means open. Only ever set from the sheet, by a human who checked —
-  // never written from Google's businessStatus, which reports moved and rebranded
-  // shops as permanently closed too. Either explicit value keeps the shop's page
-  // (with a banner and noindex) but splits it out of stores.json entirely, so no
-  // listing, count, map or guide can show it. 'closed' means the business is gone;
-  // 'online-only' means the storefront is gone but the business still trades
-  // online — the page must say so, not claim it has permanently closed.
+  // Absent means open. 'online-only' is only ever set by a human in the sheet,
+  // never derived. 'closed' can ALSO now be set automatically: Google's
+  // businessStatus CLOSED_PERMANENTLY flag auto-closes a shop, with a
+  // one-command undo, via the sheet-change engine (src/lib/sheet-change-engine.ts)
+  // and the proposed-change payload scripts/refresh-ratings.py writes. This
+  // overrides the 2026-08-27 "never derive status from businessStatus" rule,
+  // per Nathan's 2026-09-23 decision
+  // (~/jarvis-memory/decisions/2026/2026-09-23-scnm-q4-automation-calls.md),
+  // made knowingly despite the known false-positive risk: Google also reports
+  // moved or rebranded shops as permanently closed. Every auto-closure is
+  // listed in the weekly digest with its undo command -- that visibility is
+  // the safety net for that risk, not a reason to skip auto-closing.
+  // Either explicit value keeps the shop's page (with a banner and noindex)
+  // but splits it out of stores.json entirely, so no listing, count, map or
+  // guide can show it. 'closed' means the business is gone; 'online-only'
+  // means the storefront is gone but the business still trades online — the
+  // page must say so, not claim it has permanently closed.
   // See scripts/bake-stores.ts.
   status?: 'closed' | 'online-only' | undefined;
   /** A visible "we haven't confirmed this" note shown on the shop's own page.

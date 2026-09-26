@@ -39,6 +39,15 @@ STORES = ROOT / 'src/data/stores.json'
 OUT = ROOT / 'docs/research/ratings-refresh.csv'
 UNMATCHED = ROOT / 'docs/research/ratings-refresh-unmatched.csv'
 CLOSURES = ROOT / 'docs/research/closure-review.csv'
+# Proposed-change payload for the sheet-change engine
+# (`src/lib/sheet-change-engine.ts`, run via
+# `npx tsx scripts/sheet-change-engine.ts process <this file>`). A JSON array
+# of ProposedChange objects: a closure (Status -> closed) for each
+# CLOSED_PERMANENTLY shop that isn't already closed, plus low-risk Rating and
+# Hours updates where Google Places now disagrees with the sheet. See
+# build_proposed_changes() below and the "Go-live" section of
+# docs/superpowers/plans/2026-09-23-q4-sheet-automation.md.
+PAYLOAD = ROOT / 'docs/research/ratings-refresh-payload.json'
 
 # Hard ceiling on billable calls per run. The directory is ~615 stores; anything
 # far above that means a bug, not a bigger directory. Deliberately not overridable
@@ -108,6 +117,95 @@ def format_hours(place: dict | None) -> str:
     return '; '.join(str(line).strip() for line in lines if str(line).strip())
 
 
+def rating_cell_for(rating: float | None, count: int | None) -> str:
+    """The sheet's own Rating-column format ("4.8 (33)", or just "4.8" with no
+    review count, or '' when there's no rating at all). Shared by the CSV
+    output above and by build_proposed_changes() below, so both read the
+    number the same way `parseRating` (src/lib/transform.ts) will parse it
+    back out of the sheet."""
+    if rating is None:
+        return ''
+    return f'{rating} ({count})' if count is not None else str(rating)
+
+
+def existing_rating_cell(store: dict) -> str:
+    """What the sheet's Rating cell is believed to hold right now, built from
+    this script's local copy of stores.json (the last thing baked from the
+    real sheet) -- the same "is this actually different" comparison the sheet-
+    change engine's own optimistic check re-verifies against the live sheet
+    before writing anything."""
+    return rating_cell_for(store.get('rating'), store.get('reviewCount'))
+
+
+def build_proposed_changes(store: dict, place: dict | None) -> list[dict]:
+    """Turns one store's Places lookup into zero or more ProposedChange
+    payload objects (the shape `src/lib/sheet-change-engine.ts` expects) for
+    `PAYLOAD`. Pure -- takes an already-fetched `place` (or None for no
+    match) and never touches the network itself, so it's fully testable
+    without calling Places (see scripts/test_refresh_ratings.py).
+
+    - A closure (Status -> 'closed') when Google reports CLOSED_PERMANENTLY
+      and the store isn't already marked closed. This is the auto-apply
+      pathway Nathan approved 2026-09-23 (see the block comment above the
+      CLOSED_PERMANENTLY check in the main loop, below, for the full story
+      and its known risk) -- the sheet-change engine classifies this exact
+      shape as a `closure` and, outside the trial-lock window, auto-applies
+      it with a one-command undo, reported in the weekly digest.
+    - A low-risk Rating update when Google's rating and/or review count
+      (they share one sheet cell, e.g. "4.8 (33)") differs from what's on
+      file.
+    - A low-risk Hours update when Google has published hours that differ
+      from what's on file.
+
+    A store can get more than one of these in the same pass (a shop can be
+    freshly closed AND have a stale rating on file from before it closed).
+    """
+    if place is None:
+        return []
+
+    changes: list[dict] = []
+
+    if place.get('businessStatus') == 'CLOSED_PERMANENTLY' and store.get('status') != 'closed':
+        changes.append({
+            'sheet': 'Stores',
+            'rowKey': store['slug'],
+            'op': {'kind': 'update', 'column': 'Status', 'oldValue': store.get('status') or '', 'newValue': 'closed'},
+            'source': 'refresh-ratings.py',
+            'reason': (
+                "Google Places reports this business as CLOSED_PERMANENTLY. Auto-closes with a one-command "
+                "undo per Nathan's 2026-09-23 decision -- see this week's digest for the undo command. Known "
+                "risk: Google also flags moved or rebranded shops this way, so this is worth a second look, "
+                "not blind trust."
+            ),
+        })
+
+    rating = place.get('rating')
+    if rating is not None:
+        new_cell = rating_cell_for(rating, place.get('userRatingCount'))
+        old_cell = existing_rating_cell(store)
+        if new_cell != old_cell:
+            changes.append({
+                'sheet': 'Stores',
+                'rowKey': store['slug'],
+                'op': {'kind': 'update', 'column': 'Rating', 'oldValue': old_cell, 'newValue': new_cell},
+                'source': 'refresh-ratings.py',
+                'reason': 'Google Places has a different rating and/or review count than the sheet.',
+            })
+
+    hours = format_hours(place)
+    old_hours = store.get('hours') or ''
+    if hours and hours != old_hours:
+        changes.append({
+            'sheet': 'Stores',
+            'rowKey': store['slug'],
+            'op': {'kind': 'update', 'column': 'Hours', 'oldValue': old_hours, 'newValue': hours},
+            'source': 'refresh-ratings.py',
+            'reason': 'Google Places has updated hours for this shop.',
+        })
+
+    return changes
+
+
 def read_closures() -> list[list[str]]:
     """Existing closure rows, minus the header. Empty when the file isn't there yet."""
     if not CLOSURES.exists():
@@ -145,24 +243,36 @@ def main() -> None:
         print(f'  (only the first {limit} will be fetched this run)')
         targets = targets[:limit]
 
-    rows, misses, closures, calls = [], [], [], 0
+    rows, misses, closures, proposed_changes, calls = [], [], [], [], 0
     for i, s in enumerate(targets, 1):
         place = search_place(api_key, s['name'], s.get('address', ''), s['city'], s['province'])
         calls += 1
         rating = place.get('rating') if place else None
         count = place.get('userRatingCount') if place else None
         hours = format_hours(place)
-        # Closure detection, scan-only (Plan 14, Part A). CLOSED_PERMANENTLY goes
-        # to a review CSV for a human to check — never auto-unlisted, and never
-        # written as a `status` field anywhere. Google's flag is wrong often
-        # enough (a moved or rebranded shop reads the same) that treating it as
-        # ground truth would be the worst error this directory can make.
-        # OPERATIONAL and CLOSED_TEMPORARILY are both no-ops: temporary closures
-        # aren't actionable, and unlisting on one would be wrong too.
+        # Closure detection (Plan 14, Part A; auto-apply added 2026-09-23).
+        # CLOSED_PERMANENTLY always goes to a review CSV for a human to see
+        # (below) -- but as of Nathan's 2026-09-23 decision
+        # (~/jarvis-memory/decisions/2026/2026-09-23-scnm-q4-automation-calls.md),
+        # it ALSO now proposes a `Status -> closed` change into PAYLOAD
+        # (see build_proposed_changes()), which the sheet-change engine
+        # (`src/lib/sheet-change-engine.ts`) auto-applies with a one-command
+        # undo once the trial-lock window has passed, and lists in every
+        # weekly digest either way. This overrides the 2026-08-27 "never
+        # written as a `status` field anywhere" rule that used to live here.
+        # Nathan made that call knowingly: Google's flag is wrong often enough
+        # (a moved or rebranded shop reads the same) that treating it as
+        # ground truth carries a real false-positive risk -- the undo command
+        # and the digest's visibility are the safety net for that, not a
+        # reason to skip auto-closing.
+        # OPERATIONAL and CLOSED_TEMPORARILY are both no-ops for closure
+        # purposes: temporary closures aren't actionable, and unlisting on one
+        # would be wrong too.
         if place and place.get('businessStatus') == 'CLOSED_PERMANENTLY':
             closures.append([s['slug'], s['name'], s['city'], s['province'], s.get('address', ''),
                               rating if rating is not None else '', count if count is not None else '',
                               place.get('formattedAddress') or '', place.get('id') or ''])
+        proposed_changes.extend(build_proposed_changes(s, place))
         if rating is None and hours == '':
             misses.append([s['slug'], s['name'], s['city'], s['province'],
                            'no match' if place is None else 'matched but unrated, no hours'])
@@ -211,16 +321,31 @@ def main() -> None:
         w.writerows(merged)
     carried = len(kept)
 
+    # Written unconditionally (even an empty list) so a consumer can always
+    # expect the file to exist after a real run, same as OUT/UNMATCHED above.
+    PAYLOAD.parent.mkdir(parents=True, exist_ok=True)
+    PAYLOAD.write_text(json.dumps(proposed_changes, indent=2) + '\n')
+
     print(f'\ncalls used: {calls} (cap {limit})')
     print(f'  {len(rows)} ratings  -> {OUT.relative_to(ROOT)}')
     print(f'  {len(misses)} unmatched -> {UNMATCHED.relative_to(ROOT)}')
     if merged:
         scope = 'full directory' if args.all else f'{len(targets)} of {len(stores)} stores'
-        print(f'  {len(merged)} CLOSED_PERMANENTLY -> {CLOSURES.relative_to(ROOT)} — review before touching the sheet, do not unlist on this alone')
+        print(f'  {len(merged)} CLOSED_PERMANENTLY -> {CLOSURES.relative_to(ROOT)} — the human-readable review record')
         print(f'    ({len(closures)} found in this run\'s scope: {scope}; {carried} carried over from stores this run did not re-check)')
         if not args.all:
             print('    NOTE: this was a partial scan, so the file is a merge, not a fresh census.')
             print('    Run with --all for a directory-wide closure count.')
+    closure_count = sum(1 for c in proposed_changes if c['op']['column'] == 'Status')
+    other_count = len(proposed_changes) - closure_count
+    print(f'  {len(proposed_changes)} proposed changes -> {PAYLOAD.relative_to(ROOT)} '
+          f'({closure_count} closure{"s" if closure_count != 1 else ""}, {other_count} rating/hours update{"s" if other_count != 1 else ""})')
+    if closure_count:
+        print('    Closures auto-apply (with a one-command undo) via the sheet-change engine, outside the')
+        print('    trial-lock window -- run: npx tsx scripts/sheet-change-engine.ts process '
+              f'{PAYLOAD.relative_to(ROOT)} --mode auto-low-risk [--live]')
+        print('    Known risk carried into this same payload: Google also flags moved or rebranded shops')
+        print('    as CLOSED_PERMANENTLY -- every auto-closure is listed in the weekly digest with its undo command.')
     print('  billing: businessStatus is expected to ride free on this call (Essentials tier) — confirm against the actual bill on this first real run, don\'t just trust the comment')
     print('\nNext: spot-check the "Google address" column against each store\'s own address')
     print('before importing — Text Search can match a nearby business of a similar name.')
