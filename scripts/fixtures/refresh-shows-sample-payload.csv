@@ -1,0 +1,5 @@
+Show Name,City,Province,Venue,Address,StartDate,EndDate,Hours,Admission,Website,SourceUrl,Recurring,_status
+Red Deer Card Show,Red Deer,AB,Westerner Park,"4847A 19 St, Red Deer, AB",2026-11-14,,10am-4pm,,https://reddeercardshow.example/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=1,,NEW
+Lethbridge Sports Card Expo,Lethbridge,AB,Exhibition Park,,2026-12-05,,,,,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=2,,NEW
+Capital Trade Shows: Card & Comic Show,Ottawa,ON,Nepean Sportsplex,"1701 Woodroffe Ave, Ottawa, ON",2026-10-11,,9am-3pm,$5,https://capitaltradeshows.com/,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=3,monthly,CHANGED
+Mystery Show,Calgary,AB,Big Hall,,2026-10-18,,,,,https://www.tcdb.com/CardShows.cfm?MODE=VIEW&ID=4,,REVIEW-IDENTITY
