@@ -220,3 +220,107 @@ Listed here and repeated in the final report, not assumed or built around:
   cron) running `scripts/sheet-change-engine.ts process` in `auto-low-risk` mode against the
   real client, once one exists. No `.github/workflows` file is touched by this plan; this is
   a description for Nathan to review, not a change.
+
+---
+
+## 7. Go-live (added 2026-09-26, session `q4-engine`)
+
+Everything above this section was written before a real Google Sheets client existed. It now
+does (`src/lib/google-sheets-client.ts`, `GoogleSheetsClient`), and the CLI
+(`scripts/sheet-change-engine.ts`) has a `--live` flag that points it at the real production
+directory sheet. This section is the plain-English "what happens when you actually run it"
+that §6 said would need writing once that existed.
+
+### How live mode works
+
+The CLI's default behavior is unchanged: with no flags it reads/writes a local JSON file
+standing in for the sheet, so it's always safe to run. Two flags change that:
+
+- `--sheet-id <id>` points at a **real** Google Sheet by id (e.g. a **TEST COPY** you made
+  with Google Sheets' own "Make a copy") — useful for a dry run against something real without
+  any risk to the live directory.
+- `--live` points at the **real production sheet** that feeds sportscardsnearme.ca. This is
+  the one that matters, so it's gated harder than `--sheet-id`:
+  - It requires the `SCNM_SHEET_KEY_FILE` environment variable — the local file path to the
+    service account's private key (a service account is a Google-managed login that belongs
+    to this automation, not to a person; Nathan created one for the sheet-automation trial,
+    per his 2026-09-23 decision).
+  - It ALSO requires the `SCNM_ALLOW_LIVE_SHEET=1` environment variable, set at the same time.
+    Either one alone refuses with a clear error — a stray `--live` flag, or a leftover env
+    var from an old session, should never by itself be enough to touch the real directory.
+  - `--live` and `--sheet-id` can't be combined — `--live` always means the one real sheet.
+
+The full contract another tool (or Nathan, by hand) uses to drive this:
+
+```bash
+SCNM_SHEET_KEY_FILE=~/.config/scnm/sheet-bot.json SCNM_ALLOW_LIVE_SHEET=1 \
+  npx tsx scripts/sheet-change-engine.ts process <payload.json> --live [--mode auto-low-risk] [--log <path>]
+SCNM_SHEET_KEY_FILE=... SCNM_ALLOW_LIVE_SHEET=1 npx tsx scripts/sheet-change-engine.ts list-pending --live
+SCNM_SHEET_KEY_FILE=... SCNM_ALLOW_LIVE_SHEET=1 npx tsx scripts/sheet-change-engine.ts approve <id> --live
+SCNM_SHEET_KEY_FILE=... SCNM_ALLOW_LIVE_SHEET=1 npx tsx scripts/sheet-change-engine.ts reject <id> --live
+SCNM_SHEET_KEY_FILE=... SCNM_ALLOW_LIVE_SHEET=1 npx tsx scripts/sheet-change-engine.ts undo <id> --live
+```
+
+`reject` never writes to the sheet at all (it only logs a decision), so it works with or
+without the env vars being set — they're listed above only for a consistent invocation.
+The change log's default path (`docs/change-log/sheet-changes.jsonl`) is the same whether or
+not `--live` is passed; there's no separate "live log", by design, so one file always has the
+whole history.
+
+### The trial lock (two weeks of review-only, even for closures)
+
+Nathan approved a sheet-automation trial 2026-09-23 on the terms the PRD already stated for
+this engine: "the first two weeks run in review-everything mode before automatic writes are
+switched on." `src/lib/live-mode-guard.ts` is what actually enforces this once a live client
+exists:
+
+- **`LIVE_TRIAL_LOCK_UNTIL` = 2026-10-10T00:00:00Z**, a named constant in that file (not
+  hardcoded anywhere else).
+- Before that date, `--live` combined with `--mode auto-low-risk` is **refused outright**,
+  with an error explaining the trial — it does not silently fall back to `review-all`, because
+  that could look like the flag "worked" when it didn't do what was asked. Every live change
+  during the trial queues for Nathan's review, including a shop closure, which is otherwise
+  auto-appliable under `auto-low-risk` mode.
+  - `--live` with `--mode review-all` (the default — you don't need to pass `--mode` at all)
+    works throughout the trial, including before 2026-10-10.
+- After 2026-10-10, `--live --mode auto-low-risk` is allowed, subject to everything else the
+  engine already does (the optimistic check, the row-count guard, the append-only log).
+
+### How Nathan approves a queued change
+
+Whether a change is queued because of the trial lock or because the engine classified it as
+`risky`, the process is the same, and needs no terminal skill beyond copy-paste:
+
+1. `npx tsx scripts/sheet-change-engine.ts list-pending --live` (with the env vars set) prints
+   every change waiting on him, in plain English, with the exact `approve` or `reject` command
+   next to each one. The weekly digest (`docs/digests/`) shows the same thing without needing
+   a terminal at all.
+2. He can either run that exact command himself, or simply tell Claude "approve change
+   `<id>`" (or "reject", or "undo") in a normal conversation — any session with this repo open
+   can run the command on his behalf. There is no separate approval UI; the command IS the
+   approval.
+3. Every applied change, including an auto-closure, has a one-command undo next to it in the
+   same log/digest, forever (not just during the trial).
+
+### The workflow change `.github/workflows/ratings-refresh.yml` needs (not made here)
+
+Per this session's hard limits, no `.github/workflows/*.yml` file is edited by this plan —
+CLAUDE.md's Corollary means a workflow FILE's own definition needs a separate push to `main`
+that Nathan reviews, distinct from ordinary `src/`/`docs/`/`scripts/` changes. `refresh-ratings.py`
+now also writes `docs/research/ratings-refresh-payload.json` (see §3a), and the workflow should
+be updated, when Nathan approves that push, to:
+
+1. Add `docs/research/ratings-refresh-payload.json` to the **"Upload the CSVs as an artifact"**
+   step's `path:` list, alongside the three files already there — so the payload survives the
+   same failure modes (a lost untracked file, a blocked PR-creation step) the 2026-08-28 comment
+   in that step describes.
+2. Add the same path to the **`create-pull-request`** step's `add-paths:` list, so it's
+   actually included in the PR the workflow opens, not just uploaded as a separate artifact.
+3. Optionally extend the **"Summarise"** step to report how many proposed changes came out of
+   this run (mirroring the CSV-count lines already there), e.g. counting entries in the JSON
+   payload the same way it counts CSV rows today.
+4. This does **not** by itself run the sheet-change engine against anything — the workflow
+   still only produces a payload file for a human (or a separately-approved automation step,
+   §6's still-unbuilt weekly `workflow_dispatch`) to feed into
+   `scripts/sheet-change-engine.ts process`. Wiring that run to happen automatically, live, and
+   unattended is the separate sign-off §6 already flagged and this section doesn't grant.

@@ -11,28 +11,35 @@
  * a service account (a Google-managed "robot" login with no human sign-in).
  * That path additionally requires the `SCNM_SHEET_KEY_FILE` environment
  * variable — the local path to the service account's private key file — and
- * refuses to run without it. There is NO `--allow-live-sheet` flag anywhere
- * in this file, deliberately: the only way to write to the live directory
- * sheet (`14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I`) is to construct a
- * `GoogleSheetsClient` directly in code with `allowLiveSheet: true`, which
- * this CLI never does. See the plan doc, §6, for the full picture.
+ * refuses to run without it. Use this against a TEST COPY of the sheet.
+ *
+ * Passing `--live` instead targets the REAL production directory sheet
+ * (`GoogleSheetsClient.LIVE_SHEET_ID`) — the one that feeds sportscardsnearme.ca.
+ * It requires BOTH `--live` and the `SCNM_ALLOW_LIVE_SHEET=1` environment
+ * variable (as well as `SCNM_SHEET_KEY_FILE`); missing either refuses with a
+ * clear error rather than silently falling back to a fixture. During the
+ * two-week trial Nathan approved 2026-09-23 (see `src/lib/live-mode-guard.ts`
+ * and the plan doc's "Go-live" section), `--live` with `--mode auto-low-risk`
+ * is refused outright — every live change queues for review until the trial
+ * lock date passes. `--live` and `--sheet-id` are mutually exclusive.
  *
  * Usage:
- *   npx tsx scripts/sheet-change-engine.ts process <payload.json> [--mode review-all|auto-low-risk]
- *   npx tsx scripts/sheet-change-engine.ts list-pending
- *   npx tsx scripts/sheet-change-engine.ts approve <id>
- *   npx tsx scripts/sheet-change-engine.ts reject <id> [--note "..."]
- *   npx tsx scripts/sheet-change-engine.ts undo <id>
+ *   npx tsx scripts/sheet-change-engine.ts process <payload.json> [--mode review-all|auto-low-risk] [--live]
+ *   npx tsx scripts/sheet-change-engine.ts list-pending [--live]
+ *   npx tsx scripts/sheet-change-engine.ts approve <id> [--live]
+ *   npx tsx scripts/sheet-change-engine.ts reject <id> [--note "..."] [--live]
+ *   npx tsx scripts/sheet-change-engine.ts undo <id> [--live]
  *
  * Shared flags:
  *   --sheet-state <path>   local JSON sheet fixture (default: scripts/fixtures/sheet-state.sample.json)
- *   --sheet-id <id>        a real Google Sheet id — requires SCNM_SHEET_KEY_FILE to be set
+ *   --sheet-id <id>        a real Google Sheet id (e.g. a TEST COPY) — requires SCNM_SHEET_KEY_FILE
+ *   --live                 the REAL production sheet — requires SCNM_SHEET_KEY_FILE and SCNM_ALLOW_LIVE_SHEET=1
  *   --log <path>           append-only change log (default: docs/change-log/sheet-changes.jsonl)
  */
 import { readFile } from 'node:fs/promises';
 import { JsonFileSheetClient } from '../src/lib/sheet-change-client';
 import type { SheetClient } from '../src/lib/sheet-change-client';
-import { GoogleSheetsClient } from '../src/lib/google-sheets-client';
+import { GoogleSheetsClient, LIVE_SHEET_ID } from '../src/lib/google-sheets-client';
 import {
   processChange,
   approveChange,
@@ -41,6 +48,7 @@ import {
   JsonlChangeLog,
 } from '../src/lib/sheet-change-engine';
 import type { ProposedChange, EngineMode, ChangeLogEntry } from '../src/lib/sheet-change-engine';
+import { checkLiveModeAllowed } from '../src/lib/live-mode-guard';
 import { log } from '../src/lib/log';
 
 const DEFAULT_SHEET_STATE = 'scripts/fixtures/sheet-state.sample.json';
@@ -51,13 +59,36 @@ function flag(args: string[], name: string): string | undefined {
   return i === -1 ? undefined : args[i + 1];
 }
 
+function hasFlag(args: string[], name: string): boolean {
+  return args.includes(name);
+}
+
 /**
- * Builds the `SheetClient` a command should use: a real Google Sheet when
- * `--sheet-id` is given, otherwise the local JSON fixture (unchanged default
- * behavior). `allowLiveSheet` is never set here — see the file header.
+ * Builds the `SheetClient` a command should use: the REAL production sheet
+ * when `--live` is given (gated by `checkLiveModeAllowed`, below), a real
+ * Google Sheet at an arbitrary id when `--sheet-id` is given (e.g. a TEST
+ * COPY), or otherwise the local JSON fixture (unchanged default behavior).
+ * `mode` is only meaningful for `process` (the only command with a mode
+ * switch) — every other command passes `'review-all'`, which never trips the
+ * auto-low-risk trial-lock check, so only the live/env check applies to them.
  */
-async function getClient(args: string[]): Promise<SheetClient> {
+async function getClient(args: string[], mode: EngineMode): Promise<SheetClient> {
+  const live = hasFlag(args, '--live');
   const sheetId = flag(args, '--sheet-id');
+
+  if (live) {
+    if (sheetId !== undefined) {
+      throw new Error('--live and --sheet-id are mutually exclusive — --live always targets the real directory sheet.');
+    }
+    const check = checkLiveModeAllowed({ live: true, mode, env: process.env });
+    if (!check.ok) throw new Error(check.reason);
+    const keyFilePath = process.env['SCNM_SHEET_KEY_FILE'];
+    if (keyFilePath === undefined) {
+      throw new Error('--live requires the SCNM_SHEET_KEY_FILE environment variable (path to the service-account key file)');
+    }
+    return new GoogleSheetsClient({ spreadsheetId: LIVE_SHEET_ID, keyFilePath, allowLiveSheet: true });
+  }
+
   if (sheetId !== undefined) {
     const keyFilePath = process.env['SCNM_SHEET_KEY_FILE'];
     if (keyFilePath === undefined) {
@@ -102,7 +133,7 @@ async function cmdProcess(args: string[]): Promise<void> {
   const logPath = flag(args, '--log') ?? DEFAULT_LOG;
 
   const changes = await loadPayload(payloadPath);
-  const client = await getClient(args);
+  const client = await getClient(args, mode);
   const changeLog = new JsonlChangeLog(logPath);
 
   log.info(`mode: ${mode}`);
@@ -142,7 +173,7 @@ async function cmdApprove(args: string[]): Promise<void> {
   const id = args[0];
   if (id === undefined) throw new Error('usage: approve <id>');
   const logPath = flag(args, '--log') ?? DEFAULT_LOG;
-  const client = await getClient(args);
+  const client = await getClient(args, 'review-all');
   const changeLog = new JsonlChangeLog(logPath);
   const result = await approveChange(client, changeLog, id);
   log.info(`[${result.outcome}] ${id}${result.reason !== undefined ? ` — ${result.reason}` : ''}`);
@@ -162,7 +193,7 @@ async function cmdUndo(args: string[]): Promise<void> {
   const id = args[0];
   if (id === undefined) throw new Error('usage: undo <id>');
   const logPath = flag(args, '--log') ?? DEFAULT_LOG;
-  const client = await getClient(args);
+  const client = await getClient(args, 'review-all');
   const changeLog = new JsonlChangeLog(logPath);
   const result = await undoChange(client, changeLog, id);
   log.info(`[${result.outcome}] ${id}`);

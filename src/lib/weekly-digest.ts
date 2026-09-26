@@ -190,6 +190,7 @@ export function buildDigest(input: DigestInput): string {
   const otherApplied = applied.filter((e) => e.level !== 'closure');
   const queued = latest.filter((e) => e.action === 'queued');
   const undone = latest.filter((e) => e.action === 'undone');
+  const rejected = latest.filter((e) => e.action === 'rejected');
 
   lines.push('## What changed automatically');
   if (otherApplied.length === 0) {
@@ -219,6 +220,25 @@ export function buildDigest(input: DigestInput): string {
     );
     for (const e of queued) {
       lines.push(`${renderChangeLine(e, APPROVE_CMD)} — ${RISK_EXPLAINER[e.level] ?? ''}`);
+    }
+  }
+  lines.push('');
+
+  lines.push('## Turned down this week');
+  if (rejected.length === 0) {
+    lines.push('Nothing was turned down this week.');
+  } else {
+    lines.push(
+      'Each line below was proposed but never written to the sheet -- either a person said no, or a ' +
+        'safety check caught something (like the sheet having changed since the proposal was made). Nothing ' +
+        'here needs undoing, because nothing here happened.',
+    );
+    for (const e of rejected) {
+      const { change } = e;
+      lines.push(
+        `- **${change.rowKey}** (${change.sheet}) — ${describeOp(change.op)}. Why it was proposed: ${change.reason} (source: ${change.source}).` +
+          `${e.note !== undefined ? ` Why it was turned down: ${e.note}` : ''}`,
+      );
     }
   }
   lines.push('');

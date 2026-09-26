@@ -67,6 +67,7 @@ describe('buildDigest', () => {
     expect(md).toContain('Sept 17 – Sept 23, 2026');
     expect(md).toContain('Nothing was applied automatically this week');
     expect(md).toContain('Nothing is waiting on you this week');
+    expect(md).toContain('Nothing was turned down this week.');
     expect(md).toMatch(/not reachable this run/i);
     expect(md).toMatch(/no automatic job-status feed/i);
   });
@@ -149,6 +150,72 @@ describe('buildDigest', () => {
     expect(md).toContain('Nothing was applied automatically this week');
     expect(md).toMatch(/## Reversed this week/);
     expect(md).toContain('flip-flop');
+  });
+
+  it('says nothing was turned down when there are no rejected entries', () => {
+    const md = buildDigest({ weekLabel: 'Sept 17 – Sept 23, 2026', changeLogEntries: [] });
+    expect(md).toMatch(/## Turned down this week/);
+    expect(md).toContain('Nothing was turned down this week.');
+  });
+
+  it('lists a manually-rejected change with its reason and note, in plain English', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [
+        changeEntry({
+          id: 'rejected-1',
+          action: 'rejected',
+          level: 'risky',
+          note: 'rename not needed, shop confirmed it kept its old name',
+          change: {
+            sheet: 'Stores',
+            rowKey: 'old-name-cards-leduc',
+            op: {
+              kind: 'rename',
+              column: 'Name',
+              oldValue: 'Old Name Cards',
+              newValue: 'New Name Collectibles',
+              oldSlug: 'old-name-cards-leduc',
+              newSlug: 'new-name-collectibles-leduc',
+            },
+            source: 'nathan-manual',
+            reason: 'Shop confirmed a rebrand by phone',
+          },
+        }),
+      ],
+    });
+    expect(md).toMatch(/## Turned down this week/);
+    expect(md).toContain('old-name-cards-leduc');
+    expect(md).toContain('Shop confirmed a rebrand by phone');
+    expect(md).toContain('rename not needed, shop confirmed it kept its old name');
+  });
+
+  it('lists a system-rejected change (no note) without crashing', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [
+        changeEntry({
+          id: 'rejected-2',
+          action: 'rejected',
+          note: 'value changed since this was proposed: expected "old hours", sheet has "new hours"',
+        }),
+      ],
+    });
+    expect(md).toContain('a-shop-edmonton');
+    expect(md).toContain('value changed since this was proposed');
+  });
+
+  it('shows only the latest state per id -- a rejected id does not also show as applied or queued', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [
+        changeEntry({ id: 'was-queued', action: 'queued', level: 'risky', timestamp: '2026-09-20T00:00:00.000Z' }),
+        changeEntry({ id: 'was-queued', action: 'rejected', note: 'not needed', timestamp: '2026-09-21T00:00:00.000Z' }),
+      ],
+    });
+    expect(md).toContain('Nothing is waiting on you this week');
+    expect(md).toMatch(/## Turned down this week/);
+    expect(md).toContain('a-shop-edmonton'); // rowKey from the default fixture, shown once under "Turned down"
   });
 
   it('lists failing jobs when a job-status feed is supplied', () => {
