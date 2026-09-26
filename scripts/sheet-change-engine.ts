@@ -2,14 +2,20 @@
 /**
  * CLI for the sheet-change engine (`src/lib/sheet-change-engine.ts`).
  *
- * There is NO live-Google-Sheets client anywhere in this repo. This CLI
- * always operates on a local JSON file standing in for the sheet
- * (`--sheet-state`, default `scripts/fixtures/sheet-state.sample.json`) via
- * `JsonFileSheetClient`. Pointing this at anything other than a local file
- * requires writing and wiring in a real `SheetClient` implementation first —
- * see `docs/superpowers/plans/2026-09-23-q4-sheet-automation.md`, §6, for
- * exactly what that needs from Nathan before it touches the real sheet
- * (ID `14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I`).
+ * By default this CLI operates on a local JSON file standing in for the
+ * sheet (`--sheet-state`, default `scripts/fixtures/sheet-state.sample.json`)
+ * via `JsonFileSheetClient` — no network, no credentials, safe to run freely.
+ *
+ * Passing `--sheet-id <id>` switches to a REAL Google Sheet via
+ * `GoogleSheetsClient` (`src/lib/google-sheets-client.ts`), authenticated as
+ * a service account (a Google-managed "robot" login with no human sign-in).
+ * That path additionally requires the `SCNM_SHEET_KEY_FILE` environment
+ * variable — the local path to the service account's private key file — and
+ * refuses to run without it. There is NO `--allow-live-sheet` flag anywhere
+ * in this file, deliberately: the only way to write to the live directory
+ * sheet (`14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I`) is to construct a
+ * `GoogleSheetsClient` directly in code with `allowLiveSheet: true`, which
+ * this CLI never does. See the plan doc, §6, for the full picture.
  *
  * Usage:
  *   npx tsx scripts/sheet-change-engine.ts process <payload.json> [--mode review-all|auto-low-risk]
@@ -20,10 +26,13 @@
  *
  * Shared flags:
  *   --sheet-state <path>   local JSON sheet fixture (default: scripts/fixtures/sheet-state.sample.json)
+ *   --sheet-id <id>        a real Google Sheet id — requires SCNM_SHEET_KEY_FILE to be set
  *   --log <path>           append-only change log (default: docs/change-log/sheet-changes.jsonl)
  */
 import { readFile } from 'node:fs/promises';
 import { JsonFileSheetClient } from '../src/lib/sheet-change-client';
+import type { SheetClient } from '../src/lib/sheet-change-client';
+import { GoogleSheetsClient } from '../src/lib/google-sheets-client';
 import {
   processChange,
   approveChange,
@@ -40,6 +49,24 @@ const DEFAULT_LOG = 'docs/change-log/sheet-changes.jsonl';
 function flag(args: string[], name: string): string | undefined {
   const i = args.indexOf(name);
   return i === -1 ? undefined : args[i + 1];
+}
+
+/**
+ * Builds the `SheetClient` a command should use: a real Google Sheet when
+ * `--sheet-id` is given, otherwise the local JSON fixture (unchanged default
+ * behavior). `allowLiveSheet` is never set here — see the file header.
+ */
+async function getClient(args: string[]): Promise<SheetClient> {
+  const sheetId = flag(args, '--sheet-id');
+  if (sheetId !== undefined) {
+    const keyFilePath = process.env['SCNM_SHEET_KEY_FILE'];
+    if (keyFilePath === undefined) {
+      throw new Error('--sheet-id requires the SCNM_SHEET_KEY_FILE environment variable (path to the service-account key file)');
+    }
+    return new GoogleSheetsClient({ spreadsheetId: sheetId, keyFilePath });
+  }
+  const sheetStatePath = flag(args, '--sheet-state') ?? DEFAULT_SHEET_STATE;
+  return JsonFileSheetClient.open(sheetStatePath);
 }
 
 function isProposedChange(x: unknown): x is ProposedChange {
@@ -72,11 +99,10 @@ async function cmdProcess(args: string[]): Promise<void> {
     throw new Error(`--mode must be review-all or auto-low-risk, got: ${modeArg}`);
   }
   const mode: EngineMode = modeArg;
-  const sheetStatePath = flag(args, '--sheet-state') ?? DEFAULT_SHEET_STATE;
   const logPath = flag(args, '--log') ?? DEFAULT_LOG;
 
   const changes = await loadPayload(payloadPath);
-  const client = await JsonFileSheetClient.open(sheetStatePath);
+  const client = await getClient(args);
   const changeLog = new JsonlChangeLog(logPath);
 
   log.info(`mode: ${mode}`);
@@ -115,9 +141,8 @@ async function cmdListPending(args: string[]): Promise<void> {
 async function cmdApprove(args: string[]): Promise<void> {
   const id = args[0];
   if (id === undefined) throw new Error('usage: approve <id>');
-  const sheetStatePath = flag(args, '--sheet-state') ?? DEFAULT_SHEET_STATE;
   const logPath = flag(args, '--log') ?? DEFAULT_LOG;
-  const client = await JsonFileSheetClient.open(sheetStatePath);
+  const client = await getClient(args);
   const changeLog = new JsonlChangeLog(logPath);
   const result = await approveChange(client, changeLog, id);
   log.info(`[${result.outcome}] ${id}${result.reason !== undefined ? ` — ${result.reason}` : ''}`);
@@ -136,9 +161,8 @@ async function cmdReject(args: string[]): Promise<void> {
 async function cmdUndo(args: string[]): Promise<void> {
   const id = args[0];
   if (id === undefined) throw new Error('usage: undo <id>');
-  const sheetStatePath = flag(args, '--sheet-state') ?? DEFAULT_SHEET_STATE;
   const logPath = flag(args, '--log') ?? DEFAULT_LOG;
-  const client = await JsonFileSheetClient.open(sheetStatePath);
+  const client = await getClient(args);
   const changeLog = new JsonlChangeLog(logPath);
   const result = await undoChange(client, changeLog, id);
   log.info(`[${result.outcome}] ${id}`);
