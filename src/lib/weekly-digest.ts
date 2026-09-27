@@ -26,6 +26,27 @@ export interface JobStatus {
   note?: string;
 }
 
+/**
+ * A `refresh-shows.py` row (REVIEW-IDENTITY, or a REVIEW-MULTIDAY row that
+ * couldn't be matched to an existing show) that the 2026-09-26 decision says
+ * must never become a sheet change -- shown under "Held for a closer look"
+ * instead so it doesn't just silently disappear. Deliberately a narrow shape
+ * local to this module (not `HeldItem`/`RefreshShowsRow` from
+ * `refresh-shows-payload.ts`) -- the digest only needs enough to describe the
+ * row to a person, the same way it already keeps its own `ClickEventRow` and
+ * `JobStatus` shapes instead of importing someone else's.
+ */
+export interface HeldShowItem {
+  name: string;
+  city: string;
+  province: string;
+  startDate: string;
+  /** REVIEW-IDENTITY or REVIEW-MULTIDAY -- shown for anyone who wants to cross-check the source CSV. */
+  status: string;
+  /** Plain English -- shown to Nathan as-is. */
+  reason: string;
+}
+
 export interface DigestInput {
   /** Plain-English label for the reporting window, e.g. "Sept 17 – Sept 23, 2026". */
   weekLabel: string;
@@ -35,6 +56,8 @@ export interface DigestInput {
   clickTrend?: MonthlyTaps[] | undefined;
   /** Undefined means no job-status feed is wired up yet. */
   jobStatuses?: JobStatus[] | undefined;
+  /** Undefined or empty means nothing needed a closer look this week. */
+  heldItems?: HeldShowItem[] | undefined;
 }
 
 /**
@@ -172,7 +195,7 @@ function latestPerId(entries: ChangeLogEntry[]): ChangeLogEntry[] {
 }
 
 export function buildDigest(input: DigestInput): string {
-  const { weekLabel, changeLogEntries, clickTrend, jobStatuses } = input;
+  const { weekLabel, changeLogEntries, clickTrend, jobStatuses, heldItems } = input;
   const lines: string[] = [];
 
   lines.push(`# Weekly digest — ${weekLabel}`, '');
@@ -188,15 +211,49 @@ export function buildDigest(input: DigestInput): string {
   const applied = latest.filter((e) => e.action === 'applied');
   const closures = applied.filter((e) => e.level === 'closure');
   const otherApplied = applied.filter((e) => e.level !== 'closure');
+  // New/updated shows the 2026-09-26 decision lets post themselves, no review
+  // needed -- called out on their own so "posted itself, no OK needed" reads
+  // differently from "a person will need to say yes eventually" below.
+  const showAutopostApplied = otherApplied.filter((e) => e.level === 'show-autopost');
+  const genericApplied = otherApplied.filter((e) => e.level !== 'show-autopost');
   const queued = latest.filter((e) => e.action === 'queued');
   const undone = latest.filter((e) => e.action === 'undone');
   const rejected = latest.filter((e) => e.action === 'rejected');
 
   lines.push('## What changed automatically');
-  if (otherApplied.length === 0) {
+  if (showAutopostApplied.length === 0 && genericApplied.length === 0) {
     lines.push('Nothing was applied automatically this week.');
   } else {
-    for (const e of otherApplied) lines.push(renderChangeLine(e, UNDO_CMD));
+    if (showAutopostApplied.length > 0) {
+      const adds = showAutopostApplied.filter((e) => e.change.op.kind === 'add-row').length;
+      const updates = showAutopostApplied.filter((e) => e.change.op.kind === 'update').length;
+      lines.push(
+        `**Posted automatically: ${adds} new show${adds === 1 ? '' : 's'}, ${updates} update${updates === 1 ? '' : 's'}.** ` +
+          'New shows found on TCDB, and changes to shows already on the site (a venue or address update, or an extra ' +
+          "day folded into an existing show's dates) go straight onto the sheet -- Nathan decided 2026-09-26 that " +
+          "these don't need a one-by-one OK. Each line below can still be undone with its command.",
+      );
+      for (const e of showAutopostApplied) lines.push(renderChangeLine(e, UNDO_CMD));
+      if (genericApplied.length > 0) lines.push('');
+    }
+    if (genericApplied.length > 0) {
+      for (const e of genericApplied) lines.push(renderChangeLine(e, UNDO_CMD));
+    }
+  }
+  lines.push('');
+
+  lines.push('## Held for a closer look — no action needed');
+  if (heldItems === undefined || heldItems.length === 0) {
+    lines.push('Nothing needed a closer look this week.');
+  } else {
+    lines.push(
+      "refresh-shows.py found these but couldn't confidently turn them into an automatic change, so nothing was " +
+        "written to the sheet for any of them -- there's nothing to undo and nothing you need to do. If one of " +
+        'these looks like it should be added or fixed, that still needs a person to do it by hand.',
+    );
+    for (const h of heldItems) {
+      lines.push(`- **${h.name}** (${h.city}, ${h.province}, ${h.startDate}, ${h.status}) — ${h.reason}`);
+    }
   }
   lines.push('');
 
@@ -277,6 +334,34 @@ export function buildDigest(input: DigestInput): string {
   }
   lines.push('');
 
+  // A production publish (`gh workflow run site --ref main`) is only ever
+  // triggered after a live run applied at least one change -- see
+  // scripts/weekly-scnm-job.sh. Reported in its own section (not folded into
+  // "Anything failing" below, which is why that section's own `publish` entry
+  // is filtered back out there) so a SUCCESSFUL publish is visible too, not
+  // just a failed one.
+  const publishStatus = jobStatuses?.find((j) => j.name === 'publish');
+  lines.push('## Getting this week’s show changes live');
+  if (publishStatus === undefined) {
+    lines.push(
+      showAutopostApplied.length === 0
+        ? 'No shows were posted automatically this week, so no production publish was needed.'
+        : 'Not recorded this run.',
+    );
+  } else if (publishStatus.status === 'ok') {
+    lines.push(
+      "Triggered a production publish (the site's live-build workflow) after this week's automatic show changes " +
+        `-- it should be live on sportscardsnearme.ca already.${publishStatus.note !== undefined ? ` ${publishStatus.note}` : ''}`,
+    );
+  } else {
+    lines.push(
+      `Could not trigger a production publish this week${publishStatus.note !== undefined ? ` — ${publishStatus.note}` : '.'} ` +
+        'Either way, the change is already saved to the sheet, and the site rebuilds on its own every day at 9:00 ' +
+        'AM UTC, so it will go live with tomorrow’s daily build even without a manual publish.',
+    );
+  }
+  lines.push('');
+
   lines.push('## Anything failing');
   if (jobStatuses === undefined) {
     lines.push(
@@ -284,7 +369,8 @@ export function buildDigest(input: DigestInput): string {
         '`docs/superpowers/plans/2026-09-23-q4-sheet-automation.md` for what that would take.',
     );
   } else {
-    const failing = jobStatuses.filter((j) => j.status === 'failing');
+    // `publish` gets its own "Getting this week's show changes live" section above.
+    const failing = jobStatuses.filter((j) => j.status === 'failing' && j.name !== 'publish');
     if (failing.length === 0) {
       lines.push('Nothing is failing.');
     } else {

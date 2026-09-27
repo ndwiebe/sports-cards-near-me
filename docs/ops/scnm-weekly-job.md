@@ -1,28 +1,53 @@
 # The SCNM weekly job — plain English
 
-This is the automated Sunday-morning check that looks for new card shows and
-tells you about it. It never changes your shop/show spreadsheet (the "sheet")
-by itself — the most it ever does on its own is queue a suggestion for you to
-say yes or no to.
+This is the automated Sunday-morning check that looks for new and changed card
+shows and handles them for you. As of the 2026-09-26 decision ("newly found
+shows post automatically"), **new and changed SHOWS go onto your shop/show
+spreadsheet (the "sheet") and live site by themselves, with no approval
+needed** — Nathan decided a first run finding 71 new shows made one-by-one
+approval impossible inside a 15-minutes-a-week budget, and every change is
+still fully undoable. **Shop (store) changes are unaffected** and still queue
+for your OK, per the original trial, until at least 2026-10-10.
 
 ## What runs, and when
 
 Every Sunday at 7:00 AM (your Mac's local time), if the Mac is on:
 
-1. **Look for new card shows.** It re-checks TCDB (the trading-card-show
-   listing site) the same way the existing `scripts/refresh-shows.py` tool
-   already does by hand.
-2. **Turn any brand-new shows into a suggestion.** Each new show becomes one
-   proposed change for step 3, tagged as coming from `refresh-shows.py` so it
-   counts as a routine, low-risk suggestion rather than something risky.
-3. **Run it through the sheet-change engine, in review mode.** This is the
-   safety gate: right now (and until at least 2026-10-10, per your own
-   decision) *everything* it finds — even a routine new show — gets queued
-   for your OK rather than written to the sheet automatically. Nothing lands
-   on the real sheet without you approving it first.
-4. **Write this week's summary** (the "digest") — a short, plain-English
-   write-up of what it found, what's waiting on you, and anything that broke.
-5. **Deliver the summary two ways:** a copy saved into your notes vault, and
+1. **Look for new and changed card shows.** It re-checks TCDB (the
+   trading-card-show listing site) the same way the existing
+   `scripts/refresh-shows.py` tool already does by hand, and sorts what it
+   finds into: brand-new shows, shows with a changed venue/address/hours,
+   maybe-duplicate shows, and possible extra days of an existing multi-day
+   show.
+2. **Turn the clear-cut ones into changes; hold the uncertain ones.** A
+   brand-new show becomes an "add this row" change. A changed show becomes an
+   "update this field" change on its existing row. An extra day becomes an
+   "extend this show's end date" change, but ONLY when it can confidently
+   match an existing show by name, city AND venue — otherwise, like a
+   possible duplicate, it goes on a "held for a closer look" list instead and
+   is never written anywhere.
+3. **Run it through the sheet-change engine.** For SHOWS from this scrape,
+   the engine writes the add/update straight to the sheet — no approval
+   needed, even during the shop-changes trial. For shop (store) changes
+   found by other automation, the safety gate from the original trial still
+   applies: everything queues for your OK until 2026-10-10. Either way, the
+   engine's other safety checks (does the sheet still look like what the
+   change expected, does a delete shrink the sheet too much) still run before
+   anything is written, and every applied change gets an undo command.
+4. **After a real run that changed the live sheet, publish it to the live
+   site.** Saving to the sheet alone isn't enough to update
+   sportscardsnearme.ca — see "Pushing `redesign` does NOT publish" in this
+   repo's `CLAUDE.md`. This step runs the same production-publish command
+   (`gh workflow run site --ref main`) you'd otherwise run by hand. If that
+   can't run (the `gh` command-line tool isn't signed in, for example), the
+   summary says so plainly — but the site still rebuilds on its own every day
+   at 9:00 AM UTC either way, so a change lands on the live site with
+   tomorrow's daily build even without this step succeeding.
+5. **Write this week's summary** (the "digest") — a short, plain-English
+   write-up of what it posted automatically, what's held for a closer look,
+   what's waiting on you (shop changes only, for now), whether the publish
+   step worked, and anything that broke.
+6. **Deliver the summary two ways:** a copy saved into your notes vault, and
    an emailed copy to dominathan@gmail.com (best-effort — if email fails, the
    vault copy still has everything and says so).
 
@@ -44,8 +69,17 @@ Two copies are made every week, both under the same name style,
   best-effort extra copy. If it doesn't arrive, check the vault copy first;
   it will say plainly if the email failed and why.
 
-A suggestion waiting for your OK shows up in the summary with the exact
-command to approve it — copy-paste it into a terminal, nothing to remember.
+The summary's **"What changed automatically"** section leads with a plain
+count — "Posted automatically: 3 new shows, 2 updates" — then lists each one
+with its own undo command, so you can put any single show back exactly the
+way it was without touching anything else. Its **"Held for a closer look —
+no action needed"** section lists anything TCDB found that wasn't
+confident enough to post on its own (a possible duplicate, or an extra day
+that couldn't be matched to an existing show) — nothing here was written
+anywhere, so there's nothing to undo; it's just there so you know it was seen,
+not silently dropped. A shop (store) change still waiting for your OK shows up
+under **"Waiting for your approval"** with the exact command to approve it —
+copy-paste it into a terminal, nothing to remember.
 
 ## How to tell if it actually ran
 
@@ -104,30 +138,42 @@ for your approval in the sheet-change engine's log).
 
 ## Before this can touch the real sheet at all
 
-Two things outside this job's control, both already tracked in
+One thing outside this job's control, already tracked in
 `~/jarvis-memory/_ops/WAITING-ON-NATHAN.md`:
 
 1. **The automation's Google login needs to be given access to the real
    sheet.** Until you share the sheet with
    `scnm-sheet-bot@scnm-automation.iam.gserviceaccount.com` as an Editor, the
    live step of this job can't read or write it — the weekly summary will say
-   so honestly rather than pretending it checked.
-2. **The code that lets this job write to the real sheet ("live mode")** is
-   being built in a separate, parallel piece of work and merges in
-   afterward. Until it does, the `--dry-run` flag (which uses a harmless
-   **test copy** of the sheet instead) is the only way to exercise this
-   pipeline end to end.
+   so honestly rather than pretending it checked. Until then, the `--dry-run`
+   flag (which uses a harmless **test copy** of the sheet instead) is the only
+   way to exercise this pipeline end to end — including proving the new-shows
+   autopost policy actually writes and can be undone (see
+   `docs/superpowers/plans/2026-09-23-q4-sheet-automation.md` for how that was
+   proven against the test copy).
+
+The code that lets this job write to the real sheet ("live mode") is already
+merged in, along with the "new shows post automatically" policy — that part
+is done, not pending.
 
 ## What this job deliberately does NOT do
 
-- It never edits `src/data/*.json` (those are generated from the sheet by a
-  separate build step) and never touches the live sheet without the
-  "everything needs your OK" gate described above.
-- It never commits or pushes anything to GitHub. It works entirely inside
-  its own private copy of the repo (see "Where the job runs," below), and
-  everything it writes there (the change log, the digests, the research
-  files) stays local until a person decides to commit it — same as how you
-  already review-and-commit `refresh-shows.py`'s output by hand today.
+- It never edits `src/data/*.json` directly (those are generated from the
+  sheet by a separate build step). It DOES write new/changed SHOWS straight
+  to the real sheet once it has access (see above) — that's the whole point
+  of the 2026-09-26 decision — but it never writes a shop (store) change
+  without your OK first, and it never deletes, merges or renames anything on
+  its own; those stay queued for a person regardless of source or sheet.
+- It never commits or pushes anything to GitHub, and it never edits a GitHub
+  Actions workflow file. The one GitHub-facing thing it CAN do is trigger the
+  existing, already-reviewed production-publish workflow
+  (`gh workflow run site --ref main`) after a real run changes the live
+  sheet — the same command you'd otherwise run by hand, not a new one. It
+  works entirely inside its own private copy of the repo otherwise (see
+  "Where the job runs," below), and everything it writes there (the change
+  log, the digests, the research files) stays local until a person decides to
+  commit it — same as how you already review-and-commit `refresh-shows.py`'s
+  output by hand today.
 - It never runs inside any of your `~/Projects/8-Web-Apps/scnm-*` working
   folders — those are where Claude Code sessions work, and could be mid-edit
   at any time. It keeps its own separate copy at `~/.scnm-weekly-job/repo`,
@@ -157,3 +203,18 @@ interactive Claude Code session ever works there.
   warned about this since August. If a week's summary says discovery failed
   with "every province returned zero rows," closing some browser tabs before
   the next Sunday run is worth trying.
+- **The production-publish step needs `gh` (the GitHub command-line tool)
+  signed in** in whatever account runs this job (launchd jobs don't always
+  see the same sign-in as your everyday Terminal). If it isn't, the summary's
+  **"Getting this week's show changes live"** section says so plainly rather
+  than silently skipping it — and because the site also rebuilds on its own
+  every day at 9:00 AM UTC, any show change still reaches the live site the
+  next day even when this step can't run.
+- **Matching a changed or extended show back to the right existing row is
+  automatic, not perfect.** It's the same city/date/venue matching
+  `refresh-shows.py` itself already uses to decide something is CHANGED or a
+  possible multi-day extension in the first place, re-checked against
+  `src/data/shows.json`. When it can't confidently find (or extend) the right
+  row, the row goes to "Held for a closer look" instead of guessing — so the
+  failure mode is "nothing happened, a person should look," never "the wrong
+  show got changed."

@@ -24,7 +24,7 @@
  * lock date passes. `--live` and `--sheet-id` are mutually exclusive.
  *
  * Usage:
- *   npx tsx scripts/sheet-change-engine.ts process <payload.json> [--mode review-all|auto-low-risk] [--live]
+ *   npx tsx scripts/sheet-change-engine.ts process <payload.json> [--mode review-all|auto-low-risk] [--live] [--autopost-shows]
  *   npx tsx scripts/sheet-change-engine.ts list-pending [--live]
  *   npx tsx scripts/sheet-change-engine.ts approve <id> [--live]
  *   npx tsx scripts/sheet-change-engine.ts reject <id> [--note "..."] [--live]
@@ -35,6 +35,15 @@
  *   --sheet-id <id>        a real Google Sheet id (e.g. a TEST COPY) — requires SCNM_SHEET_KEY_FILE
  *   --live                 the REAL production sheet — requires SCNM_SHEET_KEY_FILE and SCNM_ALLOW_LIVE_SHEET=1
  *   --log <path>           append-only change log (default: docs/change-log/sheet-changes.jsonl)
+ *
+ * `process`-only flag:
+ *   --autopost-shows       TEST-ONLY escape hatch. Switches on the `show-autopost` risk
+ *                          class's auto-apply (see `src/lib/sheet-change-engine.ts`) for a
+ *                          `--sheet-id` run so it can be exercised end to end against a TEST
+ *                          COPY sheet before `--live` write access exists. `--live` always
+ *                          gets this behavior unconditionally (that IS the 2026-09-26
+ *                          decision) and never needs this flag. Never pass this against
+ *                          anything other than a disposable test copy.
  */
 import { readFile } from 'node:fs/promises';
 import { JsonFileSheetClient } from '../src/lib/sheet-change-client';
@@ -136,12 +145,18 @@ async function cmdProcess(args: string[]): Promise<void> {
   const client = await getClient(args, mode);
   const changeLog = new JsonlChangeLog(logPath);
 
-  log.info(`mode: ${mode}`);
+  // `--live` always gets the show-autopost policy (the 2026-09-26 decision is
+  // unconditional for the real sheet); `--sheet-id` only gets it with the
+  // explicit test-only `--autopost-shows` flag, so an ordinary dry run against
+  // a test copy stays exactly as conservative as before unless asked otherwise.
+  const autopostShows = hasFlag(args, '--live') || hasFlag(args, '--autopost-shows');
+
+  log.info(`mode: ${mode}${autopostShows ? ' (show-autopost policy ON)' : ''}`);
   let applied = 0;
   let queued = 0;
   let rejected = 0;
   for (const change of changes) {
-    const result = await processChange(client, changeLog, change, mode);
+    const result = await processChange(client, changeLog, change, mode, { autopostShows });
     if (result.outcome === 'applied') applied++;
     else if (result.outcome === 'queued') queued++;
     else rejected++;

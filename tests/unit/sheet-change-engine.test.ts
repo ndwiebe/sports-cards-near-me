@@ -106,6 +106,63 @@ describe('classifyChange', () => {
     };
     expect(classifyChange(change)).toBe('risky');
   });
+
+  it('classifies a new show row from refresh-shows.py as show-autopost, not low-risk', () => {
+    const change: ProposedChange = {
+      sheet: 'Shows',
+      rowKey: 'new-show-city-2026-12-01',
+      op: { kind: 'add-row', values: { Name: 'New Show' } },
+      source: 'refresh-shows.py',
+      reason: 'New show found by the weekly TCDB discovery scrape.',
+    };
+    expect(classifyChange(change)).toBe('show-autopost');
+  });
+
+  it('classifies a refresh-shows.py show update on Venue/Address/Hours/EndDate/StartDate as show-autopost', () => {
+    for (const column of ['Venue', 'Address', 'Hours', 'EndDate', 'StartDate']) {
+      const change: ProposedChange = {
+        sheet: 'Shows',
+        rowKey: 'existing-show-2026-10-01',
+        op: { kind: 'update', column, oldValue: 'old', newValue: 'new' },
+        source: 'refresh-shows.py',
+        reason: 'refresh-shows.py found this changed',
+      };
+      expect(classifyChange(change)).toBe('show-autopost');
+    }
+  });
+
+  it('does not classify a refresh-shows.py update on an unrelated column as show-autopost', () => {
+    const change: ProposedChange = {
+      sheet: 'Shows',
+      rowKey: 'existing-show-2026-10-01',
+      op: { kind: 'update', column: 'Website', oldValue: 'old', newValue: 'new' },
+      source: 'refresh-shows.py',
+      reason: 'not one of the autopost columns',
+    };
+    expect(classifyChange(change)).toBe('risky');
+  });
+
+  it('does not classify a Shows add-row from an untrusted source as show-autopost', () => {
+    const change: ProposedChange = {
+      sheet: 'Shows',
+      rowKey: 'new-show-city-2026-12-01',
+      op: { kind: 'add-row', values: { Name: 'New Show' } },
+      source: 'someone-untrusted',
+      reason: 'saw it mentioned',
+    };
+    expect(classifyChange(change)).toBe('risky');
+  });
+
+  it('never classifies a delete/merge/rename as show-autopost even from refresh-shows.py on Shows', () => {
+    const del: ProposedChange = {
+      sheet: 'Shows',
+      rowKey: 'some-show',
+      op: { kind: 'delete-row', snapshot: { Name: 'Some Show' } },
+      source: 'refresh-shows.py',
+      reason: 'gone upstream',
+    };
+    expect(classifyChange(del)).toBe('risky');
+  });
 });
 
 describe('shouldAutoApply', () => {
@@ -119,6 +176,19 @@ describe('shouldAutoApply', () => {
     expect(shouldAutoApply('low-risk', 'auto-low-risk')).toBe(true);
     expect(shouldAutoApply('closure', 'auto-low-risk')).toBe(true);
     expect(shouldAutoApply('risky', 'auto-low-risk')).toBe(false);
+  });
+
+  it('never auto-applies show-autopost by default (options omitted), in either mode', () => {
+    expect(shouldAutoApply('show-autopost', 'review-all')).toBe(false);
+    expect(shouldAutoApply('show-autopost', 'auto-low-risk')).toBe(false);
+  });
+
+  it('auto-applies show-autopost in review-all mode once the policy is switched on', () => {
+    expect(shouldAutoApply('show-autopost', 'review-all', { autopostShows: true })).toBe(true);
+  });
+
+  it('auto-applies show-autopost in auto-low-risk mode once the policy is switched on', () => {
+    expect(shouldAutoApply('show-autopost', 'auto-low-risk', { autopostShows: true })).toBe(true);
   });
 });
 
@@ -213,6 +283,47 @@ describe('processChange', () => {
     };
     const result = await processChange(client, log, change, 'auto-low-risk');
     expect(result.outcome).toBe('rejected');
+  });
+
+  it('autopost applies under the trial lock -- a show-autopost change applies even in review-all mode when the policy is on', async () => {
+    const change: ProposedChange = {
+      sheet: 'Shows',
+      rowKey: 'existing-show-2026-10-01',
+      op: { kind: 'update', column: 'Venue', oldValue: null, newValue: 'New Venue' },
+      source: 'refresh-shows.py',
+      reason: 'venue changed on TCDB',
+    };
+    // 'review-all' is the mode forced during the shop-changes trial lock -- see
+    // src/lib/live-mode-guard.ts. show-autopost is the one class the
+    // 2026-09-26 decision says applies regardless.
+    const result = await processChange(client, log, change, 'review-all', { autopostShows: true });
+    expect(result.outcome).toBe('applied');
+    expect((await client.getRow('Shows', 'existing-show-2026-10-01'))?.Venue).toBe('New Venue');
+  });
+
+  it('a store change under the trial lock still queues, even with the show-autopost policy switched on', async () => {
+    const change: ProposedChange = {
+      sheet: 'Stores',
+      rowKey: 'a-shop-edmonton',
+      op: { kind: 'update', column: 'Status', oldValue: '', newValue: 'closed' },
+      source: 'refresh-ratings.py',
+      reason: 'Google businessStatus CLOSED_PERMANENTLY',
+    };
+    const result = await processChange(client, log, change, 'review-all', { autopostShows: true });
+    expect(result.outcome).toBe('queued');
+    expect((await client.getRow('Stores', 'a-shop-edmonton'))?.Status).toBe('');
+  });
+
+  it('a show-autopost-eligible change still queues when the policy is not switched on (default)', async () => {
+    const change: ProposedChange = {
+      sheet: 'Shows',
+      rowKey: 'existing-show-2026-10-01',
+      op: { kind: 'update', column: 'Venue', oldValue: null, newValue: 'New Venue' },
+      source: 'refresh-shows.py',
+      reason: 'venue changed on TCDB',
+    };
+    const result = await processChange(client, log, change, 'review-all');
+    expect(result.outcome).toBe('queued');
   });
 
   it('aborts a delete that would shrink the dataset past the guard floor', async () => {

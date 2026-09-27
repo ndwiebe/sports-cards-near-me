@@ -235,14 +235,20 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Convert NEW rows to the engine's payload shape
+# Convert NEW/CHANGED/REVIEW-IDENTITY/REVIEW-MULTIDAY rows to the engine's
+# payload shape, plus this run's held-items file (rows that deliberately
+# never become a sheet change -- see src/lib/refresh-shows-payload.ts).
 # ---------------------------------------------------------------------------
 CHANGES_JSON=""
+HELD_JSON=""
 if [ -n "$PAYLOAD_CSV" ]; then
   CANDIDATE_JSON="docs/research/${TODAY}-scnm-weekly-proposed-changes.json"
-  echo "converting new-show rows to a proposed-change payload..."
-  if run_with_timeout 120 npx tsx scripts/refresh-shows-to-payload.ts "$PAYLOAD_CSV" --out "$CANDIDATE_JSON" --source refresh-shows.py; then
+  CANDIDATE_HELD="docs/research/${TODAY}-scnm-weekly-held.json"
+  echo "converting refresh-shows.py rows to a proposed-change payload..."
+  if run_with_timeout 120 npx tsx scripts/refresh-shows-to-payload.ts "$PAYLOAD_CSV" \
+       --out "$CANDIDATE_JSON" --held-out "$CANDIDATE_HELD" --source refresh-shows.py; then
     CHANGES_JSON="$CANDIDATE_JSON"
+    HELD_JSON="$CANDIDATE_HELD"
     append_status "convert" "ok"
   else
     append_status "convert" "failing" "could not convert $PAYLOAD_CSV into a proposed-change payload -- see the run log ($LOG)"
@@ -251,11 +257,20 @@ if [ -n "$PAYLOAD_CSV" ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Sheet-change engine: review mode. Dry run targets the TEST COPY sheet;
-# a real run targets the live sheet exactly per the agreed CLI contract
-# (the engine itself forces review-all on the live sheet until 2026-10-10 --
-# see ~/jarvis-memory/decisions/2026/2026-09-23-scnm-q4-automation-calls.md).
+# Sheet-change engine. Dry run targets the TEST COPY sheet; a real run
+# targets the live sheet exactly per the agreed CLI contract. Mode stays
+# review-all (the default, and the engine forces it on the live sheet until
+# 2026-10-10 anyway -- see ~/jarvis-memory/decisions/2026/2026-09-23-scnm-q4-automation-calls.md),
+# but new/changed/multiday-extended SHOWS from refresh-shows.py apply
+# automatically regardless, per the 2026-09-26 decision
+# (~/jarvis-memory/decisions/2026/2026-09-26-scnm-new-shows-auto-post.md):
+# the engine's `show-autopost` risk class is switched on unconditionally for
+# `--live`. Shop (Stores) changes are unaffected and still queue for review
+# until the trial lock ends. `ENGINE_APPLIED` is read back from the engine's
+# own summary line so the publish step below knows whether the live sheet
+# actually changed this run.
 # ---------------------------------------------------------------------------
+ENGINE_APPLIED=0
 if [ -n "$CHANGES_JSON" ]; then
   if [ "$KEY_OK" = "1" ]; then
     if [ "$DRY_RUN" = "1" ]; then
@@ -266,12 +281,15 @@ if [ -n "$CHANGES_JSON" ]; then
         append_status "engine" "failing" "sheet-change-engine.ts failed against the TEST COPY sheet during a dry run -- see the run log ($LOG)"
       fi
     else
-      echo "engine LIVE run against the real sheet (review-all, forced)..."
-      if SCNM_SHEET_KEY_FILE="$KEY_FILE" SCNM_ALLOW_LIVE_SHEET=1 run_with_timeout 120 npx tsx scripts/sheet-change-engine.ts process "$CHANGES_JSON" --live; then
+      echo "engine LIVE run against the real sheet (review-all; show-autopost switched on for new/changed shows)..."
+      ENGINE_OUT="$(mktemp -t scnm-engine-out)"
+      if SCNM_SHEET_KEY_FILE="$KEY_FILE" SCNM_ALLOW_LIVE_SHEET=1 run_with_timeout 120 npx tsx scripts/sheet-change-engine.ts process "$CHANGES_JSON" --live | tee "$ENGINE_OUT"; then
         append_status "engine" "ok"
+        ENGINE_APPLIED="$(grep -oE '^[0-9]+ applied' "$ENGINE_OUT" | tail -1 | grep -oE '^[0-9]+' || echo 0)"
       else
         append_status "engine" "failing" "sheet-change-engine.ts failed against the live sheet -- see the run log ($LOG). The engine only ever writes inside its own guarded process() call, so a failure here means nothing new was queued or applied this week, not a partial write."
       fi
+      rm -f "$ENGINE_OUT"
     fi
   else
     echo "skipping the engine step -- no service-account key file"
@@ -281,13 +299,44 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# Production publish: pushing `redesign` never publishes on its own (see
+# CLAUDE.md §2) -- production only updates when `gh workflow run site --ref
+# main` is dispatched. Only worth doing after a REAL (non-dry-run) live
+# engine run actually wrote something. `SCNM_MOCK_PUBLISH=1` skips the real
+# `gh` call and records a mocked success instead, so this job's own logic can
+# be exercised without touching GitHub Actions for real.
+# ---------------------------------------------------------------------------
+if [ "$DRY_RUN" = "0" ] && [ "$ENGINE_APPLIED" -gt 0 ] 2>/dev/null; then
+  echo "$ENGINE_APPLIED change(s) applied to the live sheet -- triggering a production publish..."
+  if [ "${SCNM_MOCK_PUBLISH:-0}" = "1" ]; then
+    echo "SCNM_MOCK_PUBLISH=1 -- not really calling gh; recording a mocked publish success"
+    append_status "publish" "ok" "mocked (SCNM_MOCK_PUBLISH=1) -- gh workflow run was not actually called this run"
+  elif ! command -v gh >/dev/null 2>&1; then
+    append_status "publish" "failing" "gh (the GitHub command-line tool) is not installed, so a production publish could not be triggered. The change is already saved to the sheet -- the daily 09:00 UTC scheduled build will publish it anyway, so it will go live with tomorrow's daily build."
+  elif ! gh auth status >/dev/null 2>&1; then
+    append_status "publish" "failing" "gh isn't authenticated (sign in with \`gh auth login\`), so a production publish could not be triggered. The change is already saved to the sheet -- the daily 09:00 UTC scheduled build will publish it anyway, so it will go live with tomorrow's daily build."
+  elif run_with_timeout 60 gh workflow run site --ref main; then
+    append_status "publish" "ok"
+    echo "production publish triggered (gh workflow run site --ref main)"
+  else
+    append_status "publish" "failing" "gh workflow run site --ref main failed -- see the run log ($LOG). The change is already saved to the sheet -- the daily 09:00 UTC scheduled build will publish it anyway, so it will go live with tomorrow's daily build."
+  fi
+else
+  echo "no production publish needed this run (dry run, or nothing was applied to the live sheet)"
+fi
+
+# ---------------------------------------------------------------------------
 # Digest
 # ---------------------------------------------------------------------------
 mkdir -p docs/digests
 cp "$STATUS_FILE" docs/digests/job-status.json
 DIGEST_REL="docs/digests/${TODAY}-weekly-digest.md"
 echo "building the weekly digest..."
-if ! run_with_timeout 60 npx tsx scripts/weekly-digest.ts --log docs/change-log/sheet-changes.jsonl --out "$DIGEST_REL"; then
+DIGEST_HELD_ARGS=()
+if [ -n "$HELD_JSON" ]; then
+  DIGEST_HELD_ARGS=(--held "$HELD_JSON")
+fi
+if ! run_with_timeout 60 npx tsx scripts/weekly-digest.ts --log docs/change-log/sheet-changes.jsonl --out "$DIGEST_REL" "${DIGEST_HELD_ARGS[@]}"; then
   fail_hard "weekly-digest.ts itself failed to build -- see $LOG"
 fi
 DIGEST_ABS="$JOB_REPO/$DIGEST_REL"

@@ -36,7 +36,7 @@ export interface ProposedChange {
   reason: string;
 }
 
-export type RiskLevel = 'low-risk' | 'risky' | 'closure';
+export type RiskLevel = 'low-risk' | 'risky' | 'closure' | 'show-autopost';
 export type EngineMode = 'review-all' | 'auto-low-risk';
 
 /**
@@ -47,7 +47,23 @@ export type EngineMode = 'review-all' | 'auto-low-risk';
  */
 const CLOSURE_SOURCES = new Set(['refresh-ratings.py']);
 const LOW_RISK_UPDATE_COLUMNS = new Set(['Hours', 'Rating', 'Logo']);
-const LOW_RISK_ADD_SOURCES = new Set(['tcdb', 'refresh-shows.py']);
+const LOW_RISK_ADD_SOURCES = new Set(['tcdb']);
+
+/**
+ * `show-autopost` (2026-09-26 decision, "SCNM: newly found shows post
+ * automatically") -- a narrow class of Shows-sheet changes proposed by
+ * `refresh-shows.py` that Nathan decided need no human review at all, ever,
+ * including during the shop-changes trial lock: a brand new show
+ * (`add-row`), or an update to one of the handful of fields that script
+ * itself already decided genuinely changed (Venue/Address/Hours, its
+ * `CHANGED` status) or a multi-day extension it matched with confidence
+ * (EndDate/StartDate). Everything else `refresh-shows.py` finds
+ * (REVIEW-IDENTITY, an unmatched multi-day row) is deliberately never turned
+ * into a `ProposedChange` at all -- see `refreshShowRowsToProposedChanges` --
+ * so this class never has to consider those cases.
+ */
+const SHOW_AUTOPOST_SOURCES = new Set(['refresh-shows.py']);
+const SHOW_AUTOPOST_UPDATE_COLUMNS = new Set(['Venue', 'Address', 'Hours', 'EndDate', 'StartDate']);
 
 /**
  * Classifies a proposed change. Defaults to `risky` for anything it doesn't
@@ -67,6 +83,11 @@ export function classifyChange(change: ProposedChange): RiskLevel {
     return 'closure';
   }
 
+  if (sheet === 'Shows' && SHOW_AUTOPOST_SOURCES.has(source)) {
+    if (op.kind === 'add-row') return 'show-autopost';
+    if (op.kind === 'update' && SHOW_AUTOPOST_UPDATE_COLUMNS.has(op.column)) return 'show-autopost';
+  }
+
   if (op.kind === 'delete-row' || op.kind === 'merge' || op.kind === 'rename') return 'risky';
 
   if (op.kind === 'update') {
@@ -77,13 +98,36 @@ export function classifyChange(change: ProposedChange): RiskLevel {
   return LOW_RISK_ADD_SOURCES.has(source) ? 'low-risk' : 'risky';
 }
 
+export interface AutoApplyOptions {
+  /**
+   * Switches on the `show-autopost` policy for this run -- OFF by default, so
+   * a plain fixture/test-copy run stays exactly as conservative as before
+   * unless it deliberately opts in. `scripts/sheet-change-engine.ts` sets this
+   * `true` unconditionally for `--live` (that's the whole point of the
+   * 2026-09-26 decision: a real weekly run against the real sheet never holds
+   * a new show for review) and only when `--autopost-shows` is also passed
+   * for a `--sheet-id` run (the test-only escape hatch used to prove the
+   * policy end-to-end against the TEST COPY sheet before `--live` access
+   * exists).
+   */
+  autopostShows?: boolean;
+}
+
 /**
  * Whether a classified change should write immediately, or wait for
  * `approveChange`. `review-all` never auto-applies anything -- including a
  * closure -- matching the PRD's "first two weeks everything runs in
- * review-everything mode" literally.
+ * review-everything mode" literally. `show-autopost` is the one deliberate
+ * exception: when the policy is switched on (see `AutoApplyOptions`) it
+ * applies regardless of `mode`, including `review-all` during the shop
+ * changes' trial lock -- that unconditional override IS the 2026-09-26
+ * decision. Off (the default), a `show-autopost` change is never auto-applied
+ * by this function, so it queues in `review-all` the same as any other change
+ * and is refused outright by `auto-low-risk` (it isn't `low-risk` or
+ * `closure`) -- always err toward "queue" when the policy isn't explicitly on.
  */
-export function shouldAutoApply(level: RiskLevel, mode: EngineMode): boolean {
+export function shouldAutoApply(level: RiskLevel, mode: EngineMode, options: AutoApplyOptions = {}): boolean {
+  if (level === 'show-autopost') return options.autopostShows === true;
   if (mode === 'review-all') return false;
   return level === 'low-risk' || level === 'closure';
 }
@@ -260,6 +304,7 @@ export async function processChange(
   log: ChangeLog,
   change: ProposedChange,
   mode: EngineMode,
+  options: AutoApplyOptions = {},
 ): Promise<ProcessResult> {
   const id = randomUUID();
   const level = classifyChange(change);
@@ -274,7 +319,7 @@ export async function processChange(
   // Queuing a change makes no write, so a risky delete that WOULD trip the
   // guard should still queue for review -- the guard runs again, and can
   // still refuse, at `approveChange` time.
-  if (shouldAutoApply(level, mode)) {
+  if (shouldAutoApply(level, mode, options)) {
     const countGuard = await checkRowCountGuard(client, change);
     if (!countGuard.ok) {
       await log.append({ id, timestamp: nowIso(), action: 'rejected', change, level, note: countGuard.reason });

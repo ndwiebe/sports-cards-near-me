@@ -227,4 +227,94 @@ describe('buildDigest', () => {
     expect(md).toContain('nightly bake');
     expect(md).toContain('sheet returned 0 rows');
   });
+
+  it('calls out show-autopost adds and updates with the "Posted automatically" line, separate from other applied changes', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [
+        changeEntry({
+          id: 'new-show-1',
+          level: 'show-autopost',
+          change: {
+            sheet: 'Shows',
+            rowKey: 'red-deer-card-show-red-deer-2026-11-14',
+            op: { kind: 'add-row', values: { Name: 'Red Deer Card Show' } },
+            source: 'refresh-shows.py',
+            reason: 'New show found by the weekly TCDB discovery scrape.',
+          },
+        }),
+        changeEntry({
+          id: 'updated-show-1',
+          level: 'show-autopost',
+          change: {
+            sheet: 'Shows',
+            rowKey: 'existing-show-2026-10-01',
+            op: { kind: 'update', column: 'Venue', oldValue: 'Old Hall', newValue: 'New Hall' },
+            source: 'refresh-shows.py',
+            reason: "refresh-shows.py found this show's venue changed on TCDB.",
+          },
+        }),
+      ],
+    });
+    expect(md).toContain('Posted automatically: 1 new show, 1 update');
+    expect(md).toContain('red-deer-card-show-red-deer-2026-11-14');
+    expect(md).toContain('npx tsx scripts/sheet-change-engine.ts undo new-show-1');
+    expect(md).toContain('npx tsx scripts/sheet-change-engine.ts undo updated-show-1');
+  });
+
+  it('lists held items under "Held for a closer look", separate from applied/queued changes', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [],
+      heldItems: [
+        {
+          name: 'Mystery Show',
+          city: 'Calgary',
+          province: 'AB',
+          startDate: '2026-10-18',
+          status: 'REVIEW-IDENTITY',
+          reason: "refresh-shows.py couldn't tell whether it's the same event as an existing show.",
+        },
+      ],
+    });
+    expect(md).toMatch(/## Held for a closer look/);
+    expect(md).toContain('Mystery Show');
+    expect(md).toContain("couldn't tell whether it's the same event");
+    expect(md).not.toMatch(/Nothing needed a closer look this week\./);
+  });
+
+  it('says nothing needed a closer look when heldItems is empty or absent', () => {
+    const md = buildDigest({ weekLabel: 'Sept 17 – Sept 23, 2026', changeLogEntries: [] });
+    expect(md).toContain('Nothing needed a closer look this week.');
+  });
+
+  it('reports a successful production publish separately from "Anything failing"', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [],
+      jobStatuses: [{ name: 'publish', status: 'ok' }],
+    });
+    expect(md).toMatch(/## Getting this week.s show changes live/);
+    expect(md).toMatch(/Triggered a production publish/);
+    expect(md).not.toMatch(/\*\*publish\*\*: failing/);
+  });
+
+  it('reports a failed production publish with the gh-not-authenticated fallback message', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [],
+      jobStatuses: [
+        { name: 'publish', status: 'failing', note: 'gh is not authenticated -- could not trigger the site workflow.' },
+      ],
+    });
+    expect(md).toMatch(/## Getting this week.s show changes live/);
+    expect(md).toContain('gh is not authenticated');
+    expect(md).toMatch(/go live with tomorrow.s daily build/);
+    expect(md).not.toMatch(/\*\*publish\*\*: failing/); // not double-reported under "Anything failing"
+  });
+
+  it('says no publish was needed when nothing was posted automatically and there is no publish status', () => {
+    const md = buildDigest({ weekLabel: 'Sept 17 – Sept 23, 2026', changeLogEntries: [] });
+    expect(md).toMatch(/no production publish was needed/);
+  });
 });
