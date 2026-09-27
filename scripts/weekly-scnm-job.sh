@@ -129,7 +129,9 @@ fail_hard() {  # message
 # ---------------------------------------------------------------------------
 mkdir -p "$JOB_HOME" "$LOG_DIR"
 find "$LOG_DIR" -name '*.log' -mtime +90 -delete 2>/dev/null || true
-LOG="$LOG_DIR/$(date +%Y-%m-%d-%H%M)$([ "$DRY_RUN" = "1" ] && echo '-dryrun').log"
+# `|| true`: under `set -e`, a false test here made every real (non-dry) run exit
+# silently before logging started.
+LOG="$LOG_DIR/$(date +%Y-%m-%d-%H%M)$([ "$DRY_RUN" = "1" ] && echo '-dryrun' || true).log"
 exec >>"$LOG" 2>&1
 echo "=== scnm-weekly-job start $(date) (dry_run=$DRY_RUN) ==="
 
