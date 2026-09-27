@@ -235,3 +235,41 @@ describe('GoogleSheetsClient — header mismatch', () => {
     await expect(client.countRows('Stores')).rejects.toThrow(/could not find/i);
   });
 });
+
+describe('GoogleSheetsClient — rate limit', () => {
+  function jsonResponse(status: number, body: unknown): Response {
+    return new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+  }
+
+  it('waits and retries a 429 instead of abandoning the batch', async () => {
+    let calls = 0;
+    const fetchImpl = vi.fn(async () => {
+      calls++;
+      return calls === 1 ? jsonResponse(429, { error: { code: 429 } }) : jsonResponse(200, META_RESPONSE);
+    }) as unknown as typeof fetch;
+    const waits: number[] = [];
+    const client = new GoogleSheetsClient({
+      spreadsheetId: TEST_SPREADSHEET_ID,
+      keyFilePath: '/nonexistent/should-not-be-read.json',
+      fetchImpl,
+      tokenProvider: { getToken: () => Promise.resolve('stub-token') } as never,
+      sleep: (ms) => { waits.push(ms); return Promise.resolve(); },
+    });
+    await expect(client.countRows('Resellers').catch((e: unknown) => e)).resolves.toBeDefined();
+    expect(calls).toBeGreaterThanOrEqual(2);
+    expect(waits[0]).toBeGreaterThanOrEqual(60_000);
+  });
+
+  it('gives up after repeated 429s with the Google error', async () => {
+    const fetchImpl = vi.fn(async () => jsonResponse(429, { error: { code: 429 } })) as unknown as typeof fetch;
+    const client = new GoogleSheetsClient({
+      spreadsheetId: TEST_SPREADSHEET_ID,
+      keyFilePath: '/nonexistent/should-not-be-read.json',
+      fetchImpl,
+      tokenProvider: { getToken: () => Promise.resolve('stub-token') } as never,
+      sleep: () => Promise.resolve(),
+    });
+    await expect(client.countRows('Resellers')).rejects.toThrow(/HTTP 429/);
+    expect(fetchImpl).toHaveBeenCalledTimes(6);
+  });
+});

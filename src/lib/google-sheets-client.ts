@@ -178,6 +178,8 @@ export interface GoogleSheetsClientOptions {
    */
   allowLiveSheet?: boolean;
   fetchImpl?: typeof fetch;
+  /** Waits before retrying a rate-limited (HTTP 429) request. Injectable for tests. */
+  sleep?: (ms: number) => Promise<void>;
   /** Test seam — see `GoogleAuthTokenProvider`'s own `loadKey` option. */
   tokenProvider?: GoogleAuthTokenProvider;
 }
@@ -191,9 +193,13 @@ export interface GoogleSheetsClientOptions {
  * the block comment above `rowKeyIndex` for the one identity limitation this
  * implies for a `rename`.
  */
+const RATE_LIMIT_RETRIES = 5;
+const RATE_LIMIT_WAIT_MS = 61_000;
+
 export class GoogleSheetsClient implements SheetClient {
   private readonly spreadsheetId: string;
   private readonly fetchImpl: typeof fetch;
+  private readonly sleep: (ms: number) => Promise<void>;
   private readonly tokenProvider: GoogleAuthTokenProvider;
 
   private metaCache: SheetMeta[] | undefined;
@@ -208,6 +214,7 @@ export class GoogleSheetsClient implements SheetClient {
     }
     this.spreadsheetId = options.spreadsheetId;
     this.fetchImpl = options.fetchImpl ?? fetch;
+    this.sleep = options.sleep ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
     this.tokenProvider =
       options.tokenProvider ??
       new GoogleAuthTokenProvider({ keyFilePath: options.keyFilePath, scope: SHEETS_SCOPE, fetchImpl: this.fetchImpl });
@@ -221,7 +228,13 @@ export class GoogleSheetsClient implements SheetClient {
       authorization: `Bearer ${token}`,
       ...(init?.body !== undefined ? { 'content-type': 'application/json' } : {}),
     };
-    const res = await this.fetchImpl(`${API_ROOT}/${this.spreadsheetId}${path}`, { ...init, headers });
+    // Sheets allows 60 writes a minute; a weekly batch of new shows can exceed it.
+    // On 429, wait out the per-minute window and retry rather than abandoning the batch.
+    let res = await this.fetchImpl(`${API_ROOT}/${this.spreadsheetId}${path}`, { ...init, headers });
+    for (let attempt = 0; res.status === 429 && attempt < RATE_LIMIT_RETRIES; attempt++) {
+      await this.sleep(RATE_LIMIT_WAIT_MS);
+      res = await this.fetchImpl(`${API_ROOT}/${this.spreadsheetId}${path}`, { ...init, headers });
+    }
     const body: unknown = await res.json().catch(() => undefined);
     if (!res.ok) {
       throw new Error(`Google Sheets API error (HTTP ${res.status}) at ${path}: ${JSON.stringify(body)}`);
