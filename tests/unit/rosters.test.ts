@@ -1,6 +1,6 @@
 // tests/unit/rosters.test.ts
 import { describe, expect, it } from 'vitest';
-import { claimUrl, matchStore, normalizeDealerName, rostersForShow, rowToRosterEntry } from '../../src/lib/rosters';
+import { ROSTER_HEADER, claimUrl, matchStore, normalizeDealerName, rostersForShow, rowToRosterEntry } from '../../src/lib/rosters';
 import type { RosterEntry } from '../../src/lib/rosters';
 import { RESELLER_FORM_URL } from '../../src/lib/forms';
 import type { Store } from '../../src/lib/types';
@@ -158,5 +158,23 @@ describe('claimUrl', () => {
     expect(u.searchParams.get('usp')).toBe('pp_url');
     expect(u.searchParams.get('entry.1276928846')).toBe('Snorwax Cards');
     expect(u.searchParams.get('entry.1802446710')).toBe('Seen at: Sport Card Expo Toronto, Spring 2026');
+  });
+});
+
+describe('roster column layout and ambiguous names', () => {
+  it('a shifted column breaks the mapping instead of leaking into the wrong field', () => {
+    const header = ROSTER_HEADER.map((h) => cell(h));
+    expect(rowToRosterEntry(header)).toBeNull();
+    const data = ROSTER_HEADER.map((h) => cell(h === 'Show URL' || h === 'Source URL' ? 'https://x.example/' : h === 'Captured' ? '2026-09-29' : `v-${h}`));
+    expect(rowToRosterEntry(data)?.dealer).toBe('v-Dealer');
+    expect(rowToRosterEntry(data)?.booth).toBe('v-Booth');
+  });
+
+  it('two shops with the same name match neither, unless Store Slug picks one', () => {
+    const mk = (slug: string, city: string): Store => ({ slug, name: 'Big B Comics', city } as unknown as Store);
+    const stores = [mk('big-b-comics-barrie', 'Barrie'), mk('big-b-comics-hamilton', 'Hamilton')];
+    const base = { dealer: 'BIG B COMICS', noMatch: false } as RosterEntry;
+    expect(matchStore(base, stores)).toBeUndefined();
+    expect(matchStore({ ...base, storeSlug: 'big-b-comics-hamilton' }, stores)?.city).toBe('Hamilton');
   });
 });

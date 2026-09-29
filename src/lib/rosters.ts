@@ -28,12 +28,16 @@ export interface RosterEntry {
   noMatch: boolean;
 }
 
-// Rosters tab column order (0-based). The header assertion in
-// tests/unit/rosters.test.ts fails loudly if a column is inserted.
+// Rosters tab column order (0-based). ROSTER_HEADER pins it: the header test in
+// tests/unit/rosters.test.ts fails loudly if a column is inserted or moved.
 // The sheet is world-readable: only publishable fields belong in it.
 const COL = {
   show: 0, source: 1, edition: 2, captured: 3, dealer: 4, booth: 5, blurb: 6, link: 7, storeSlug: 8,
 } as const;
+
+export const ROSTER_HEADER = [
+  'Show URL', 'Source URL', 'Edition', 'Captured', 'Dealer', 'Booth', 'Blurb', 'Link', 'Store Slug',
+] as const;
 
 const BLURB_MAX = 300;
 
@@ -84,7 +88,10 @@ export function matchStore(entry: RosterEntry, stores: readonly Store[]): Store 
   if (entry.storeSlug !== undefined) return stores.find((s) => s.slug === entry.storeSlug);
   const key = normalizeDealerName(entry.dealer);
   if (key === '') return undefined;
-  return stores.find((s) => normalizeDealerName(s.name) === key);
+  // Two shops sharing a name (Big B Comics in Barrie and Hamilton) cannot be told apart from a roster,
+  // so an ambiguous name links to neither; the sheet's Store Slug column resolves it by hand.
+  const candidates = stores.filter((s) => normalizeDealerName(s.name) === key);
+  return candidates.length === 1 ? candidates[0] : undefined;
 }
 
 export interface ShowRoster {
