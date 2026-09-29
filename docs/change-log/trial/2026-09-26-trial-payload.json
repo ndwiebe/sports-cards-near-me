@@ -1,0 +1,28 @@
+[
+  {
+    "sheet": "Stores",
+    "rowKey": "morrison-trading-post-airdrie",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 11:00 AM – 6:30 PM; Wednesday: 11:00 AM – 6:30 PM; Thursday: 11:00 AM – 6:30 PM; Friday: 11:00 AM – 6:30 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: 11:00 AM – 6:30 PM; Wednesday: 11:00 AM – 6:30 PM; Thursday: 11:00 AM – 6:30 PM; Friday: 11:00 AM – 6:30 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: Closed (trial)"
+    },
+    "source": "nathan-manual",
+    "reason": "Trial run of the real Google Sheets client — a harmless, reversible Hours-cell edit to prove writes/undo work against the TEST COPY."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "snap-collectables-airdrie",
+    "op": {
+      "kind": "rename",
+      "column": "Name",
+      "oldValue": "Snap! Collectables",
+      "newValue": "Snap! Collectables (trial)",
+      "oldSlug": "snap-collectables-airdrie",
+      "newSlug": "snap-collectables-trial-airdrie"
+    },
+    "source": "nathan-manual",
+    "reason": "Trial run of the real Google Sheets client — a rename proposal to prove the engine queues risky changes for review rather than auto-applying them."
+  }
+]

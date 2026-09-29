@@ -1,10 +1,12 @@
 ---
 import type { Store } from '../lib/types';
 import { hasLogo } from '../lib/logos';
+import { directionsUrl, telHref } from '../lib/store-actions';
 import OpenNowBadge from './OpenNowBadge.astro';
 
 interface Props { store: Store }
 const { store } = Astro.props;
+const action = 'flex min-h-11 items-center justify-center rounded-lg px-3 text-sm font-semibold';
 ---
 <li data-store-card={store.slug} class="rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5">
   <a href={`/store/${store.slug}/`} class="block">
@@ -31,4 +33,9 @@ const { store } = Astro.props;
       </ul>
     )}
   </a>
+  <div class="mt-4 grid auto-cols-fr grid-flow-col gap-2">
+    <a href={directionsUrl(store)} target="_blank" rel="noopener" class={`${action} text-ink`} style="background:var(--gradient-refractor)" data-track-click="directions" data-store-slug={store.slug} aria-label={`Directions to ${store.name}`}>Directions</a>
+    {store.phone !== undefined && <a href={telHref(store.phone)} class={`${action} border border-bord hover:border-prizm`} data-track-click="call" data-store-slug={store.slug} aria-label={`Call ${store.name}`}>Call</a>}
+    {store.website !== undefined && <a href={store.website} target="_blank" rel="noopener" class={`${action} border border-bord hover:border-prizm`} data-track-click="website" data-store-slug={store.slug} aria-label={`${store.name} website`}>Website</a>}
+  </div>
 </li>

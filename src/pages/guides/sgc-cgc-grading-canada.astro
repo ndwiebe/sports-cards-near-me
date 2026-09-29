@@ -1,0 +1,235 @@
+---
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, type FaqItem } from '../../lib/seo';
+
+// Query evidence (Search Console, Performance export read 2026-09-23, no
+// existing page targets this cluster): "sgc grading canada" 60 impressions
+// at position 10.1, "sgc grading" 11 at 21.1, "sgc card grading canada" 5 at
+// 10.0, "cgc grading canada" 10 at 25.6 — combined ~86 impressions, all at
+// positions 10-26 (bottom of page 1 through page 2). card-grading-companies-
+// canada.astro gives SGC and CGC one line each inside a four-way comparison;
+// nothing dedicated exists for either. Paired here — SGC and CGC are the two
+// major US graders that, like Beckett (see the companion guide), have no
+// Canadian receiving centre — with real depth for each: SGC's history and
+// its 2024 sale to PSA's parent company, and CGC's full current fee table,
+// which isn't in the comparison guide beyond a single cheapest/fastest row.
+const title = 'SGC & CGC Card Grading for Canadian Collectors';
+const description =
+  "SGC and CGC compared for Canadians: SGC's vintage reputation and 2024 sale to PSA's parent company, CGC's current fee tiers and membership discounts, and why neither has a Canadian drop-off.";
+const pagePath = '/guides/sgc-cgc-grading-canada/';
+
+const capsule =
+  "SGC and CGC are the two major US card graders besides PSA and Beckett — and, like Beckett, neither has a Canadian receiving centre, so a submission from Canada ships straight across the border either way. SGC built its name on vintage cards and was bought by Collectors, PSA's parent company, in 2024. CGC is the newest major entrant into card grading, with a published fee table running from $17 to $300+ USD per card depending on turnaround and declared value, plus membership discounts and a CrossOver service for cards already graded elsewhere.";
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Does SGC grade cards in Canada?',
+    answer:
+      "No. SGC, based in Boca Raton, Florida, has no Canadian receiving centre — a submission from Canada has to cross the border, the same as with CGC or Beckett. Only PSA currently operates a Canadian drop-off, in Mississauga, Ontario.",
+  },
+  {
+    question: 'Does CGC grade cards in Canada?',
+    answer:
+      "No. CGC Cards processes submissions at its US facility, with no published Canadian receiving location as of this writing. A Canadian submission ships directly to the US, same as with SGC and Beckett.",
+  },
+  {
+    question: 'Is SGC still an independent company?',
+    answer:
+      "SGC is owned by Collectors, the parent company of PSA, following an acquisition announced in February 2024. SGC's president at the time, Peter Steinberg, said SGC would remain a separate brand run by its existing management team, and SGC continues to operate under its own name with its own grading team rather than being folded into PSA's operations.",
+    link: { href: '/guides/card-grading-companies-canada/', label: 'Compare SGC to PSA, CGC and Beckett' },
+  },
+  {
+    question: 'How much does CGC card grading cost?',
+    answer:
+      "As posted on CGC's own fee page: Bulk is $17 USD/card (cards worth up to $500, 25-card minimum, roughly 150 business days); Economy is $20/card (up to $1,000, ~90 business days); Standard is $55/card (up to $3,000, ~10 business days); Express is $100/card (up to $10,000, ~5 business days); WalkThrough is $300/card (up to $100,000, ~2 business days); and Unlimited Value is $300 plus 1% of declared value. CGC members get a discount — 10% for Associate/Premium members, 20% for Elite members. All figures are as posted on CGC's site; confirm the current number before submitting, since grading fees change.",
+  },
+  {
+    question: "What is CGC's CrossOver service?",
+    answer:
+      "CrossOver lets you submit a card already graded and slabbed by PSA, Beckett, or SGC to be evaluated for CGC certification instead. CGC only removes it from its original holder and re-slabs it under the CGC label if CGC's own grade would be the same or higher than the original — otherwise it's returned in its original holder and the grading fee still applies. A \"Cross at Any Grade\" option exists if you want the CGC grade regardless of whether it comes back lower.",
+  },
+  {
+    question: 'How much does SGC card grading cost?',
+    answer:
+      "SGC prices by declared value band rather than a flat per-card rate, and its current pricing page isn't reliably reachable from a simple check of its site as of this writing — confirm SGC's current fees and turnaround directly at gosgc.com before submitting rather than relying on a number quoted here.",
+  },
+  {
+    question: 'Should I pick SGC or CGC over PSA or Beckett?',
+    answer:
+      "It depends on the card. SGC has a long-standing following among vintage collectors and a distinctive black-bordered holder many recognize on sight. CGC is the newer option, useful if you want its membership pricing, its CrossOver service for a card already graded elsewhere, or simply want a second opinion on a card's grade. Neither carries PSA's resale-market recognition for modern star cards, and neither shortens the cross-border trip the way PSA's Mississauga centre does for Canadians.",
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const faqLd = faqPageLd(faqs);
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-09-23',
+  dateModified: '2026-09-23',
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+  },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(ld)} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">SGC & CGC Card Grading for Canadian Collectors</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published="2026-09-23" modified="2026-09-23" />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <p class="text-lg">
+      PSA and Beckett get most of the attention, but SGC and CGC are both real, established
+      alternatives — and, like Beckett, neither one has a Canadian receiving centre, so a
+      submission from Canada crosses the border no matter which of the three you pick. This
+      guide covers what actually makes SGC and CGC different from each other, and from PSA and
+      Beckett. If you haven't already decided against PSA or Beckett specifically, our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">full grading comparison</a>{' '}
+      covers all four side by side, and our{' '}
+      <a href="/guides/beckett-grading-canada/" class="text-prizm">Beckett grading guide</a> goes
+      deep on Beckett's subgrade system specifically.
+    </p>
+
+    <h2 class="text-3xl">SGC: The Vintage Specialist, Now Owned by PSA's Parent Company</h2>
+    <p>
+      SGC opened in July 1998, based in Boca Raton, Florida, and built its reputation grading
+      vintage cards — its black-bordered holder is a familiar sight to collectors who focus on
+      pre-1980 cardboard. For its first two decades, SGC used a 1–100 grading scale rather than
+      the 1–10 scale PSA, Beckett, and now SGC itself use; it switched to 1–10 in 2018 to make
+      the scale easier for collectors to compare across graders. Despite the vintage reputation,
+      SGC's own submissions have shifted toward modern cards by volume in recent years.
+    </p>
+    <p>
+      In February 2024, <strong>Collectors — the parent company of PSA — acquired SGC.</strong>{' '}
+      SGC's president at the time of the deal, Peter Steinberg, said SGC would remain an
+      independent brand with its existing management and grading team, rather than being merged
+      into PSA's own grading operation. In practice, that means PSA's parent company now owns
+      two of the industry's major graders while SGC continues to operate under its own name,
+      standards, and holder — worth knowing if a card's grading history matters to how you value
+      it.
+    </p>
+
+    <h2 class="text-3xl">CGC: The Newest Major Entrant, With Published Tiers</h2>
+    <p>
+      CGC Cards is the most recently established of the four major graders in trading cards.
+      Its published fee schedule is more detailed than what most graders post, running across
+      seven tiers by declared value and turnaround:
+    </p>
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[640px] border-collapse text-sm">
+        <thead>
+          <tr class="border-b border-bord text-left text-muted">
+            <th class="py-2 pr-4 font-semibold">Tier</th>
+            <th class="py-2 pr-4 font-semibold">Max declared value</th>
+            <th class="py-2 pr-4 font-semibold">Fee per card (USD)</th>
+            <th class="py-2 pr-4 font-semibold">Current turnaround</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-bord">
+          <tr>
+            <td class="py-3 pr-4 font-semibold">Bulk</td>
+            <td class="py-3 pr-4">$500 (25-card min.)</td>
+            <td class="py-3 pr-4">$17</td>
+            <td class="py-3 pr-4">~150 business days</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-semibold">Economy</td>
+            <td class="py-3 pr-4">$1,000</td>
+            <td class="py-3 pr-4">$20</td>
+            <td class="py-3 pr-4">~90 business days</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-semibold">Standard</td>
+            <td class="py-3 pr-4">$3,000</td>
+            <td class="py-3 pr-4">$55</td>
+            <td class="py-3 pr-4">~10 business days</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-semibold">Express</td>
+            <td class="py-3 pr-4">$10,000</td>
+            <td class="py-3 pr-4">$100</td>
+            <td class="py-3 pr-4">~5 business days</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-semibold">WalkThrough</td>
+            <td class="py-3 pr-4">$100,000</td>
+            <td class="py-3 pr-4">$300</td>
+            <td class="py-3 pr-4">~2 business days</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-semibold">Unlimited Value</td>
+            <td class="py-3 pr-4">Unlimited</td>
+            <td class="py-3 pr-4">$300 + 1% of value</td>
+            <td class="py-3 pr-4">~2 business days</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-sm text-muted">
+      As posted on CGC's own fee page as of 2026-09-23; turnaround times are estimates only and
+      are explicitly not guaranteed by CGC. CGC members save 10% (Associate/Premium) or 20%
+      (Elite) on grading — see cgccards.com for current membership terms.
+    </p>
+    <p>
+      CGC also runs a <strong>CrossOver</strong> service: send in a card already graded by PSA,
+      Beckett, or SGC, and CGC will only remove it from its original holder and re-slab it under
+      the CGC label if CGC's own assessment would grade it the same or higher — otherwise it
+      comes back in its original holder and the fee still applies (a "Cross at Any Grade" option
+      skips that protection if you want the CGC number regardless). That makes CGC a reasonable
+      way to get a second opinion on a card you already own in another grader's slab, without
+      committing to a downgrade you didn't ask for.
+    </p>
+
+    <CrossLinkCallout
+      heading="Comparing grading fees across a whole collection?"
+      body="Submission fees, shipping, and insurance add up fast across a real collection — worth getting the bookkeeping and tax side right if you're doing this as a business, not just a hobby."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <h2 class="text-3xl">SGC or CGC — Which One?</h2>
+    <p>
+      Neither is a wrong choice, and neither carries PSA's resale-market recognition for modern
+      star and rookie cards. SGC makes sense if vintage is your focus and you value its
+      established following among vintage collectors — or if you already own SGC-graded cards
+      and want a consistent look across a collection. CGC makes sense if you want its published
+      fee transparency, its membership discounts on volume, or the CrossOver option for a card
+      you want re-evaluated. Whichever you pick, the cross-border reality is the same: cards ship
+      to the US, and only PSA currently shortens that trip for Canadians with its Mississauga
+      receiving centre. Our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">full comparison guide</a>{' '}
+      also covers the Canadian-based graders — Overtime Grading, TGA, KSA, and HOF Grading —
+      that skip the border question entirely, and our{' '}
+      <a href="/guides/beckett-grading-canada/" class="text-prizm">Beckett grading guide</a> covers
+      the fourth major US grader, including its subgrade system. If you're still deciding whether
+      a specific card is worth grading at all, start with our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a>.
+    </p>
+
+    <p class="text-sm text-muted">
+      CGC's fee table was checked directly against cgccards.com on 2026-09-23; SGC's history and
+      2024 acquisition were checked against Sports Collectors Digest's reporting the same day.
+      Both graders' fees and processes change — confirm the current numbers on each grader's own
+      site before you submit. If something here is out of date,{' '}
+      <a href="/suggest/" class="text-prizm">let us know</a>.
+    </p>
+  </div>
+</Base>

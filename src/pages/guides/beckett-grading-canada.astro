@@ -1,0 +1,192 @@
+---
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import CrossLinkCallout from '../../components/CrossLinkCallout.astro';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, type FaqItem } from '../../lib/seo';
+
+// Query evidence (Search Console, Performance export read 2026-09-23, no
+// existing page targets this cluster): "beckett grading canada" 147
+// impressions at position 10.0, "beckett grading canada locations" 21 at
+// 10.6, "does beckett grade in canada" 19 at 10.3, "beckett grading" 17 at
+// 14.2, "bgs grading canada" 16 at 13.4, "beckett canada" 14 at 11.7, plus
+// five smaller variants — combined ~254 impressions, virtually all at the
+// bottom of page 1 / top of page 2, near-zero clicks. card-grading-companies-
+// canada.astro gives Beckett a handful of sentences inside a four-way
+// comparison; nothing dedicated exists. PRD Phase 3 names "Beckett grading in
+// Canada" directly as an example new-guide topic.
+//
+// No shop-list section here, unlike the comparison guide: the directory has
+// no Beckett-specific storefront to list (Beckett has no Canadian receiving
+// location at all — see below), so this stays purely informational, the same
+// shape as the tax and fake-spotting guides rather than the comparison
+// guide's shop-list pattern.
+const title = 'Beckett (BGS) Grading for Canadian Collectors';
+const description =
+  "Does Beckett grade cards in Canada? What BGS subgrades and Black Label actually mean, and how Canadians submit cards to Beckett's Texas headquarters right now.";
+const pagePath = '/guides/beckett-grading-canada/';
+
+const capsule =
+  "Beckett Grading Services (BGS) has no Canadian drop-off — Canadians mail cards directly to Beckett's headquarters in Plano, Texas. What sets Beckett apart from PSA, SGC and CGC is printed subgrades for centering, corners, edges and surface, on a half-point 1–10 scale, with a rare \"Black Label\" reserved for a perfect 10 across all four. As of this writing, Beckett is running a temporary submission process while it rebuilds its online system — worth knowing before you plan a submission.";
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Does Beckett grade cards in Canada?',
+    answer:
+      "No. Beckett has no Canadian receiving centre — unlike PSA, which opened one in Mississauga, Ontario. Beckett's own site directs submitters to mail cards, along with a copy of the submission paperwork, to its headquarters at 2700 Summit Ave., Suite 100, Plano, TX 75074. In-person drop-off and pickup exist only at that Plano location, by appointment.",
+  },
+  {
+    question: 'What are Beckett\'s four subgrades?',
+    answer:
+      "Centering, corners, edges, and surface — each scored out of 10 and printed on the certification label inside the slab, visible without breaking the seal. The overall grade on the label is not a simple average of the four; a weak subgrade in one area caps how high the overall grade can go, which is why two cards with the same overall number can look different card to card.",
+  },
+  {
+    question: 'What is a BGS Black Label?',
+    answer:
+      'A Black Label is a Beckett 10 (Pristine) where all four subgrades — centering, corners, edges and surface — are also a perfect 10. It is the rarest grade Beckett issues: the corners and edges have to be flawless even under close inspection, the surface has to show no print spots or scratches, and centering has to be close to dead-even on both the front and back of the card. Most 10s are not Black Labels.',
+  },
+  {
+    question: 'How do I submit cards to Beckett from Canada right now?',
+    answer:
+      "Beckett is currently running its grading intake through a temporary submission form while it rebuilds its main site, rather than the usual online account system. Fill out the form, then mail your cards with a printed copy of the submission paperwork to Beckett's Plano, Texas address. Payment isn't collected up front — Beckett reviews the submission first, then emails a link to pay the confirmed total. For a Canadian, that means the same cross-border shipping and customs exposure as any US-bound grading submission, with no Canadian leg to shorten the trip.",
+  },
+  {
+    question: 'How much does Beckett grading cost, and how long does it take?',
+    answer:
+      "It depends on the service tier, and Beckett has said pricing and posted turnaround times are unchanged by the current temporary-submission-form period — but turnaround estimates are explicitly not guaranteed while it works through demand and backlog. Beckett's own site is the only place to check a current number with confidence; our card grading companies comparison links straight to it rather than quoting a figure that could be stale by the time you read this.",
+      link: { href: '/guides/card-grading-companies-canada/', label: 'Compare Beckett with PSA, SGC and CGC' },
+  },
+  {
+    question: 'Is Beckett better than PSA or SGC?',
+    answer:
+      "Not objectively — each grader is known for something different. Beckett is the only major grader printing four subgrades on every label, which some collectors specifically want for modern cards. PSA carries the strongest resale premium for modern star and rookie cards and now has a Canadian receiving centre. SGC has a long vintage-collector following. The right choice depends on the card and what buyers of that specific card tend to pay more for.",
+  },
+];
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const faqLd = faqPageLd(faqs);
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: '2026-09-23',
+  dateModified: '2026-09-23',
+  author: {
+    '@type': 'Person',
+    name: 'Nathan Wiebe',
+    jobTitle: 'Chartered Professional Accountant',
+    url: new URL('/about/', Astro.site).href,
+  },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(ld)} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(faqLd)} />
+
+  <nav class="mt-6 text-sm text-muted"><a href="/guides/" class="hover:text-paper">Guides</a> / {title}</nav>
+  <h1 class="mt-3 text-5xl md:text-7xl">Beckett (BGS) Grading for Canadian Collectors</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <Byline published="2026-09-23" modified="2026-09-23" />
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>{capsule}</p>
+
+  <div class="mt-10 max-w-prose space-y-6 text-paper/90">
+    <h2 class="text-3xl">Does Beckett Grade Cards in Canada?</h2>
+    <p>
+      No. Of the four major US graders, PSA is the only one with a Canadian receiving centre —
+      in Mississauga, Ontario. Beckett, SGC and CGC all still require a direct cross-border
+      submission. Beckett's own site directs submitters to mail cards, with a printed copy of
+      the submission paperwork, straight to its headquarters: <strong>Beckett, 2700 Summit Ave.,
+      Suite 100, Plano, TX 75074</strong>. In-person drop-off and pickup exist, but only at that
+      Plano location and only by appointment — not a realistic option from Canada.
+    </p>
+
+    <h2 class="text-3xl">What Makes Beckett Different: Subgrades and the Half-Point Scale</h2>
+    <p>
+      Beckett is the only one of the four major graders that prints four separate subgrades on
+      every certification label: <strong>centering</strong>, <strong>corners</strong>,{' '}
+      <strong>edges</strong>, and <strong>surface</strong>, each scored out of 10. The overall
+      grade you see on the front of the slab isn't a simple average of the four — a weak
+      subgrade in one area caps how high the overall number can go, which is why collectors
+      who care about a card's specific condition often check the subgrades directly rather than
+      just the headline number. Beckett also grades on a half-point scale, so a card that just
+      misses a 10 can come back a 9.5 rather than dropping straight to a 9.
+    </p>
+
+    <h2 class="text-3xl">Black Label — Beckett's Rarest Grade</h2>
+    <p>
+      A <strong>Black Label</strong> is a Beckett 10 (Pristine) where all four subgrades —
+      centering, corners, edges, and surface — are also perfect 10s. It's the rarest grade
+      Beckett issues: the corners and edges have to hold up under close inspection, the surface
+      has to be free of print spots or scratches, and centering has to sit close to even on both
+      the front and back of the card. A standard 10 can still carry a subgrade or two below
+      perfect; a Black Label can't. Most Beckett 10s are not Black Labels.
+    </p>
+
+    <h2 class="text-3xl">How to Submit to Beckett From Canada Right Now</h2>
+    <p>
+      Beckett is currently taking submissions through a <strong>temporary online form</strong>{' '}
+      rather than its usual account system, while it works on its main site. Base (with
+      subgrades), Standard, and Express service tiers are available through that form; Beckett
+      has said this could change if demand or backlog grows faster than it can keep up with
+      posted turnaround estimates. The process: fill out the temporary form, then mail your
+      cards with a copy of the submission paperwork to the Plano, Texas address above. Payment
+      isn't collected through the form itself — Beckett reviews what arrives, confirms the final
+      total, and emails a link to pay once your submission is logged. For a Canadian, that's the
+      same cross-border shipping and potential customs exposure as any US-bound grading
+      submission (see our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">grading companies comparison</a>{' '}
+      for how that compares to PSA's Mississauga route), with no Canadian leg to shorten the
+      trip.
+    </p>
+
+    <h2 class="text-3xl">What It Costs and How Long It Takes</h2>
+    <p>
+      Beckett has stated that pricing and posted turnaround times for its Base and Standard
+      tiers are unchanged during the current temporary-submission period — but turnaround
+      estimates are explicitly described as not guaranteed while demand and backlog are worked
+      through. As with every grader, the only number worth trusting is the one on the grader's
+      own site the day you submit. Our{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">grading companies comparison</a>{' '}
+      links straight to Beckett's current pricing rather than quoting a figure here that could
+      already be stale.
+    </p>
+
+    <CrossLinkCallout
+      heading="Grading cards as part of a card business?"
+      body="Submission fees, shipping, and insurance are real costs of doing business if you buy, grade and resell cards — worth getting the bookkeeping and tax side right."
+      links={[{ label: 'Tax help for card dealers →', href: 'https://slabsavvycpa.com', external: true }]}
+    />
+
+    <h2 class="text-3xl">Beckett vs the Other Graders</h2>
+    <p>
+      Beckett isn't objectively better or worse than PSA, SGC, or CGC — it's different in ways
+      that matter for different cards. The four printed subgrades are a real advantage if you
+      want to document exactly why a card graded the way it did, which matters most for modern
+      cards where centering and surface issues are common. PSA still carries the strongest
+      resale premium for modern star and rookie cards and now has a Canadian receiving centre
+      that shortens the round trip. SGC and CGC are the other two major US graders without a
+      Canadian drop-off — see our{' '}
+      <a href="/guides/sgc-cgc-grading-canada/" class="text-prizm">SGC and CGC grading guide</a>{' '}
+      for how those two compare to Beckett specifically. Our full{' '}
+      <a href="/guides/card-grading-companies-canada/" class="text-prizm">card grading companies comparison</a>{' '}
+      covers all four side by side, including the Canadian-based alternatives that skip the
+      border entirely. And before picking a grader at all, our{' '}
+      <a href="/guides/card-grading-101/" class="text-prizm">card grading 101 guide</a> covers
+      whether a specific card is worth grading in the first place.
+    </p>
+
+    <p class="text-sm text-muted">
+      Beckett's submission process, address, and posted pricing were checked directly against
+      beckett.com on 2026-09-23 and change without notice — confirm the current process on
+      Beckett's own site before you submit. If something here is out of date,{' '}
+      <a href="/suggest/" class="text-prizm">let us know</a>.
+    </p>
+  </div>
+</Base>

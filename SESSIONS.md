@@ -86,6 +86,8 @@ Full cause, verification and a reappliable patch:
 
 ## Log
 
+- **2026-09-08** — Codex isolated checkout: source-sheet calendar refresh applied (215 shows), event-identity comparison guarded (10 Python regressions), and four show redirects added. Merged Cartoon Kingdom/Cedar Creek duplicate and renamed Valleyfield to TCG and Games from confirmed primary sources, with three store redirects and logo mapping updated. 680 stores; 383 unit tests and typecheck green; 1,489-page build. All 15 noindex/404 alert examples explained by intended closures/redirects/retired categories; the other 35 tested URLs return 200 and have sitemap, canonical and internal-link coverage. Source decisions in `docs/research/2026-09-08-review-resolution.md`. Outreach remains paused. Cloudflare referral read blocked by dashboard security challenge; wider weak-evidence shop research remains open. Calendar commit `d4a670b5`, shop commit `1b736a7c`. Production run verification recorded separately when complete.
+
 - **2026-09-05** — *(Opus 5, `scnm-plan4`, Nathan session)* **Four of five lanes shipped in
   parallel; the show refresh is blocked and the triage is half done.**
   - **City pages (`414dec77`).** The 42 pages the TCG tiering left with no ranking claim now
@@ -604,3 +606,20 @@ Full cause, verification and a reappliable patch:
   ready. `npm run typecheck && npm test` (270/270) and `npm run build` (1471 pages) all pass
   on both fix commits. **Nothing sheet-side has been written — the CSV is guidance, not an
   action taken.**
+
+- **2026-09-23** — *(Claude subagent, `scnm-q4-growth`, pages lane)* Shipped Phase 1a
+  (`docs/superpowers/plans/2026-09-23-q4-phase1a-card-actions.md`) task by task with TDD,
+  three commits: `2346a0e6` credits a tap made on a city page to that city
+  (`sourceCityForClick` in `worker/event-schema.js` + `Base.astro`); `8e32c510` extracts
+  shared `directionsUrl`/`telHref` helpers into `src/lib/store-actions.ts` and switches the
+  store page to use them; `bc3cf0b5` adds a Directions/Call/Website action row to every
+  `StoreCard.astro` (outside the shop link, ≥44px tap targets) and updates the privacy page
+  and `docs/click-tracking.md` copy to match. `npm run typecheck && npm test` (403/403) and
+  `npm run build` (1548 pages, unchanged) green throughout; e2e
+  (`store-card-actions.spec.ts` + `pokemon`/`sell`/`smoke`) all pass. 375×812 screenshots of
+  `/alberta/edmonton/` and `/pokemon/toronto/` confirmed the row fits on one line and stays
+  readable even with a 3-line shop name. Nothing outside the plan's file list touched. Next:
+  Opus/strongest-model `/code-review`, then Nathan-gated merge + production publish per
+  `CLAUDE.md` §2.
+- **2026-09-23** — *(Opus 5.5 controller, 4 Sonnet builders in parallel worktrees)* **Q4 growth plan: Phase 1a, 1b, 2a, 2b/2c and 4 published.** PRD `docs/PRD-q4-2026-growth.md`. Live and verified: Directions, Call and Website buttons on every shop card, with city-page taps credited to that city; 42 `/shows/series/` pages; past shows keep their page but no longer carry Event data, and link to the series' next date; round-2 titles on 15 low-CTR pages (measurement in `docs/research/2026-09-23-title-round1-ctr.md`); 110 one-shop `/pokemon/` cities noindexed and dropped from the sitemap; Beckett and SGC/CGC grading guides. **Built but OFF:** `src/lib/featured.ts` (flag `PUBLIC_FEATURED_PLACEMENTS_ENABLED`) and the sheet-change engine plus weekly digest (`scripts/sheet-change-engine.ts`, fixtures only, no live sheet client yet). Row-count guards are now on bake-shows and bake-resellers. **Nathan decisions 2026-09-23** (vault `decisions/2026/2026-09-23-scnm-q4-automation-calls.md`): show discovery runs weekly on his Mac, because TCDB blocks CI; Google CLOSED_PERMANENTLY now **auto-applies with undo, overriding the 2026-08-27 rule**, and the comments in `types.ts` and `refresh-ratings.py` must change when that is wired up; a sheet-copy service-account trial is approved; Featured pricing is deferred. G3 (disclosure) was confirmed already done on 2026-07-31. Checks: 519 unit tests, 121 e2e (11 skipped), 1592 pages.
+- **2026-09-26/27** — *(Opus 5.5 controller + Sonnet builders)* **Sheet automation LIVE.** The service account `scnm-sheet-bot` is an Editor on the live sheet. The live Google Sheets client (`c0058b28` adds 429 retry), `--live` mode with a trial lock until 2026-10-10 for shop changes, closures proposed from refresh-ratings, and rejected changes shown in the digest. **Shows auto-post** (Nathan 2026-09-26): NEW/CHANGED shows apply automatically and possible duplicates are held. The weekly Mac job `com.nathan.scnm-weekly` is installed (Sunday 07:00, private clone `~/.scnm-weekly-job/repo`); fixed `012b39e2` (real runs died silently under set -e). First live post: 81 applied, 3 blocked, 60 held; site published. **Pending Nathan:** the `ratings-refresh.yml` payload upload needs a push to main. Handoff: vault `00-Inbox/handoff-2026-09-27-scnm-q4-build-and-automation-live.md`.

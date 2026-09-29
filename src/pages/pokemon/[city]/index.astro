@@ -3,8 +3,16 @@ import Base from '../../../layouts/Base.astro';
 import StoreCard from '../../../components/StoreCard.astro';
 import storesJson from '../../../data/stores.json';
 import type { Store } from '../../../lib/types';
-import { pokemonCityEntries, pokemonCityCapsule, pokemonCityFaqs, pokemonShopsInCity } from '../../../lib/tcg';
-import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson, rankedFirstPhrase, topRatedStore } from '../../../lib/seo';
+import {
+  pokemonCityDescription,
+  pokemonCityEntries,
+  pokemonCityCapsule,
+  pokemonCityFaqs,
+  pokemonCityTitle,
+  pokemonCityTooThinToIndex,
+  pokemonShopsInCity,
+} from '../../../lib/tcg';
+import { absoluteUrl, breadcrumbListLd, faqPageLd, itemListLd, ldJson } from '../../../lib/seo';
 
 export function getStaticPaths() {
   const stores = storesJson as Store[];
@@ -17,18 +25,18 @@ if (!entry) throw new Error(`unknown pokemon city slug: ${Astro.params.city}`);
 const shops = pokemonShopsInCity(stores, entry.provinceCode, entry.citySlug);
 if (shops.length === 0) throw new Error(`no pokemon shops for city slug: ${entry.citySlug}`);
 
-// Same 20-review bar as every other ranked surface — no "top" claim below it.
-const topRated = topRatedStore(shops);
+// PRD Phase 3 (2026-09-23): a single-shop Pokémon city page is the same
+// doorway-page shape as a thin general city page — noindex it, same rule,
+// mirroring resellersTooThinToIndex. The page itself stays reachable; only
+// the indexing request is conditional (see tests/unit/pokemon-indexing.test.ts).
+const thin = pokemonCityTooThinToIndex(shops.length);
 
-// Same honesty rule as the general city pages: "Ranked" is a promise the page
-// has to keep. One shop cannot be ranked, and a city with no rated shop has
-// nothing to rank by.
-const anyRated = shops.some((s) => s.rating !== undefined);
-const titleSuffix = shops.length === 1
-  ? 'Address, Map & Directions'
-  : anyRated
-    ? 'Ranked, Updated Daily'
-    : 'Address, Map & Directions, Updated Daily';
+// Round 2 (2026-09-23): built from the crowned shop's real star number and the
+// Sunday-open count, off the 2026-09-23 Search Console read
+// (docs/research/2026-09-23-title-round1-ctr.md). See pokemonCityTitle/
+// pokemonCityDescription in src/lib/tcg.ts.
+const pageTitle = pokemonCityTitle(entry.city, entry.provinceCode, shops);
+const pageDescription = pokemonCityDescription(entry.city, entry.provinceName, shops);
 
 const generalCityUrl = `/${entry.provinceSlug}/${entry.citySlug}/`;
 const breadcrumbLd = breadcrumbListLd([
@@ -44,12 +52,7 @@ const capsule = pokemonCityCapsule(entry.city, entry.provinceName, shops);
 const faqs = pokemonCityFaqs(entry.city, entry.provinceName, shops, absoluteUrl(Astro.site, generalCityUrl));
 const faqLd = faqPageLd(faqs);
 ---
-<Base
-  title={`${shops.length} Pokémon Card Shop${shops.length === 1 ? '' : 's'} in ${entry.city}, ${entry.provinceCode} — ${titleSuffix}`}
-  description={topRated !== undefined && topRated.rating !== undefined
-    ? `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName}. ${rankedFirstPhrase(topRated)}. Rebuilt daily.`
-    : `${shops.length} Pokémon card ${shops.length === 1 ? 'shop' : 'shops'} in ${entry.city}, ${entry.provinceName} — compare ratings where they exist, addresses, map and directions. Rebuilt daily.`}
->
+<Base title={pageTitle} description={pageDescription} noindex={thin}>
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
   <script type="application/ld+json" set:html={ldJson(shopListLd)} />
   <script type="application/ld+json" set:html={ldJson(faqLd)} />

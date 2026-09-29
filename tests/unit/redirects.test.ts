@@ -4,11 +4,18 @@ import storesJson from '../../src/data/stores.json';
 import showsJson from '../../src/data/shows.json';
 import type { Store } from '../../src/lib/types';
 import type { ShowRecord } from '../../src/lib/shows';
+import { groupShowsIntoSeries } from '../../src/lib/shows';
 
 const stores = storesJson as Store[];
 const shows = showsJson as ShowRecord[];
 const liveStoreSlugs = new Set(stores.map((s) => s.slug));
 const liveShowSlugs = new Set(shows.map((s) => s.slug));
+// /shows/series/<slug>/ is a second show-related route (Q4 Phase 2a, added
+// 2026-09-23) with its own slug space, generated the same way the live show
+// pages are -- guarded here so a future series redirect can't shadow one, the
+// same failure mode that made the /shows/ branch below necessary in the first
+// place.
+const liveSeriesSlugs = new Set(groupShowsIntoSeries(shows).map((s) => s.slug));
 const liveCityPaths = new Set(stores.map((s) => {
   const provinceSlugs: Record<string, string> = {
     AB: 'alberta', BC: 'british-columbia', MB: 'manitoba', NB: 'new-brunswick',
@@ -41,18 +48,25 @@ describe('redirect map', () => {
       if (showSlug !== undefined) {
         expect(liveShowSlugs.has(showSlug), `${from} is a LIVE show page and must not be redirected`).toBe(false);
       }
+      const seriesSlug = from.match(/^\/shows\/series\/(.+)\/$/)?.[1];
+      if (seriesSlug !== undefined) {
+        expect(liveSeriesSlugs.has(seriesSlug), `${from} is a LIVE show-series page and must not be redirected`).toBe(false);
+      }
     }
   });
 
   it('every target resolves to a live store, show, or city page — a redirect into a 404 is worse than the 404', () => {
     for (const [from, to] of entries) {
       const storeSlug = (to as string).match(/^\/store\/(.+)\/$/)?.[1];
+      const seriesSlug = (to as string).match(/^\/shows\/series\/(.+)\/$/)?.[1];
       const showSlug = (to as string).match(/^\/shows\/(.+)\/$/)?.[1];
       const ok = storeSlug !== undefined
         ? liveStoreSlugs.has(storeSlug)
-        : showSlug !== undefined
-          ? liveShowSlugs.has(showSlug)
-          : liveCityPaths.has(to as string) || to === '/';
+        : seriesSlug !== undefined
+          ? liveSeriesSlugs.has(seriesSlug)
+          : showSlug !== undefined
+            ? liveShowSlugs.has(showSlug)
+            : liveCityPaths.has(to as string) || to === '/';
       expect(ok, `${from} -> ${to} points at nothing that exists`).toBe(true);
     }
   });

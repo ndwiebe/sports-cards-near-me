@@ -1,4 +1,4 @@
-import { topRatedStore, type FaqItem } from './seo';
+import { openSundayCount, rankedFirstPhrase, topRatedStore, type FaqItem } from './seo';
 import { provincesWithStores, citiesIn } from './stores';
 import type { ProvinceCode, Store } from './types';
 
@@ -144,4 +144,66 @@ export function pokemonCityFaqs(city: string, provinceName: string, shops: Store
         };
 
   return [whereFaq, bestFaq, tradeFaq];
+}
+
+/**
+ * How many Pokémon shops a city needs before its page asks to be indexed.
+ *
+ * A city with exactly one Pokémon shop is the same doorway-page shape the
+ * general city pages and `/resellers/` already guard against (see
+ * `resellersTooThinToIndex` in `resellers.ts`): a thin, near-duplicate page
+ * that answers nothing a shop's own listing doesn't. PRD Phase 3 (2026-09-23):
+ * "Stop Google indexing (noindex) Pokémon city pages with only one shop, the
+ * same doorway-page rule used for city pages." The page itself always stays
+ * reachable — only the indexing request is conditional.
+ */
+export const MIN_POKEMON_SHOPS_TO_INDEX = 2;
+
+/** True while a Pokémon city page has too little on it (a single shop) to be worth indexing. */
+export function pokemonCityTooThinToIndex(shopCount: number): boolean {
+  return shopCount < MIN_POKEMON_SHOPS_TO_INDEX;
+}
+
+/* ------------------------------------------------------------------------- *
+ * Round 2 (2026-09-23): Pokémon city title/description, same treatment as
+ * cityTitle/cityDescription in seo.ts — real star number and Sunday-open
+ * count in place of round 1's generic "Ranked, Updated Daily". Uses
+ * `topRatedStore`, not `topRatedSportsCardStore`: a TCG-only shop is the
+ * right answer on this surface and must rank normally (see seo.ts's own
+ * warning on `bySportsCardRank`).
+ * ------------------------------------------------------------------------- */
+
+export function pokemonCityTitle(city: string, provinceCode: ProvinceCode, shops: Store[]): string {
+  const count = shops.length;
+  const shopWord = count === 1 ? 'Shop' : 'Shops';
+  const base = `${count} Pokémon Card ${shopWord} in ${city}, ${provinceCode}`;
+  if (count === 1) return `${base} — Address, Map & Directions`;
+
+  const top = topRatedStore(shops);
+  const sundayCount = openSundayCount(shops);
+  const clauses: string[] = [];
+  if (top !== undefined && top.rating !== undefined) clauses.push(`${top.rating}★ Highest-Ranked`);
+  if (sundayCount > 0) clauses.push(`${sundayCount} Open Sunday${sundayCount === 1 ? '' : 's'}`);
+
+  if (clauses.length === 0) {
+    const anyRated = shops.some((s) => s.rating !== undefined);
+    return `${base} — ${anyRated ? 'Ranked, Updated Daily' : 'Address, Map & Directions, Updated Daily'}`;
+  }
+  return `${base} — ${clauses.join(', ')}`;
+}
+
+export function pokemonCityDescription(city: string, provinceName: string, shops: Store[]): string {
+  const count = shops.length;
+  const shopWord = count === 1 ? 'shop' : 'shops';
+  const lead = `Find ${count} Pokémon card ${shopWord} near you in ${city}, ${provinceName} — map, directions and hours, rebuilt daily.`;
+
+  const top = topRatedStore(shops);
+  const sundayCount = openSundayCount(shops);
+  const clauses: string[] = [];
+  if (top !== undefined && top.rating !== undefined) clauses.push(rankedFirstPhrase(top));
+  if (sundayCount > 0) {
+    clauses.push(count === 1 ? 'It opens Sundays' : `${sundayCount} of them open${sundayCount === 1 ? 's' : ''} Sundays`);
+  }
+  if (clauses.length === 0) return lead;
+  return `${lead} ${clauses.join('. ')}.`;
 }

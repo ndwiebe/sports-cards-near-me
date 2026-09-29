@@ -1,34 +1,13 @@
 #!/usr/bin/env python3
-"""Read the click-tracker's KV store and print who the site is actually sending shops.
+"""Read legacy counters and separate action records from Cloudflare KV.
 
-Written 2026-09-03. `worker/click-tracker.js` has been counting "Get Directions" and
-"Call" taps since 2026-08-28 (see docs/click-tracking.md) but only ever accepted POST --
-there was no way to read a number back. That number is the entire pitch to a shop owner
-("we sent you 14 people last month"), and nobody would have found out it was unreadable
-until the day it was needed. This script is the readout, run locally, no new public
-surface.
+Legacy monthly counters are approximate and have no source-city attribution.
+New event records are reported separately by month, destination shop, method and
+immediately preceding city page. Neither report measures unique visitors or sales.
+Authentication and malformed records fail explicitly. No fabricated counts.
 
-Two things this script refuses to do, because the whole point of it is trustworthy
-numbers:
-  1. It never prints a count it did not read from Cloudflare. If wrangler can't
-     authenticate or a value doesn't parse, it fails loudly and exits non-zero -- it does
-     not fall back to a guess, a cache, or a zero.
-  2. It never prints a bare 0 for a period it has no data for. A month with genuinely no
-     clicks and a month nobody has checked look identical as a "0" -- this script always
-     says "no clicks recorded" for the latter so the two are never confused.
-
-Usage:
-    python3 scripts/click-report.py
-
-Reads the KV namespace id from worker/wrangler.jsonc; that file is a deploy-time
-TEMPLATE (id is the literal placeholder __KV_ID__ until deploy-click-tracker.yml fills
-it in), so when the template hasn't been filled in locally this looks up the namespace
-the same way that workflow does: by its title, "CLICKS", via `wrangler kv namespace
-list`. Resolves each slug against src/data/stores.json (read-only) for a shop name and
-city; a slug with no match is a real signal -- rows get renamed and reassigned slugs --
-so it's printed flagged, never dropped.
-
-Requires the `wrangler` CLI, already authenticated (`npx wrangler whoami` to check).
+Run: python3 scripts/click-report.py
+Requires authenticated Wrangler. See docs/click-tracking.md.
 """
 import csv
 import json
@@ -55,7 +34,7 @@ KEY_PREFIX = 'clicks:'
 KEY_RE = re.compile(r'^clicks:(?P<slug>[a-z0-9-]+):(?P<method>directions|call):(?P<month>\d{4}-\d{2})$')
 
 # The worker (worker/click-tracker.js) went live 2026-08-28 -- see docs/click-tracking.md
-# for the 90-day clock this feeds. Nothing before this month was ever counted.
+# for its limitations. Nothing before this month was ever counted.
 LAUNCH_MONTH = '2026-08'
 
 # Substrings (checked lowercase) that mean "wrangler couldn't authenticate," seen from two
@@ -157,7 +136,7 @@ def resolve_namespace_id():
     )
 
 
-def list_keys(namespace_id):
+def list_keys(namespace_id, prefix=KEY_PREFIX):
     """All `clicks:` keys, read from the real remote store.
 
     `--remote` is not optional. Verified 2026-09-03: omitting it, even fully
@@ -166,7 +145,7 @@ def list_keys(namespace_id):
     zero this script exists to prevent.
     """
     data = run_wrangler_json([
-        'kv', 'key', 'list', f'--namespace-id={namespace_id}', f'--prefix={KEY_PREFIX}', '--remote',
+        'kv', 'key', 'list', f'--namespace-id={namespace_id}', f'--prefix={prefix}', '--remote',
     ])
     return [item['name'] for item in data]
 
@@ -332,6 +311,37 @@ def write_csv(rows, out_dir=OUT_DIR):
     return path
 
 
+EVENT_RE = re.compile(r'^events:(?P<slug>[a-z0-9-]{1,120}):(?P<method>directions|call|website):(?P<month>\d{4}-(?:0[1-9]|1[0-2])):(?P<source>unknown|(?:alberta|british-columbia|manitoba|new-brunswick|newfoundland-and-labrador|nova-scotia|northwest-territories|nunavut|ontario|prince-edward-island|quebec|saskatchewan|yukon)/[a-z0-9-]{1,100}):[a-f0-9-]{36}$')
+
+
+def build_event_rows(key_counts, store_index):
+    """Keep source-city attribution separate from destination city and legacy counts."""
+    counts = defaultdict(lambda: {'directions': 0, 'call': 0, 'website': 0})
+    for key, value in key_counts.items():
+        match = EVENT_RE.fullmatch(key)
+        if match is None or value != 1:
+            raise ClickReportError(f'Invalid event record: {key}')
+        slug, method, month, source = (match.group(k) for k in ('slug', 'method', 'month', 'source'))
+        counts[(slug, month, source)][method] += 1
+    rows = []
+    for (slug, month, source), methods in sorted(counts.items()):
+        name, city = store_index.get(slug, (slug, ''))
+        rows.append(dict(slug=slug, name=name, destination_city=city, month=month,
+                         source_city=source, **methods, combined=sum(methods.values())))
+    return rows
+
+
+def write_event_csv(rows, out_dir=OUT_DIR):
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / f'click-events-report-{date.today().isoformat()}.csv'
+    fields = ['slug', 'name', 'destination_city', 'month', 'source_city', 'directions', 'call', 'website', 'combined']
+    with path.open('w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+    return path
+
+
 def main():
     try:
         namespace_id = resolve_namespace_id()
@@ -340,9 +350,21 @@ def main():
         store_index = load_store_index()
         rows, malformed = build_rows(key_counts, store_index)
         current_month = date.today().strftime('%Y-%m')
+        print("LEGACY COUNTERS: approximate, no source-city attribution")
         print_report(rows, malformed, current_month)
         path = write_csv(rows)
         print(f'\nWrote {path.relative_to(REPO_ROOT)}')
+        event_keys = list_keys(namespace_id, prefix='events:')
+        event_counts = {key: get_value(namespace_id, key) for key in set(event_keys)}
+        event_rows = build_event_rows(event_counts, store_index)
+        event_path = write_event_csv(event_rows)
+        print('\nEVENT RECORDS: accepted actions, not visitors or sales')
+        if not event_rows:
+            print('No event records found. This does not establish tracking health.')
+        for row in event_rows:
+            print(f"  {row['month']}  {row['source_city']} -> {row['name']}: {row['combined']} actions "
+                  f"(directions {row['directions']}, call {row['call']}, website {row['website']})")
+        print(f'Wrote {event_path.relative_to(REPO_ROOT)}')
     except ClickReportError as exc:
         print(f'ERROR: {exc}', file=sys.stderr)
         sys.exit(1)

@@ -1,0 +1,43 @@
+{
+  "Stores": {
+    "203-collectibles-ltd-edmonton": {
+      "Name": "203 Collectibles LTD.",
+      "City": "Edmonton",
+      "Address": "2331 66 St NW Unit 312, Edmonton, AB T6K 4B5",
+      "Rating": "4.8 (33)",
+      "Hours": "",
+      "Phone": "780-555-0100",
+      "Website": "https://www.203collectibles.com/",
+      "Status": ""
+    },
+    "sample-shop-calgary": {
+      "Name": "Sample Shop",
+      "City": "Calgary",
+      "Address": "100 Sample St, Calgary, AB T1X 0A1",
+      "Rating": "",
+      "Hours": "",
+      "Phone": "",
+      "Website": "",
+      "Status": ""
+    },
+    "old-name-cards-leduc": {
+      "Name": "Old Name Cards",
+      "City": "Leduc",
+      "Address": "50 Example Ave, Leduc, AB T9E 0A1",
+      "Rating": "4.2 (10)",
+      "Hours": "",
+      "Phone": "",
+      "Website": "",
+      "Status": ""
+    }
+  },
+  "Shows": {
+    "existing-show-ottawa-2026-10-01": {
+      "Name": "Existing Show",
+      "City": "Ottawa",
+      "Province": "ON",
+      "StartDate": "2026-10-01"
+    }
+  },
+  "Resellers": {}
+}

@@ -21,7 +21,10 @@ const bySlug = new Map(GUIDES.map((g) => [g.slug, g]));
 
 /** Ordered so the earliest match wins a slot; the fallbacks fill what's left. */
 const TAG_RULES: { match: (tag: string) => boolean; guides: string[] }[] = [
-  { match: (t) => t.includes('grading'), guides: ['card-grading-companies-canada', 'card-grading-101'] },
+  {
+    match: (t) => t.includes('grading'),
+    guides: ['card-grading-companies-canada', 'card-grading-101', 'beckett-grading-canada', 'sgc-cgc-grading-canada'],
+  },
   { match: (t) => t === 'buys', guides: ['selling-your-collection', 'tax-on-selling-sports-cards-canada'] },
   {
     match: (t) => ['pokemon', 'magic', 'one piece', 'lorcana', 'yu-gi-oh'].includes(t),

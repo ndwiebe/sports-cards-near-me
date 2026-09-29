@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { isPokemonShop, pokemonCityCapsule, pokemonCityFaqs, pokemonShopsInCity } from '../../src/lib/tcg';
+import {
+  isPokemonShop,
+  MIN_POKEMON_SHOPS_TO_INDEX,
+  pokemonCityCapsule,
+  pokemonCityDescription,
+  pokemonCityFaqs,
+  pokemonCityTitle,
+  pokemonCityTooThinToIndex,
+  pokemonShopsInCity,
+} from '../../src/lib/tcg';
 import type { Store } from '../../src/lib/types';
 
 function store(overrides: Partial<Store>): Store {
@@ -235,5 +244,72 @@ describe('pokemonCityFaqs', () => {
     for (const faq of faqs) {
       expect(faq.answer).not.toContain('$');
     }
+  });
+});
+
+/**
+ * PRD Phase 3 (2026-09-23): "Stop Google indexing (noindex) Pokémon city
+ * pages with only one shop, the same doorway-page rule used for city pages."
+ * Same shape as resellersTooThinToIndex in src/lib/resellers.ts.
+ */
+describe('pokemonCityTooThinToIndex', () => {
+  it('is thin at exactly one shop, indexable at two or more', () => {
+    expect(pokemonCityTooThinToIndex(1)).toBe(true);
+    expect(pokemonCityTooThinToIndex(MIN_POKEMON_SHOPS_TO_INDEX)).toBe(false);
+    expect(pokemonCityTooThinToIndex(MIN_POKEMON_SHOPS_TO_INDEX + 5)).toBe(false);
+  });
+
+  it('never reports zero as thin-but-indexable — a page with 0 shops never builds', () => {
+    // pokemonShopsInCity always has >=1 entry on a built page (the .astro throws
+    // otherwise); this just proves the boundary is monotonic below the constant too.
+    expect(pokemonCityTooThinToIndex(0)).toBe(true);
+  });
+});
+
+describe('pokemonCityTitle', () => {
+  it('never claims a ranking for a lone shop', () => {
+    const t = pokemonCityTitle('Leduc', 'AB', [store({ rating: 4.9, reviewCount: 500, sports: ['Pokemon'] })]);
+    expect(t).toBe('1 Pokémon Card Shop in Leduc, AB — Address, Map & Directions');
+    expect(t).not.toMatch(/★|Sunday/);
+  });
+
+  it('adds the crowned shop\'s star number as "Highest-Ranked", never "Top/Best Rated"', () => {
+    const shops = [
+      store({ slug: 'a', name: 'A', rating: 4.9, reviewCount: 200, sports: ['Pokemon'] }),
+      store({ slug: 'b', name: 'B', rating: 3.5, reviewCount: 10, sports: ['Pokemon'] }),
+    ];
+    const t = pokemonCityTitle('Calgary', 'AB', shops);
+    expect(t).toContain('4.9★ Highest-Ranked');
+    expect(t).not.toMatch(/(?:top|best|highest)[\s-]rated/i);
+  });
+
+  it('adds the Sunday-open count only when a shop actually opens Sundays', () => {
+    const shops = [
+      store({ slug: 'a', name: 'A', rating: 4.5, reviewCount: 25, sports: ['Pokemon'], hours: 'Sunday: 12:00 – 5:00 PM' }),
+      store({ slug: 'b', name: 'B', rating: 4.5, reviewCount: 25, sports: ['Pokemon'], hours: 'Sunday: Closed' }),
+    ];
+    expect(pokemonCityTitle('Calgary', 'AB', shops)).toContain('1 Open Sunday');
+  });
+
+  it('falls back to round 1\'s "Ranked" wording for a crownless city', () => {
+    const shops = [
+      store({ slug: 'a', name: 'A', rating: 4.9, reviewCount: 3, sports: ['Pokemon'] }),
+      store({ slug: 'b', name: 'B', sports: ['Pokemon'] }),
+    ];
+    expect(pokemonCityTitle('Calgary', 'AB', shops)).toBe('2 Pokémon Card Shops in Calgary, AB — Ranked, Updated Daily');
+  });
+});
+
+describe('pokemonCityDescription', () => {
+  it('leads with the shop count and place, "near you" not literal "near me"', () => {
+    const d = pokemonCityDescription('Leduc', 'Alberta', [store({ sports: ['Pokemon'] })]);
+    expect(d).toMatch(/^Find 1 Pokémon card shop near you in Leduc, Alberta/);
+    expect(d).not.toContain('near me');
+  });
+
+  it('folds in the ranks-first phrase as a supporting fact, not the lead', () => {
+    const shops = [store({ rating: 4.8, reviewCount: 120, sports: ['Pokemon'] })];
+    const d = pokemonCityDescription('Leduc', 'Alberta', shops);
+    expect(d).toContain('ranks first on our review-weighted score');
   });
 });

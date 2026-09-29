@@ -1,0 +1,129 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { SHOW_FORM_URL } from '../../../../lib/forms';
+import showsJson from '../../../../data/shows.json';
+import type { ShowRecord, ShowSeries } from '../../../../lib/shows';
+import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate } from '../../../../lib/shows';
+import { PROVINCES } from '../../../../lib/types';
+import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../../lib/seo';
+
+// A lasting page per recurring show series (Q4 PRD, Phase 2a): one URL that
+// keeps its ranking between individual dates, rather than starting from zero
+// every time the last dated page falls out of the "upcoming" window. Grouping
+// is deterministic from fields the sheet already carries -- see
+// groupShowsIntoSeries() in src/lib/shows.ts.
+export function getStaticPaths() {
+  const series = groupShowsIntoSeries(showsJson as ShowRecord[]);
+  return series.map((s) => ({ params: { slug: s.slug }, props: { series: s } }));
+}
+
+interface Props { series: ShowSeries }
+const { series } = Astro.props;
+const province = PROVINCES[series.province];
+const pagePath = `/shows/series/${series.slug}/`;
+
+const buildDate = new Date();
+const upcoming = series.shows.filter((s) => isUpcoming(s, buildDate));
+const past = series.shows.filter((s) => !isUpcoming(s, buildDate)).reverse();
+const next = nextInSeries(series, buildDate);
+
+const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
+const formatRange = (show: ShowRecord): string => {
+  const start = dateFormat.format(parseLocalDate(show.startDate));
+  if (show.endDate === undefined) return start;
+  const end = dateFormat.format(parseLocalDate(show.endDate));
+  return end === start ? start : `${start} – ${end}`;
+};
+
+const title = next !== undefined
+  ? `${series.name} — ${series.city}, ${series.province} (Next: ${dateFormat.format(parseLocalDate(next.startDate))})`
+  : `${series.name} — ${series.city}, ${series.province} (${series.shows.length} Dates Tracked)`;
+const description = next !== undefined
+  ? `${series.name} runs regularly in ${series.city}, ${province.name}. ${upcoming.length} upcoming ${upcoming.length === 1 ? 'date is' : 'dates are'} listed, next on ${dateFormat.format(parseLocalDate(next.startDate))}.`
+  : `${series.name} has run in ${series.city}, ${province.name} on ${series.shows.length} tracked dates, all of which have already happened. Check back as new dates are added.`;
+
+const breadcrumbLd = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Shows', url: absoluteUrl(Astro.site, '/shows/') },
+  { name: series.name, url: absoluteUrl(Astro.site, pagePath) },
+]);
+// An ItemList of this series' dates -- the same structured-data shape the
+// province-year page already uses for its show list, not a new schema type.
+// schema.org's EventSeries exists but Google documents no rich-result support
+// for it, so this reuses markup already proven on this site.
+const dateListLd = itemListLd(
+  series.shows.map((s) => ({ name: `${s.name} — ${formatRange(s)}`, url: absoluteUrl(Astro.site, `/shows/${s.slug}/`) })),
+);
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
+  <script type="application/ld+json" set:html={ldJson(dateListLd)} />
+
+  <nav class="mt-14 text-sm text-muted">
+    <a href="/shows/" class="hover:text-paper">Shows</a> / {series.name}
+  </nav>
+  <p class="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Recurring Show</p>
+  <h1 class="mt-2 text-5xl md:text-7xl">{series.name}</h1>
+  <div class="refractor-rule mt-4 w-28"></div>
+  <p class="mt-4 max-w-prose text-paper/85" data-answer-capsule>
+    {series.name} runs regularly in {series.city}, {province.name}.{' '}
+    {upcoming.length > 0
+      ? `${upcoming.length} upcoming ${upcoming.length === 1 ? 'date is' : 'dates are'} on the calendar.`
+      : `No upcoming date is on the calendar yet — every date we've tracked has already happened.`}
+    {' '}{series.shows.length} {series.shows.length === 1 ? 'date' : 'dates'} tracked in total.
+  </p>
+  <p class="mt-3 text-sm text-muted">
+    See the full <a href="/shows/" class="text-prizm">Canada-wide show calendar</a>{' '}
+    {/* Not every show city has a shop directory page (some cities are show-only —
+        11 as of 2026-09-23), so this deliberately doesn't link to a per-city shop
+        page that may not exist. */}
+    for what's on in {province.name} and elsewhere.
+  </p>
+  <p class="mt-2 text-sm text-muted">
+    Run this show, or know a date we're missing?{' '}
+    <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Let us know</a> — it's free, and a person reviews every submission.
+  </p>
+
+  {upcoming.length === 0 ? (
+    <p class="mt-10 max-w-prose text-muted">
+      No upcoming {series.name} date is confirmed yet. See the full <a href="/shows/" class="text-prizm">show calendar</a> for
+      what's on elsewhere, or check back as new dates are added.
+    </p>
+  ) : (
+    <div class="mt-10">
+      <h2 class="text-3xl">Upcoming Dates</h2>
+      <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
+        {upcoming.map((show) => (
+          <li>
+            <a
+              href={`/shows/${show.slug}/`}
+              class="block rounded-xl border border-bord bg-panel p-5 transition-transform duration-200 hover:-translate-y-0.5 hover:border-prizm"
+            >
+              <h3 class="text-xl">{formatRange(show)}</h3>
+              {show.venue !== undefined && <p class="mt-1 text-sm text-muted">{show.venue}</p>}
+              {show.admission !== undefined && <p class="mt-1 text-sm text-muted">{show.admission}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  {past.length > 0 && (
+    <details class="mt-16">
+      <summary class="cursor-pointer text-sm font-semibold uppercase tracking-wide text-muted hover:text-paper">
+        Past dates ({past.length})
+      </summary>
+      <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
+        {past.map((show) => (
+          <li>
+            <a href={`/shows/${show.slug}/`} class="block rounded-xl border border-bord bg-panel p-5 hover:border-prizm">
+              <h3 class="text-xl">{formatRange(show)}</h3>
+              {show.venue !== undefined && <p class="mt-1 text-sm text-muted">{show.venue}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )}
+</Base>

@@ -1,6 +1,7 @@
 import storesJson from '../data/stores.json';
-import type { Store } from './types';
+import type { ProvinceCode, Store } from './types';
 import { PROVINCES } from './types';
+import { openOnSunday } from './store-hours';
 
 export interface BreadcrumbItem {
   name: string;
@@ -699,4 +700,122 @@ export function rankedFirstPhrase(store: Store, includeCity = false): string {
     return `${who} ranks first on our review-weighted score`;
   }
   return `${who} ranks first on our review-weighted score (${store.rating}★ from ${store.reviewCount} reviews)`;
+}
+
+/** How many of `stores` have a Sunday opening in their parsed hours. One real,
+ * checkable fact the round-1 city/province/Pokémon titles didn't carry — most
+ * shopping trips to a card store happen on a day off work. */
+export function openSundayCount(stores: Store[]): number {
+  return stores.filter((s) => openOnSunday(s.hours)).length;
+}
+
+/* ------------------------------------------------------------------------- *
+ * Round 2 (2026-09-23): city and province titles/descriptions.
+ *
+ * Round 1 (77317e47, 2026-08-07) gave every city/province page a shop count
+ * and a conditional "Rated & Mapped" / "Ranked" suffix — honest, but the same
+ * words on every page regardless of how good that city's data actually is.
+ * The 2026-09-23 Search Console read (docs/research/2026-09-23-title-round1-ctr.md)
+ * found the highest-impression city and province pages still under 1% CTR.
+ * These add the two real per-page facts round 1 didn't use: the top-ranked
+ * shop's actual star number, and how many shops open Sundays. Same
+ * absence-of-data rules as round 1 (no claim a lone/crownless/unrated city
+ * can't back) and the same superlative-claims guard
+ * (tests/unit/superlative-claims.test.ts bans "top/best/highest-RATED" — this
+ * says "Highest-Ranked", never "Top Rated", for the same reason
+ * rankedFirstPhrase says "ranks first" rather than "is rated highest").
+ * ------------------------------------------------------------------------- */
+
+/**
+ * City page title. Mirrors the noneOpen / lone-shop / crownless fallbacks the
+ * round-1 template already used (`${count} Card Shop(s) in ${city}, ${code} —
+ * ${titleSuffix}`) so a page with nothing new to say keeps saying the true
+ * thing, and only adds a clause when there is a real fact to add.
+ */
+export function cityTitle(city: string, provinceCode: ProvinceCode, stores: Store[], noneOpen: boolean): string {
+  if (noneOpen) return `Card Shops in ${city}, ${provinceCode} — Nearest Open Shops`;
+
+  const count = stores.length;
+  const shopWord = count === 1 ? 'Shop' : 'Shops';
+  const base = `${count} Card ${shopWord} in ${city}, ${provinceCode}`;
+  if (count === 1) return `${base} — Address, Map & Directions`;
+
+  const top = topRatedSportsCardStore(stores);
+  const sundayCount = openSundayCount(stores);
+  const clauses: string[] = [];
+  if (top !== undefined && top.rating !== undefined) clauses.push(`${top.rating}★ Highest-Ranked`);
+  if (sundayCount > 0) clauses.push(`${sundayCount} Open Sunday${sundayCount === 1 ? '' : 's'}`);
+
+  if (clauses.length === 0) {
+    const anyRated = stores.some((s) => s.rating !== undefined);
+    return `${base} — ${anyRated ? 'Rated & Mapped' : 'Address, Map & Directions'}, Updated Daily`;
+  }
+  return `${base} — ${clauses.join(', ')}`;
+}
+
+/**
+ * City page meta description. Keeps round 1's rule that what the page IS
+ * (the shop count, the place) lands in the first sentence inside Google's
+ * ~160-character cut — everything data-dependent (the rank claim, the
+ * Sunday count) comes after, where truncation is safe to lose.
+ */
+export function cityDescription(city: string, provinceName: string, stores: Store[], noneOpen: boolean): string {
+  if (noneOpen) {
+    return (
+      `No card shop is currently open in ${city}, ${provinceName} — the one we listed has closed. ` +
+      `Here are the nearest open shops, with distances, map and directions.`
+    );
+  }
+
+  const count = stores.length;
+  const shopWord = count === 1 ? 'shop' : 'shops';
+  const lead = `Find all ${count} card ${shopWord} near you in ${city}, ${provinceName} — map, directions and hours, rebuilt daily.`;
+
+  const top = topRatedSportsCardStore(stores);
+  const sundayCount = openSundayCount(stores);
+  const clauses: string[] = [];
+  if (top !== undefined && top.rating !== undefined) clauses.push(rankedFirstPhrase(top));
+  if (sundayCount > 0) {
+    clauses.push(count === 1 ? 'It opens Sundays' : `${sundayCount} of them open${sundayCount === 1 ? 's' : ''} Sundays`);
+  }
+  if (clauses.length === 0) return lead;
+  return `${lead} ${clauses.join('. ')}.`;
+}
+
+/**
+ * Province page title. Same shape as `cityTitle` one level up — the round-1
+ * "Rated by City" suffix only appears when nothing crowns a shop across the
+ * whole province.
+ */
+export function provinceTitle(provinceName: string, cities: CityGroup[]): string {
+  const stores = cities.flatMap((c) => c.stores);
+  const total = stores.length;
+  const shopWord = total === 1 ? 'Shop' : 'Shops';
+  const base = `${total} Card ${shopWord} in ${provinceName}`;
+
+  const top = topRatedSportsCardStore(stores);
+  const sundayCount = openSundayCount(stores);
+  const clauses: string[] = [];
+  if (top !== undefined && top.rating !== undefined) clauses.push(`${top.rating}★ Highest-Ranked`);
+  if (sundayCount > 0) clauses.push(`${sundayCount} Open Sundays`);
+
+  if (clauses.length === 0) return `${base} — Rated by City, Updated Daily`;
+  return `${base} — ${clauses.join(', ')}`;
+}
+
+/** Province page meta description. Same lead-sentence-first rule as `cityDescription`. */
+export function provinceDescription(provinceName: string, cities: CityGroup[]): string {
+  const stores = cities.flatMap((c) => c.stores);
+  const total = stores.length;
+  const shopWord = total === 1 ? 'shop' : 'shops';
+  const cityWord = cities.length === 1 ? 'city' : 'cities';
+  const lead = `Find ${total} card ${shopWord} near you across ${cities.length} ${cityWord} in ${provinceName}, rebuilt daily.`;
+
+  const top = topRatedSportsCardStore(stores);
+  const sundayCount = openSundayCount(stores);
+  const clauses: string[] = [];
+  if (top !== undefined && top.rating !== undefined) clauses.push(rankedFirstPhrase(top, true));
+  if (sundayCount > 0) clauses.push(`${sundayCount} open Sundays`);
+  if (clauses.length === 0) return lead;
+  return `${lead} ${clauses.join('. ')}.`;
 }

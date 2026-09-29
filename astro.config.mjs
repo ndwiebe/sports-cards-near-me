@@ -8,6 +8,7 @@ import sitemap from '@astrojs/sitemap';
 import redirectMap from './src/data/redirects.json' with { type: 'json' };
 import resellersJson from './src/data/resellers.json' with { type: 'json' };
 import closedStoresJson from './src/data/stores-closed.json' with { type: 'json' };
+import storesJson from './src/data/stores.json' with { type: 'json' };
 
 // Old published URLs -> current homes. Slugs derive from name+city, so a rename,
 // city correction, or duplicate removal silently kills a URL Google has indexed
@@ -27,6 +28,26 @@ const RESELLERS_INDEXABLE = resellersJson.length >= 5;
 
 const CLOSED_STORE_PATHS = new Set(closedStoresJson.map((s) => `/store/${s.slug}/`));
 
+// PRD Phase 3 (2026-09-23): a Pokémon city page with exactly one shop is the
+// same doorway-page shape as a thin general city page — noindex it, drop it
+// from the sitemap, same as the closed-store rule above. Mirrors
+// pokemonCityTooThinToIndex/MIN_POKEMON_SHOPS_TO_INDEX in src/lib/tcg.ts; kept
+// as a literal here for the same reason RESELLERS_INDEXABLE is: astro.config.mjs
+// cannot import from src/lib (TS, not built yet). Grouped by citySlug only,
+// matching how the page itself resolves Astro.params.city.
+const MIN_POKEMON_SHOPS_TO_INDEX = 2;
+const pokemonShopCountByCitySlug = new Map();
+for (const s of storesJson) {
+  const tags = [...(s.services ?? []), ...(s.sports ?? [])].map((t) => String(t).trim().toLowerCase());
+  if (!tags.includes('pokemon')) continue;
+  pokemonShopCountByCitySlug.set(s.citySlug, (pokemonShopCountByCitySlug.get(s.citySlug) ?? 0) + 1);
+}
+const THIN_POKEMON_CITY_PATHS = new Set(
+  [...pokemonShopCountByCitySlug.entries()]
+    .filter(([, count]) => count < MIN_POKEMON_SHOPS_TO_INDEX)
+    .map(([citySlug]) => `/pokemon/${citySlug}/`),
+);
+
 export default defineConfig({
   site: 'https://sportscardsnearme.ca',
 
@@ -44,6 +65,7 @@ export default defineConfig({
       filter: (page) => {
         const path = new URL(page).pathname;
         if (CLOSED_STORE_PATHS.has(path)) return false;
+        if (THIN_POKEMON_CITY_PATHS.has(path)) return false;
         return RESELLERS_INDEXABLE || !/\/resellers\/(join\/)?$/.test(path);
       },
     }),

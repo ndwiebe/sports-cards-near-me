@@ -107,6 +107,15 @@ export function parseStoreHours(hours: string | undefined): OpeningHoursSpecific
   return out.length > 0 ? out : undefined;
 }
 
+/** Whether the parsed hours include a Sunday opening window. Used by the round-2
+ * title/description work (2026-09-23) as one real, checkable fact about a city's
+ * shops — most card-store trips happen on a day off, and Sunday is the one the
+ * data can actually answer. Same all-or-nothing parse as everything else here:
+ * hours this parser can't read count as "no Sunday window", never a guess. */
+export function openOnSunday(hours: string | undefined): boolean {
+  return (parseStoreHours(hours) ?? []).some((spec) => spec.dayOfWeek === 'Sunday');
+}
+
 export interface HoursRow {
   day: string;
   /** Exactly what the source says for that day — "11:00 AM – 6:30 PM", "Closed", "Open 24 hours". */
