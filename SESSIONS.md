@@ -27,7 +27,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
 
-_(none — the 2026-09-04/05 parallel pass released all five lanes; see the log.)_
+| 2026-09-29 | Sonnet 5.5, `scnm-plan4`, branch `rosters` | data + lib + pages | `src/lib/rosters.ts`, `scripts/bake-rosters.ts`, `src/pages/shows/[slug]/index.astro`, `site.yml`, new `Rosters` sheet tab | show rosters plan `docs/superpowers/plans/2026-09-29-plan-show-rosters.md`; sheet write gated on Nathan |
 
 ## Queued — claimed but not started
 
