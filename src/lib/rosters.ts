@@ -12,7 +12,9 @@ import { RESELLER_FORM_ENTRY, RESELLER_FORM_URL } from './forms';
  * this name was on this list for this edition. Nothing here is "verified".
  */
 export interface RosterEntry {
-  /** Roster page or PDF. Joins to ShowRecord.website or sourceUrl. */
+  /** The show page this list belongs to. Joins to ShowRecord.website or sourceUrl. */
+  show: string;
+  /** The promoter's actual roster page or PDF, shown as the citation. */
   source: string;
   edition: string;
   captured: string;
@@ -30,22 +32,24 @@ export interface RosterEntry {
 // tests/unit/rosters.test.ts fails loudly if a column is inserted.
 // The sheet is world-readable: only publishable fields belong in it.
 const COL = {
-  source: 0, edition: 1, captured: 2, dealer: 3, booth: 4, blurb: 5, link: 6, storeSlug: 7,
+  show: 0, source: 1, edition: 2, captured: 3, dealer: 4, booth: 5, blurb: 6, link: 7, storeSlug: 8,
 } as const;
 
 const BLURB_MAX = 300;
 
 export function rowToRosterEntry(cells: GvizRow): RosterEntry | null {
+  const show = httpUrl(cells[COL.show]?.v);
   const source = httpUrl(cells[COL.source]?.v);
   const edition = sanitizeText(cells[COL.edition]?.v);
   const captured = isoDate(cells[COL.captured]);
   const dealer = sanitizeText(cells[COL.dealer]?.v);
-  if (source === undefined || edition === undefined || captured === undefined || dealer === undefined) return null;
+  if (show === undefined || source === undefined || edition === undefined || captured === undefined || dealer === undefined) return null;
 
   const slugRaw = sanitizeText(cells[COL.storeSlug]?.v);
   const noMatch = slugRaw === '-';
 
   return {
+    show,
     source,
     edition,
     captured,
@@ -93,8 +97,9 @@ export interface ShowRoster {
 const sameUrl = (a: string, b: string): boolean => a.replace(/\/+$/, '') === b.replace(/\/+$/, '');
 
 /**
- * Rosters belong to a show through the URL the promoter published them at:
- * the show's website or sourceUrl. Recurring shows share a website across
+ * Rosters belong to a show through an explicit join URL (the show's website or
+ * sourceUrl); the roster's own URL is only the citation, because a PDF's
+ * address never equals the show's homepage. Recurring shows share a website across
  * dates, so an annual expo's page shows the last edition's list, labelled as
  * such — "who usually tables here" is the useful answer between editions.
  */
@@ -102,7 +107,7 @@ export function rostersForShow(show: ShowRecord, entries: readonly RosterEntry[]
   const urls = [show.website, show.sourceUrl].filter((u): u is string => u !== undefined);
   const groups = new Map<string, ShowRoster>();
   for (const entry of entries) {
-    if (!urls.some((u) => sameUrl(u, entry.source))) continue;
+    if (!urls.some((u) => sameUrl(u, entry.show))) continue;
     const key = `${entry.source}\n${entry.edition}`;
     const g = groups.get(key) ?? { source: entry.source, edition: entry.edition, captured: entry.captured, entries: [] };
     g.entries.push(entry);

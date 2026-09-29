@@ -14,7 +14,7 @@ const mapped = rows.map((cells, i) => ({ cells, i, entry: rowToRosterEntry(cells
 
 for (const { cells, i, entry } of mapped) {
   if (entry === null) {
-    const name = sanitizeText(cells[3]?.v);
+    const name = sanitizeText(cells[4]?.v);
     log.warn(`skipped row ${i}${name !== undefined ? ` (${name})` : ''}: missing required field(s)`);
   }
 }

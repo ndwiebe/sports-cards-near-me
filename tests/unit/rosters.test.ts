@@ -11,9 +11,10 @@ const cell = (v: string | number | null, f?: string): GvizCell | null =>
   v === null ? null : f !== undefined ? { v, f } : { v };
 
 // Column order matches the Rosters sheet tab headers, as of 2026-09-29:
-// 0 Source URL | 1 Edition | 2 Captured | 3 Dealer | 4 Booth | 5 Blurb | 6 Link | 7 Store Slug
+// 0 Show URL | 1 Source URL | 2 Edition | 3 Captured | 4 Dealer | 5 Booth | 6 Blurb | 7 Link | 8 Store Slug
 const row = (over: Partial<Record<number, GvizCell | null>> = {}): GvizRow => {
   const base: (GvizCell | null)[] = [
+    cell('https://sportcardexpotoronto.com/'),
     cell('https://sportcardexpotoronto.com/wp-content/uploads/2026-SCME-APRIL-dealers-list-2pager.pdf'),
     cell('Spring 2026 (Apr 30 – May 3)'),
     cell('Date(2026,8,29)', '2026-09-29'),
@@ -29,6 +30,7 @@ const row = (over: Partial<Record<number, GvizCell | null>> = {}): GvizRow => {
 describe('rowToRosterEntry', () => {
   it('maps a complete row', () => {
     expect(rowToRosterEntry(row())).toEqual({
+      show: 'https://sportcardexpotoronto.com/',
       source: 'https://sportcardexpotoronto.com/wp-content/uploads/2026-SCME-APRIL-dealers-list-2pager.pdf',
       edition: 'Spring 2026 (Apr 30 – May 3)',
       captured: '2026-09-29',
@@ -41,31 +43,32 @@ describe('rowToRosterEntry', () => {
     });
   });
 
-  it('rejects rows missing source, edition, captured or dealer', () => {
-    expect(rowToRosterEntry(row({ 0: null }))).toBeNull();
+  it('rejects rows missing show, source, edition, captured or dealer', () => {
     expect(rowToRosterEntry(row({ 1: null }))).toBeNull();
     expect(rowToRosterEntry(row({ 2: null }))).toBeNull();
-    expect(rowToRosterEntry(row({ 3: cell('  ') }))).toBeNull();
+    expect(rowToRosterEntry(row({ 3: null }))).toBeNull();
+    expect(rowToRosterEntry(row({ 4: cell('  ') }))).toBeNull();
+    expect(rowToRosterEntry(row({ 0: null }))).toBeNull();
   });
 
   it('rejects a source that is not an http(s) URL', () => {
-    expect(rowToRosterEntry(row({ 0: cell('dealers.pdf') }))).toBeNull();
+    expect(rowToRosterEntry(row({ 1: cell('dealers.pdf') }))).toBeNull();
   });
 
   it("treats a '-' Store Slug as an explicit no-match", () => {
-    const r = rowToRosterEntry(row({ 7: cell('-') }));
+    const r = rowToRosterEntry(row({ 8: cell('-') }));
     expect(r?.storeSlug).toBeUndefined();
     expect(r?.noMatch).toBe(true);
   });
 
   it('keeps an explicit Store Slug', () => {
-    const r = rowToRosterEntry(row({ 7: cell('401-games-toronto') }));
+    const r = rowToRosterEntry(row({ 8: cell('401-games-toronto') }));
     expect(r?.storeSlug).toBe('401-games-toronto');
     expect(r?.noMatch).toBe(false);
   });
 
   it('drops a Link that is not http(s) and trims the blurb to 300 chars', () => {
-    const r = rowToRosterEntry(row({ 5: cell('x'.repeat(400)), 6: cell('instagram.com/foo') }));
+    const r = rowToRosterEntry(row({ 6: cell('x'.repeat(400)), 7: cell('instagram.com/foo') }));
     expect(r?.blurb).toHaveLength(300);
     expect(r?.link).toBeUndefined();
   });
@@ -89,7 +92,7 @@ describe('normalizeDealerName', () => {
 describe('matchStore', () => {
   const stores = [store('401 Games', '401-games-toronto'), store('Sports Cards Plus & Collectibles', 'sports-cards-plus-thunder-bay')];
   const entry = (dealer: string, over: Partial<RosterEntry> = {}): RosterEntry => ({
-    source: 'https://x.test/list.pdf', edition: '2026', captured: '2026-09-29', dealer, noMatch: false, ...over,
+    show: 'https://x.test/', source: 'https://x.test/list.pdf', edition: '2026', captured: '2026-09-29', dealer, noMatch: false, ...over,
   });
 
   it('matches on normalized name equality', () => {
@@ -117,8 +120,8 @@ describe('rostersForShow', () => {
     startDate: '2026-11-06', website: 'https://sportcardexpotoronto.com/',
     sourceUrl: 'https://sportcardexpotoronto.com/wp-content/uploads/2026-SCME-APRIL-dealers-list-2pager.pdf',
   };
-  const e = (source: string, dealer: string, edition = 'Spring 2026'): RosterEntry =>
-    ({ source, edition, captured: '2026-09-29', dealer, noMatch: false });
+  const e = (showUrl: string, dealer: string, edition = 'Spring 2026'): RosterEntry =>
+    ({ show: showUrl, source: `${showUrl}list.pdf`, edition, captured: '2026-09-29', dealer, noMatch: false });
 
   it('groups entries whose source equals the show website or sourceUrl, in sheet order', () => {
     const entries = [
@@ -131,6 +134,12 @@ describe('rostersForShow', () => {
       ['Spring 2026', ['B']],
       ['Fall 2026', ['A']],
     ]);
+  });
+  it('joins on the show URL, not the roster PDF address', () => {
+    const entry: RosterEntry = { show: 'https://sportcardexpotoronto.com/', source: 'https://sportcardexpotoronto.com/wp-content/x.pdf', edition: 'Spring 2026', captured: '2026-09-29', dealer: 'A', noMatch: false };
+    const r = rostersForShow(show, [entry]);
+    expect(r).toHaveLength(1);
+    expect(r[0]?.source).toBe('https://sportcardexpotoronto.com/wp-content/x.pdf');
   });
   it('ignores a trailing slash difference', () => {
     const r = rostersForShow(show, [e('https://sportcardexpotoronto.com', 'A')]);
