@@ -12,9 +12,9 @@ repo at once. That file is the live board of who is touching what.
 
 ### 1. `src/data/*.json` are GENERATED. Editing them does nothing.
 
-`stores.json`, `shows.json` and `resellers.json` are baked from **one Google Sheet**
-(`14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I`, tabs `Shows` / `Resellers` / stores-by-GID).
-CI runs `npm run bake && npm run bake:shows && npm run bake:resellers` **on every deploy,
+`stores.json`, `shows.json`, `resellers.json` and `rosters.json` are baked from **one Google Sheet**
+(`14ZIoX33de58g7GOBojG_Xr-P7goPJhE1S-hDylXUi3I`, tabs `Shows` / `Resellers` / `Rosters` / stores-by-GID).
+CI runs `npm run bake && npm run bake:shows && npm run bake:resellers && npm run bake:rosters` **on every deploy,
 before the build.**
 
 They are also committed to git. That combination is the trap: your local edit commits
@@ -28,7 +28,7 @@ header test fails loudly if a column moves — that guard is deliberate, don't r
 Re-baking locally is how you verify: `npm run bake:shows` then check the diff is only what
 you intended.
 
-⚠️ `bake:shows` and `bake:resellers` carry **no row-count guard** (only stores does). A
+⚠️ `bake:shows` and `bake:resellers` carry **no row-count guard** (only stores does; `bake:rosters` refuses to write if the count falls under half the previous one). Google's `sheet=<name>` fetch silently falls back to a different tab if the name is missing, so a renamed `Rosters` tab is caught only by that guard. A
 malformed sheet silently deploys an empty calendar. Check counts after any bake.
 
 ### 2. Pushing `redesign` does NOT publish. Production needs a second, manual step.
@@ -144,7 +144,7 @@ produced one false pass.)
 | | |
 |---|---|
 | `npm run dev` | local server |
-| `npm run bake` / `bake:shows` / `bake:resellers` | regenerate data from the sheet |
+| `npm run bake` / `bake:shows` / `bake:resellers` / `bake:rosters` | regenerate data from the sheet |
 | `npm run typecheck` · `npm test` · `npm run test:e2e` | checks |
 | `npm run build` | static build to `dist/` |
 
