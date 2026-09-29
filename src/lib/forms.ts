@@ -26,6 +26,16 @@ export const RESELLER_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSdYwjJ2Fk1X5VDcgeuVQw5oEXvVDMune9QWfc_Nxjkp6R54xQ/viewform';
 
 /**
+ * Pre-fill field IDs for RESELLER_FORM_URL, read from the form's public HTML
+ * (FB_PUBLIC_LOAD_DATA_) on 2026-09-29. They change only if the form is
+ * rebuilt; if a claim link ever opens an empty form, re-read them.
+ */
+export const RESELLER_FORM_ENTRY = {
+  displayName: 'entry.1276928846',
+  collectAndSell: 'entry.1802446710',
+} as const;
+
+/**
  * A DEAD duplicate of the reseller form. Drive holds three copies of it; this is
  * the one that got pasted onto every show page and caused the 2026-07-29 bug.
  * Kept named so the test below can assert it never returns to a page — deleting

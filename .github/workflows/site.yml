@@ -35,6 +35,7 @@ jobs:
       - run: npm run bake
       - run: npm run bake:shows
       - run: npm run bake:resellers
+      - run: npm run bake:rosters
       - run: npm test
       - run: npm run build
         env:

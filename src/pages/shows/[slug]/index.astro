@@ -6,6 +6,11 @@ import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate, showEve
 import { absoluteUrl, ldJson } from '../../../lib/seo';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import { PROVINCES } from '../../../lib/types';
+import rostersJson from '../../../data/rosters.json';
+import storesJson from '../../../data/stores.json';
+import type { RosterEntry } from '../../../lib/rosters';
+import { claimUrl, matchStore, rostersForShow } from '../../../lib/rosters';
+import type { Store } from '../../../lib/types';
 
 // Builds the series map once for the whole route rather than per-page, then
 // hands each show its own series (if it has one) as a prop.
@@ -38,6 +43,14 @@ const nextInSeriesShow = series !== undefined ? nextInSeries(series, buildDate) 
 const nextDateFormatted = nextInSeriesShow !== undefined ? dateFormat.format(parseLocalDate(nextInSeriesShow.startDate)) : undefined;
 
 const ld = showEventLd(show, absoluteUrl(Astro.site, `/shows/${show.slug}/`));
+
+const stores = storesJson as Store[];
+const rosters = rostersForShow(show, rostersJson as RosterEntry[]).map((r) => ({
+  ...r,
+  host: new URL(r.source).hostname.replace(/^www\./, ''),
+  rows: r.entries.map((e) => ({ entry: e, store: matchStore(e, stores) })),
+}));
+const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURIComponent(`Remove a name from the ${show.name} roster`)}`;
 ---
 <Base
   title={timingLabel !== undefined
@@ -116,6 +129,42 @@ const ld = showEventLd(show, absoluteUrl(Astro.site, `/shows/${show.slug}/`));
         class="mt-4 inline-block rounded-lg px-5 py-2.5 font-semibold text-ink"
         style="background:var(--gradient-refractor)"
       >Book a table</a>
+    </section>
+  )}
+  {rosters.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-2xl">Who's tabling</h2>
+      <p class="mt-2 max-w-prose text-sm text-muted">
+        Names come from the promoter's public dealer list for the edition shown below, so it may not match this exact date.
+        Being listed is not an <span class="text-gold">SCNM Verified</span> badge and does not confirm a dealer will attend.
+      </p>
+      {rosters.map((r) => (
+        <div class="mt-6">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-muted">
+            {r.edition} · from <a href={r.source} target="_blank" rel="noopener nofollow" class="hover:text-paper">{r.host}</a> · captured {r.captured}
+          </h3>
+          <ul role="list" class="mt-3 grid grid-cols-1 gap-x-8 gap-y-2 text-sm sm:grid-cols-2">
+            {r.rows.map(({ entry, store }) => (
+              <li class="break-words">
+                {store !== undefined
+                  ? <a href={`/store/${store.slug}/`} class="font-semibold text-prizm">{entry.dealer}</a>
+                  : <span class="font-semibold">{entry.dealer}</span>}
+                {entry.booth !== undefined && <span class="ml-2 text-xs text-muted">booth {entry.booth}</span>}
+                {entry.link !== undefined && (
+                  <a href={entry.link} target="_blank" rel="noopener nofollow" class="ml-2 text-xs text-prizm">site ↗</a>
+                )}
+                {entry.blurb !== undefined && <p class="mt-0.5 line-clamp-2 text-xs text-paper/70">{entry.blurb}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <p class="mt-6 text-sm text-muted">
+        Is one of these you?{' '}
+        <a href={claimUrl('', show.name, rosters[0]?.edition ?? '')} target="_blank" rel="noopener" class="text-prizm">Claim your free profile</a>
+        {' '}— or{' '}
+        <a href={REMOVE_MAILTO} class="text-prizm">ask us to remove a name</a>.
+      </p>
     </section>
   )}
   <p class="mt-12 text-sm text-muted">
