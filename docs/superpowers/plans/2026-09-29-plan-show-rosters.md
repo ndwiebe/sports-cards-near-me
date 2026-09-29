@@ -41,14 +41,17 @@
 
 | # | Header | Meaning |
 |---|---|---|
-| 0 | Source URL | the public roster page or PDF; MUST equal the show's `website` or `sourceUrl` in the `Shows` tab for the section to render |
-| 1 | Edition | human label, e.g. `Spring 2026 (Apr 30 – May 3)` |
-| 2 | Captured | date the roster was copied (ISO) |
-| 3 | Dealer | name exactly as the roster prints it |
-| 4 | Booth | free text, may be blank |
-| 5 | Blurb | ≤300 chars, only where the roster published one (Treasure pages) |
-| 6 | Link | dealer's own URL where the roster published one (Sask page) |
-| 7 | Store Slug | blank = auto-match by name; `-` = force no match; a slug = force that shop |
+| 0 | Show URL | the show's `website` or `sourceUrl` in the `Shows` tab; this is the join key |
+| 1 | Source URL | the public roster page or PDF, shown as the citation |
+| 2 | Edition | human label, e.g. `Spring 2026 (Apr 30 – May 3)` |
+| 3 | Captured | date the roster was copied (ISO) |
+| 4 | Dealer | name as the roster prints it |
+| 5 | Booth | free text, may be blank |
+| 6 | Blurb | up to 300 chars, only where the roster published one (Treasure pages) |
+| 7 | Link | dealer's own URL where the roster published one (Sask page) |
+| 8 | Store Slug | blank = auto-match by name; `-` = force no match; a slug = force that shop |
+
+Built as 9 columns, not 8: a PDF's address never equals the show's homepage, so the join key and the citation had to be separate. Seeded 2026-09-29 with 1,040 rows. Finding: Google's `sheet=<name>` fetch silently returns a different tab if the name is missing, so `bake:rosters` has a half-count guard. The baker also logs one harmless "skipped row 0" warning for the header row.
 
 The sheet is world-readable (see `src/lib/resellers.ts` header comment). Only publishable fields go in it. All eight are already public on the source pages.
 
