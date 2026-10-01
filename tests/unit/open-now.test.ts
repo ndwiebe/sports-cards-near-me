@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { computeOpenState, openNowPayload, provinceTimeZone, storeTimeZone } from '../../src/lib/open-now';
 import type { OpeningHoursSpecification } from '../../src/lib/store-hours';
 import type { Store } from '../../src/lib/types';
@@ -119,18 +119,38 @@ describe('computeOpenState', () => {
 
   it('does not observe DST in Saskatchewan, on an instant where that actually changes the answer', () => {
     const s = spec([['Sunday', '09:00', '17:00']]);
-    // 2026-12-06 15:30 UTC, a Sunday in Alberta's standard-time season
+    // 2025-12-07 15:30 UTC, a historical Sunday in Alberta's standard-time season
     // (UTC-7): Edmonton reads 08:30 — before opening, closed. Saskatchewan
     // never observes DST (permanently UTC-6), so the same instant reads
     // 09:30 there — open. If Saskatchewan were (wrongly) mapped to
     // America/Edmonton, `regina` below would come back closed instead of
-    // open, and this assertion would catch it.
-    const instant = new Date('2026-12-06T15:30:00Z');
+    // open, and this assertion would catch it. Use 2025: tzdb 2026c records
+    // Alberta's move to permanent UTC-6 in 2026, so December 2026 no longer
+    // distinguishes these zones. Fixed future instants still depend on tzdb.
+    const instant = new Date('2025-12-07T15:30:00Z');
     const edmonton = computeOpenState(s, 'America/Edmonton', instant, 'AB');
     const regina = computeOpenState(s, 'America/Regina', instant, 'SK');
     expect(edmonton.isOpen).toBe(false);
     expect(regina).toEqual({ isOpen: true, summary: 'Listed open now · closes 5:00 PM' });
   });
+
+  it.each(['2026-01-15T12:00:00Z', '2026-09-29T15:32:25Z', '2026-09-30T15:45:13Z'])(
+    'uses the supplied instant rather than the system clock (%s)',
+    (systemTime) => {
+      const instant = new Date('2025-12-07T15:30:00Z');
+      const s = spec([['Sunday', '09:00', '17:00']]);
+      vi.useFakeTimers();
+      try {
+        vi.setSystemTime(new Date(systemTime));
+        expect(computeOpenState(s, 'America/Edmonton', instant, 'AB'))
+          .toEqual({ isOpen: false, summary: 'Closed · opens 9:00 AM' });
+        expect(computeOpenState(s, 'America/Regina', instant, 'SK'))
+          .toEqual({ isOpen: true, summary: 'Listed open now · closes 5:00 PM' });
+      } finally {
+        vi.useRealTimers();
+      }
+    },
+  );
 });
 
 describe('statutory holiday suppression', () => {
