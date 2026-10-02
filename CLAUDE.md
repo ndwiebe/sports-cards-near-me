@@ -1,7 +1,7 @@
 # Sports Cards Near Me (SCNM) — repo rules
 
-Canadian card-shop + card-show directory. Astro static site, ~1,471 pages, live at
-**sportscardsnearme.ca**. 689 shops · 207 shows · 0 resellers.
+Canadian card-shop + card-show directory. Astro static site, ~1,590 pages, live at
+**sportscardsnearme.ca**. 727 shops · 215 shows · 1,040 show-roster dealers · 0 resellers (counts as of 2026-10-02).
 
 **Read `SESSIONS.md` before you start work.** More than one Claude session works in this
 repo at once. That file is the live board of who is touching what.
@@ -128,8 +128,8 @@ treat any edit there as a claim.
 
 ```bash
 npm run typecheck    # tsc --noEmit
-npm test             # vitest, 266 tests
-npm run build        # 1471 pages
+npm test             # vitest, 606 tests
+npm run build        # ~1,590 pages
 ```
 
 All three must pass. CI runs the tests, so a red suite blocks the deploy — but a broken
