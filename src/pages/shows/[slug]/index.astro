@@ -117,6 +117,9 @@ const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURICompone
     {show.recurring !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Recurring</dt><dd class="mt-1">{show.recurring}</dd></div>}
     {show.organizer !== undefined && <div><dt class="font-semibold uppercase tracking-wide text-muted">Organizer</dt><dd class="mt-1">{show.organizer}</dd></div>}
   </dl>
+  <p class="mt-4 max-w-prose text-sm leading-relaxed text-muted" data-show-travel-notice>
+    Plans can change. Confirm the date, hours and venue with the organizer before travelling, especially on the day of the show.
+  </p>
   <div class="mt-8 flex flex-wrap gap-3">
     {show.website !== undefined && <a href={show.website} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Website</a>}
     {show.sourceUrl !== undefined && <a href={show.sourceUrl} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Source</a>}
