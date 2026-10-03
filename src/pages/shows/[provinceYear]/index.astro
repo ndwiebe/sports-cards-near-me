@@ -3,7 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear, showTimingLabel } from '../../../lib/shows';
+import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear, showTimingLabel, isRecommendedShow } from '../../../lib/shows';
 import { PROVINCES } from '../../../lib/types';
 import type { ProvinceCode } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../lib/seo';
@@ -38,7 +38,7 @@ const cityCount = new Set(yearShows.map((s) => s.citySlug)).size;
 // Build-time snapshot — see the comment on isUpcoming() in src/lib/shows.ts
 // for why "now" here means "when this static build ran", not "right now".
 const buildDate = new Date();
-const upcoming = yearShows.filter((s) => isUpcoming(s, buildDate));
+const upcoming = yearShows.filter((s) => isRecommendedShow(s, buildDate));
 const past = yearShows.filter((s) => !isUpcoming(s, buildDate));
 const monthGroups = groupShowsByMonth(upcoming);
 

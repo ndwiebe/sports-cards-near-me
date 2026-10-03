@@ -5,7 +5,7 @@ import closedStoresJson from '../data/stores-closed.json';
 import showsJson from '../data/shows.json';
 import type { Store } from '../lib/types';
 import type { ShowRecord } from '../lib/shows';
-import { isUpcoming } from '../lib/shows';
+import { isUpcoming, isRecommendedShow } from '../lib/shows';
 import { absoluteUrl, breadcrumbListLd, faqPageLd, ldJson, MIN_REVIEWS_FOR_TOP, type FaqItem } from '../lib/seo';
 
 const stores = storesJson as Store[];
@@ -27,7 +27,7 @@ const ratedCount = stores.filter((s) => s.rating !== undefined).length;
 const eligibleCount = stores.filter(
   (s) => s.rating !== undefined && (s.reviewCount ?? 0) >= MIN_REVIEWS_FOR_TOP,
 ).length;
-const upcomingShows = shows.filter((s) => isUpcoming(s, new Date())).length;
+const upcomingShows = shows.filter((s) => isRecommendedShow(s, new Date())).length;
 
 const CONTACT = 'slabsavvycpa@gmail.com';
 

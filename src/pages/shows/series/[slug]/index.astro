@@ -3,7 +3,7 @@ import Base from '../../../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../../../lib/forms';
 import showsJson from '../../../../data/shows.json';
 import type { ShowRecord, ShowSeries } from '../../../../lib/shows';
-import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate } from '../../../../lib/shows';
+import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate, isRecommendedShow } from '../../../../lib/shows';
 import { PROVINCES } from '../../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../../lib/seo';
 
@@ -23,7 +23,7 @@ const province = PROVINCES[series.province];
 const pagePath = `/shows/series/${series.slug}/`;
 
 const buildDate = new Date();
-const upcoming = series.shows.filter((s) => isUpcoming(s, buildDate));
+const upcoming = series.shows.filter((s) => isRecommendedShow(s, buildDate));
 const past = series.shows.filter((s) => !isUpcoming(s, buildDate)).reverse();
 const next = nextInSeries(series, buildDate);
 

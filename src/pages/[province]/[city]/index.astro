@@ -13,7 +13,7 @@ import { toMapResellers } from '../../../lib/map-data';
 import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityDescription, cityFaqs, cityTitle, collectTags, faqPageLd, itemListLd, ldJson, topRatedSportsCardStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { isUpcoming, parseLocalDate, primaryShowCalendarYear } from '../../../lib/shows';
+import { isUpcoming, parseLocalDate, primaryShowCalendarYear, isRecommendedShow } from '../../../lib/shows';
 import { nearestCities, nearestStoresToCity, nearestStoresToCityWithDistance } from '../../../lib/nearby';
 import { relatedGuidesForCity } from '../../../lib/related-guides';
 
@@ -96,7 +96,7 @@ const cityGuides = relatedGuidesForCity(cityGroup.stores, province.code, cityGro
 const shows = showsJson as ShowRecord[];
 const buildDate = new Date();
 const upcomingProvinceShows = shows
-  .filter((show) => show.province === province.code && isUpcoming(show, buildDate))
+  .filter((show) => show.province === province.code && isRecommendedShow(show, buildDate))
   .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime())
   .slice(0, UPCOMING_SHOW_LIMIT);
 const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });

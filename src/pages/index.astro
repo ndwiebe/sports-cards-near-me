@@ -7,7 +7,7 @@ import resellersJson from '../data/resellers.json';
 import type { Store } from '../lib/types';
 import type { ShowRecord } from '../lib/shows';
 import type { ResellerRecord } from '../lib/resellers';
-import { parseLocalDate, isUpcoming } from '../lib/shows';
+import { parseLocalDate, isUpcoming, isRecommendedShow } from '../lib/shows';
 import { provincesWithStores, citiesIn } from '../lib/stores';
 import { toMapResellers } from '../lib/map-data';
 import MapIsland from '../components/MapIsland.astro';
@@ -24,7 +24,7 @@ const featuredCities = provinces.flatMap((p) =>
 // Build-time snapshot — see the comment on isUpcoming() in src/lib/shows.ts
 // for why "now" here means "when this static build ran", not "right now".
 const buildDate = new Date();
-const upcomingShows = (showsJson as ShowRecord[]).filter((s) => isUpcoming(s, buildDate)).slice(0, 4);
+const upcomingShows = (showsJson as ShowRecord[]).filter((s) => isRecommendedShow(s, buildDate)).slice(0, 4);
 const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
 const buildDateLabel = showDateFormat.format(buildDate);
 ---

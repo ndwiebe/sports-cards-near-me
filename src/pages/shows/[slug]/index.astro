@@ -2,7 +2,7 @@
 import Base from '../../../layouts/Base.astro';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord, ShowSeries } from '../../../lib/shows';
-import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate, showEventLd, showTimingLabel } from '../../../lib/shows';
+import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate, showEventLd, showTimingLabel, showScheduleWarning } from '../../../lib/shows';
 import { absoluteUrl, ldJson } from '../../../lib/seo';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import { PROVINCES } from '../../../lib/types';
@@ -38,6 +38,7 @@ const dateRange = endFormatted !== undefined && endFormatted !== startFormatted 
 // the show name. undefined only for shows that already finished.
 const buildDate = new Date();
 const timingLabel = showTimingLabel(show, buildDate);
+const warning = showScheduleWarning(show);
 const upcoming = isUpcoming(show, buildDate);
 const nextInSeriesShow = series !== undefined ? nextInSeries(series, buildDate) : undefined;
 const nextDateFormatted = nextInSeriesShow !== undefined ? dateFormat.format(parseLocalDate(nextInSeriesShow.startDate)) : undefined;
@@ -53,10 +54,10 @@ const rosters = rostersForShow(show, rostersJson as RosterEntry[]).map((r) => ({
 const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURIComponent(`Remove a name from the ${show.name} roster`)}`;
 ---
 <Base
-  title={timingLabel !== undefined
+  title={warning !== undefined ? `${show.name} — Schedule Unconfirmed` : timingLabel !== undefined
     ? `${timingLabel} — ${show.name} in ${show.city}, ${show.province}`
     : `${show.name} — ${show.city}, ${show.province} (Past Show)`}
-  description={timingLabel === 'Today' || timingLabel === 'Tomorrow' || timingLabel === 'This Weekend'
+  description={warning !== undefined ? warning : timingLabel === 'Today' || timingLabel === 'Tomorrow' || timingLabel === 'This Weekend'
     ? `${timingLabel}: ${show.name} in ${show.city}, ${provinceName} — ${dateRange}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
     : timingLabel !== undefined
       ? `${timingLabel} — ${show.name} in ${show.city}, ${provinceName}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
@@ -68,14 +69,20 @@ const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURICompone
       own Event guidance is to stop publishing markup for events once they're
       over, not to leave EventScheduled sitting on a page a reader can no longer
       act on. showEventLd() itself is unchanged; this only gates rendering it. */}
-  {upcoming && <script type="application/ld+json" set:html={ldJson(ld)} />}
+  {upcoming && warning === undefined && <script type="application/ld+json" set:html={ldJson(ld)} />}
   <nav class="mt-10 text-sm text-muted">
     <a href="/shows/" class="hover:text-paper">Shows</a> / {show.name}
   </nav>
   <h1 class="mt-3 text-5xl md:text-7xl">{show.name}</h1>
   <div class="refractor-rule mt-4 w-28"></div>
   <p class="mt-4 text-lg text-paper/85">{dateRange}</p>
-  {!upcoming && (
+  {warning !== undefined && (
+    <div role="alert" class="mt-4 max-w-prose rounded-xl border border-gold bg-panel p-4 text-paper">
+      <p class="font-semibold">{warning}</p>
+      <p class="mt-2 text-sm">The date, hours and venue below are the original listing details, pending verification.</p>
+    </div>
+  )}
+  {!upcoming && warning === undefined && (
     <div class="mt-4 max-w-prose rounded-xl border border-bord bg-panel p-4 text-sm text-paper/85">
       <p>This show has already happened.</p>
       {nextInSeriesShow !== undefined ? (

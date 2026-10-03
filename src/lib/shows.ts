@@ -36,6 +36,20 @@ export interface ShowRecord {
   organizer?: string | undefined;
 }
 
+// Editorial hold survives the sheet bake. Remove only after the schedule is verified.
+// An attendee reported no apparent event on arrival; cancellation and a replacement
+// date are unconfirmed. TCDB 32430 links back to SCNM and is not corroboration.
+export function showScheduleWarning(show: ShowRecord): string | undefined {
+  return show.slug === 'uxbridge-sports-card-show-stouffville-2026-10-03'
+    ? 'Schedule unconfirmed — verify before travelling. An attendee reported no apparent event at Goodwood Community Centre on October 3. We are checking with the organizer; cancellation or a replacement date has not been confirmed.'
+    : undefined;
+}
+
+/** Only verified schedules belong in recommendations; retain the dated source page. */
+export function isRecommendedShow(show: ShowRecord, buildDate: Date): boolean {
+  return showScheduleWarning(show) === undefined && isUpcoming(show, buildDate);
+}
+
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const GVIZ_DATE_RE = /^Date\((\d{4}),(\d{1,2}),(\d{1,2})/;
 
@@ -163,7 +177,7 @@ export function groupShowsIntoSeries(shows: ShowRecord[]): ShowSeries[] {
 
 /** First not-yet-passed date in a series, or undefined once every date has happened. */
 export function nextInSeries(series: ShowSeries, buildDate: Date): ShowRecord | undefined {
-  return series.shows.find((s) => isUpcoming(s, buildDate));
+  return series.shows.find((s) => isRecommendedShow(s, buildDate));
 }
 
 /** A province's shows in a given calendar year (by startDate), chronological. */
@@ -222,7 +236,7 @@ export function isInWeekend(show: ShowRecord, window: WeekendWindow): boolean {
 export function showsThisWeekend(shows: ShowRecord[], buildDate: Date): ShowRecord[] {
   const window = weekendWindow(buildDate);
   return shows
-    .filter((s) => isInWeekend(s, window))
+    .filter((s) => showScheduleWarning(s) === undefined && isInWeekend(s, window))
     .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
 }
 
@@ -235,7 +249,7 @@ export function showsThisWeekend(shows: ShowRecord[], buildDate: Date): ShowReco
  * isUpcoming is already the one place that boundary is decided.
  */
 export function showTimingLabel(show: ShowRecord, buildDate: Date): string | undefined {
-  if (!isUpcoming(show, buildDate)) return undefined;
+  if (!isRecommendedShow(show, buildDate)) return undefined;
   const today = new Date(buildDate.getFullYear(), buildDate.getMonth(), buildDate.getDate());
   const daysUntilStart = Math.round((parseLocalDate(show.startDate).getTime() - today.getTime()) / 86_400_000);
   if (daysUntilStart <= 0) return 'Today';

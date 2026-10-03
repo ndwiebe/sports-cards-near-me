@@ -8,7 +8,7 @@ import showsJson from '../data/shows.json';
 import type { Store } from '../lib/types';
 import { PROVINCES } from '../lib/types';
 import type { ShowRecord } from '../lib/shows';
-import { isUpcoming } from '../lib/shows';
+import { isRecommendedShow } from '../lib/shows';
 import { GUIDES } from '../lib/guides';
 
 export const GET: APIRoute = ({ site }) => {
@@ -17,7 +17,7 @@ export const GET: APIRoute = ({ site }) => {
   const shows = showsJson as ShowRecord[];
   const base = (site ?? new URL('https://sportscardsnearme.ca')).origin;
 
-  const upcoming = shows.filter((s) => isUpcoming(s, new Date()));
+  const upcoming = shows.filter((s) => isRecommendedShow(s, new Date()));
   const cityCount = new Set(stores.map((s) => `${s.province}/${s.citySlug}`)).size;
 
   // Provinces ordered by how much of the directory they actually represent.
