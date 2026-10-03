@@ -8,3 +8,5 @@ Attendee reported no apparent event at Goodwood Community Centre. Cancellation a
 Mutation: `src/lib/shows.ts` contains the exact-slug editorial hold (temporary warning applied after sheet baking). `isRecommendedShow` excludes it from upcoming recommendation consumers, `showsThisWeekend` excludes it, `nextInSeries` skips it, and `showTimingLabel` withholds urgency. The detail page shows the warning, identifies the original details as pending verification, and withholds EventScheduled data and past-event claims. Source sheet and generated JSON remain unchanged. Remove the exact hold only after verification.
 
 Local checks: typecheck, 608 unit tests and 1592-page build passed. Browser and release outcomes recorded after verification.
+
+Fresh public-sheet bake: 285 shows (3 existing incomplete rows skipped); 1671-page build. 123 browser tests passed, 11 conditional skips, including warning page at 375px. Target absent from home, calendar, weekend and Ontario calendar recommendations, including metadata. Generated JSON not committed. PR: https://github.com/ndwiebe/sports-cards-near-me/pull/16
