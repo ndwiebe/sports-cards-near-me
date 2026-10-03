@@ -5,6 +5,9 @@ test('held Uxbridge page remains reachable without scheduled-event claims', asyn
   expect(response?.status()).toBe(200);
   await expect(page.getByRole('alert')).toContainText('Schedule unconfirmed');
   await expect(page.getByRole('alert')).toContainText('verify before travelling');
+  await expect(page.getByRole('alert')).toContainText('Show has been removed or cancelled.');
+  await expect(page.getByRole('alert')).toContainText('actual event status remain unconfirmed');
+  await expect(page.getByRole('alert').getByRole('link', { name: 'View the source listing' })).toHaveAttribute('href', /tcdb\.com.*32430/);
   await expect(page).toHaveTitle(/Schedule Unconfirmed/);
   expect(await page.locator('script[type="application/ld+json"]').allTextContents()).not.toEqual(expect.arrayContaining([expect.stringContaining('EventScheduled')]));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

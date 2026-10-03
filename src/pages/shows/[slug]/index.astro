@@ -79,6 +79,7 @@ const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURICompone
   {warning !== undefined && (
     <div role="alert" class="mt-4 max-w-prose rounded-xl border border-gold bg-panel p-4 text-paper">
       <p class="font-semibold">{warning}</p>
+      {show.sourceUrl !== undefined && <p class="mt-2 text-sm"><a href={show.sourceUrl} target="_blank" rel="noopener" class="text-prizm underline">View the source listing</a></p>}
       <p class="mt-2 text-sm">The date, hours and venue below are the original listing details, pending verification.</p>
     </div>
   )}

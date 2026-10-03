@@ -9,6 +9,8 @@ describe('unconfirmed Uxbridge schedule hold', () => {
     expect(isRecommendedShow(held, today)).toBe(false);
     expect(showTimingLabel(held, today)).toBeUndefined();
     expect(showScheduleWarning(held)).toContain('verify before travelling');
+    expect(showScheduleWarning(held)).toContain('Show has been removed or cancelled.');
+    expect(showScheduleWarning(held)).toContain('actual event status remain unconfirmed');
     expect(held).toEqual(before);
   });
   it('excludes only the exact held edition from weekend and next-series picks', () => {
