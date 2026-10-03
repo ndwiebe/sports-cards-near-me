@@ -38,10 +38,11 @@ export interface ShowRecord {
 
 // Editorial hold survives the sheet bake. Remove only after the schedule is verified.
 // An attendee reported no apparent event on arrival; cancellation and a replacement
-// date are unconfirmed. TCDB 32430 links back to SCNM and is not corroboration.
+// date are unconfirmed. On October 3 at 20:16 UTC, TCDB 32430 marked its
+// listing removed or cancelled; that does not confirm what happened at the venue.
 export function showScheduleWarning(show: ShowRecord): string | undefined {
   return show.slug === 'uxbridge-sports-card-show-stouffville-2026-10-03'
-    ? 'Schedule unconfirmed — verify before travelling. An attendee reported no apparent event at Goodwood Community Centre on October 3. We are checking with the organizer; cancellation or a replacement date has not been confirmed.'
+    ? 'Schedule unconfirmed — verify before travelling. An attendee reported no apparent event at Goodwood Community Centre on October 3. As of October 3, 2026 at 20:16 UTC, the TCDB source listing is marked “Show has been removed or cancelled.” The reason and actual event status remain unconfirmed; no replacement date has been confirmed.'
     : undefined;
 }
 
