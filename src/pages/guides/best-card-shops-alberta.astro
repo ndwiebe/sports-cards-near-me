@@ -8,7 +8,7 @@ import { PROVINCES } from '../../lib/types';
 import { isBuyer } from '../../lib/sell';
 import { isPokemonShop } from '../../lib/tcg';
 import type { ShowRecord } from '../../lib/shows';
-import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming } from '../../lib/shows';
+import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming, isRecommendedShow } from '../../lib/shows';
 import {
   MIN_REVIEWS_FOR_TOP,
   bySportsCardRank,
@@ -36,7 +36,7 @@ const buildDate = new Date();
 const showYear = primaryShowCalendarYear(shows, 'AB', buildDate);
 const showsUrl = showYear !== undefined ? `/shows/${provinceSlug}-${showYear}/` : undefined;
 const showYearHasUpcoming =
-  showYear !== undefined && showsInProvinceYear(shows, 'AB', showYear).some((s) => isUpcoming(s, buildDate));
+  showYear !== undefined && showsInProvinceYear(shows, 'AB', showYear).some((s) => isRecommendedShow(s, buildDate));
 
 function joinWithAnd(items: string[]): string {
   if (items.length === 0) return '';

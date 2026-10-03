@@ -4,7 +4,7 @@ import storesJson from '../../data/stores.json';
 import showsJson from '../../data/shows.json';
 import type { Store } from '../../lib/types';
 import type { ShowRecord } from '../../lib/shows';
-import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming } from '../../lib/shows';
+import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming, isRecommendedShow } from '../../lib/shows';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
 import {
   absoluteUrl,
@@ -70,7 +70,7 @@ const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/`
 // case it's in: an all-past year reads as "no more shows on the calendar" if
 // we still call it out as something to look forward to.
 const showYearHasUpcoming =
-  showYear !== undefined && showsInProvinceYear(showsJson as ShowRecord[], province.code, showYear).some((s) => isUpcoming(s, buildDate));
+  showYear !== undefined && showsInProvinceYear(showsJson as ShowRecord[], province.code, showYear).some((s) => isRecommendedShow(s, buildDate));
 
 const provinceUrl = absoluteUrl(Astro.site, `/${province.slug}/`);
 const breadcrumbLd = breadcrumbListLd([

@@ -3,7 +3,7 @@ import Base from '../../../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../../../lib/forms';
 import showsJson from '../../../../data/shows.json';
 import type { ShowRecord, ShowSeries } from '../../../../lib/shows';
-import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate } from '../../../../lib/shows';
+import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate, isRecommendedShow, showScheduleWarning } from '../../../../lib/shows';
 import { PROVINCES } from '../../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../../lib/seo';
 
@@ -23,8 +23,8 @@ const province = PROVINCES[series.province];
 const pagePath = `/shows/series/${series.slug}/`;
 
 const buildDate = new Date();
-const upcoming = series.shows.filter((s) => isUpcoming(s, buildDate));
-const past = series.shows.filter((s) => !isUpcoming(s, buildDate)).reverse();
+const upcoming = series.shows.filter((s) => isRecommendedShow(s, buildDate));
+const past = series.shows.filter((s) => showScheduleWarning(s) === undefined && !isUpcoming(s, buildDate)).reverse();
 const next = nextInSeries(series, buildDate);
 
 const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
@@ -52,7 +52,7 @@ const breadcrumbLd = breadcrumbListLd([
 // schema.org's EventSeries exists but Google documents no rich-result support
 // for it, so this reuses markup already proven on this site.
 const dateListLd = itemListLd(
-  series.shows.map((s) => ({ name: `${s.name} — ${formatRange(s)}`, url: absoluteUrl(Astro.site, `/shows/${s.slug}/`) })),
+  series.shows.filter((s) => showScheduleWarning(s) === undefined).map((s) => ({ name: `${s.name} — ${formatRange(s)}`, url: absoluteUrl(Astro.site, `/shows/${s.slug}/`) })),
 );
 ---
 <Base title={`${title} | Sports Cards Near Me`} description={description}>
