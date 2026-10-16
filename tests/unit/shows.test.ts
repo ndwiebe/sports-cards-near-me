@@ -4,7 +4,8 @@ import {
   parseLocalDate,
   isUpcoming,
   groupShowsByMonth,
-  showsInProvinceYear,
+  showsInProvince,
+  provinceShowsPath,
   weekendWindow,
   isInWeekend,
   showsThisWeekend,
@@ -160,20 +161,28 @@ describe('groupShowsByMonth', () => {
   });
 });
 
-describe('showsInProvinceYear', () => {
-  it('keeps only shows in the given province and calendar year, chronological', () => {
+describe('showsInProvince', () => {
+  it('keeps every year of one province, chronological', () => {
     const shows = [
       makeShow('2026-08-09', undefined, 'ON'),
-      makeShow('2026-03-01', undefined, 'ON'),
       makeShow('2027-01-05', undefined, 'ON'),
+      makeShow('2026-03-01', undefined, 'ON'),
       makeShow('2026-05-05', undefined, 'AB'),
     ];
-    const result = showsInProvinceYear(shows, 'ON', 2026);
-    expect(result.map((s) => s.startDate)).toEqual(['2026-03-01', '2026-08-09']);
+    const result = showsInProvince(shows, 'ON');
+    expect(result.map((s) => s.startDate)).toEqual(['2026-03-01', '2026-08-09', '2027-01-05']);
   });
 
-  it('returns an empty array when the province/year has no shows', () => {
-    expect(showsInProvinceYear([makeShow('2026-05-05', undefined, 'AB')], 'QC', 2026)).toEqual([]);
+  it('returns an empty array when the province has no shows', () => {
+    expect(showsInProvince([makeShow('2026-05-05', undefined, 'AB')], 'QC')).toEqual([]);
+  });
+});
+
+describe('provinceShowsPath', () => {
+  // The URL carries no year: a year in it went stale every January and split
+  // one province's calendar (and its search signals) across two pages.
+  it('is the evergreen province URL', () => {
+    expect(provinceShowsPath('ontario')).toBe('/shows/ontario/');
   });
 });
 

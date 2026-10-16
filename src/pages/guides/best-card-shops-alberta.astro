@@ -8,7 +8,7 @@ import { PROVINCES } from '../../lib/types';
 import { isBuyer } from '../../lib/sell';
 import { isPokemonShop } from '../../lib/tcg';
 import type { ShowRecord } from '../../lib/shows';
-import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming, isRecommendedShow } from '../../lib/shows';
+import { showsInProvince, provinceShowsPath, isUpcoming, isRecommendedShow } from '../../lib/shows';
 import {
   MIN_REVIEWS_FOR_TOP,
   bySportsCardRank,
@@ -26,17 +26,15 @@ const cityCount = new Set(abStores.map((s) => s.citySlug)).size;
 const provinceSlug = PROVINCES.AB.slug;
 const gradingStoreCount = abStores.filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services')).length;
 
-// Alberta's show-calendar link, computed the same way the province page does
-// (primaryShowCalendarYear): the /shows/[provinceYear]/ route is generated
-// purely from shows.json, so a hardcoded year 404s once that year's show
-// passes out of the data. Renders nothing if Alberta has no shows tracked at
-// all; the wording only says "upcoming" when that year actually has one.
+// Alberta's show-calendar link, computed the same way the province page does:
+// the /shows/[provinceHub]/ route is generated purely from shows.json, so it
+// renders nothing if Alberta has no shows tracked at all, and the wording only
+// says "upcoming" when there actually is one.
 const shows = showsJson as ShowRecord[];
 const buildDate = new Date();
-const showYear = primaryShowCalendarYear(shows, 'AB', buildDate);
-const showsUrl = showYear !== undefined ? `/shows/${provinceSlug}-${showYear}/` : undefined;
-const showYearHasUpcoming =
-  showYear !== undefined && showsInProvinceYear(shows, 'AB', showYear).some((s) => isRecommendedShow(s, buildDate));
+const abShows = showsInProvince(shows, 'AB');
+const showsUrl = abShows.length > 0 ? provinceShowsPath(provinceSlug) : undefined;
+const showYearHasUpcoming = abShows.some((s) => isRecommendedShow(s, buildDate));
 
 function joinWithAnd(items: string[]): string {
   if (items.length === 0) return '';
@@ -287,7 +285,7 @@ const ld: Record<string, unknown> = {
         <>
           {' '}Alberta's{' '}
           <a href={showsUrl} class="text-prizm">
-            {showYearHasUpcoming ? `upcoming ${showYear} card show calendar` : `${showYear} card show calendar`}
+            {showYearHasUpcoming ? 'upcoming card show calendar' : 'card show calendar'}
           </a>{' '}
           is another way to see a lot of dealers in one place.
         </>

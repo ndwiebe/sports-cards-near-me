@@ -181,31 +181,32 @@ export function nextInSeries(series: ShowSeries, buildDate: Date): ShowRecord | 
   return series.shows.find((s) => isRecommendedShow(s, buildDate));
 }
 
-/** A province's shows in a given calendar year (by startDate), chronological. */
-export function showsInProvinceYear(shows: ShowRecord[], province: ProvinceCode, year: number): ShowRecord[] {
+/** Every show on record in a province, chronological. */
+export function showsInProvince(shows: ShowRecord[], province: ProvinceCode): ShowRecord[] {
   return shows
-    .filter((s) => s.province === province && parseLocalDate(s.startDate).getFullYear() === year)
+    .filter((s) => s.province === province)
     .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime());
 }
 
 /**
- * The one show-calendar year worth linking to for a province — e.g. from the
- * province page — when several years of data exist. Prefers the earliest year
- * that still has an upcoming show (so the link lands somewhere with something
- * to see); falls back to the most recent year on record if every show for
- * that province has already happened. Returns undefined when the province has
- * no shows at all, so callers never construct a link to an empty page.
+ * One show calendar per province, at a URL that never changes. It replaced the
+ * per-year pages (/shows/ontario-2026/ + /shows/ontario-2027/) on 2026-10-15:
+ * Search Console had ontario-2026 as "Crawled – currently not indexed", and
+ * "ontario card shows" was being answered by the national /shows/ page instead.
+ * Splitting one province's calendar across years split its signals too, and the
+ * year in the URL went stale every January. The old URLs redirect here
+ * (src/data/redirects.json).
  */
-export function primaryShowCalendarYear(shows: ShowRecord[], province: ProvinceCode, buildDate: Date): number | undefined {
-  const years = [...new Set(shows.filter((s) => s.province === province).map((s) => parseLocalDate(s.startDate).getFullYear()))].sort(
-    (a, b) => a - b,
-  );
-  if (years.length === 0) return undefined;
-  for (const year of years) {
-    if (showsInProvinceYear(shows, province, year).some((s) => isUpcoming(s, buildDate))) return year;
-  }
-  return years[years.length - 1];
+export function provinceShowsPath(provinceSlug: string): string {
+  return `/shows/${provinceSlug}/`;
 }
+
+// A hub with one or two shows is the "intermediate page not as useful as the
+// final destination" in Google's doorway-abuse policy — the show page itself
+// is the destination. Below this it still renders for people (province pages
+// link to it) but is noindexed and kept out of the sitemap. Mirrored as a
+// literal in astro.config.mjs, which cannot import from src/lib.
+export const MIN_SHOWS_TO_INDEX_PROVINCE_HUB = 3;
 
 export interface WeekendWindow {
   start: Date;
