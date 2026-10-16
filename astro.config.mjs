@@ -9,6 +9,7 @@ import redirectMap from './src/data/redirects.json' with { type: 'json' };
 import resellersJson from './src/data/resellers.json' with { type: 'json' };
 import closedStoresJson from './src/data/stores-closed.json' with { type: 'json' };
 import storesJson from './src/data/stores.json' with { type: 'json' };
+import showsJson from './src/data/shows.json' with { type: 'json' };
 
 // Old published URLs -> current homes. Slugs derive from name+city, so a rename,
 // city correction, or duplicate removal silently kills a URL Google has indexed
@@ -48,6 +49,25 @@ const THIN_POKEMON_CITY_PATHS = new Set(
     .map(([citySlug]) => `/pokemon/${citySlug}/`),
 );
 
+// Province show calendars with fewer than MIN_SHOWS_TO_INDEX_PROVINCE_HUB shows
+// are noindexed (doorway rule — see src/lib/shows.ts); keep them out of the
+// sitemap too. Literals for the same reason as above. The slug table mirrors
+// PROVINCES in src/lib/types.ts; a province missing from it is simply never
+// filtered, which errs toward submitting the page, not hiding it.
+const MIN_SHOWS_TO_INDEX_PROVINCE_HUB = 3;
+const PROVINCE_SLUGS = {
+  AB: 'alberta', BC: 'british-columbia', MB: 'manitoba', NB: 'new-brunswick',
+  NL: 'newfoundland-and-labrador', NS: 'nova-scotia', NT: 'northwest-territories', ON: 'ontario',
+  PE: 'prince-edward-island', QC: 'quebec', SK: 'saskatchewan', YT: 'yukon',
+};
+const showCountByProvince = new Map();
+for (const s of showsJson) showCountByProvince.set(s.province, (showCountByProvince.get(s.province) ?? 0) + 1);
+const THIN_PROVINCE_SHOW_HUB_PATHS = new Set(
+  [...showCountByProvince.entries()]
+    .filter(([code, count]) => count < MIN_SHOWS_TO_INDEX_PROVINCE_HUB && code in PROVINCE_SLUGS)
+    .map(([code]) => `/shows/${PROVINCE_SLUGS[code]}/`),
+);
+
 export default defineConfig({
   site: 'https://sportscardsnearme.ca',
 
@@ -66,6 +86,7 @@ export default defineConfig({
         const path = new URL(page).pathname;
         if (CLOSED_STORE_PATHS.has(path)) return false;
         if (THIN_POKEMON_CITY_PATHS.has(path)) return false;
+        if (THIN_PROVINCE_SHOW_HUB_PATHS.has(path)) return false;
         return RESELLERS_INDEXABLE || !/\/resellers\/(join\/)?$/.test(path);
       },
     }),

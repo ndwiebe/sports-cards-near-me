@@ -3,43 +3,37 @@ import Base from '../../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvinceYear, showTimingLabel, isRecommendedShow, showScheduleWarning } from '../../../lib/shows';
+import { parseLocalDate, isUpcoming, groupShowsByMonth, showsInProvince, showTimingLabel, provinceShowsPath, MIN_SHOWS_TO_INDEX_PROVINCE_HUB } from '../../../lib/shows';
 import { PROVINCES } from '../../../lib/types';
 import type { ProvinceCode } from '../../../lib/types';
 import { absoluteUrl, breadcrumbListLd, itemListLd, ldJson } from '../../../lib/seo';
 
-// One route replaces the per-province-per-year copies. They were identical
-// apart from two constants, and the missing fourth copy is why Ontario 2027
-// had no page despite carrying 20 shows. Now every province+year present in
-// the data gets a page automatically, at exactly the same URLs as before.
+// One evergreen calendar per province with any show on record. These replaced
+// the per-year pages — see provinceShowsPath() for why, and redirects.json for
+// the old URLs.
 export function getStaticPaths() {
-  const all = showsJson as ShowRecord[];
-  const combos = new Map<string, { code: ProvinceCode; year: number }>();
-  for (const s of all) {
-    const code = s.province as ProvinceCode;
-    if (PROVINCES[code] === undefined) continue;
-    const year = Number(s.startDate.slice(0, 4));
-    combos.set(`${PROVINCES[code].slug}-${year}`, { code, year });
-  }
-  return [...combos].map(([provinceYear, { code, year }]) => ({
-    params: { provinceYear },
-    props: { code, year },
-  }));
+  const codes = new Set((showsJson as ShowRecord[]).map((s) => s.province as ProvinceCode));
+  return [...codes]
+    .filter((code) => PROVINCES[code] !== undefined)
+    .map((code) => ({ params: { provinceHub: PROVINCES[code].slug }, props: { code } }));
 }
 
-const { code: PROVINCE_CODE, year: YEAR } = Astro.props as { code: ProvinceCode; year: number };
+const { code: PROVINCE_CODE } = Astro.props as { code: ProvinceCode };
 const province = PROVINCES[PROVINCE_CODE];
-const pagePath = `/shows/${province.slug}-${YEAR}/`;
+const pagePath = provinceShowsPath(province.slug);
 
 const shows = showsJson as ShowRecord[];
-const yearShows = showsInProvinceYear(shows, PROVINCE_CODE, YEAR).filter((s) => showScheduleWarning(s) === undefined);
-const cityCount = new Set(yearShows.map((s) => s.citySlug)).size;
+const provinceShows = showsInProvince(shows, PROVINCE_CODE);
+const cityCount = new Set(provinceShows.map((s) => s.citySlug)).size;
+const noindex = provinceShows.length < MIN_SHOWS_TO_INDEX_PROVINCE_HUB;
 
 // Build-time snapshot — see the comment on isUpcoming() in src/lib/shows.ts
 // for why "now" here means "when this static build ran", not "right now".
 const buildDate = new Date();
-const upcoming = yearShows.filter((s) => isRecommendedShow(s, buildDate));
-const past = yearShows.filter((s) => showScheduleWarning(s) === undefined && !isUpcoming(s, buildDate));
+const upcoming = provinceShows.filter((s) => isUpcoming(s, buildDate));
+// Most recent first: the show that just happened is the one someone is most
+// likely looking for.
+const past = provinceShows.filter((s) => !isUpcoming(s, buildDate)).reverse();
 const monthGroups = groupShowsByMonth(upcoming);
 
 const dateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
@@ -50,53 +44,49 @@ const formatRange = (show: ShowRecord): string => {
   return end === start ? start : `${start} – ${end}`;
 };
 
-// Every show query in the 07-23 keyword research carried a time modifier, so
-// this calendar's title leads with the nearest upcoming show's urgency word —
-// the same showTimingLabel() used on shows/[slug] — rather than a static
-// "Card Shows in X YEAR" with no time signal at all. upcoming is chronological
-// (showsInProvinceYear sorts ascending, filter preserves order), so upcoming[0]
-// is the soonest show; showTimingLabel is guaranteed defined for it since it's
-// already known upcoming. No false urgency once every show for the year has
-// already happened — the title says "recap", not "upcoming".
+// The title opens with the same words as the <h1>. The year pages led with
+// the urgency word ("This Weekend — 72 Upcoming Card Shows in Ontario 2026")
+// under an h1 of "Card Shows in Ontario 2026"; Google's title-link docs list a
+// <title> that disagrees with the page's main heading as a reason to rewrite
+// it, and the urgency lead was identical boilerplate across every hub and the
+// national /shows/ page. The timing still rides along, after the part that
+// says what the page is. upcoming is chronological, so upcoming[0] is soonest.
 const nextShow = upcoming[0];
 const nextTimingLabel = nextShow !== undefined ? showTimingLabel(nextShow, buildDate) : undefined;
-
+// Same phrasing as the national /shows/ description.
+const nextShowWhen =
+  nextTimingLabel === 'This Weekend' ? 'this weekend'
+  : nextTimingLabel === 'Today' ? 'today'
+  : nextTimingLabel === 'Tomorrow' ? 'tomorrow'
+  : nextTimingLabel !== undefined ? `on ${nextTimingLabel}`
+  : undefined;
+const h1 = `Card Shows in ${province.name}`;
 const title =
-  upcoming.length > 0 && nextTimingLabel !== undefined
-    ? `${nextTimingLabel} — ${upcoming.length} Upcoming Card Show${upcoming.length === 1 ? '' : 's'} in ${province.name} ${YEAR}`
-    : yearShows.length > 0
-      ? `Card Shows in ${province.name} ${YEAR} — Full Season Recap`
-      : `Card Shows in ${province.name} ${YEAR}`;
-// The <h1> is deliberately NOT `title` above. This is a stable URL
-// (/shows/[provinceYear]/) that rebuilds daily, so a time-urgency lead like
-// "Tomorrow" or "This Weekend" would make the visible heading churn day to
-// day while the breadcrumb still reads "{province.name} {YEAR}" — the
-// urgency framing belongs in <title>/meta only, where it's meant to move.
-const h1 = `Card Shows in ${province.name} ${YEAR}`;
+  upcoming.length > 0
+    ? `${h1} — ${upcoming.length} Upcoming${nextTimingLabel !== undefined ? `, Next: ${nextTimingLabel}` : ''}`
+    : h1;
 const description =
-  upcoming.length > 0 && nextTimingLabel !== undefined
-    ? `${nextTimingLabel}: the next of ${upcoming.length} upcoming sports card ${upcoming.length === 1 ? 'show' : 'shows'} in ${province.name} for ${YEAR} — dates, venues, and admission, tracked from public sources.`
-    : yearShows.length > 0
-      ? `${yearShows.length} sports card ${yearShows.length === 1 ? 'show' : 'shows'} in ${province.name} in ${YEAR}, all already held — dates, venues, and admission, tracked from public sources.`
-      : `Sports card shows in ${province.name} in ${YEAR} — none confirmed yet on Sports Cards Near Me. Check back as our show calendar grows.`;
+  nextShow !== undefined
+    ? `${upcoming.length} upcoming sports card ${upcoming.length === 1 ? 'show' : 'shows'} in ${province.name}. Next up: ${nextShow.name} in ${nextShow.city}${nextShowWhen !== undefined ? `, ${nextShowWhen}` : ''}. Dates, venues, and admission, tracked from public sources.`
+    : `Sports card shows in ${province.name} — none upcoming on Sports Cards Near Me right now. Past shows are listed below; new dates are added as they're verified.`;
 
 const capsule =
-  yearShows.length > 0
-    ? `Sports Cards Near Me tracks ${yearShows.length} sports card ${yearShows.length === 1 ? 'show' : 'shows'} in ${province.name} for ${YEAR}, across ${cityCount} ${cityCount === 1 ? 'city' : 'cities'}. ${upcoming.length > 0 ? `${upcoming.length} ${upcoming.length === 1 ? 'is' : 'are'} still upcoming.` : 'All of them have already taken place.'}`
-    : `Sports Cards Near Me has no ${province.name} card shows confirmed for ${YEAR} yet. Our show calendar updates as new dates are verified — check back soon, or see what's on across the rest of Canada.`;
+  provinceShows.length > 0
+    ? `Sports Cards Near Me tracks ${provinceShows.length} sports card ${provinceShows.length === 1 ? 'show' : 'shows'} in ${province.name}, across ${cityCount} ${cityCount === 1 ? 'city' : 'cities'}. ${upcoming.length > 0 ? `${upcoming.length} ${upcoming.length === 1 ? 'is' : 'are'} still upcoming.` : 'All of them have already taken place.'}`
+    : `Sports Cards Near Me has no ${province.name} card shows confirmed yet.`;
 
 const breadcrumbLd = breadcrumbListLd([
   { name: 'Home', url: absoluteUrl(Astro.site, '/') },
   { name: 'Shows', url: absoluteUrl(Astro.site, '/shows/') },
-  { name: `${province.name} ${YEAR}`, url: absoluteUrl(Astro.site, pagePath) },
+  { name: province.name, url: absoluteUrl(Astro.site, pagePath) },
 ]);
 const showListLd = itemListLd(
-  yearShows.map((s) => ({ name: s.name, url: absoluteUrl(Astro.site, `/shows/${s.slug}/`) })),
+  provinceShows.map((s) => ({ name: s.name, url: absoluteUrl(Astro.site, `/shows/${s.slug}/`) })),
 );
 ---
-<Base title={`${title} | Sports Cards Near Me`} description={description}>
+<Base title={`${title} | Sports Cards Near Me`} description={description} noindex={noindex}>
   <script type="application/ld+json" set:html={ldJson(breadcrumbLd)} />
-  {yearShows.length > 0 && <script type="application/ld+json" set:html={ldJson(showListLd)} />}
+  {provinceShows.length > 0 && <script type="application/ld+json" set:html={ldJson(showListLd)} />}
 
   <p class="mt-14 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Show Calendar</p>
   <h1 class="mt-2 text-5xl md:text-7xl">{h1}</h1>
@@ -112,9 +102,9 @@ const showListLd = itemListLd(
     <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
   </p>
 
-  {yearShows.length === 0 ? (
+  {provinceShows.length === 0 ? (
     <p class="mt-10 max-w-prose text-muted">
-      No {province.name} shows are confirmed for {YEAR} yet — our calendar is actively growing. Run a show, or know
+      No {province.name} shows are confirmed yet — our calendar is actively growing. Run a show, or know
       of one we're missing?{' '}
       <a href={SHOW_FORM_URL} target="_blank" rel="noopener" class="text-prizm">Add it</a> — it's free, and a person reviews every submission.
     </p>
@@ -122,9 +112,9 @@ const showListLd = itemListLd(
     <>
       {upcoming.length === 0 ? (
         <p class="mt-10 max-w-prose text-muted">
-          No more {province.name} shows are on the {YEAR} calendar — every one we tracked for the year has already
+          No upcoming {province.name} shows are on the calendar — every one we've tracked has already
           happened. See the full <a href="/shows/" class="text-prizm">Canada-wide show calendar</a> for what's
-          upcoming elsewhere, or check back as next year's dates get added.
+          upcoming elsewhere, or check back as new dates get added.
         </p>
       ) : (
         <div class="mt-10 space-y-10">
@@ -156,7 +146,7 @@ const showListLd = itemListLd(
       {past.length > 0 && (
         <details class="mt-16">
           <summary class="cursor-pointer text-sm font-semibold uppercase tracking-wide text-muted hover:text-paper">
-            Past {YEAR} shows ({past.length})
+            Past {province.name} shows ({past.length})
           </summary>
           <ul role="list" class="mt-6 grid gap-4 sm:grid-cols-2">
             {past.map((show) => (

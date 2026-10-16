@@ -4,7 +4,7 @@ import storesJson from '../../data/stores.json';
 import showsJson from '../../data/shows.json';
 import type { Store } from '../../lib/types';
 import type { ShowRecord } from '../../lib/shows';
-import { primaryShowCalendarYear, showsInProvinceYear, isUpcoming, isRecommendedShow } from '../../lib/shows';
+import { showsInProvince, provinceShowsPath, isUpcoming, isRecommendedShow } from '../../lib/shows';
 import { provincesWithStores, citiesIn, provinceBySlug } from '../../lib/stores';
 import {
   absoluteUrl,
@@ -58,19 +58,14 @@ const showPopularCities = cities.length > 3 && popularCities.length > 0;
 // is one of the inbound-link sources the amendment calls for.
 const gradingStores = allStores.filter((s) => s.services.some((v) => v.toLowerCase() === 'grading services'));
 
-// This province's show calendar, if the data supports one — prefers a year
-// with something still upcoming, falls back to the most recent year on
-// record, and is simply absent for a province with no shows tracked yet.
+// This province's show calendar — absent for a province with no shows
+// tracked, so the page never links to nothing. The calendar still exists once
+// every show has happened, so the invite below has to know which case it's
+// in: an all-past calendar is not something to look forward to.
 const buildDate = new Date();
-const showYear = primaryShowCalendarYear(showsJson as ShowRecord[], province.code, buildDate);
-const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : undefined;
-// primaryShowCalendarYear deliberately falls back to the most recent year on
-// record once every show for the province has already happened, so a page
-// can't link to nothing — but that means the invite below has to know which
-// case it's in: an all-past year reads as "no more shows on the calendar" if
-// we still call it out as something to look forward to.
-const showYearHasUpcoming =
-  showYear !== undefined && showsInProvinceYear(showsJson as ShowRecord[], province.code, showYear).some((s) => isRecommendedShow(s, buildDate));
+const provinceShows = showsInProvince(showsJson as ShowRecord[], province.code);
+const showsUrl = provinceShows.length > 0 ? provinceShowsPath(province.slug) : undefined;
+const showYearHasUpcoming = provinceShows.some((s) => isRecommendedShow(s, buildDate));
 
 const provinceUrl = absoluteUrl(Astro.site, `/${province.slug}/`);
 const breadcrumbLd = breadcrumbListLd([
@@ -155,12 +150,12 @@ const pageDescription = provinceDescription(province.name, cities);
       {showsUrl !== undefined && (
         showYearHasUpcoming ? (
           <>
-            Looking for a card show? See the <a href={showsUrl} class="text-prizm">{province.name} {showYear} show calendar</a>.{' '}
+            Looking for a card show? See the <a href={showsUrl} class="text-prizm">{province.name} card show calendar</a>.{' '}
           </>
         ) : (
           <>
             Curious what's run in {province.name} before? Every show on the{' '}
-            <a href={showsUrl} class="text-prizm">{province.name} {showYear} show calendar</a> has already happened,
+            <a href={showsUrl} class="text-prizm">{province.name} card show calendar</a> has already happened,
             but it's worth a look for what typically comes through.{' '}
           </>
         )

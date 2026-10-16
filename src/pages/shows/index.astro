@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { SHOW_FORM_URL } from '../../lib/forms';
 import showsJson from '../../data/shows.json';
 import type { ShowRecord } from '../../lib/shows';
-import { parseLocalDate, isUpcoming, groupShowsByMonth, showTimingLabel, isRecommendedShow, showScheduleWarning } from '../../lib/shows';
+import { parseLocalDate, isUpcoming, groupShowsByMonth, showTimingLabel, isRecommendedShow, showScheduleWarning, provinceShowsPath } from '../../lib/shows';
 import { PROVINCES } from '../../lib/types';
 import type { ProvinceCode } from '../../lib/types';
 
@@ -41,18 +41,14 @@ const formatRange = (show: ShowRecord): string => {
   return end === start ? start : `${start} – ${end}`;
 };
 
-// Derived, not hardcoded: three links were hardcoded here, so the province-year
-// pages generated from new show data (Ontario 2027, and five others) were live
-// and in the sitemap but linked from nowhere. Orphan pages don't earn rankings.
-const provinceYearLinks = [...new Map(
-  (showsJson as ShowRecord[])
-    .filter((s) => PROVINCES[s.province as ProvinceCode] !== undefined)
-    .map((s) => {
-      const p = PROVINCES[s.province as ProvinceCode];
-      const year = Number(s.startDate.slice(0, 4));
-      return [`${p.slug}-${year}`, { href: `/shows/${p.slug}-${year}/`, label: `${p.name} ${year}`, year }] as const;
-    }),
-).values()].sort((a, b) => a.year - b.year || a.label.localeCompare(b.label));
+// Derived, not hardcoded: hardcoded links here once left province calendars
+// generated from new show data live and in the sitemap but linked from nowhere.
+// Orphan pages don't earn rankings. One link per province — the calendars are
+// evergreen now (see provinceShowsPath()).
+const provinceLinks = [...new Set((showsJson as ShowRecord[]).map((s) => s.province as ProvinceCode))]
+  .filter((code) => PROVINCES[code] !== undefined)
+  .map((code) => ({ href: provinceShowsPath(PROVINCES[code].slug), label: PROVINCES[code].name }))
+  .sort((a, b) => a.label.localeCompare(b.label));
 ---
 <Base
   title={titleLead !== undefined
@@ -72,7 +68,7 @@ const provinceYearLinks = [...new Map(
   </p>
 
   <ul role="list" class="mt-6 flex flex-wrap gap-3">
-    {[{ href: '/shows/this-weekend/', label: 'This weekend' }, ...provinceYearLinks].map((l) => (
+    {[{ href: '/shows/this-weekend/', label: 'This weekend' }, ...provinceLinks].map((l) => (
       <li>
         <a href={l.href} class="rounded-full border border-bord px-4 py-1.5 text-sm text-muted transition-colors hover:border-prizm hover:text-paper">
           {l.label}

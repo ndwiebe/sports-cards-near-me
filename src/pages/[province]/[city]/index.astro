@@ -13,7 +13,7 @@ import { toMapResellers } from '../../../lib/map-data';
 import { absoluteUrl, breadcrumbListLd, cityAnswerCapsule, cityDescription, cityFaqs, cityTitle, collectTags, faqPageLd, itemListLd, ldJson, topRatedSportsCardStore, MIN_REVIEWS_FOR_TOP } from '../../../lib/seo';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord } from '../../../lib/shows';
-import { isUpcoming, parseLocalDate, primaryShowCalendarYear, isRecommendedShow } from '../../../lib/shows';
+import { isUpcoming, parseLocalDate, showsInProvince, provinceShowsPath, isRecommendedShow } from '../../../lib/shows';
 import { nearestCities, nearestStoresToCity, nearestStoresToCityWithDistance } from '../../../lib/nearby';
 import { relatedGuidesForCity } from '../../../lib/related-guides';
 
@@ -100,8 +100,7 @@ const upcomingProvinceShows = shows
   .sort((a, b) => parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime())
   .slice(0, UPCOMING_SHOW_LIMIT);
 const showDateFormat = new Intl.DateTimeFormat('en-CA', { dateStyle: 'long' });
-const showYear = primaryShowCalendarYear(shows, province.code, buildDate);
-const showsUrl = showYear !== undefined ? `/shows/${province.slug}-${showYear}/` : '/shows/';
+const showsUrl = showsInProvince(shows, province.code).length > 0 ? provinceShowsPath(province.slug) : '/shows/';
 const cityLowerTags = tags.map((t) => t.trim().toLowerCase());
 const cityBuys = cityLowerTags.includes('buys');
 const cityTcg = cityLowerTags.includes('pokemon');
@@ -299,7 +298,7 @@ const pageDescription = cityDescription(cityGroup.city, province.name, cityGroup
       )}
       <li>
         <a href={showsUrl} class="font-semibold hover:text-prizm">
-          Card shows in {province.name}{showYear !== undefined ? ` ${showYear}` : ''}
+          Card shows in {province.name}
         </a>
       </li>
       <li>

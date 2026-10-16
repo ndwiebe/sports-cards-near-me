@@ -2,9 +2,10 @@ import { describe, expect, it } from 'vitest';
 import redirectMap from '../../src/data/redirects.json';
 import storesJson from '../../src/data/stores.json';
 import showsJson from '../../src/data/shows.json';
-import type { Store } from '../../src/lib/types';
+import type { ProvinceCode, Store } from '../../src/lib/types';
+import { PROVINCES } from '../../src/lib/types';
 import type { ShowRecord } from '../../src/lib/shows';
-import { groupShowsIntoSeries } from '../../src/lib/shows';
+import { groupShowsIntoSeries, provinceShowsPath } from '../../src/lib/shows';
 
 const stores = storesJson as Store[];
 const shows = showsJson as ShowRecord[];
@@ -16,6 +17,13 @@ const liveShowSlugs = new Set(shows.map((s) => s.slug));
 // same failure mode that made the /shows/ branch below necessary in the first
 // place.
 const liveSeriesSlugs = new Set(groupShowsIntoSeries(shows).map((s) => s.slug));
+// /shows/<province>/ — the evergreen province calendars (2026-10-15), one per
+// province with any show on record, generated the same way the route does.
+const liveProvinceHubPaths = new Set(
+  [...new Set(shows.map((s) => s.province as ProvinceCode))]
+    .filter((code) => PROVINCES[code] !== undefined)
+    .map((code) => provinceShowsPath(PROVINCES[code].slug)),
+);
 const liveCityPaths = new Set(stores.map((s) => {
   const provinceSlugs: Record<string, string> = {
     AB: 'alberta', BC: 'british-columbia', MB: 'manitoba', NB: 'new-brunswick',
@@ -52,6 +60,7 @@ describe('redirect map', () => {
       if (seriesSlug !== undefined) {
         expect(liveSeriesSlugs.has(seriesSlug), `${from} is a LIVE show-series page and must not be redirected`).toBe(false);
       }
+      expect(liveProvinceHubPaths.has(from), `${from} is a LIVE province show calendar and must not be redirected`).toBe(false);
     }
   });
 
@@ -64,9 +73,11 @@ describe('redirect map', () => {
         ? liveStoreSlugs.has(storeSlug)
         : seriesSlug !== undefined
           ? liveSeriesSlugs.has(seriesSlug)
-          : showSlug !== undefined
-            ? liveShowSlugs.has(showSlug)
-            : liveCityPaths.has(to as string) || to === '/';
+          : liveProvinceHubPaths.has(to as string)
+            ? true
+            : showSlug !== undefined
+              ? liveShowSlugs.has(showSlug)
+              : liveCityPaths.has(to as string) || to === '/';
       expect(ok, `${from} -> ${to} points at nothing that exists`).toBe(true);
     }
   });

@@ -34,5 +34,14 @@
   "/store/cartoon-kingdom-windsor/": "/store/cartoon-kingdom-cedar-creek-hobbies-windsor/",
   "/store/cedar-creek-hobbies-windsor/": "/store/cartoon-kingdom-cedar-creek-hobbies-windsor/",
   "/store/le-roi-des-cartes-valleyfield-salaberry-de-valleyfield/": "/store/tcg-and-games-valleyfield-salaberry-de-valleyfield/",
-  "/store/dsm-sports-cards-collectors-le-roi-des-cartes-beloeil/": "/store/le-roi-des-cartes-hockey-accessoires-beloeil/"
+  "/store/dsm-sports-cards-collectors-le-roi-des-cartes-beloeil/": "/store/le-roi-des-cartes-hockey-accessoires-beloeil/",
+  "/shows/alberta-2026/": "/shows/alberta/",
+  "/shows/british-columbia-2026/": "/shows/british-columbia/",
+  "/shows/british-columbia-2027/": "/shows/british-columbia/",
+  "/shows/new-brunswick-2026/": "/shows/new-brunswick/",
+  "/shows/nova-scotia-2026/": "/shows/nova-scotia/",
+  "/shows/ontario-2026/": "/shows/ontario/",
+  "/shows/ontario-2027/": "/shows/ontario/",
+  "/shows/quebec-2026/": "/shows/quebec/",
+  "/shows/saskatchewan-2026/": "/shows/saskatchewan/"
 }
