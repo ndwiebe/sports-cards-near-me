@@ -26,7 +26,6 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
-| 2026-10-23 | Codex scnm-release-oct23 | lib/pages/scripts/tests | Discovery preservation + show directions | Isolated release worktree; production authorized after checks |
 
 
 ## Queued — claimed but not started
@@ -628,3 +627,7 @@ Full cause, verification and a reappliable patch:
 - **2026-09-30** — *(Codex, isolated local checkout in Documents/Codex/2026-09-30/task/sports-cards-near-me)* Fixed the open-now test fixture after reproducing the failure with CI Node 22.23.3 and time-zone database 2026c. Alberta’s permanent UTC-6 made the future December comparison invalid; historical 2025 comparison retains the closed/open expectations. Added three system-clock independence cases. 606 unit tests, typecheck, 1,592-page build and 121 browser tests (11 conditional skips) pass. Local only; no commit, push, PR, merge or deployment. Details: `.planning/2026-09-30-open-now-local-fix.md`.
 
 - **2026-10-03** — *(Codex, isolated urgent checkout)* Approved temporary schedule hold for exact Uxbridge October 3 edition. Original source record and date preserved; warning page remains reachable; recommendations, urgency copy and EventScheduled markup withheld pending organizer verification. No cancellation or replacement date claimed. Regression tests added. Release evidence in `.planning/2026-10-03-uxbridge-schedule-hold.md`.
+
+### 2026-10-23 — Discovery preservation and show directions release
+
+PR #20 combines the isolated discovery and visit-planning changes; user authorized publication after passing checks. Final independent review cleared strict per-province output completeness and existing-output preservation. Typecheck, 615 unit tests, 72 Python tests and 1668-page refreshed-data build passed locally and in PR CI. Full browser suite: 131 passed; 11 conditional map/hours/viewport skips, no missing-show fixture skips. All eight new Directions checks pass. Generated data and private outreach evidence are excluded. Release owner: Codex in `scnm-release-oct23`; terminal deployment evidence is saved separately in `../scnm-release-evidence/`. No outreach or schedule changes.
