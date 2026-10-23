@@ -26,6 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
+| 2026-10-23 | Codex scnm-release-oct23 | lib/pages/scripts/tests | Discovery preservation + show directions | Isolated release worktree; production authorized after checks |
 
 
 ## Queued — claimed but not started
