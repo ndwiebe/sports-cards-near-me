@@ -1,0 +1,28 @@
+name: release checks
+on:
+  pull_request:
+    branches: [redesign]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run bake && npm run bake:shows && npm run bake:resellers && npm run bake:rosters
+      - run: npm run typecheck
+      - run: npm test
+      - run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: 'true'

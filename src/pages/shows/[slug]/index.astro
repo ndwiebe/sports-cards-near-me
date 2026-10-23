@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import showsJson from '../../../data/shows.json';
 import type { ShowRecord, ShowSeries } from '../../../lib/shows';
 import { groupShowsIntoSeries, isUpcoming, nextInSeries, parseLocalDate, showEventLd, showTimingLabel, showScheduleWarning } from '../../../lib/shows';
+import { showDirectionsUrl } from '../../../lib/show-directions';
 import { absoluteUrl, ldJson } from '../../../lib/seo';
 import { SHOW_FORM_URL } from '../../../lib/forms';
 import { PROVINCES } from '../../../lib/types';
@@ -40,6 +41,7 @@ const buildDate = new Date();
 const timingLabel = showTimingLabel(show, buildDate);
 const warning = showScheduleWarning(show);
 const upcoming = isUpcoming(show, buildDate);
+const directionsHref = showDirectionsUrl(show, buildDate);
 const nextInSeriesShow = series !== undefined ? nextInSeries(series, buildDate) : undefined;
 const nextDateFormatted = nextInSeriesShow !== undefined ? dateFormat.format(parseLocalDate(nextInSeriesShow.startDate)) : undefined;
 
@@ -58,9 +60,9 @@ const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURICompone
     ? `${timingLabel} — ${show.name} in ${show.city}, ${show.province}`
     : `${show.name} — ${show.city}, ${show.province} (Past Show)`}
   description={warning !== undefined ? warning : timingLabel === 'Today' || timingLabel === 'Tomorrow' || timingLabel === 'This Weekend'
-    ? `${timingLabel}: ${show.name} in ${show.city}, ${provinceName} — ${dateRange}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
+    ? `${timingLabel}: ${show.name} in ${show.city}, ${provinceName} — ${dateRange}${show.venue !== undefined ? ` at ${show.venue}` : ''}. See available visit details and confirm with the organizer.`
     : timingLabel !== undefined
-      ? `${timingLabel} — ${show.name} in ${show.city}, ${provinceName}${show.venue !== undefined ? ` at ${show.venue}` : ''}. Hours, admission, and directions on this page.`
+      ? `${timingLabel} — ${show.name} in ${show.city}, ${provinceName}${show.venue !== undefined ? ` at ${show.venue}` : ''}. See available visit details and confirm with the organizer.`
       : `${show.name} took place in ${show.city}, ${provinceName} on ${dateRange}. Venue, hours, and admission details are on this page.`}
 >
   {/* Event structured data only for a show that hasn't happened yet. Once a
@@ -121,6 +123,7 @@ const REMOVE_MAILTO = `mailto:hello@displaymycard.com?subject=${encodeURICompone
     Plans can change. Confirm the date, hours and venue with the organizer before travelling, especially on the day of the show.
   </p>
   <div class="mt-8 flex flex-wrap gap-3">
+    {directionsHref !== undefined && <a href={directionsHref} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Directions</a>}
     {show.website !== undefined && <a href={show.website} target="_blank" rel="noopener" class="rounded-lg px-5 py-2.5 font-semibold text-ink" style="background:var(--gradient-refractor)">Website</a>}
     {show.sourceUrl !== undefined && <a href={show.sourceUrl} target="_blank" rel="noopener" class="rounded-lg border border-bord px-5 py-2.5 font-semibold hover:border-prizm">Source</a>}
   </div>
