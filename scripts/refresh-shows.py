@@ -246,17 +246,24 @@ for (const prov of provinces) {{
   for (const r of rows) console.log("ROW " + JSON.stringify(r));
 }}
 """
-    out = ''
+    rows, status = [], {}
     # Navigation + challenge wait can take 23s: one province per invocation
     # keeps the bounded retry below dev-browser's 30s QuickJS cap.
     for province in PROVINCES:
-        chunk = [province]
-        out += run_js(js.replace('const provinces = ' + provs, 'const provinces = ' + json.dumps(chunk)))
-    status = {}
-    for p in marked(out, 'PROV'):
-        # A zero is a claim too: distinguish "loaded and genuinely empty" from "failed".
-        status[p['province']] = 'error: ' + p['error'] if p['error'] else ('empty' if p['count'] == 0 else f"{p['count']} rows")
-    rows = marked(out, 'ROW')
+        out = run_js(js.replace('const provinces = ' + provs,
+                                'const provinces = ' + json.dumps([province])))
+        reports, province_rows = marked(out, 'PROV'), marked(out, 'ROW')
+        # A successful process exit is not proof its output is complete. Never
+        # turn missing/duplicated markers or truncated rows into a partial refresh.
+        if (len(reports) != 1 or reports[0].get('province') != province
+                or reports[0].get('count') != len(province_rows)
+                or any(r.get('province') != province for r in province_rows)):
+            status[province] = 'error: incomplete or inconsistent browser output'
+            continue
+        report = reports[0]
+        status[province] = ('error: ' + report['error'] if report['error']
+                            else ('empty' if not province_rows else f"{len(province_rows)} rows"))
+        rows.extend(province_rows)
     if limit:
         keep, seen = [], Counter()
         for r in rows:

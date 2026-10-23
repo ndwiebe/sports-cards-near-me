@@ -130,6 +130,24 @@ class DiscoveryOutputIntegrationTest(unittest.TestCase):
         self.assertEqual({p.name: p.read_bytes() for p in self.out.iterdir()}, before)
         self.assertEqual((self.shows.read_bytes(), self.stores.read_bytes()), source_before)
 
+    def test_incomplete_browser_output_preserves_previous_outputs(self):
+        alberta = ('PROV ' + json.dumps({'province': 'Alberta', 'count': 1, 'error': None})
+                   + '\nROW ' + json.dumps(self.row) + '\n')
+        ontario = 'PROV ' + json.dumps({'province': 'Ontario', 'count': 1, 'error': None}) + '\n'
+        for incomplete in ('', ontario, ontario + ontario,
+                           'PROV ' + json.dumps({'province': 'Quebec', 'count': 0, 'error': None}) + '\n'):
+            with self.subTest(output=incomplete):
+                before = self.previous_outputs()
+                with patch.dict(refresh.PROVINCES, {'Alberta': 'AB', 'Ontario': 'ON'}, clear=True), \
+                     patch.object(refresh, 'run_js', side_effect=[alberta, incomplete]), \
+                     patch.object(refresh, 'scrape_details') as details, \
+                     contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    with self.assertRaises(SystemExit) as failure:
+                        refresh.main()
+                self.assertEqual(failure.exception.code, 1)
+                details.assert_not_called()
+                self.assertEqual({p.name: p.read_bytes() for p in self.out.iterdir()}, before)
+
     def test_successful_full_path_writes_payload_report_and_summary_from_cached_details(self):
         cache = self.out / f'.show-refresh-cache-{date.today().isoformat()}.jsonl'
         cache.write_text(json.dumps(self.detail) + '\n')
