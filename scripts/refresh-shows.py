@@ -51,6 +51,12 @@ PROVINCES = {
 LIST_URL = 'https://www.tcdb.com/CardShows.cfm?MODE=Location&State={}&Country=Canada'
 DATE_RE = re.compile(r'^(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday),\s+\w+\s+\d{1,2},\s+\d{4}$')
 
+# A successful navigation can still be Cloudflare's interstitial. Absence of
+# show links is meaningful only after the requested TCDB list actually loads.
+LIST_READY_JS = r'''() => document.title.startsWith('Card Shows in ')
+  && document.title.endsWith(' | Trading Card Database')
+  && !document.querySelector('#challenge-running, #challenge-stage, script[src*="challenge-platform"]')'''
+
 
 def fail(msg: str) -> None:
     print(f'\nREFRESH-SHOWS FAILED: {msg}', file=sys.stderr)
@@ -200,7 +206,7 @@ def flag_adjacent_new_days(rows: list[dict]) -> None:
 
 
 def scrape_lists(limit: int | None) -> tuple[list[dict], dict[str, str]]:
-    """One page object, reused, ~1s between fetches. Never a tab per show."""
+    """Reuse one page, allowing a transient browser challenge to finish."""
     provs = json.dumps(list(PROVINCES))
     js = f"""
 const provinces = {provs};
@@ -209,8 +215,13 @@ for (const prov of provinces) {{
   const url = "{LIST_URL}".replace("{{}}", encodeURIComponent(prov));
   let rows = [], err = null;
   try {{
-    await page.goto(url, {{ waitUntil: "domcontentloaded", timeout: 60000 }});
-    await page.waitForTimeout(1100);
+    await page.goto(url, {{ waitUntil: "domcontentloaded", timeout: 15000 }});
+    let ready = false;
+    for (let attempt = 0; attempt < 16; attempt++) {{
+      if (await page.evaluate({LIST_READY_JS})) {{ ready = true; break; }}
+      await page.waitForTimeout(500);
+    }}
+    if (!ready) throw new Error("TCDB province list not ready (challenge or unexpected page): " + await page.title());
     rows = await page.evaluate((prov) => {{
       const first = document.querySelector('li a[href*="MODE=VIEW"]');
       if (!first) return [];
@@ -236,8 +247,10 @@ for (const prov of provinces) {{
 }}
 """
     out = ''
-    for i in range(0, len(PROVINCES), 3):          # 30s QuickJS cap — see run_js
-        chunk = list(PROVINCES)[i:i + 3]
+    # Navigation + challenge wait can take 23s: one province per invocation
+    # keeps the bounded retry below dev-browser's 30s QuickJS cap.
+    for province in PROVINCES:
+        chunk = [province]
         out += run_js(js.replace('const provinces = ' + provs, 'const provinces = ' + json.dumps(chunk)))
     status = {}
     for p in marked(out, 'PROV'):
@@ -358,6 +371,10 @@ def main() -> None:
     rows, status = scrape_lists(args.limit)
     for p, st in status.items():
         print(f'  {p:<26} {st}')
+    failed_provinces = [p for p, st in status.items() if st.startswith('error')]
+    if failed_provinces:
+        fail('province fetch failed: ' + ', '.join(failed_provinces)
+             + ' — preserving previous discovery outputs; no partial payload written')
     if not rows:
         fail('every province returned zero rows — that is a scrape failure, not an empty calendar')
 
