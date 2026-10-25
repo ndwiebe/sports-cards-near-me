@@ -631,3 +631,7 @@ Full cause, verification and a reappliable patch:
 ### 2026-10-23 — Discovery preservation and show directions release
 
 PR #20 combines the isolated discovery and visit-planning changes; user authorized publication after passing checks. Final independent review cleared strict per-province output completeness and existing-output preservation. Typecheck, 615 unit tests, 72 Python tests and 1668-page refreshed-data build passed locally and in PR CI. Full browser suite: 131 passed; 11 conditional map/hours/viewport skips, no missing-show fixture skips. All eight new Directions checks pass. Generated data and private outreach evidence are excluded. Release owner: Codex in `scnm-release-oct23`; terminal deployment evidence is saved separately in `../scnm-release-evidence/`. No outreach or schedule changes.
+
+### 2026-10-25 — local upkeep/reporting patch
+
+Codex isolated `scnm-upkeep-oct25` / `fix/ratings-proposal-reporting-oct25`: retain monthly proposal JSON in artifact/review PR and remove unverified live-publication claims from digest/fallback notes. 616 unit, 72 Python, typecheck/build/shell checks passed; independent review clear. Publication approved October 25 14:41:54 UTC; no live wrapper execution. Details and workflow main-sync gate: `.planning/2026-10-25-upkeep-reporting.md`. Original worktrees preserved.
