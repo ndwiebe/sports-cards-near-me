@@ -288,7 +288,7 @@ describe('buildDigest', () => {
     expect(md).toContain('Nothing needed a closer look this week.');
   });
 
-  it('reports a successful production publish separately from "Anything failing"', () => {
+  it('reports a production dispatch without claiming completion separately from "Anything failing"', () => {
     const md = buildDigest({
       weekLabel: 'Sept 17 – Sept 23, 2026',
       changeLogEntries: [],
@@ -296,6 +296,8 @@ describe('buildDigest', () => {
     });
     expect(md).toMatch(/## Getting this week.s show changes live/);
     expect(md).toMatch(/Triggered a production publish/);
+    expect(md).toContain("completion has not been verified");
+    expect(md).not.toContain("should be live");
     expect(md).not.toMatch(/\*\*publish\*\*: failing/);
   });
 
@@ -309,7 +311,8 @@ describe('buildDigest', () => {
     });
     expect(md).toMatch(/## Getting this week.s show changes live/);
     expect(md).toContain('gh is not authenticated');
-    expect(md).toMatch(/go live with tomorrow.s daily build/);
+    expect(md).toContain("A later successful build can publish it");
+    expect(md).not.toMatch(/will go live|should be live/);
     expect(md).not.toMatch(/\*\*publish\*\*: failing/); // not double-reported under "Anything failing"
   });
 
