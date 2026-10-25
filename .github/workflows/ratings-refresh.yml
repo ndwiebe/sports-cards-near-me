@@ -91,7 +91,7 @@ jobs:
       # itself failed outright on "GitHub Actions is not permitted to create or
       # approve pull requests" (a repo setting). The scan is the expensive part;
       # an artifact survives both failure modes and costs nothing.
-      - name: Upload the CSVs as an artifact
+      - name: Upload review results as an artifact
         if: always()
         uses: actions/upload-artifact@v6
         with:
@@ -102,6 +102,7 @@ jobs:
             docs/research/ratings-refresh.csv
             docs/research/ratings-refresh-unmatched.csv
             docs/research/closure-review.csv
+            docs/research/ratings-refresh-payload.json
 
       - name: Open a PR with the results
         uses: peter-evans/create-pull-request@v8
@@ -114,7 +115,8 @@ jobs:
             Automated monthly pull of Google ratings for the directory.
 
             **This is not ready to merge as-is.** The CSVs attached here are a
-            proposal, not verified data. Before importing anything into the sheet,
+            proposal, not verified data. The proposed-change JSON is included for
+            review only; this workflow does not apply it. Before importing anything into the sheet,
             check the `Google address` column against each shop's own address —
             Text Search matches by name and can land on a different business.
 
@@ -125,3 +127,4 @@ jobs:
             docs/research/ratings-refresh.csv
             docs/research/ratings-refresh-unmatched.csv
             docs/research/closure-review.csv
+            docs/research/ratings-refresh-payload.json
