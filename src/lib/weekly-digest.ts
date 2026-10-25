@@ -338,7 +338,7 @@ export function buildDigest(input: DigestInput): string {
   // triggered after a live run applied at least one change -- see
   // scripts/weekly-scnm-job.sh. Reported in its own section (not folded into
   // "Anything failing" below, which is why that section's own `publish` entry
-  // is filtered back out there) so a SUCCESSFUL publish is visible too, not
+  // is filtered back out there) so a successful dispatch is visible too, not
   // just a failed one.
   const publishStatus = jobStatuses?.find((j) => j.name === 'publish');
   lines.push('## Getting this week’s show changes live');
@@ -351,13 +351,13 @@ export function buildDigest(input: DigestInput): string {
   } else if (publishStatus.status === 'ok') {
     lines.push(
       "Triggered a production publish (the site's live-build workflow) after this week's automatic show changes " +
-        `-- it should be live on sportscardsnearme.ca already.${publishStatus.note !== undefined ? ` ${publishStatus.note}` : ''}`,
+        `-- completion has not been verified. Check the site workflow result and the live pages before treating these changes as published.${publishStatus.note !== undefined ? ` ${publishStatus.note}` : ''}`,
     );
   } else {
     lines.push(
       `Could not trigger a production publish this week${publishStatus.note !== undefined ? ` — ${publishStatus.note}` : '.'} ` +
         'Either way, the change is already saved to the sheet, and the site rebuilds on its own every day at 9:00 ' +
-        'AM UTC, so it will go live with tomorrow’s daily build even without a manual publish.',
+        'AM UTC. A later successful build can publish it; the live site has not been verified by this digest.',
     );
   }
   lines.push('');

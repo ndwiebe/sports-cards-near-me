@@ -314,14 +314,14 @@ if [ "$DRY_RUN" = "0" ] && [ "$ENGINE_APPLIED" -gt 0 ] 2>/dev/null; then
     echo "SCNM_MOCK_PUBLISH=1 -- not really calling gh; recording a mocked publish success"
     append_status "publish" "ok" "mocked (SCNM_MOCK_PUBLISH=1) -- gh workflow run was not actually called this run"
   elif ! command -v gh >/dev/null 2>&1; then
-    append_status "publish" "failing" "gh (the GitHub command-line tool) is not installed, so a production publish could not be triggered. The change is already saved to the sheet -- the daily 09:00 UTC scheduled build will publish it anyway, so it will go live with tomorrow's daily build."
+    append_status "publish" "failing" "gh (the GitHub command-line tool) is not installed, so a production publish could not be triggered. The change is already saved to the sheet -- a later successful daily 09:00 UTC build can publish it; live publication still needs verification."
   elif ! gh auth status >/dev/null 2>&1; then
-    append_status "publish" "failing" "gh isn't authenticated (sign in with \`gh auth login\`), so a production publish could not be triggered. The change is already saved to the sheet -- the daily 09:00 UTC scheduled build will publish it anyway, so it will go live with tomorrow's daily build."
+    append_status "publish" "failing" "gh isn't authenticated (sign in with \`gh auth login\`), so a production publish could not be triggered. The change is already saved to the sheet -- a later successful daily 09:00 UTC build can publish it; live publication still needs verification."
   elif run_with_timeout 60 gh workflow run site --ref main; then
     append_status "publish" "ok"
     echo "production publish triggered (gh workflow run site --ref main)"
   else
-    append_status "publish" "failing" "gh workflow run site --ref main failed -- see the run log ($LOG). The change is already saved to the sheet -- the daily 09:00 UTC scheduled build will publish it anyway, so it will go live with tomorrow's daily build."
+    append_status "publish" "failing" "gh workflow run site --ref main failed -- see the run log ($LOG). The change is already saved to the sheet -- a later successful daily 09:00 UTC build can publish it; live publication still needs verification."
   fi
 else
   echo "no production publish needed this run (dry run, or nothing was applied to the live sheet)"
