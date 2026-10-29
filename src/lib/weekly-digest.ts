@@ -357,7 +357,7 @@ export function buildDigest(input: DigestInput): string {
     // contradicts.
     lines.push(
       publishStatus.note
-        ? `The publish step reported OK with a note from the job: ${publishStatus.note}. Completion has not been verified by this digest.`
+        ? `The publish step reported OK, with this note from the job: ${publishStatus.note}. The live site has not been verified by this digest.`
         : "Triggered a production publish (the site's live-build workflow) after this week's automatic show changes " +
             '-- completion has not been verified. To check: run `gh run list --workflow site --limit 1`, open that run, ' +
             'and load one of the changed show pages on sportscardsnearme.ca before treating these changes as published.',
@@ -368,8 +368,8 @@ export function buildDigest(input: DigestInput): string {
     // here, once. It used to be in both places and the digest said it twice.
     lines.push(
       `Could not trigger a production publish this week${publishStatus.note ? ` — ${publishStatus.note}` : '.'} ` +
-        'Either way, the change is already saved to the sheet, and the site rebuilds on its own every day at 9:00 ' +
-        'AM UTC. A later successful build can publish it; the live site has not been verified by this digest.',
+        'The change is already saved to the sheet, and the site rebuilds on its own every day at 9:00 AM UTC. ' +
+        'A later successful build can publish it; the live site has not been verified by this digest.',
     );
   }
   lines.push('');
