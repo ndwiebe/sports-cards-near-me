@@ -32,7 +32,7 @@ function step(marker: RegExp, what: string): string {
 
 /** Entries of a `key: |` block scalar inside a step: the consecutive 12-space-indented lines right after it. A commented-out entry ("# docs/...") does not count. */
 function blockList(stepText: string, key: string): string[] {
-  const m = stepText.match(new RegExp(`^ {10}${key}: \\|\\n((?: {12}\\S[^\\n]*\\n?)+)`, 'm'));
+  const m = stepText.match(new RegExp(`^ {10}${key}: \\|[ \\t]*\\n((?: {12}\\S[^\\n]*\\n?)+)`, 'm'));
   expect(m, `expected a \`${key}: |\` block in the step`).not.toBeNull();
   return (m?.[1] ?? '')
     .split('\n')
@@ -47,12 +47,12 @@ describe('monthly ratings refresh: producer outputs reach the artifact, the revi
   });
 
   it('lists every producer output in the artifact path: block', () => {
-    const paths = blockList(step(/^ {8}uses: actions\/upload-artifact@/m, 'upload-artifact'), 'path');
+    const paths = blockList(step(/^(?: {6}- | {8})uses: actions\/upload-artifact@/m, 'upload-artifact'), 'path');
     for (const out of producerOutputs) expect(paths, `artifact path: should list ${out}`).toContain(out);
   });
 
   it('lists every producer output in the PR add-paths: block (a mention in the PR body does not count)', () => {
-    const paths = blockList(step(/^ {8}uses: peter-evans\/create-pull-request@/m, 'create-pull-request'), 'add-paths');
+    const paths = blockList(step(/^(?: {6}- | {8})uses: peter-evans\/create-pull-request@/m, 'create-pull-request'), 'add-paths');
     for (const out of producerOutputs) expect(paths, `add-paths: should list ${out}`).toContain(out);
   });
 
@@ -62,7 +62,8 @@ describe('monthly ratings refresh: producer outputs reach the artifact, the revi
   });
 
   it('uploads the artifact even when the scan fails (if: always() on the upload step)', () => {
-    // Anywhere inside the step, so inserting another key between `if:` and `uses:` is fine.
-    expect(step(/^ {8}uses: actions\/upload-artifact@/m, 'upload-artifact')).toMatch(/^ {8}if: always\(\)$/m);
+    // Anywhere inside the step (and on its first line, after "- "), so inserting
+    // another key between `if:` and `uses:` or reordering keys is fine.
+    expect(step(/^(?: {6}- | {8})uses: actions\/upload-artifact@/m, 'upload-artifact')).toMatch(/^(?: {6}- | {8})if: always\(\)[ \t]*$/m);
   });
 });
