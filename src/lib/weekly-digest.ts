@@ -349,15 +349,27 @@ export function buildDigest(input: DigestInput): string {
         : 'Not recorded this run.',
     );
   } else if (publishStatus.status === 'ok') {
+    // The wrapper records `ok` the moment `gh workflow run` is accepted -- it
+    // never waits for the build -- so this section can only say a publish was
+    // *requested*. The one `ok` note the wrapper writes is the
+    // SCNM_MOCK_PUBLISH=1 one ("gh was not actually called"), so when a note is
+    // present it leads, rather than being tacked onto a dispatch claim it
+    // contradicts.
     lines.push(
-      "Triggered a production publish (the site's live-build workflow) after this week's automatic show changes " +
-        `-- completion has not been verified. Check the site workflow result and the live pages before treating these changes as published.${publishStatus.note !== undefined ? ` ${publishStatus.note}` : ''}`,
+      publishStatus.note
+        ? `The publish step reported OK, with this note from the job: ${publishStatus.note}. The live site has not been verified by this digest.`
+        : "Triggered a production publish (the site's live-build workflow) after this week's automatic show changes " +
+            '-- completion has not been verified. To check: run `gh run list --workflow site --limit 1`, open that run, ' +
+            'and load one of the changed show pages on sportscardsnearme.ca before treating these changes as published.',
     );
   } else {
+    // The wrapper's failure notes state the cause only; the "already saved /
+    // a later build can publish it / not verified" consequence is written
+    // here, once. It used to be in both places and the digest said it twice.
     lines.push(
-      `Could not trigger a production publish this week${publishStatus.note !== undefined ? ` — ${publishStatus.note}` : '.'} ` +
-        'Either way, the change is already saved to the sheet, and the site rebuilds on its own every day at 9:00 ' +
-        'AM UTC. A later successful build can publish it; the live site has not been verified by this digest.',
+      `Could not trigger a production publish this week${publishStatus.note ? ` — ${publishStatus.note}` : '.'} ` +
+        'The change is already saved to the sheet, and the site rebuilds on its own every day at 9:00 AM UTC. ' +
+        'A later successful build can publish it; the live site has not been verified by this digest.',
     );
   }
   lines.push('');

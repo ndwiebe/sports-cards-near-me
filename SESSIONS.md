@@ -86,6 +86,15 @@ Full cause, verification and a reappliable patch:
 
 ## Log
 
+### 2026-10-29 — PR #21 code-review follow-ups (two branches, not yet merged)
+
+Claude Code cloud session reviewed PR #21 (`/code-review` at max effort: 10 finder angles, 1-vote verification, gap sweep; 15 findings survived, 2 refuted) and pushed the fixes as two branches off `main`, each typecheck/`npm test`/build green locally:
+
+- `fix/digest-publish-copy` (head `6f6f67d1`, after a cold re-review tightened the copy) — the wrapper's publish-failure notes state the cause only and `buildDigest` writes the "already saved / later build can publish it / not verified" consequence once (real failure digests said it twice); the mocked-publish `ok` note now leads instead of being appended to a dispatch claim; `docs/ops/scnm-weekly-job.md` no longer promises next-day publication; plan/planning notes updated for the renamed artifact step and the single-branch cutover; new `tests/unit/weekly-job-notes.test.ts` reads the shell notes as text.
+- `test/harden-workflow-contract` (head `ef37b41c`) — `tests/unit/ratings-workflow-output.test.ts` rewritten to split the workflow on step boundaries and find steps by `uses:` id, read `path: |` / `add-paths: |` as block entries, ignore comments, and assert all four producer outputs (plus CSV counts in Summarise). The old test passed vacuously after a step rename and accepted a PR-body mention.
+
+Not done, deliberately (needs a mechanism, not copy): recording the dispatched `site` run and `gh run watch`-ing it so the digest reports a verified outcome (`JobStatus.verified` / `runUrl`); the artifact's `if-no-files-found: warn` masking a missing payload when the producer aborts (tracked CSVs always match); listing the four workflow paths once via a job-level env. All three are in the review report.
+
 - **2026-09-08** — Codex isolated checkout: source-sheet calendar refresh applied (215 shows), event-identity comparison guarded (10 Python regressions), and four show redirects added. Merged Cartoon Kingdom/Cedar Creek duplicate and renamed Valleyfield to TCG and Games from confirmed primary sources, with three store redirects and logo mapping updated. 680 stores; 383 unit tests and typecheck green; 1,489-page build. All 15 noindex/404 alert examples explained by intended closures/redirects/retired categories; the other 35 tested URLs return 200 and have sitemap, canonical and internal-link coverage. Source decisions in `docs/research/2026-09-08-review-resolution.md`. Outreach remains paused. Cloudflare referral read blocked by dashboard security challenge; wider weak-evidence shop research remains open. Calendar commit `d4a670b5`, shop commit `1b736a7c`. Production run verification recorded separately when complete.
 
 - **2026-09-05** — *(Opus 5, `scnm-plan4`, Nathan session)* **Four of five lanes shipped in

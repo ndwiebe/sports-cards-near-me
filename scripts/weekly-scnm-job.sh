@@ -301,27 +301,32 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Production publish: a sheet change reaches the live site with the next daily
-# 09:00 UTC build on its own (see CLAUDE.md §2); dispatching `gh workflow run
-# site --ref main` publishes it today. Only worth doing after a REAL (non-dry-run) live
+# Production publish: a sheet change is picked up by the next daily 09:00 UTC
+# build *if that build succeeds* (see CLAUDE.md §2); dispatching `gh workflow
+# run site --ref main` requests a build today. Neither outcome is verified here,
+# and the digest says so. Only worth doing after a REAL (non-dry-run) live
 # engine run actually wrote something. `SCNM_MOCK_PUBLISH=1` skips the real
 # `gh` call and records a mocked success instead, so this job's own logic can
 # be exercised without touching GitHub Actions for real.
 # ---------------------------------------------------------------------------
 if [ "$DRY_RUN" = "0" ] && [ "$ENGINE_APPLIED" -gt 0 ] 2>/dev/null; then
   echo "$ENGINE_APPLIED change(s) applied to the live sheet -- triggering a production publish..."
+  # Failure notes state the CAUSE only. The consequence ("already saved to the
+  # sheet, a later daily build can publish it, not verified") is written once,
+  # by buildDigest in src/lib/weekly-digest.ts -- when it lived here too the
+  # digest said it twice.
   if [ "${SCNM_MOCK_PUBLISH:-0}" = "1" ]; then
     echo "SCNM_MOCK_PUBLISH=1 -- not really calling gh; recording a mocked publish success"
     append_status "publish" "ok" "mocked (SCNM_MOCK_PUBLISH=1) -- gh workflow run was not actually called this run"
   elif ! command -v gh >/dev/null 2>&1; then
-    append_status "publish" "failing" "gh (the GitHub command-line tool) is not installed, so a production publish could not be triggered. The change is already saved to the sheet -- a later successful daily 09:00 UTC build can publish it; live publication still needs verification."
+    append_status "publish" "failing" "gh (the GitHub command-line tool) is not installed."
   elif ! gh auth status >/dev/null 2>&1; then
-    append_status "publish" "failing" "gh isn't authenticated (sign in with \`gh auth login\`), so a production publish could not be triggered. The change is already saved to the sheet -- a later successful daily 09:00 UTC build can publish it; live publication still needs verification."
+    append_status "publish" "failing" "gh isn't authenticated (sign in with \`gh auth login\`)."
   elif run_with_timeout 60 gh workflow run site --ref main; then
     append_status "publish" "ok"
     echo "production publish triggered (gh workflow run site --ref main)"
   else
-    append_status "publish" "failing" "gh workflow run site --ref main failed -- see the run log ($LOG). The change is already saved to the sheet -- a later successful daily 09:00 UTC build can publish it; live publication still needs verification."
+    append_status "publish" "failing" "gh workflow run site --ref main failed -- see the run log ($LOG)."
   fi
 else
   echo "no production publish needed this run (dry run, or nothing was applied to the live sheet)"

@@ -301,6 +301,36 @@ describe('buildDigest', () => {
     expect(md).not.toMatch(/\*\*publish\*\*: failing/);
   });
 
+  it('leads with the job note when the publish was recorded OK under SCNM_MOCK_PUBLISH, instead of claiming a dispatch', () => {
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [],
+      jobStatuses: [
+        { name: 'publish', status: 'ok', note: 'mocked (SCNM_MOCK_PUBLISH=1) -- gh workflow run was not actually called this run' },
+      ],
+    });
+    expect(md).toContain('mocked (SCNM_MOCK_PUBLISH=1)');
+    expect(md).not.toMatch(/Triggered a production publish/);
+    expect(md).not.toMatch(/completion/i); // nothing started, so nothing to "complete"
+    expect(md).toMatch(/has not been verified/);
+  });
+
+  it('states the "already saved / later build / not verified" consequence exactly once with a real wrapper note', () => {
+    // The wrapper's notes are cause-only (scripts/weekly-scnm-job.sh); the
+    // consequence belongs to the digest. If someone puts it back in the shell,
+    // this still passes -- the shell-side guard is tests/unit/weekly-job-notes.test.ts.
+    const md = buildDigest({
+      weekLabel: 'Sept 17 – Sept 23, 2026',
+      changeLogEntries: [],
+      jobStatuses: [
+        { name: 'publish', status: 'failing', note: "gh isn't authenticated (sign in with `gh auth login`)." },
+      ],
+    });
+    expect(md.match(/already saved to the sheet/g)).toHaveLength(1);
+    expect(md.match(/can publish it/g)).toHaveLength(1);
+    expect(md.match(/could not (be )?trigger/gi)).toHaveLength(1);
+  });
+
   it('reports a failed production publish with the gh-not-authenticated fallback message', () => {
     const md = buildDigest({
       weekLabel: 'Sept 17 – Sept 23, 2026',
