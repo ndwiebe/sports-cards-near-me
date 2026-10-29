@@ -30,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with:
-          ref: redesign
 
       - uses: actions/setup-node@v5
         with:
@@ -108,7 +106,7 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/ratings-refresh
-          base: redesign
+          base: main
           commit-message: 'chore: monthly ratings refresh'
           title: 'Monthly ratings refresh'
           body: |

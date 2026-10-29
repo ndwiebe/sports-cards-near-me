@@ -14,15 +14,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      # Pinned to redesign regardless of which ref this workflow_dispatch is fired
-      # against: the workflow FILE has to live on main to be visible/runnable at all
-      # (GitHub requires this for workflow_dispatch — see SESSIONS.md), but
-      # worker/click-tracker.js and worker/wrangler.jsonc only exist on redesign.
-      # Without this, a run dispatched from main's copy checks out main and the
-      # later "Deploy the Worker" step fails with no worker/ directory.
       - uses: actions/checkout@v5
-        with:
-          ref: redesign
       - uses: actions/setup-node@v5
         with:
           node-version: 22

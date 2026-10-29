@@ -23,7 +23,7 @@
 #   and stash stack (`git worktree list` in any of them shows the others). This
 #   job instead owns a private, full `git clone` at $HOME/.scnm-weekly-job/repo
 #   that no interactive session ever touches or even knows about, fetched and
-#   hard-reset to origin/redesign at the top of every run. A `git worktree add`
+#   hard-reset to origin/main at the top of every run. A `git worktree add`
 #   off an existing checkout was considered and rejected for exactly the shared-
 #   object-store/stash reason a Claude Code session already has to guard
 #   against with explicit-path-only staging (see this repo's CLAUDE.md §3). A
@@ -160,9 +160,9 @@ if [ ! -d "$JOB_REPO/.git" ]; then
 fi
 cd "$JOB_REPO"
 
-if ! git fetch origin redesign; then
-  append_status "repo-sync" "failing" "could not fetch origin/redesign in the dedicated checkout -- network or GitHub auth problem"
-  fail_hard "git fetch origin redesign failed in $JOB_REPO"
+if ! git fetch origin main; then
+  append_status "repo-sync" "failing" "could not fetch origin/main in the dedicated checkout -- network or GitHub auth problem"
+  fail_hard "git fetch origin main failed in $JOB_REPO"
 fi
 
 # A dirty TRACKED file here means something touched this checkout outside
@@ -175,9 +175,9 @@ if [ -n "$(git status --porcelain -uno)" ]; then
   fail_hard "$JOB_REPO has unexpected tracked-file changes -- refusing to git reset --hard over them"
 fi
 
-git checkout -q redesign 2>/dev/null || git checkout -q -b redesign origin/redesign
-git reset --hard origin/redesign >/dev/null
-echo "repo synced to $(git rev-parse --short HEAD) (origin/redesign)"
+git checkout -q main 2>/dev/null || git checkout -q -b main origin/main
+git reset --hard origin/main >/dev/null
+echo "repo synced to $(git rev-parse --short HEAD) (origin/main)"
 
 echo "npm ci..."
 if ! run_with_timeout 300 npm ci --silent; then
@@ -301,9 +301,9 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Production publish: pushing `redesign` never publishes on its own (see
-# CLAUDE.md §2) -- production only updates when `gh workflow run site --ref
-# main` is dispatched. Only worth doing after a REAL (non-dry-run) live
+# Production publish: a sheet change reaches the live site with the next daily
+# 09:00 UTC build on its own (see CLAUDE.md §2); dispatching `gh workflow run
+# site --ref main` publishes it today. Only worth doing after a REAL (non-dry-run) live
 # engine run actually wrote something. `SCNM_MOCK_PUBLISH=1` skips the real
 # `gh` call and records a mocked success instead, so this job's own logic can
 # be exercised without touching GitHub Actions for real.

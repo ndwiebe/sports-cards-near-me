@@ -36,7 +36,7 @@ Every Sunday at 7:00 AM (your Mac's local time), if the Mac is on:
    anything is written, and every applied change gets an undo command.
 4. **After a real run that changed the live sheet, publish it to the live
    site.** Saving to the sheet alone isn't enough to update
-   sportscardsnearme.ca — see "Pushing `redesign` does NOT publish" in this
+   sportscardsnearme.ca — see "`main` is the only branch" in this
    repo's `CLAUDE.md`. This step runs the same production-publish command
    (`gh workflow run site --ref main`) you'd otherwise run by hand. If that
    can't run (the `gh` command-line tool isn't signed in, for example), the
@@ -182,7 +182,7 @@ is done, not pending.
 ## Where the job runs (technical, for the curious)
 
 The job keeps a private, full copy of this GitHub repository at
-`~/.scnm-weekly-job/repo`, on the `redesign` branch (the same branch the live
+`~/.scnm-weekly-job/repo`, on the `main` branch (the same branch the live
 site is built from). Every run re-downloads the latest version of that
 branch before doing anything else, so the job always uses today's code and
 today's data — including picking up future improvements to the job script
