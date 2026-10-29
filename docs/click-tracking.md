@@ -91,8 +91,8 @@ not establish the city's Search Console history. New attribution starts with the
 verified release, not retrospectively. Outreach remains paused.
 
 Deploy the site disclosure and client, then deploy the Worker through the existing
-`deploy-click-tracker` workflow. Both workflows check out `redesign`. The site requires
-a fresh `site` dispatch from `main` to reach production. Website actions sent during
+`deploy-click-tracker` workflow. Both workflows run from `main`; merging the site change
+to `main` is what publishes it. Website actions sent during
 the brief interval before the Worker update are rejected by the old Worker. Mark the
 measurement start only after both releases succeed. Verify live script wiring and
 Worker deployment logs without adding synthetic actions to production.

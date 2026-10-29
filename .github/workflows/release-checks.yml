@@ -1,7 +1,7 @@
 name: release checks
 on:
   pull_request:
-    branches: [redesign]
+    branches: [main]
 permissions:
   contents: read
 jobs:

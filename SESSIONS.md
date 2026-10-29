@@ -635,3 +635,7 @@ PR #20 combines the isolated discovery and visit-planning changes; user authoriz
 ### 2026-10-25 — local upkeep/reporting patch
 
 Codex isolated `scnm-upkeep-oct25` / `fix/ratings-proposal-reporting-oct25`: retain monthly proposal JSON in artifact/review PR and remove unverified live-publication claims from digest/fallback notes. 616 unit, 72 Python, typecheck/build/shell checks passed; independent review clear. Publication approved October 25 14:41:54 UTC; no live wrapper execution. Details and workflow main-sync gate: `.planning/2026-10-25-upkeep-reporting.md`. Original worktrees preserved.
+
+### 2026-10-29 — single-branch cutover prep (`redesign` → `main`)
+
+Claude (cloud session, branch `claude/vigilant-lovelace-cm6qvf`): workflows and docs rewritten for one branch named `main` — `ref: redesign` checkout pins removed, push/PR triggers and the ratings-refresh PR base point at `main`, the weekly Mac job syncs `origin/main`, CLAUDE.md §2 rewritten. Merge only AFTER `redesign` is renamed to `main` in GitHub settings and the old `main` (hand-synced workflow copies only) is deleted. Then the Mac's `~/.scnm-weekly-job/repo` needs a one-time `git fetch origin main && git checkout -B main origin/main` so its stale script copy stops looking for `redesign`.

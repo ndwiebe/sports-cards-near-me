@@ -31,48 +31,26 @@ you intended.
 ⚠️ `bake:shows` and `bake:resellers` carry **no row-count guard** (only stores does; `bake:rosters` refuses to write if the count falls under half the previous one). Google's `sheet=<name>` fetch silently falls back to a different tab if the name is missing, so a renamed `Rosters` tab is caught only by that guard. A
 malformed sheet silently deploys an empty calendar. Check counts after any bake.
 
-### 2. Pushing `redesign` does NOT publish. Production needs a second, manual step.
+### 2. `main` is the only branch. Pushing it publishes.
 
-The deploy is split, and it is genuinely confusing — verified 2026-08-27 after a push that
-looked successful and changed nothing on the live site:
+Since 2026-10-29 the site code and the workflows live together on `main` (the branch was
+called `redesign` before; the old `main` held only hand-synced copies of the workflow files
+and is gone).
 
-- `.github/workflows/site.yml` triggers on push to `redesign` and **always builds from
-  `redesign`** (`ref: redesign`), whatever the trigger.
-- The Cloudflare step deploys with `--branch=${{ github.ref_name }}`, so a push from
-  `redesign` produces a **preview** deployment, not production.
-- The `deploy-github-pages` job is gated `if: github.ref == 'refs/heads/main'` — it is
-  **skipped entirely** on a `redesign` push.
+- A push to `main` runs `.github/workflows/site.yml`: bake → unit tests → build → e2e →
+  Cloudflare Pages deploy → **GitHub Pages publish to sportscardsnearme.ca**. There is no
+  separate "ship" step any more.
+- The same workflow also runs daily at 09:00 UTC, so a bad sheet edit reaches production
+  with no push at all. CI runs `npm test` before building, so a red test blocks the build.
+- To publish by hand (e.g. after a sheet fix): `gh workflow run site --ref main`, then
+  `gh run watch <id> --exit-status`.
 
-So `sportscardsnearme.ca` (GitHub Pages, see `CNAME`) only updates when the workflow runs
-with `github.ref == main` — while still building `redesign`'s code. **To actually ship:**
+Verify against the live URL, not the build log.
 
-```bash
-git push origin redesign                      # builds + previews, does NOT publish
-gh workflow run site --ref main               # publishes redesign's build to production
-gh run watch <id> --exit-status
-```
-
-Then **verify against the live URL**, not the build log. A green run on a `redesign` push
-means "built fine", not "shipped".
-
-There is also a **daily 09:00 UTC rebuild**, so a bad sheet edit reaches production with no
-push at all. CI runs `npm test` before building, so a red test blocks the build.
-
-⚠️ This split (build from one branch, publish gated on another) is fragile and worth fixing
-properly rather than remembering.
-
-**Corollary, hit twice now (`deploy-click-tracker.yml` 2026-08-28, then `site.yml` the same
-day): a workflow file's own DEFINITION — job steps, env vars — is resolved from whichever ref
-a run is dispatched against, not from wherever `checkout` later pulls code from.**
-`PUBLIC_CLICK_TRACKER_URL` was added to `site.yml` on `redesign` and worked there, but
-production dispatches against `main`, and `main`'s copy of `site.yml` predated that line — so
-the live build silently never asked for it. The build didn't fail; it just quietly built
-without a variable that existed and was set correctly, with a fully green run. **Any change to
-a workflow FILE itself (new env var, new job, new step) needs pushing to `main` separately,
-the same as a brand-new workflow does for visibility.** Content changes inside `src/`, `docs/`,
-etc. don't have this problem — `checkout: ref: redesign` handles those correctly regardless of
-which branch triggered the run. It's specifically edits to the `.github/workflows/*.yml` files
-themselves that need the second push.
+Because there is one branch, a workflow-file edit no longer needs a second push anywhere:
+GitHub resolves a workflow's definition from the ref a run is dispatched against, and that
+ref is now always `main`. Feature work still goes on a branch and lands by PR (`release
+checks` runs on every PR into `main`); merging the PR is what publishes.
 
 ### 3. Never `git add -A` / `git add .` — stage explicit paths.
 
@@ -92,7 +70,7 @@ their own commit with their own message, crediting what they are.
 Two worktrees of this repo already exist:
 
 ```
-~/Projects/8-Web-Apps/scnm-plan4            [redesign]         ← main working copy, deploys
+~/Projects/8-Web-Apps/scnm-plan4            [main]             ← main working copy, deploys
 ~/Projects/8-Web-Apps/sports-cards-near-me  [codex/hardening]  ← second worktree
 ```
 
