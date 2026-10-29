@@ -40,13 +40,15 @@ Every Sunday at 7:00 AM (your Mac's local time), if the Mac is on:
    repo's `CLAUDE.md`. This step runs the same production-publish command
    (`gh workflow run site --ref main`) you'd otherwise run by hand. If that
    can't run (the `gh` command-line tool isn't signed in, for example), the
-   summary says so plainly — but the site still rebuilds on its own every day
-   at 9:00 AM UTC either way, so a change lands on the live site with
-   tomorrow's daily build even without this step succeeding.
+   summary says so plainly. The site also rebuilds on its own every day at
+   9:00 AM UTC, so a later successful build can carry the change — but the
+   summary cannot see whether any build succeeded, so check the live page
+   before treating the change as published.
 5. **Write this week's summary** (the "digest") — a short, plain-English
    write-up of what it posted automatically, what's held for a closer look,
-   what's waiting on you (shop changes only, for now), whether the publish
-   step worked, and anything that broke.
+   what's waiting on you (shop changes only, for now), whether a publish was
+   requested (not whether it finished — the summary can't see that), and
+   anything that broke.
 6. **Deliver the summary two ways:** a copy saved into your notes vault, and
    an emailed copy to dominathan@gmail.com (best-effort — if email fails, the
    vault copy still has everything and says so).
@@ -208,8 +210,9 @@ interactive Claude Code session ever works there.
   see the same sign-in as your everyday Terminal). If it isn't, the summary's
   **"Getting this week's show changes live"** section says so plainly rather
   than silently skipping it — and because the site also rebuilds on its own
-  every day at 9:00 AM UTC, any show change still reaches the live site the
-  next day even when this step can't run.
+  every day at 9:00 AM UTC, a later successful build can still carry the
+  change. That later build is not verified by the summary either: check the
+  live page before assuming it published.
 - **Matching a changed or extended show back to the right existing row is
   automatic, not perfect.** It's the same city/date/venue matching
   `refresh-shows.py` itself already uses to decide something is CHANGED or a

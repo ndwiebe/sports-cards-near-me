@@ -310,11 +310,12 @@ that Nathan reviews, distinct from ordinary `src/`/`docs/`/`scripts/` changes. `
 now also writes `docs/research/ratings-refresh-payload.json` (see §3a), and the workflow should
 be updated, when Nathan approves that push, to:
 
-1. Add `docs/research/ratings-refresh-payload.json` to the **"Upload the CSVs as an artifact"**
+1. ✅ (PR #21, 2026-10-25; the step is now named **"Upload review results as an artifact"**.)
+   Add `docs/research/ratings-refresh-payload.json` to the artifact
    step's `path:` list, alongside the three files already there — so the payload survives the
    same failure modes (a lost untracked file, a blocked PR-creation step) the 2026-08-28 comment
    in that step describes.
-2. Add the same path to the **`create-pull-request`** step's `add-paths:` list, so it's
+2. ✅ (PR #21.) Add the same path to the **`create-pull-request`** step's `add-paths:` list, so it's
    actually included in the PR the workflow opens, not just uploaded as a separate artifact.
 3. Optionally extend the **"Summarise"** step to report how many proposed changes came out of
    this run (mirroring the CSV-count lines already there), e.g. counting entries in the JSON

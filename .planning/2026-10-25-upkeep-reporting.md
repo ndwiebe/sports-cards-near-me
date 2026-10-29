@@ -20,6 +20,8 @@ Current digest still reports unavailable Cloudflare action data and failed Gmail
 
 ## Remaining release gate
 
+**Superseded 2026-10-29.** `redesign` was folded into `main` (PR #23), so the main-sync gate described below no longer exists. The workflow change shipped in PR #21 and was synced to the old `main` by PR #22 (`df5a7c45`) before the cutover. The blob hash below was the pre-PR value and is kept only as history.
+
 Nathan approved publication and main workflow synchronization on October 25 at 14:41:54 UTC. Publication is in progress; record terminal outcomes separately. On approval, commit implementation and SESSIONS separately; publish reviewed PR to redesign and require CI. The ratings-refresh workflow definitions on main/redesign currently match exactly: blob 3a227c9e5be5d653b396b7d9fc0bdfdc9c311beb. The workflow-file change must also be reviewed/synchronized to main for the scheduled monthly workflow to use it. Do not merge all of redesign into stale main. No live ratings refresh is required for release testing because it consumes Places API calls and opens a review PR. Next normal scheduled execution must verify artifact retention; no success is claimed for that future run. Existing weekly job will pick up digest text through its normal redesign sync; do not run it merely to test copy because even --dry-run sends email.
 
 Final supported quota: 97% weekly remaining, no secondary window, zero paid credits/fallback.
