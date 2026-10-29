@@ -26,6 +26,7 @@ explains it, **leave it alone and tell Nathan** — do not commit it blind, and 
 
 | Since | Session / cwd | Lane | Touching | Notes |
 |---|---|---|---|---|
+| 2026-10-29 | Claude Code cloud session (branch `fix/digest-publish-copy`, then `test/harden-workflow-contract`) | **lib** + **docs** | `src/lib/weekly-digest.ts`, `scripts/weekly-scnm-job.sh` publish notes, `tests/unit/weekly-digest.test.ts`, `tests/unit/ratings-workflow-output.test.ts`, `docs/ops/scnm-weekly-job.md` | Follow-ups from the PR #21 code review: copy fixes first, test hardening second. No sheet or workflow-behaviour changes. |
 
 
 ## Queued — claimed but not started
