@@ -338,6 +338,15 @@ export function parseShowHours(hours: string | undefined): { start: string; end:
   return { start: `${pad(sh)}:${m[2] ?? '00'}`, end: `${pad(eh)}:${m[5] ?? '00'}` };
 }
 
+/** Only unambiguous general-admission prices; never turn a child/VIP price into admission. */
+export function admissionPrice(admission: string | undefined): number | undefined {
+  if (admission === undefined) return undefined;
+  const text = admission.trim();
+  if (/^free(?: general admission(?:; optional paid VIP tickets)?)?$/i.test(text)) return 0;
+  const match = text.match(/^\$(\d+(?:\.\d{1,2})?)(?: at the door)?$/i);
+  return match === null ? undefined : Number(match[1]);
+}
+
 /**
  * Event JSON-LD for a show page.
  *
@@ -349,6 +358,7 @@ export function parseShowHours(hours: string | undefined): { start: string; end:
  */
 export function showEventLd(show: ShowRecord, canonicalUrl: string): Record<string, unknown> {
   const t = parseShowHours(show.hours);
+  const price = admissionPrice(show.admission);
   const start = t !== undefined ? `${show.startDate}T${t.start}` : show.startDate;
   const endDay = show.endDate ?? show.startDate;
   const end = t !== undefined ? `${endDay}T${t.end}` : show.endDate;
@@ -379,7 +389,14 @@ export function showEventLd(show: ShowRecord, canonicalUrl: string): Record<stri
       },
     },
     ...(show.admission !== undefined && {
-      offers: { '@type': 'Offer', description: show.admission, url: canonicalUrl },
+      offers: {
+        '@type': 'Offer',
+        description: show.admission,
+        url: canonicalUrl,
+        // Canadian directory admission amounts are CAD. Do not extract the first
+        // amount from tiered/day-dependent prices, or imply tickets are in stock.
+        ...(price !== undefined && { price, priceCurrency: 'CAD' }),
+      },
     }),
     // Organizer is a named party Google shows in the event result. Only the
     // public promoter/business name ever lands here — the sheet column holds no

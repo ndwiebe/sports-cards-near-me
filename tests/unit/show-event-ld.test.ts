@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import showsJson from '../../src/data/shows.json';
 import type { ShowRecord } from '../../src/lib/shows';
-import { parseShowHours, showEventLd } from '../../src/lib/shows';
+import { admissionPrice, parseShowHours, showEventLd } from '../../src/lib/shows';
 
 const shows = showsJson as ShowRecord[];
 const url = (s: ShowRecord): string => `https://sportscardsnearme.ca/shows/${s.slug}/`;
@@ -109,5 +109,46 @@ describe('showEventLd — organizer', () => {
 
   it('omits organizer entirely when the promoter is unknown', () => {
     expect(showEventLd(fixture(), 'https://x/').organizer).toBeUndefined();
+  });
+});
+
+
+describe('verified admission prices', () => {
+  it.each([
+    ['Free', 0], ['Free general admission; optional paid VIP tickets', 0],
+    ['$5', 5], ['$16.50', 16.5], ['$25 at the door', 25],
+  ])('reads %s without inferring a ticket tier', (admission, price) => {
+    expect(admissionPrice(admission)).toBe(price);
+    expect(showEventLd(fixture({ admission }), 'https://example.com/show/').offers).toEqual({
+      '@type': 'Offer', description: admission, url: 'https://example.com/show/',
+      price, priceCurrency: 'CAD',
+    });
+  });
+
+  it.each([
+    undefined, 'Under 6 free; 6-13 $3; 13+ $6', '$15-$20/day',
+    'Sat $35 / Sun $25 / Weekend $50', '$15 adv / $20 door',
+    'Early-bird pricing until Aug 15 (see tickets)', 'USD $5', '$5 USD',
+  ])('does not guess prices for %s', (admission) => {
+    expect(admissionPrice(admission)).toBeUndefined();
+    const offers = showEventLd(fixture({ admission }), 'https://example.com/show/').offers;
+    if (offers !== undefined) {
+      expect(offers).not.toHaveProperty('price');
+      expect(offers).not.toHaveProperty('priceCurrency');
+      expect(offers).toHaveProperty('description', admission);
+    }
+  });
+
+  it('does not invent sale dates or ticket availability', () => {
+    const offers = showEventLd(fixture({ admission: '$5' }), 'https://example.com/show/').offers;
+    expect(offers).not.toHaveProperty('validFrom');
+    expect(offers).not.toHaveProperty('availability');
+  });
+
+  it('keeps known end dates but does not infer one from the start date alone', () => {
+    expect(showEventLd(fixture({ hours: undefined, endDate: '2026-09-13' }), 'https://x/').endDate)
+      .toBe('2026-09-13');
+    expect(showEventLd(fixture({ hours: undefined, endDate: undefined }), 'https://x/'))
+      .not.toHaveProperty('endDate');
   });
 });
