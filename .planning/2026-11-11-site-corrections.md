@@ -8,6 +8,8 @@ Prepared on `codex/event-markup-20261111` from `befd2fd3`; not merged or deploye
 
 ## Verification
 
+Final combined code: typecheck and 643 unit tests pass on both checked-in and freshly baked show data. Checked-in-data build: 1,589 pages. The excluded Avalon logo is archived unchanged outside public assets, with its active mapping removed.
+
 Current source-sheet show bake: 318 shows, three incomplete source rows skipped. Current-data build: 1,707 pages. Browser checks: 131 passed, 11 conditional skips; Python checks: 72 passed. Without the normal show bake, old checked-in data omits the held Uxbridge page and four browser checks fail; refreshing the source data restores it. Refreshed show data is not included in this change.
 
 Built output contains 114 current Event records, 25 with verified numeric prices. Google must recrawl after publication; no Search Console validation is claimed. Local build lacks the production Mapbox token, so conditional map tests are not proof of production map behavior.
