@@ -648,3 +648,7 @@ Codex isolated `scnm-upkeep-oct25` / `fix/ratings-proposal-reporting-oct25`: ret
 ### 2026-10-29 — single-branch cutover prep (`redesign` → `main`)
 
 Claude (cloud session, branch `claude/vigilant-lovelace-cm6qvf`): workflows and docs rewritten for one branch named `main` — `ref: redesign` checkout pins removed, push/PR triggers and the ratings-refresh PR base point at `main`, the weekly Mac job syncs `origin/main`, CLAUDE.md §2 rewritten. Merge only AFTER `redesign` is renamed to `main` in GitHub settings and the old `main` (hand-synced workflow copies only) is deleted. Then the Mac's `~/.scnm-weekly-job/repo` needs a one-time `git fetch origin main && git checkout -B main origin/main` so its stale script copy stops looking for `redesign`.
+
+### 2026-11-11 — owner corrections and optional event markup
+
+Codex isolated `scnm-event-markup` / `codex/event-markup-20261111`: owner-confirmed store corrections, conservative numeric admission prices, and production deployment serialization. See `.planning/2026-11-11-site-corrections.md`. Not merged or deployed.
