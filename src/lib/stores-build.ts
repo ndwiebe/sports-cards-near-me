@@ -11,6 +11,9 @@ export const httpUrl = (raw: unknown): string | undefined => {
 };
 
 export function rowToStore(cells: GvizRow): Store | null {
+  // Keep owner-verified non-card businesses in the source sheet for audit/undo,
+  // but omit their listing and detail page. They are not permanently closed.
+  if (sanitizeText(cells[12]?.v)?.toLowerCase() === 'not-card-shop') return null;
   const name = sanitizeText(cells[0]?.v);
   const city = sanitizeText(cells[1]?.v);
   const address = sanitizeText(cells[2]?.v);

@@ -2053,27 +2053,6 @@
     "lng": -110.0218739
   },
   {
-    "slug": "avalon-hobbies-medicine-hat",
-    "name": "Avalon Hobbies",
-    "city": "Medicine Hat",
-    "citySlug": "medicine-hat",
-    "address": "717 5 St SW, Medicine Hat, AB T1A 5B9",
-    "province": "AB",
-    "rating": 4.7,
-    "reviewCount": 104,
-    "hours": "Monday: 10:00 AM – 5:00 PM; Tuesday: 10:00 AM – 5:00 PM; Wednesday: 10:00 AM – 5:00 PM; Thursday: 10:00 AM – 5:00 PM; Friday: 10:00 AM – 5:00 PM; Saturday: 10:00 AM – 5:00 PM; Sunday: Closed",
-    "website": "http://www.avalonhobbies.com/",
-    "services": [
-      "Sells"
-    ],
-    "sports": [
-      "Basketball",
-      "Football"
-    ],
-    "lat": 50.0340682,
-    "lng": -110.7038682
-  },
-  {
     "slug": "comic-readers-medicine-hat",
     "name": "Comic Readers",
     "city": "Medicine Hat",
@@ -16011,7 +15990,7 @@
     "province": "QC",
     "rating": 4.8,
     "reviewCount": 74,
-    "hours": "Monday: 12:00 – 6:00 PM; Tuesday: 12:00 – 6:00 PM; Wednesday: 12:00 – 6:00 PM; Thursday: 12:00 – 8:00 PM; Friday: 12:00 – 8:00 PM; Saturday: 11:00 AM – 5:00 PM; Sunday: Closed",
+    "hours": "Monday: 12:00 – 6:00 PM; Tuesday: 12:00 – 6:00 PM; Wednesday: 12:00 – 6:00 PM; Thursday: 12:00 – 8:00 PM; Friday: 12:00 – 8:00 PM; Saturday: 11:00 AM – 5:00 PM; Sunday: 11:00 AM – 5:00 PM",
     "phone": "450-621-9599",
     "website": "https://sportscollection99.com/",
     "services": [

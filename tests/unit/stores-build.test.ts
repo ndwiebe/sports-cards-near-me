@@ -36,6 +36,18 @@ describe('rowToStore', () => {
     expect(rowToStore(row({ 0: null }))).toBeNull();
     expect(rowToStore(row({ 2: '123 Nowhere St' }))).toBeNull();
   });
+  it('excludes explicitly verified non-card shops without marking them closed', () => {
+    for (const status of ['not-card-shop', ' NOT-CARD-SHOP ']) {
+      const cells = row();
+      cells[12] = { v: status };
+      expect(rowToStore(cells)).toBeNull();
+    }
+  });
+  it('does not exclude shops based on unknown statuses or missing card tags', () => {
+    const cells = row({ 9: null });
+    cells[12] = { v: 'review-needed' };
+    expect(rowToStore(cells)).not.toBeNull();
+  });
   it('drops non-http(s) website/social values', () => {
     expect(rowToStore(row({ 6: 'javascript:alert(1)' }))?.website).toBeUndefined();
     expect(rowToStore(row({ 7: 'ftp://example.com' }))?.social).toBeUndefined();

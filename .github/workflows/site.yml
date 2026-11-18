@@ -15,6 +15,12 @@ on:
     - cron: '0 9 * * *'
   workflow_dispatch:
 
+# The Cloudflare and GitHub Pages publishes belong to one release. Serialize the
+# whole workflow so overlapping pushes cannot race either deployment target.
+concurrency:
+  group: site-production
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
