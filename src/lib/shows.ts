@@ -41,6 +41,9 @@ export interface ShowRecord {
 // date are unconfirmed. On October 3 at 20:16 UTC, TCDB 32430 marked its
 // listing removed or cancelled; that does not confirm what happened at the venue.
 export function showScheduleWarning(show: ShowRecord): string | undefined {
+  if (show.slug === 'stampede-city-card-show-calgary-2026-11-22') {
+    return 'November 22 is unconfirmed. The organizer advertises December 5–6.';
+  }
   return show.slug === 'uxbridge-sports-card-show-stouffville-2026-10-03'
     ? 'Schedule unconfirmed — verify before travelling. An attendee reported no apparent event at Goodwood Community Centre on October 3. As of October 3, 2026 at 20:16 UTC, the TCDB source listing is marked “Show has been removed or cancelled.” The reason and actual event status remain unconfirmed; no replacement date has been confirmed.'
     : undefined;
