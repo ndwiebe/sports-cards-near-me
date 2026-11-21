@@ -23,3 +23,18 @@ describe('unconfirmed Uxbridge schedule hold', () => {
     expect(nextInSeries({ slug: 'series', name: held.name, city: held.city, citySlug: held.citySlug, province: held.province, shows: [held, next] }, today)).toEqual(next);
   });
 });
+
+describe('unconfirmed November Stampede City schedule', () => {
+  it('holds just November 22 without changing the original record or December recommendations', () => {
+    const base = { name: 'Stampede City Card Show', city: 'Calgary', citySlug: 'calgary', province: 'AB' as const };
+    const november = { ...base, slug: 'stampede-city-card-show-calgary-2026-11-22', startDate: '2026-11-22', hours: '9:00 AM - 5:00 AM' };
+    const december = { ...base, slug: 'stampede-city-card-show-calgary-2026-12-05', startDate: '2026-12-05' };
+    const checkDate = new Date(2026, 10, 21, 12);
+    expect(showScheduleWarning(november)).toBe('November 22 is unconfirmed. The organizer advertises December 5–6.');
+    expect(isRecommendedShow(november, checkDate)).toBe(false);
+    expect(november.startDate).toBe('2026-11-22');
+    expect(november.hours).toBe('9:00 AM - 5:00 AM');
+    expect(showScheduleWarning(december)).toBeUndefined();
+    expect(isRecommendedShow(december, checkDate)).toBe(true);
+  });
+});
