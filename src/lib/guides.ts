@@ -8,6 +8,11 @@ export interface GuideMeta {
 
 export const GUIDES: GuideMeta[] = [
   {
+    slug: 'gta-vi-panini-trading-cards-canada',
+    title: 'GTA VI Panini Trading Cards: A Canadian Collector’s Guide',
+    dek: 'From fictional athletes to real Panini cards: what’s in the hobby box, what 1-of-1 means, and what to check before buying in Canada.',
+  },
+  {
     slug: 'psa-grading-submissions-canada',
     title: 'PSA Grading for Canadian Collectors',
     dek: 'What grading actually means, why the border adds a step, and the three ways Canadians get cards into PSA slabs.',
