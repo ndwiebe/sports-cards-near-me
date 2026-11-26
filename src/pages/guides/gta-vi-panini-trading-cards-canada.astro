@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import { absoluteUrl, breadcrumbListLd, ldJson } from '../../lib/seo';
+
+const title = 'GTA VI Panini Trading Cards: A Canadian Collector’s Guide';
+const description = 'What Panini confirmed about the physical GTA VI trading cards, what comes in the hobby box, and how to check Canadian stock and pricing before buying.';
+const pagePath = '/guides/gta-vi-panini-trading-cards-canada/';
+const checked = '2026-11-26';
+const announcement = 'https://blog.paniniamerica.net/panini-and-rockstar-games-announce-grand-theft-auto-vi-trading-card-collection/';
+const product = 'https://www.paniniamerica.net/2026-panini-grand-theft-auto-vi-sports-trading-card-box-hobby.html';
+const distributor = 'https://www.southernhobby.com/panini/m1156/';
+const sellSheet = 'https://gogts.net/wp-content/uploads/2026/11/2026-Panini-Grand-Theft-Auto-VI-Trading-Cards-Sell-Sheet.pdf';
+const breadcrumb = breadcrumbListLd([
+  { name: 'Home', url: absoluteUrl(Astro.site, '/') },
+  { name: 'Guides', url: absoluteUrl(Astro.site, '/guides/') },
+  { name: title, url: absoluteUrl(Astro.site, pagePath) },
+]);
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  mainEntityOfPage: absoluteUrl(Astro.site, pagePath),
+  datePublished: checked,
+  dateModified: checked,
+  author: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+  publisher: { '@type': 'Organization', name: 'Sports Cards Near Me' },
+};
+---
+<Base title={`${title} | Sports Cards Near Me`} description={description}>
+  <script type="application/ld+json" set:html={ldJson(article)} />
+  <script type="application/ld+json" set:html={ldJson(breadcrumb)} />
+
+  <header class="mt-8 rounded-2xl border border-bord bg-panel px-5 py-9 md:px-12 md:py-14">
+    <nav aria-label="Breadcrumb" class="text-sm text-muted">
+      <a href="/guides/" class="underline hover:text-paper">Guides</a> / New releases
+    </nav>
+    <h1 class="mt-3 max-w-[18ch] text-5xl md:text-7xl">{title}</h1>
+    <div class="refractor-rule mt-4 w-28"></div>
+    <p class="mt-4 text-sm text-muted">Sports Cards Near Me · Last checked <time datetime={checked}>November 26, 2026</time></p>
+  </header>
+
+  <p class="mt-6 max-w-prose text-lg text-paper/90" data-answer-capsule>
+    GTA VI made up the athletes. Panini is making the cards real. The officially licensed set is due in
+    <strong>December 2026</strong>, according to Panini. We haven’t verified a Canadian release date, shop stock or price in CAD.
+  </p>
+
+  <section class="mt-8" aria-labelledby="at-a-glance">
+    <h2 id="at-a-glance" class="text-3xl">From the game to the pack</h2>
+    <dl class="mt-4 grid gap-3 md:grid-cols-3">
+      <div class="rounded-xl border border-bord bg-panel p-5">
+        <dt class="text-lg font-semibold">In the game</dt>
+        <dd class="mt-2 text-sm text-muted">Collectible sports cards featuring fictional athletes in GTA VI.</dd>
+      </div>
+      <div class="rounded-xl border border-bord bg-panel p-5">
+        <dt class="text-lg font-semibold">In the pack</dt>
+        <dd class="mt-2 text-sm text-muted">Physical Panini cards based on those collectibles, with numbered parallels including Gold 1-of-1s.</dd>
+      </div>
+      <div class="rounded-xl border border-bord bg-panel p-5">
+        <dt class="text-lg font-semibold">Still unknown in Canada</dt>
+        <dd class="mt-2 text-sm text-muted">Local release day, which shops will carry it, and Canadian pricing.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <div class="mt-10 max-w-prose space-y-5 text-paper/90">
+    <h2 class="text-3xl">What’s in a hobby box?</h2>
+    <p>
+      The <a class="underline" href={sellSheet}>hobby sell sheet</a> lists four packs of four cards: 16 cards per box.
+      Panini says a box averages two Rookies, one Retro, one Illustrated and four Special Silvers. Those are averages,
+      not promises for the box you buy. The <a class="underline" href={announcement}>announcement</a> also lists
+      Legend Bronze cards numbered to 49, Legend Silver to 25 and Gold 1-of-1s. A Special Silver and a numbered
+      Legend Silver are not the same thing.
+    </p>
+
+    <h2 class="pt-3 text-3xl">When do the cards come out in Canada?</h2>
+    <p>
+      Panini’s release announcement says December. U.S. distributor
+      <a class="underline" href={distributor}>Southern Hobby</a> lists December 18, but that’s not a Canadian street date.
+      Check the <a class="underline" href={product}>official hobby box listing</a> or ask a local shop about its own allocation before making a trip.
+    </p>
+    <ul class="list-disc space-y-2 pl-5">
+      <li>Use the <a class="underline" href="/#browse">Canadian card shop directory</a> to find shops near you, not as proof that a store has this set.</li>
+      <li>Ask for the exact product name and whether the shop has stock, confirmed allocation or just an interest list.</li>
+      <li>For a preorder, check the total in CAD after taxes and shipping, whether a deposit is refundable, and what happens if the shop gets fewer boxes than expected.</li>
+    </ul>
+
+    <h2 class="pt-3 text-3xl">Does a 1-of-1 make it valuable?</h2>
+    <p>
+      A 1-of-1 tells you how many copies of <em>that parallel</em> exist. It doesn’t tell you how many people want one.
+      If all you want is a particular character or design, compare actual sold prices once singles start trading.
+      Asking prices and the first few sales aren’t a reliable market on their own.
+      See <a class="underline" href="/guides/how-much-are-my-sports-cards-worth/">how to check card values</a>.
+    </p>
+    <p class="pt-2 text-sm text-muted">
+      Sources: <a class="underline" href={announcement}>Panini’s November 24 announcement</a>,
+      <a class="underline" href={product}>Panini’s product listing</a>,
+      <a class="underline" href={sellSheet}>hobby sell sheet</a> and
+      <a class="underline" href={distributor}>Southern Hobby’s distribution schedule</a>.
+    </p>
+  </div>
+</Base>
