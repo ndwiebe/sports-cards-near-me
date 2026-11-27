@@ -1,0 +1,2474 @@
+[
+  {
+    "sheet": "Stores",
+    "rowKey": "bento-gaming-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (81)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "bento-gaming-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "collectors-valley-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.2 (62)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "collectors-valley-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20096:00\u202fPM; Tuesday: 12:00\u2009\u2013\u20096:00\u202fPM; Wednesday: 12:00\u2009\u2013\u20096:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "double-z-collectibles-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (6)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "double-z-collectibles-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: 12:00\u2009\u2013\u20095:00\u202fPM; Saturday: 12:00\u2009\u2013\u20095:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hk-collectibles-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (218)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hk-collectibles-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "senshen-collectibles-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (302)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "senshen-collectibles-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "the-realm-games-and-toys-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (40)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "the-realm-games-and-toys-balzac",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "dad-s-day-off-games-hobbies-ddogames-blackfalds",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (49)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "dad-s-day-off-games-hobbies-ddogames-blackfalds",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 10:00 AM \u2013 5:00 PM; Wednesday: 10:00 AM \u2013 5:00 PM; Thursday: 10:00 AM \u2013 6:00 PM; Friday: 10:00 AM \u2013 6:00 PM; Saturday: 10:00 AM \u2013 6:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "earthbound-trading-card-games-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (5)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "first-player-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (142)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "first-player-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 4:00\u2009\u2013\u200910:00\u202fPM; Tuesday: 4:00\u2009\u2013\u200910:00\u202fPM; Wednesday: 4:00\u2009\u2013\u200910:00\u202fPM; Thursday: 4:00\u2009\u2013\u200910:00\u202fPM; Friday: 4:00\u202fPM\u2009\u2013\u200912:00\u202fAM; Saturday: 12:00\u202fPM\u2009\u2013\u200912:00\u202fAM; Sunday: 12:00\u2009\u2013\u20094:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "imaginary-wars-gaming-and-hobbies-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (241)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "imaginary-wars-gaming-and-hobbies-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20097:00\u202fPM; Tuesday: 12:00\u2009\u2013\u20096:00\u202fPM; Wednesday: 12:00\u2009\u2013\u20096:00\u202fPM; Thursday: 12:00\u2009\u2013\u20098:00\u202fPM; Friday: 12:00\u2009\u2013\u20099:00\u202fPM; Saturday: 11:30\u202fAM\u2009\u2013\u20094:30\u202fPM; Sunday: 11:30\u202fAM\u2009\u2013\u20094:30\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "ogre-s-den-gaming-club-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (469)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "ogre-s-den-gaming-club-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "overtime-sports-cards-north-hill-centre-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (48)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "overtime-sports-cards-north-hill-centre-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "phoenix-comics-nw-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (1035)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "phoenix-comics-nw-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 9:30\u202fAM\u2009\u2013\u200910:00\u202fPM; Tuesday: 9:30\u202fAM\u2009\u2013\u200910:00\u202fPM; Wednesday: 9:30\u202fAM\u2009\u2013\u200910:00\u202fPM; Thursday: 9:30\u202fAM\u2009\u2013\u200910:00\u202fPM; Friday: 9:30\u202fAM\u2009\u2013\u200910:00\u202fPM; Saturday: 9:30\u202fAM\u2009\u2013\u200910:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "reliquary-cards-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (268)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "reliquary-cards-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "screen-free-games-calgary-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (139)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "screen-free-games-calgary-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "scuffed-cards-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (62)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "thecardmrkt-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (206)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "thecardmrkt-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "under-the-mountain-games-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (61)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "under-the-mountain-games-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "vaulted-yyc-17th-ave-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (257)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "vaulted-yyc-17th-ave-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "vaulted-yyc-crossroads-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (57)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "vaulted-yyc-crossroads-calgary",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "holler-collectibles-camrose",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:00 AM \u2013 12:00 PM; Tuesday: 10:00 AM \u2013 12:00 PM; Wednesday: 10:00 AM \u2013 12:00 PM; Thursday: 10:00 AM \u2013 12:00 PM; Friday: 10:00 AM \u2013 12:00 PM; Saturday: Closed; Sunday: Closed",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u200912:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u200912:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u200912:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u200912:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u200912:00\u202fPM; Saturday: Closed; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "cool-pool-cards-cold-lake",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 10:00 AM \u2013 6:00 PM; Wednesday: 10:00 AM \u2013 6:00 PM; Thursday: 10:00 AM \u2013 6:00 PM; Friday: 10:00 AM \u2013 6:00 PM; Saturday: 10:00 AM \u2013 4:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "puck-it-cards-collectibles-didsbury",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (16)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "authentic-dungeons-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (119)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "authentic-dungeons-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 6:30\u2009\u2013\u200910:30\u202fPM; Tuesday: 6:30\u2009\u2013\u200910:30\u202fPM; Wednesday: 6:30\u2009\u2013\u200910:30\u202fPM; Thursday: 6:30\u2009\u2013\u200910:30\u202fPM; Friday: 6:30\u2009\u2013\u200910:30\u202fPM; Saturday: 12:00\u2009\u2013\u20098:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "cerberus-gaming-corp-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (73)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "cerberus-gaming-corp-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u200911:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "collectiverse-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (105)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "collectiverse-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "downstairs-cellar-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (10)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "downstairs-cellar-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: 6:00\u202fPM\u2009\u2013\u20091:00\u202fAM; Wednesday: 6:00\u202fPM\u2009\u2013\u20091:00\u202fAM; Thursday: 6:00\u202fPM\u2009\u2013\u20091:00\u202fAM; Friday: 6:00\u202fPM\u2009\u2013\u20091:00\u202fAM; Saturday: 6:00\u202fPM\u2009\u2013\u20091:00\u202fAM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "foil-city-cards-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (79)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "foil-city-cards-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "gamer-s-den-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (231)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "gamer-s-den-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 1:00\u2009\u2013\u200910:00\u202fPM; Tuesday: 1:00\u2009\u2013\u200910:00\u202fPM; Wednesday: 1:00\u2009\u2013\u200910:00\u202fPM; Thursday: 1:00\u2009\u2013\u200910:00\u202fPM; Friday: 1:00\u2009\u2013\u200910:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hard-brick-games-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (34)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hard-brick-games-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 3:30\u2009\u2013\u20099:00\u202fPM; Tuesday: Closed; Wednesday: Closed; Thursday: 3:30\u2009\u2013\u20099:00\u202fPM; Friday: 3:30\u2009\u2013\u200910:00\u202fPM; Saturday: 12:00\u2009\u2013\u20099:00\u202fPM; Sunday: 12:00\u2009\u2013\u20099:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hpw-cards-inc-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (313)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hpw-cards-inc-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "industrial-park-games-ltd-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (148)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "industrial-park-games-ltd-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 1:00\u2009\u2013\u20099:00\u202fPM; Tuesday: 1:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 12:00\u2009\u2013\u200910:00\u202fPM; Thursday: 12:00\u2009\u2013\u200910:00\u202fPM; Friday: 12:00\u2009\u2013\u200910:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "red-claw-gaming-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (452)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "red-claw-gaming-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20099:00\u202fPM; Tuesday: 12:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 12:00\u2009\u2013\u20099:00\u202fPM; Thursday: 12:00\u2009\u2013\u20099:00\u202fPM; Friday: 12:00\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "the-time-vault-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "3.3 (148)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "the-time-vault-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: 4:00\u2009\u2013\u200910:00\u202fPM; Wednesday: 4:00\u2009\u2013\u200910:00\u202fPM; Thursday: 4:00\u2009\u2013\u200910:00\u202fPM; Friday: 4:00\u2009\u2013\u200910:00\u202fPM; Saturday: 12:00\u2009\u2013\u200910:00\u202fPM; Sunday: 12:00\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "vintage-games-n-junque-edmonton-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (64)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "vintage-games-n-junque-edmonton-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20098:00\u202fPM; Tuesday: 12:00\u2009\u2013\u20098:00\u202fPM; Wednesday: 12:00\u2009\u2013\u20098:00\u202fPM; Thursday: 12:00\u2009\u2013\u20098:00\u202fPM; Friday: 12:00\u2009\u2013\u20098:00\u202fPM; Saturday: 12:00\u2009\u2013\u20098:00\u202fPM; Sunday: 12:00\u2009\u2013\u20098:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "warp-2-comics-games-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.4 (784)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "warp-2-comics-games-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "warp-3-comics-games-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.2 (232)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "warp-3-comics-games-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "west-edmonton-coin-stamp-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "3.9 (825)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "west-edmonton-coin-stamp-edmonton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "rare-gems-edson-edson",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.4 (27)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "rare-gems-edson-edson",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20096:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Sunday: 12:00\u2009\u2013\u20094:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "cosmic-radiance-gaming-gibbons",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (29)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "cosmic-radiance-gaming-gibbons",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-north-kn-cards-collectables-ltd-high-prairie",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 12:00 \u2013 7:00 PM; Tuesday: 12:00 \u2013 7:00 PM; Wednesday: 12:00 \u2013 7:00 PM; Thursday: 12:00 \u2013 7:00 PM; Friday: 12:00 \u2013 7:00 PM; Saturday: 12:00 \u2013 3:00 PM; Sunday: Closed",
+      "newValue": "Monday: 12:00\u2009\u2013\u20097:00\u202fPM; Tuesday: 12:00\u2009\u2013\u20097:00\u202fPM; Wednesday: 12:00\u2009\u2013\u20097:00\u202fPM; Thursday: 12:00\u2009\u2013\u20097:00\u202fPM; Friday: 12:00\u2009\u2013\u20097:00\u202fPM; Saturday: 12:00\u2009\u2013\u20093:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "amazing-wonders-emporium-lacombe",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (50)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "amazing-wonders-emporium-lacombe",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "dreamescape-gaming-inc-leduc",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (154)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "dreamescape-gaming-inc-leduc",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 4:00\u2009\u2013\u200910:00\u202fPM; Tuesday: Closed; Wednesday: 4:00\u2009\u2013\u200910:00\u202fPM; Thursday: 4:00\u2009\u2013\u200910:00\u202fPM; Friday: 4:00\u2009\u2013\u200910:00\u202fPM; Saturday: 12:00\u2009\u2013\u200910:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "personalized-sportcards-lethbridge",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 8:00 AM \u2013 6:00 PM; Tuesday: 8:00 AM \u2013 6:00 PM; Wednesday: 8:00 AM \u2013 6:00 PM; Thursday: 8:00 AM \u2013 6:00 PM; Friday: 8:00 AM \u2013 6:00 PM; Saturday: 8:00 AM \u2013 6:00 PM; Sunday: 8:00 AM \u2013 6:00 PM",
+      "newValue": "Monday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 8:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "treasure-chest-games-lethbridge",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (112)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "treasure-chest-games-lethbridge",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u200912:00\u202fAM; Saturday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "first-edition-foundry-inc-medicine-hat",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (110)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "first-edition-foundry-inc-medicine-hat",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 4:30\u2009\u2013\u20099:30\u202fPM; Tuesday: 4:30\u2009\u2013\u20099:30\u202fPM; Wednesday: 4:30\u2009\u2013\u20099:30\u202fPM; Thursday: 4:30\u2009\u2013\u20099:30\u202fPM; Friday: 4:30\u2009\u2013\u20099:30\u202fPM; Saturday: 2:00\u2009\u2013\u20099:30\u202fPM; Sunday: 2:00\u2009\u2013\u20099:30\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "collectible-card-caddy-okotoks",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 8:00 AM \u2013 4:00 PM; Tuesday: 8:00 AM \u2013 4:00 PM; Wednesday: 8:00 AM \u2013 4:00 PM; Thursday: 8:00 AM \u2013 4:00 PM; Friday: 8:00 AM \u2013 4:00 PM; Saturday: Closed; Sunday: Closed",
+      "newValue": "Monday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Tuesday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Wednesday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Thursday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Friday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Saturday: Closed; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "pandora-s-boox-olds",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (258)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "pandora-s-boox-olds",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 12:00 \u2013 8:00 PM; Tuesday: 10:00 AM \u2013 8:00 PM; Wednesday: 10:00 AM \u2013 8:00 PM; Thursday: 10:00 AM \u2013 8:00 PM; Friday: 10:00 AM \u2013 12:00 AM; Saturday: 12:00 \u2013 8:00 PM; Sunday: 12:00 \u2013 6:00 PM",
+      "newValue": "Monday: 12:00\u2009\u2013\u20098:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u200912:00\u202fAM; Saturday: 12:00\u2009\u2013\u20098:00\u202fPM; Sunday: 12:00\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "kash-in-collectibles-inc-peace-river",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (26)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "kash-in-collectibles-inc-peace-river",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "mythic-comics-collectibles-sherwood-park",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (84)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "mythic-comics-collectibles-sherwood-park",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20097:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "da-pop-up-shop-stalbert-st-albert",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (261)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "da-pop-up-shop-stalbert-st-albert",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sunshine-game-hobby-st-paul",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (205)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sunshine-game-hobby-st-paul",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hob-s-hobbies-strathmore",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (98)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hob-s-hobbies-strathmore",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 3:30 \u2013 9:00 PM; Wednesday: 3:30 \u2013 9:00 PM; Thursday: 3:30 \u2013 9:00 PM; Friday: 3:30 \u2013 9:00 PM; Saturday: 9:00 AM \u2013 5:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: Closed; Tuesday: 3:30\u2009\u2013\u20099:00\u202fPM; Wednesday: 3:30\u2009\u2013\u20099:00\u202fPM; Thursday: 3:30\u2009\u2013\u20099:00\u202fPM; Friday: 3:30\u2009\u2013\u20099:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "the-mystic-alien-sundre",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (12)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "the-mystic-alien-sundre",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "ken-s-sports-cards-memorabilia-taber",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (12)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "al-s-sports-quest-whitecourt",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (18)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "al-s-sports-quest-whitecourt",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 11:00 AM \u2013 5:00 PM; Wednesday: 11:00 AM \u2013 5:00 PM; Thursday: 11:00 AM \u2013 5:00 PM; Friday: 11:00 AM \u2013 5:00 PM; Saturday: 11:00 AM \u2013 5:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sonny-s-collectables-terrace",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (51)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sonny-s-collectables-terrace",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:00 AM \u2013 6:00 PM; Tuesday: 10:00 AM \u2013 6:00 PM; Wednesday: 10:00 AM \u2013 6:00 PM; Thursday: 10:00 AM \u2013 6:00 PM; Friday: 10:00 AM \u2013 6:00 PM; Saturday: 10:00 AM \u2013 6:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "ebenezer-s-comics-collectibles-vernon",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (491)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "ebenezer-s-comics-collectibles-vernon",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 9:30 AM \u2013 5:30 PM; Tuesday: 9:30 AM \u2013 5:30 PM; Wednesday: 9:30 AM \u2013 5:30 PM; Thursday: 9:30 AM \u2013 5:30 PM; Friday: 9:30 AM \u2013 5:30 PM; Saturday: 9:30 AM \u2013 5:30 PM; Sunday: 11:00 AM \u2013 4:00 PM",
+      "newValue": "Monday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Tuesday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Wednesday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Thursday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Friday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Saturday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20094:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "neko-s-game-store-car-wash-thompson",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (96)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "neko-s-game-store-car-wash-thompson",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 8:30 AM \u2013 8:30 PM; Tuesday: 8:30 AM \u2013 8:30 PM; Wednesday: 8:30 AM \u2013 8:30 PM; Thursday: 8:30 AM \u2013 8:30 PM; Friday: 8:30 AM \u2013 8:30 PM; Saturday: 9:00 AM \u2013 8:30 PM; Sunday: 10:00 AM \u2013 8:00 PM",
+      "newValue": "Monday: 8:30\u202fAM\u2009\u2013\u20098:30\u202fPM; Tuesday: 8:30\u202fAM\u2009\u2013\u20098:30\u202fPM; Wednesday: 8:30\u202fAM\u2009\u2013\u20098:30\u202fPM; Thursday: 8:30\u202fAM\u2009\u2013\u20098:30\u202fPM; Friday: 8:30\u202fAM\u2009\u2013\u20098:30\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20098:30\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "boutique-de-cartes-sportives-l-as-de-coeur-caraquet",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "3.9 (101)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "boutique-de-cartes-sportives-l-as-de-coeur-caraquet",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 8:00 AM \u2013 5:00 PM; Tuesday: 8:00 AM \u2013 5:00 PM; Wednesday: 8:00 AM \u2013 5:00 PM; Thursday: 8:00 AM \u2013 5:00 PM; Friday: 8:00 AM \u2013 5:00 PM; Saturday: 9:00 AM \u2013 12:00 PM; Sunday: Closed",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "castle-vania-sports-cards-miramichi",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (10)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "castle-vania-sports-cards-miramichi",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:00 AM \u2013 4:00 PM; Tuesday: 10:00 AM \u2013 4:00 PM; Wednesday: 10:00 AM \u2013 4:00 PM; Thursday: 10:00 AM \u2013 4:00 PM; Friday: 10:00 AM \u2013 4:00 PM; Saturday: 10:00 AM \u2013 4:00 PM; Sunday: Closed",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "pabi-s-collectibles-pabi-s-hobbies-collectibles-miramichi",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (10)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "pabi-s-collectibles-pabi-s-hobbies-collectibles-miramichi",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:00 AM \u2013 4:00 PM; Tuesday: 10:00 AM \u2013 4:00 PM; Wednesday: 10:00 AM \u2013 4:00 PM; Thursday: 10:00 AM \u2013 4:00 PM; Friday: 10:00 AM \u2013 4:00 PM; Saturday: 10:00 AM \u2013 4:00 PM; Sunday: Closed",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "moncton-sports-cards-moncton",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (131)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "moncton-sports-cards-moncton",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:00 AM \u2013 6:00 PM; Tuesday: 10:00 AM \u2013 6:00 PM; Wednesday: 10:00 AM \u2013 6:00 PM; Thursday: 10:00 AM \u2013 6:00 PM; Friday: 10:00 AM \u2013 8:00 PM; Saturday: 10:00 AM \u2013 6:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sell-your-pokemon-cards-barrie",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 9:00 AM \u2013 6:00 PM; Tuesday: 9:00 AM \u2013 6:00 PM; Wednesday: 9:00 AM \u2013 6:00 PM; Thursday: 9:00 AM \u2013 6:00 PM; Friday: 9:00 AM \u2013 6:00 PM; Saturday: 9:00 AM \u2013 6:00 PM; Sunday: 9:00 AM \u2013 6:00 PM",
+      "newValue": "Monday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "stadium-sports-cards-blenheim-chatham-kent",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.4 (23)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "stadium-sports-cards-blenheim-chatham-kent",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 11:00 AM \u2013 5:00 PM; Wednesday: 11:00 AM \u2013 5:00 PM; Thursday: 11:00 AM \u2013 5:00 PM; Friday: 11:00 AM \u2013 5:00 PM; Saturday: 10:00 AM \u2013 4:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "treasures-n-more-carleton-place",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.2 (65)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "treasures-n-more-carleton-place",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 10:00 AM \u2013 5:00 PM; Wednesday: 10:00 AM \u2013 5:00 PM; Thursday: 10:00 AM \u2013 9:00 PM; Friday: 10:00 AM \u2013 6:00 PM; Saturday: 11:00 AM \u2013 5:00 PM; Sunday: 11:00 AM \u2013 3:00 PM",
+      "newValue": "Monday: Closed; Tuesday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20093:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "onyx-cards-games-collingwood",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (57)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "onyx-cards-games-collingwood",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: Closed; Wednesday: 12:00 \u2013 6:00 PM; Thursday: 12:00 \u2013 6:00 PM; Friday: 10:00 AM \u2013 6:00 PM; Saturday: 10:00 AM \u2013 6:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: 12:00\u2009\u2013\u20096:00\u202fPM; Thursday: 12:00\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "dave-s-sportscard-shop-cornwall",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "5 (54)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "dave-s-sportscard-shop-cornwall",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: Closed; Wednesday: 9:00 AM \u2013 6:00 PM; Thursday: 9:00 AM \u2013 6:00 PM; Friday: 9:00 AM \u2013 6:00 PM; Saturday: 8:00 AM \u2013 4:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 9:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "webber-s-balloons-cards-and-collectibles-dundas",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (49)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "webber-s-balloons-cards-and-collectibles-dundas",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 11:00 AM \u2013 6:00 PM; Wednesday: 11:00 AM \u2013 6:00 PM; Thursday: 11:00 AM \u2013 6:00 PM; Friday: 11:00 AM \u2013 6:00 PM; Saturday: 11:00 AM \u2013 6:00 PM; Sunday: Closed",
+      "newValue": "Monday: Closed; Tuesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "rt-sports-cards-r-t-sport-cards-collectibles-dunnville",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (239)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "rt-sports-cards-r-t-sport-cards-collectibles-dunnville",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 12:00 \u2013 8:00 PM; Tuesday: 12:00 \u2013 8:00 PM; Wednesday: 12:00 \u2013 8:00 PM; Thursday: 12:00 \u2013 8:00 PM; Friday: 12:00 \u2013 8:00 PM; Saturday: 10:00 AM \u2013 8:00 PM; Sunday: 12:00 \u2013 8:00 PM",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20095:30\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Wednesday: 10:30\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "scahub-marketplace-guelph",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 5:00 \u2013 8:00 PM; Tuesday: 5:00 \u2013 8:00 PM; Wednesday: 10:00 AM \u2013 8:00 PM; Thursday: 10:00 AM \u2013 8:00 PM; Friday: 10:00 AM \u2013 8:00 PM; Saturday: 10:00 AM \u2013 8:00 PM; Sunday: 10:00 AM \u2013 8:00 PM",
+      "newValue": "Monday: 5:00\u2009\u2013\u20098:00\u202fPM; Tuesday: 5:00\u2009\u2013\u20098:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "player-x-kapuskasing",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 9:00 AM \u2013 12:00 PM, 1:00 \u2013 5:00 PM; Tuesday: 9:00 AM \u2013 12:00 PM, 1:00 \u2013 5:00 PM; Wednesday: 9:00 AM \u2013 12:00 PM, 1:00 \u2013 5:00 PM; Thursday: 9:00 AM \u2013 12:00 PM, 1:00 \u2013 5:00 PM; Friday: 9:00 AM \u2013 12:00 PM, 1:00 \u2013 5:00 PM; Saturday: Closed; Sunday: Closed",
+      "newValue": "Monday: 9:00\u202fAM\u2009\u2013\u200912:00\u202fPM, 1:00\u2009\u2013\u20095:00\u202fPM; Tuesday: 9:00\u202fAM\u2009\u2013\u200912:00\u202fPM, 1:00\u2009\u2013\u20095:00\u202fPM; Wednesday: 9:00\u202fAM\u2009\u2013\u200912:00\u202fPM, 1:00\u2009\u2013\u20095:00\u202fPM; Thursday: 9:00\u202fAM\u2009\u2013\u200912:00\u202fPM, 1:00\u2009\u2013\u20095:00\u202fPM; Friday: 9:00\u202fAM\u2009\u2013\u200912:00\u202fPM, 1:00\u2009\u2013\u20095:00\u202fPM; Saturday: Closed; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-knight-in-canada-newmarket",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (64)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-knight-in-canada-newmarket",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 1:00 \u2013 10:00 PM; Tuesday: 1:00 \u2013 10:00 PM; Wednesday: 1:00 \u2013 10:00 PM; Thursday: 1:00 \u2013 10:00 PM; Friday: 1:00 \u2013 10:00 PM; Saturday: 11:00 AM \u2013 10:00 PM; Sunday: 11:00 AM \u2013 9:00 PM",
+      "newValue": "Monday: 1:00\u2009\u2013\u200910:00\u202fPM; Tuesday: 1:00\u2009\u2013\u200910:00\u202fPM; Wednesday: 1:00\u2009\u2013\u200910:00\u202fPM; Thursday: 1:00\u2009\u2013\u200910:00\u202fPM; Friday: 1:00\u2009\u2013\u200910:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "bootown-s-games-and-hobbies-stratford",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (111)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "bootown-s-games-and-hobbies-stratford",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 1:00 \u2013 9:00 PM; Tuesday: 1:00 \u2013 9:00 PM; Wednesday: 1:00 \u2013 9:00 PM; Thursday: 1:00 \u2013 9:00 PM; Friday: 1:00 \u2013 9:00 PM; Saturday: 1:00 \u2013 9:00 PM; Sunday: 12:00 \u2013 8:00 PM",
+      "newValue": "Monday: 1:00\u2009\u2013\u20099:00\u202fPM; Tuesday: 1:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 1:00\u2009\u2013\u20099:00\u202fPM; Thursday: 1:00\u2009\u2013\u20099:00\u202fPM; Friday: 1:00\u2009\u2013\u20099:00\u202fPM; Saturday: 1:00\u2009\u2013\u20099:00\u202fPM; Sunday: 12:00\u2009\u2013\u20098:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "tillsonburg-s-hobby-central-tillsonburg",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (66)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "tillsonburg-s-hobby-central-tillsonburg",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 10:00 AM \u2013 5:00 PM; Wednesday: 10:00 AM \u2013 7:00 PM; Thursday: 10:00 AM \u2013 5:00 PM; Friday: 10:00 AM \u2013 7:00 PM; Saturday: 10:00 AM \u2013 4:00 PM; Sunday: 12:00 \u2013 4:00 PM",
+      "newValue": "Monday: Closed; Tuesday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "jason-randy-s-sports-cards-timmins",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (35)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "jason-randy-s-sports-cards-timmins",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: Closed; Saturday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM; Sunday: 8:00\u202fAM\u2009\u2013\u20094:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "rednails-ii-toronto",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.6 (303)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "rednails-ii-toronto",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:00 AM \u2013 6:00 PM; Tuesday: 10:00 AM \u2013 6:00 PM; Wednesday: 10:00 AM \u2013 6:30 PM; Thursday: 10:00 AM \u2013 6:00 PM; Friday: 10:00 AM \u2013 6:00 PM; Saturday: 10:00 AM \u2013 6:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:30\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "elite-cards-toronto-vaughan",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (41)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "elite-cards-toronto-vaughan",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 11:00 AM \u2013 8:00 PM; Tuesday: 11:00 AM \u2013 8:00 PM; Wednesday: 11:00 AM \u2013 8:00 PM; Thursday: 11:00 AM \u2013 8:00 PM; Friday: 11:00 AM \u2013 8:00 PM; Saturday: 10:00 AM \u2013 8:00 PM; Sunday: 10:00 AM \u2013 8:00 PM",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sherwood-sports-cards-charlottetown",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4 (252)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "card-caster-blainville",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (187)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "card-caster-blainville",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "jeux-a-z-games-chateauguay",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (208)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "jeux-a-z-games-chateauguay",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20097:30\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-univers-des-cartes-chateauguay",
+    "op": {
+      "kind": "update",
+      "column": "Status",
+      "oldValue": "",
+      "newValue": "closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places reports this business as CLOSED_PERMANENTLY. Auto-closes with a one-command undo per Nathan's 2026-09-23 decision -- see this week's digest for the undo command. Known risk: Google also flags moved or rebranded shops this way, so this is worth a second look, not blind trust."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-univers-des-cartes-chateauguay",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (15)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sport-cards-hall-of-fame-dollard-des-ormeaux",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (110)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "sport-cards-hall-of-fame-dollard-des-ormeaux",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "boutique-fdb-gatineau",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (177)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "boutique-fdb-gatineau",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-as-des-jeux-gatineau",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (670)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-as-des-jeux-gatineau",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "maitre-de-jeu-granby",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (459)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "maitre-de-jeu-granby",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-saguenay-jonquiere-saguenay",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (59)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-saguenay-jonquiere-saguenay",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 5:00 \u2013 9:00 PM; Tuesday: 5:00 \u2013 9:00 PM; Wednesday: 5:00 \u2013 9:00 PM; Thursday: 12:00 \u2013 9:00 PM; Friday: 12:00 \u2013 9:00 PM; Saturday: 11:00 AM \u2013 5:00 PM; Sunday: 11:00 AM \u2013 5:00 PM",
+      "newValue": "Monday: 5:00\u2009\u2013\u20099:00\u202fPM; Tuesday: 5:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 5:00\u2009\u2013\u20099:00\u202fPM; Thursday: 12:00\u2009\u2013\u20099:00\u202fPM; Friday: 12:00\u2009\u2013\u20099:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "geekstuff-laval",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (106)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "geekstuff-laval",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Open 24 hours; Tuesday: Open 24 hours; Wednesday: Open 24 hours; Thursday: Open 24 hours; Friday: Open 24 hours; Saturday: Open 24 hours; Sunday: Open 24 hours"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "zone-collection-rive-sud-longueuil",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (126)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "zone-collection-rive-sud-longueuil",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 11:00 AM \u2013 5:00 PM; Tuesday: 11:00 AM \u2013 5:00 PM; Wednesday: 11:00 AM \u2013 8:00 PM; Thursday: 11:00 AM \u2013 8:00 PM; Friday: 11:00 AM \u2013 8:00 PM; Saturday: 10:00 AM \u2013 5:00 PM; Sunday: 11:00 AM \u2013 5:00 PM",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "carta-magica-montreal-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "3.7 (458)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "carta-magica-montreal-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "electric-avenue-montreal-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Status",
+      "oldValue": "",
+      "newValue": "closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places reports this business as CLOSED_PERMANENTLY. Auto-closes with a one-command undo per Nathan's 2026-09-23 decision -- see this week's digest for the undo command. Known risk: Google also flags moved or rebranded shops this way, so this is worth a second look, not blind trust."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "electric-avenue-montreal-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (3)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "enchanted-cards-and-collectibles-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.4 (32)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "enchanted-cards-and-collectibles-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "face-to-face-games-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (851)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "face-to-face-games-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 2:00\u2009\u2013\u20099:00\u202fPM; Tuesday: 2:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 2:00\u2009\u2013\u20099:00\u202fPM; Thursday: 2:00\u2009\u2013\u20099:00\u202fPM; Friday: 2:00\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "game-keeper-lajeunesse-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4 (326)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "game-keeper-lajeunesse-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "gobelin-d-argent-silver-goblin-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.4 (228)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "gobelin-d-argent-silver-goblin-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u20096:00\u202fPM; Tuesday: 12:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 12:00\u2009\u2013\u20099:00\u202fPM; Thursday: 12:00\u2009\u2013\u20099:00\u202fPM; Friday: 12:00\u2009\u2013\u20099:00\u202fPM; Saturday: 12:00\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20096:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-expedition-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (388)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-expedition-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "three-kings-loot-inc-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.1 (694)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "three-kings-loot-inc-montreal",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 3:00\u2009\u2013\u20099:00\u202fPM; Tuesday: 3:00\u2009\u2013\u20099:00\u202fPM; Wednesday: 3:00\u2009\u2013\u20099:00\u202fPM; Thursday: 3:00\u2009\u2013\u20099:00\u202fPM; Friday: 3:00\u2009\u2013\u200910:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u200910:00\u202fPM; Sunday: 12:00\u2009\u2013\u200910:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "la-boutique-mythique-quebec",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (384)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "la-boutique-mythique-quebec",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Tuesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "groupe-tw-tw-prestige-repentigny",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (449)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "groupe-tw-tw-prestige-repentigny",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "tw-repentigny-repentigny",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.9 (449)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "tw-repentigny-repentigny",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: Closed; Wednesday: 11:00 AM \u2013 5:00 PM; Thursday: 11:00 AM \u2013 7:00 PM; Friday: 11:00 AM \u2013 8:00 PM; Saturday: 11:00 AM \u2013 5:00 PM; Sunday: 11:00 AM \u2013 5:00 PM",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 11:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "le-coin-du-hobby-saint-eustache",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "3.9 (10)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "le-coin-du-hobby-saint-eustache",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: Closed; Thursday: Closed; Friday: 10:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "maitre-des-jeux-le-saint-eustache",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (503)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "maitre-des-jeux-le-saint-eustache",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "boutique-awesome-saint-hubert-longueuil",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (182)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "boutique-awesome-saint-hubert-longueuil",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 12:00\u2009\u2013\u200910:00\u202fPM; Tuesday: 12:00\u2009\u2013\u200910:00\u202fPM; Wednesday: 12:00\u2009\u2013\u200910:00\u202fPM; Thursday: 12:00\u2009\u2013\u200911:00\u202fPM; Friday: 12:00\u2009\u2013\u200911:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-champion-sainte-julie",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.7 (87)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "hobby-champion-sainte-julie",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 10:30 AM \u2013 5:30 PM; Tuesday: 10:30 AM \u2013 5:30 PM; Wednesday: 10:30 AM \u2013 5:30 PM; Thursday: 10:30 AM \u2013 5:30 PM; Friday: 10:30 AM \u2013 8:00 PM; Saturday: 10:30 AM \u2013 5:30 PM; Sunday: 10:30 AM \u2013 5:30 PM",
+      "newValue": "Monday: 10:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Tuesday: 10:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Wednesday: 10:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Thursday: 10:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Friday: 10:30\u202fAM\u2009\u2013\u20098:00\u202fPM; Saturday: 10:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Sunday: 10:30\u202fAM\u2009\u2013\u20095:30\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "jeuxjubes-sainte-therese",
+    "op": {
+      "kind": "update",
+      "column": "Status",
+      "oldValue": "",
+      "newValue": "closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places reports this business as CLOSED_PERMANENTLY. Auto-closes with a one-command undo per Nathan's 2026-09-23 decision -- see this week's digest for the undo command. Known risk: Google also flags moved or rebranded shops this way, so this is worth a second look, not blind trust."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "tcg-and-games-valleyfield-salaberry-de-valleyfield",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.3 (130)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "tcg-and-games-valleyfield-salaberry-de-valleyfield",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20098:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-entre-jeux-shawinigan-shawinigan",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.4 (29)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "l-entre-jeux-shawinigan-shawinigan",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: 9:30 AM \u2013 5:30 PM; Tuesday: 9:30 AM \u2013 5:30 PM; Wednesday: 9:30 AM \u2013 5:30 PM; Thursday: 9:30 AM \u2013 9:00 PM; Friday: 9:30 AM \u2013 9:00 PM; Saturday: 9:00 AM \u2013 5:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Tuesday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Wednesday: 9:30\u202fAM\u2009\u2013\u20095:30\u202fPM; Thursday: 9:30\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 9:30\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 9:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "joubec-val-d-or-val-d-or",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.5 (23)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "joubec-val-d-or-val-d-or",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: Closed; Tuesday: Closed; Wednesday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Thursday: 12:00\u2009\u2013\u20098:00\u202fPM; Friday: 12:00\u2009\u2013\u20098:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: Closed"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "orthanc-la-forteresse-victoriaville",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (65)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "orthanc-la-forteresse-victoriaville",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "",
+      "newValue": "Monday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Tuesday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Wednesday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Thursday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Friday: 10:00\u202fAM\u2009\u2013\u20099:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20095:00\u202fPM; Sunday: 1:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "nova-s-sports-cards-lloydminster-sk-side",
+    "op": {
+      "kind": "update",
+      "column": "Rating",
+      "oldValue": "",
+      "newValue": "4.8 (24)"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has a different rating and/or review count than the sheet."
+  },
+  {
+    "sheet": "Stores",
+    "rowKey": "nova-s-sports-cards-lloydminster-sk-side",
+    "op": {
+      "kind": "update",
+      "column": "Hours",
+      "oldValue": "Monday: Closed; Tuesday: 11:00 AM \u2013 7:00 PM; Wednesday: 11:00 AM \u2013 7:00 PM; Thursday: 11:00 AM \u2013 7:00 PM; Friday: 11:00 AM \u2013 7:00 PM; Saturday: 10:00 AM \u2013 6:00 PM; Sunday: 12:00 \u2013 5:00 PM",
+      "newValue": "Monday: Closed; Tuesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Wednesday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Thursday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Friday: 11:00\u202fAM\u2009\u2013\u20097:00\u202fPM; Saturday: 10:00\u202fAM\u2009\u2013\u20096:00\u202fPM; Sunday: 12:00\u2009\u2013\u20095:00\u202fPM"
+    },
+    "source": "refresh-ratings.py",
+    "reason": "Google Places has updated hours for this shop."
+  }
+]
