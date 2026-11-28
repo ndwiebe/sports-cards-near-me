@@ -4,6 +4,17 @@
 live; no code reads these numbers; no slot can be sold until `FEATURED_PLACEMENTS_ENABLED` is
 turned on (Task 4, `src/lib/featured.ts`) AND a city clears the sellability rule below.**
 
+**Status, 2026-11-22 (Nathan's decisions):**
+
+- **Selling is on hold.** No city is being offered a Featured slot. Clearing the rule in
+  section 1 makes a city *eligible*; whether to start selling is a separate call that Nathan
+  makes when he has traffic he can stand behind.
+- **A tap counts all three buttons** — Call, Directions and Website — and any figure shown to a
+  shop is always split by button, never given as one total. This settles a mismatch between
+  this document (which said Call or Directions) and PLAN.md step 9 (any outbound listing click).
+- **Price, when selling starts: Option B** (section 3). The order-form terms in section 5 are
+  the working terms; each line still gets Nathan's sign-off before first use.
+
 **Plain-English summary:** this is a draft price list and contract-terms sheet for a "Featured
 slot" — one paid, clearly-labelled box per city that sits above the free (organic) shop list
 but never reorders it. It's a draft because Nathan, not an agent, sets the actual price and
@@ -18,8 +29,9 @@ slot."** A city is not offered a Featured slot until its own page clears all thr
 1. **90 days of Search Console history** (Search Console is Google's free report on what people
    searched to find the site).
 2. **100+ appearances in Google search results per month** for that city's page.
-3. **20+ outbound taps per month** — someone actually pressing Call or Directions and reaching
-   the shop, not just seeing the page.
+3. **20+ outbound taps per month** — someone pressing Call, Directions or Website on a shop's
+   listing, not just seeing the page. The three buttons are counted together for this rule and
+   always reported to a shop separately (decided 2026-11-22).
 
 ### Where the six candidate cities actually stand
 
@@ -39,7 +51,8 @@ six cities. The 90-day clock and the tap count are what's actually blocking a sa
 were the harder of the two even before this quarter's shop-card redesign (Phase 1a, already
 shipped separately) made Call/Directions full-width buttons instead of a plain phone number.
 **Re-check the tap count before offering ANY city** — this document sets the price, not the
-go/no-go date.
+go/no-go date. The table above is the 2026-09-04 snapshot; later tap counts are kept privately
+and are not published in this repository.
 
 ## 2. What's actually for sale
 
@@ -52,7 +65,7 @@ go/no-go date.
 - v1 is **shops only**, on city pages only (PLAN.md step 4). Shows and resellers are out of
   scope until their own eligible surfaces exist.
 
-## 3. Price options (draft — Nathan picks or amends)
+## 3. Price options (Option B chosen 2026-11-22; A and C kept for the record)
 
 All prices are **before GST/HST** (see section 4) and are per city, per term.
 
@@ -67,7 +80,7 @@ actually converts to for the buyer, so pricing by city size today would be guess
 we can't yet defend to a shop owner. Straightforward to raise later with real conversion data
 in hand.
 
-### Option B — Founding-city discount for the first cohort
+### Option B — Founding-city discount for the first cohort (CHOSEN)
 
 **$99/month per city** for the first 6 cities to clear the sellability rule (the same six
 above), locked in for that shop's first 6-month term; **$149/month** for every city after.
@@ -88,7 +101,7 @@ appearances number measures the free listing's visibility, not the Featured box'
 owner in Toronto could reasonably ask "why does that cost twice as much" and today's honest
 answer is "more people see the page," not "more people click Featured," which is a weaker pitch.
 
-**Recommendation if Nathan wants one:** Option B. It's honest about the newness of the offer
+**Chosen by Nathan, 2026-11-22:** Option B. It's honest about the newness of the offer
 (discount = "we're new at this too"), doesn't require defending a size-based price difference
 before there's data to back it, and creates urgency for the first six shops without permanently
 underpricing the product.
