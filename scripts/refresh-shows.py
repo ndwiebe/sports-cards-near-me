@@ -218,7 +218,13 @@ for (const prov of provinces) {{
     await page.goto(url, {{ waitUntil: "domcontentloaded", timeout: 15000 }});
     let ready = false;
     for (let attempt = 0; attempt < 16; attempt++) {{
-      if (await page.evaluate({LIST_READY_JS})) {{ ready = true; break; }}
+      // The bot check redirects to the real list; a poll caught mid-redirect
+      // throws instead of answering. That means "not ready yet", not "failed".
+      try {{
+        if (await page.evaluate({LIST_READY_JS})) {{ ready = true; break; }}
+      }} catch (e) {{
+        if (!/Execution context was destroyed|navigation/i.test(String(e))) throw e;
+      }}
       await page.waitForTimeout(500);
     }}
     if (!ready) throw new Error("TCDB province list not ready (challenge or unexpected page): " + await page.title());

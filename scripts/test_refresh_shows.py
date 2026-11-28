@@ -36,10 +36,10 @@ class ProvincePageReadinessTest(unittest.TestCase):
     def test_unexpected_tcdb_page_is_not_a_province(self):
         self.assertFalse(self.ready('Trading Card Database'))
 
-    def scrape_with_challenge(self, clears_after):
+    def scrape_with_challenge(self, clears_after, navigates_during=0):
         def run_script(script):
             setup = '''
-let polls = 0;
+let polls = 0, evaluations = 0;
 const document = {querySelector: () => null};
 Object.defineProperty(document, 'title', {get: () => polls >= CLEARS_AFTER
   ? 'Card Shows in Ontario | Trading Card Database' : 'Just a moment...'});
@@ -47,10 +47,14 @@ const page = {
   goto: async () => {},
   waitForTimeout: async () => { polls++; },
   title: async () => document.title,
-  evaluate: async (fn, province) => province ? [] : fn(),
+  evaluate: async (fn, province) => {
+    if (!province && evaluations++ < NAVIGATES_DURING)
+      throw new Error('Execution context was destroyed, most likely because of a navigation');
+    return province ? [] : fn();
+  },
 };
 const browser = {getPage: async () => page};
-'''.replace('CLEARS_AFTER', str(clears_after))
+'''.replace('CLEARS_AFTER', str(clears_after)).replace('NAVIGATES_DURING', str(navigates_during))
             return subprocess.check_output(
                 ['node', '-e', setup + '\n(async () => {' + script + '\n})();'], text=True)
 
@@ -67,6 +71,13 @@ const browser = {getPage: async () => page};
         self.assertEqual(rows, [])
         self.assertIn('error: Error: TCDB province list not ready', status['Ontario'])
         self.assertIn('Just a moment...', status['Ontario'])
+
+    def test_challenge_redirect_mid_poll_is_waited_out_not_a_province_failure(self):
+        # The first province of a cold run meets the bot check, which then
+        # navigates to the real list while a readiness poll is in flight.
+        rows, status = self.scrape_with_challenge(3, navigates_during=2)
+        self.assertEqual(rows, [])
+        self.assertEqual(status, {'Ontario': 'empty'})
 
 
 class DiscoveryOutputIntegrationTest(unittest.TestCase):
